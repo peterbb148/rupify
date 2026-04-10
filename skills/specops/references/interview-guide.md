@@ -2,6 +2,14 @@
 
 Use grouped questions instead of a single prompt dump.
 
+## Prompting Rules
+
+- keep each round short
+- prefer 2 to 4 prompts per round
+- always give a compact answer template when asking for several fields
+- avoid asking the user to fill large inline scoring matrices
+- delay UCP scoring until the discovery baseline is stable
+
 ## 1. Problem Framing
 
 - What problem is the system solving
@@ -34,9 +42,36 @@ Use grouped questions instead of a single prompt dump.
 
 ## 6. UCP Inputs
 
-- actor and use-case complexity
-- security, concurrency, portability, and integration pressure
-- team familiarity, requirement stability, and implementation difficulty
+- actor complexity in a compact list
+- use-case complexity in a compact list
+- technical factors in one or two small groups
+- environmental factors in one small group
 
 If the answers are too vague to score defensibly, stop and list the unresolved questions.
 
+## Recommended Answer Shapes
+
+Use lightweight copy-paste templates such as:
+
+```text
+Idea:
+Problem:
+Users:
+In scope:
+Out of scope:
+```
+
+```text
+Actors:
+Use cases:
+Integrations:
+```
+
+```text
+Technical:
+distributed system:
+response time:
+...
+```
+
+Prefer these small answer shapes over long mixed prose plus inline classifications.

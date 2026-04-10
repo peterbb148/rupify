@@ -12,6 +12,8 @@ yaml = [
 ]
 
 [project.scripts]
+specops-interview = "specops_tools.interview_cli:main"
+specops-interview-replay = "specops_tools.interview_replay:main"
 specops-ucp = "specops_tools.ucp_cli:main"
 specops-render = "specops_tools.render_cli:main"
 
@@ -24,4 +26,3 @@ packages = ["src/specops_tools"]
 
 [tool.uv]
 package = true
-

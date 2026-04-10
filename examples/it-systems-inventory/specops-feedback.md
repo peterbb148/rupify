@@ -64,6 +64,13 @@ These needs should directly inform the next model revisions.
 - add guidance for interpreting UCP complexity ratings
 - add support for structured metadata taxonomies in the canonical model
 
+### Concrete UX direction
+
+- break interview rounds into smaller prompts with copy-paste templates
+- avoid large inline classification walls
+- split UCP capture into actor, use-case, technical, and environmental micro-rounds
+- keep app-level structured UI optional rather than pretending it is always available
+
 ### V2 improvements
 
 - domain and class modeling for inventory concepts
