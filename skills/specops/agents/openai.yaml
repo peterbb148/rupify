@@ -1,0 +1,5 @@
+interface:
+  display_name: "SpecOps"
+  short_description: "Interview-driven software requirements workflow"
+  default_prompt: "Use $specops to interview me about a software idea and produce a canonical model plus requirements, use-case, and UCP outputs."
+

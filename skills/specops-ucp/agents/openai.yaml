@@ -1,0 +1,5 @@
+interface:
+  display_name: "SpecOps UCP"
+  short_description: "Deterministic Use Case Point estimation"
+  default_prompt: "Use $specops-ucp to calculate a deterministic UCP estimate from my SpecOps model."
+

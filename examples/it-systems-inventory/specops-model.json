@@ -1,0 +1,280 @@
+{
+  "project": {
+    "name": "IT Systems Inventory and Lifecycle Management",
+    "domain": "Enterprise IT portfolio management",
+    "problem_statement": "The company has many overlapping IT systems with different costs, risks, and lifecycle states. IT Business Owners and related stakeholders lack a single system for inventory, planning, deprecation, cost management, and risk oversight.",
+    "system_scope": "Web-based inventory and lifecycle management system for all non-OT IT systems."
+  },
+  "business_goals": [
+    "Improve planning of IT system purchasing and lifecycle decisions.",
+    "Create a single inventory source of truth for non-OT IT systems.",
+    "Improve visibility of overlap, cost, risk, and deprecation status."
+  ],
+  "success_criteria": [
+    "Stakeholders can inventory all non-OT systems in one place.",
+    "Lifecycle and approval states are visible and configurable.",
+    "Downstream systems can consume data through an API.",
+    "The system supports lifecycle planning, deprecation, and cost/risk management workflows."
+  ],
+  "actors": [
+    {
+      "id": "business-owner",
+      "name": "IT Business Owner",
+      "type": "human",
+      "description": "Owns business accountability for systems and uses the platform for inventory, planning, lifecycle oversight, and approvals.",
+      "complexity": "complex"
+    },
+    {
+      "id": "technical-owner",
+      "name": "Technical Owner",
+      "type": "human",
+      "description": "Maintains technical metadata, lifecycle details, and system-level attributes.",
+      "complexity": "complex"
+    },
+    {
+      "id": "enterprise-architect",
+      "name": "Enterprise Architect",
+      "type": "human",
+      "description": "Reviews overlap, portfolio fit, capability coverage, and strategic lifecycle direction.",
+      "complexity": "complex"
+    },
+    {
+      "id": "governance-user",
+      "name": "Procurement/Security/Finance/Application Owner",
+      "type": "human",
+      "description": "Contributes governance, cost, security, and ownership review activities.",
+      "complexity": "average"
+    },
+    {
+      "id": "downstream-system",
+      "name": "Downstream API Consumer",
+      "type": "system",
+      "description": "Reads inventory and lifecycle data through the API for reporting or automation.",
+      "complexity": "simple"
+    }
+  ],
+  "use_cases": [
+    {
+      "id": "register-system",
+      "name": "Register a system",
+      "primary_actor": "IT Business Owner",
+      "goal": "Add a non-OT IT system to the inventory.",
+      "complexity": "simple",
+      "main_success_scenario": [
+        "IT Business Owner opens the registration flow.",
+        "User enters required metadata for the system.",
+        "System validates the submission.",
+        "System creates the inventory record."
+      ],
+      "extensions": [
+        "Required metadata is missing.",
+        "A potential duplicate system is detected."
+      ]
+    },
+    {
+      "id": "edit-metadata",
+      "name": "Edit system metadata",
+      "primary_actor": "Technical Owner",
+      "goal": "Maintain and update metadata for an existing system.",
+      "complexity": "average",
+      "main_success_scenario": [
+        "Technical Owner locates the system record.",
+        "Technical Owner edits metadata fields.",
+        "System validates the changes.",
+        "System saves the updated record and audit trail."
+      ],
+      "extensions": [
+        "User lacks permission to edit certain fields.",
+        "A field value violates policy or data validation."
+      ]
+    },
+    {
+      "id": "compare-overlap",
+      "name": "Compare overlapping systems",
+      "primary_actor": "Enterprise Architect",
+      "goal": "Identify and compare systems with overlapping purpose or capability.",
+      "complexity": "complex",
+      "main_success_scenario": [
+        "Enterprise Architect searches or selects systems for comparison.",
+        "System displays metadata, capabilities, cost, risk, and lifecycle information side by side.",
+        "Enterprise Architect reviews overlap indicators and redundancy signals.",
+        "System supports documenting comparison outcomes."
+      ],
+      "extensions": [
+        "Overlap signals are incomplete because metadata is missing.",
+        "Comparison scope spans too many systems and must be narrowed."
+      ]
+    },
+    {
+      "id": "track-lifecycle",
+      "name": "Track lifecycle state",
+      "primary_actor": "IT Business Owner",
+      "goal": "Maintain lifecycle state and progression for a system.",
+      "complexity": "average",
+      "main_success_scenario": [
+        "IT Business Owner opens the lifecycle view for a system.",
+        "User reviews current lifecycle state and allowed transitions.",
+        "User updates or submits a lifecycle transition.",
+        "System records the transition and exposes the updated state."
+      ],
+      "extensions": [
+        "Requested transition is not allowed by workflow rules.",
+        "Transition requires approval before completion."
+      ]
+    },
+    {
+      "id": "review-risk-cost",
+      "name": "Review risks and costs",
+      "primary_actor": "Procurement/Security/Finance/Application Owner",
+      "goal": "Inspect risk and cost dimensions for a system or portfolio slice.",
+      "complexity": "average",
+      "main_success_scenario": [
+        "Governance user opens a system or portfolio view.",
+        "System shows annual cost, contract end, owner gap, security rating, business criticality, technical debt, and redundancy.",
+        "Governance user filters or searches the results.",
+        "Governance user records or exports the review outcome."
+      ],
+      "extensions": [
+        "Required source data is missing or stale.",
+        "Some data is restricted by role."
+      ]
+    },
+    {
+      "id": "approve-deprecation",
+      "name": "Approve deprecation and stage gates",
+      "primary_actor": "Procurement/Security/Finance/Application Owner",
+      "goal": "Execute workflow approvals for lifecycle stage gates and deprecation decisions.",
+      "complexity": "complex",
+      "main_success_scenario": [
+        "A lifecycle or deprecation request is submitted.",
+        "Governance user reviews the request and supporting metadata.",
+        "Governance user approves or rejects the stage-gate decision.",
+        "System records the decision and updates the workflow state."
+      ],
+      "extensions": [
+        "Additional approvers are required.",
+        "A rejection sends the item back for rework.",
+        "Mandatory supporting information is missing."
+      ]
+    },
+    {
+      "id": "report-portfolio-gaps",
+      "name": "Report portfolio gaps",
+      "primary_actor": "Enterprise Architect",
+      "goal": "Identify gaps, duplication, or planning issues across the IT system portfolio.",
+      "complexity": "complex",
+      "main_success_scenario": [
+        "Enterprise Architect selects a scope such as capability, geography, or ownership area.",
+        "System analyzes the selected inventory subset.",
+        "System presents detected gaps, duplication, or lifecycle concerns.",
+        "Enterprise Architect exports or shares the results."
+      ],
+      "extensions": [
+        "The selected data set is incomplete.",
+        "Gap analysis rules need refinement for the selected scope."
+      ]
+    },
+    {
+      "id": "export-api",
+      "name": "Expose inventory data by API",
+      "primary_actor": "Downstream API Consumer",
+      "goal": "Retrieve inventory and lifecycle data programmatically.",
+      "complexity": "average",
+      "main_success_scenario": [
+        "Downstream system authenticates to the API.",
+        "Downstream system requests inventory or lifecycle data.",
+        "System validates access rights and query parameters.",
+        "System returns the requested data."
+      ],
+      "extensions": [
+        "Caller is unauthorized.",
+        "Query parameters are invalid.",
+        "Requested data includes restricted fields."
+      ]
+    }
+  ],
+  "requirements": {
+    "functional": [
+      "The system must manage inventory for all non-OT IT systems.",
+      "The system must allow users to register a system.",
+      "The system must allow authorized users to edit system metadata.",
+      "The system must support comparison of overlapping systems.",
+      "The system must track configurable lifecycle states, including proposed, active, tolerated, sunset, and decommissioned.",
+      "The system must track annual cost, contract end, owner gap, security rating, business criticality, technical debt, and redundancy.",
+      "The system must support business workflows such as stage gates and approval states.",
+      "The system must provide API access for downstream systems and AI agents.",
+      "The system must support reporting of portfolio gaps.",
+      "The system must support risk and cost review across inventoried systems."
+    ],
+    "non_functional": [
+      "The UI must be web based.",
+      "The system must support SSO.",
+      "The system must support role-based access control.",
+      "The system must provide an audit trail.",
+      "The system must support search and filtering.",
+      "The system must provide availability of at least 99%.",
+      "The system must provide acceptable web performance for normal page rendering."
+    ]
+  },
+  "metadata_fields": [
+    "system name",
+    "description",
+    "vendor",
+    "deployment type",
+    "business owner",
+    "technical owner",
+    "data classification",
+    "hosting model",
+    "integrations",
+    "capabilities supported",
+    "user population",
+    "geography",
+    "contract dates"
+  ],
+  "assumptions": [
+    "The system acts as the CMDB for IT applications and systems, excluding OT systems.",
+    "API consumers include downstream reporting systems and AI agents.",
+    "Lifecycle states are configurable even though an initial default set exists.",
+    "V1 includes workflow support for approvals and stage gates, not just passive inventory.",
+    "The UCP inputs were estimated using defaults for a similar internal enterprise system at a company of about 1000 people."
+  ],
+  "open_questions": [
+    "Did performance mean page rendering should be less than 1 second rather than greater than 1 second?",
+    "Are integrations/interfaces first-class inventory objects or only metadata on systems?",
+    "Should procurement, security, finance, and application owners have distinct roles and workflows in V1?",
+    "What exact approval workflows and stage-gate states are required in V1?",
+    "What data model is required for overlap analysis and portfolio gap reporting?"
+  ],
+  "ucp": {
+    "productivity_hours_per_ucp": 20,
+    "technical_factors": {
+      "distributed_system": 4,
+      "response_time": 3,
+      "end_user_efficiency": 4,
+      "complex_internal_processing": 3,
+      "reusable_code": 3,
+      "easy_to_install": 2,
+      "easy_to_use": 4,
+      "portability": 2,
+      "easy_to_change": 4,
+      "concurrency": 3,
+      "special_security": 5,
+      "third_party_access": 4,
+      "special_user_training": 2
+    },
+    "environmental_factors": {
+      "familiar_with_process": 3,
+      "application_experience": 3,
+      "object_oriented_experience": 3,
+      "lead_analyst_capability": 3,
+      "motivation": 4,
+      "stable_requirements": 2,
+      "part_time_staff": 2,
+      "difficult_programming_language": 2
+    }
+  },
+  "future_placeholders": {
+    "uml": [],
+    "formal_specification": []
+  }
+}
