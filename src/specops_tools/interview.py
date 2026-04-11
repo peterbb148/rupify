@@ -84,6 +84,8 @@ class InterviewQuestion:
     key: str
     label: str
     prompt: str
+    guidance: tuple[str, ...] = ()
+    example: str | None = None
 
 
 @dataclass(frozen=True)
@@ -95,6 +97,7 @@ class InterviewRound:
     prompt: str
     template: str
     questions: tuple[InterviewQuestion, ...]
+    guidance: tuple[str, ...] = ()
 
 
 ROUND_DEFINITIONS: list[InterviewRound] = [
@@ -195,11 +198,23 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
             "Capture actor complexity using simple/average/complex after discovery is stable."
         ),
         template="Actor complexity:\n- Actor A: simple/average/complex\n",
+        guidance=(
+            "Use standard UCP semantics, not general product complexity intuition.",
+            "System or API actors are usually simpler than humans using a rich UI.",
+            "If a classification is uncertain, state the assumption instead of forcing false precision.",
+        ),
         questions=(
             InterviewQuestion(
                 "actor_complexity",
                 "Actor complexity",
                 "How should each actor be classified for UCP?",
+                guidance=(
+                    "`simple` usually means a system or API actor.",
+                    "`average` usually means a human with a simpler interaction pattern.",
+                    "`complex` usually means a human using a richer interactive UI.",
+                    "A human actor is often more complex than an API actor in UCP.",
+                ),
+                example="- Downstream reporting API: simple\n- Enterprise architect: complex",
             ),
         ),
     ),
@@ -208,11 +223,21 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         title="UCP Use-Case Complexity",
         prompt="Capture use-case complexity using simple/average/complex.",
         template="Use-case complexity:\n- Use case A: simple/average/complex\n",
+        guidance=(
+            "Classify the use case based on transaction count, branching, rules, and approvals.",
+            "Do not rate a use case as complex just because the business topic feels important.",
+        ),
         questions=(
             InterviewQuestion(
                 "use_case_complexity",
                 "Use-case complexity",
                 "How should each use case be classified for UCP?",
+                guidance=(
+                    "`simple` means few transactions and little branching.",
+                    "`average` means a moderate flow.",
+                    "`complex` means longer flows, more branching, more rules, or approvals.",
+                ),
+                example="- Edit metadata: average\n- Approve deprecation: complex",
             ),
         ),
     ),
@@ -225,11 +250,21 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
             "distributed system:\nresponse time:\nend-user efficiency:\n"
             "complex internal processing:\nreusability:\nease of installation:\n"
         ),
+        guidance=(
+            "Use a 0-5 influence scale, not a good-versus-bad scale.",
+            "`0` means not relevant, `3` means moderate influence, and `5` means very high influence.",
+            "Score how strongly the factor shapes the system, not whether the team is performing well.",
+        ),
         questions=(
             InterviewQuestion(
                 "technical",
                 "Technical",
                 "What technical 0-5 influence scores apply?",
+                guidance=(
+                    "Security and third-party access are often high for internal enterprise systems.",
+                    "Response time should reflect business importance, not an arbitrary SLA guess.",
+                ),
+                example="security: 5\nthird-party access: 4\nease of change: 4",
             ),
         ),
     ),
@@ -241,11 +276,21 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
             "Environmental:\nteam familiarity:\napplication experience:\n"
             "architecture experience:\nanalyst capability:\nmotivation:\n"
         ),
+        guidance=(
+            "Use the same 0-5 influence scale, but note that some factors are positive and some are drag.",
+            "Higher is better for familiarity, experience, capability, motivation, and stability.",
+            "Higher is worse for part-time staffing and platform difficulty.",
+        ),
         questions=(
             InterviewQuestion(
                 "environmental",
                 "Environmental",
                 "What environmental 0-5 scores apply?",
+                guidance=(
+                    "If requirements are volatile, keep requirements stability low.",
+                    "If the team is split or part-time, part-time staffing should be scored higher.",
+                ),
+                example="team familiarity: 3\nteam motivation: 4\npart-time staffing: 2",
             ),
         ),
     ),
@@ -284,11 +329,14 @@ def _round_payload(round_definition: InterviewRound) -> dict[str, Any]:
         "title": round_definition.title,
         "prompt": round_definition.prompt,
         "template": round_definition.template,
+        "guidance": list(round_definition.guidance),
         "questions": [
             {
                 "key": question.key,
                 "label": question.label,
                 "prompt": question.prompt,
+                "guidance": list(question.guidance),
+                "example": question.example,
             }
             for question in round_definition.questions
         ],

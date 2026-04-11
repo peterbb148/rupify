@@ -90,6 +90,9 @@ Explain the scale first:
 - `simple`: system/API actor
 - `average`: human with simpler interaction
 - `complex`: human with richer interactive UI
+- remind the user that UCP actor complexity is often the opposite of product importance intuition
+- explicitly say that a downstream API consumer is often `simple` while a human using a richer web UI
+  is often `complex`
 
 Ask for actor complexity in a short list only.
 
@@ -108,6 +111,8 @@ Explain the scale first:
 - `simple`: few transactions
 - `average`: moderate flow
 - `complex`: longer flow, more rules, more branching or approvals
+- rate the interaction flow itself, not how strategically important the business topic feels
+- if needed, give one example before asking for the classifications
 
 Ask only for the main use cases already identified.
 
@@ -124,8 +129,14 @@ Use-case complexity:
 Explain the influence scale briefly:
 
 - `0`: not relevant
+- `1`: very low influence
+- `2`: low influence
 - `3`: moderate influence
+- `4`: high influence
 - `5`: very high influence
+- state clearly that this is an influence scale, not a quality score
+- if helpful, give one or two starting defaults for a typical internal enterprise system instead of
+  forcing the user to reason from a blank page
 
 Ask the technical factors in 2 smaller groups if needed instead of one giant block.
 
@@ -146,6 +157,9 @@ Use the same `0-5` influence explanation, but state clearly that:
 
 - higher is better for familiarity, capability, motivation, and stability
 - higher is worse for part-time staffing and platform difficulty
+- call out these reversed-sign factors explicitly when asking, because they are easy to answer
+  backwards
+- if the user does not know, prefer a provisional assumption labeled as such over a fake precise score
 
 Preferred answer shape:
 

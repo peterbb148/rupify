@@ -49,11 +49,16 @@ entrypoint for discovery before the canonical model or generated artifacts exist
 - Do not open with raw UCP scoring.
 - Only ask for actor and use-case complexity after the discovery baseline is stable.
 - Explain the UCP scale briefly before asking for scores.
+- Correct the most common intuition mismatch explicitly:
+  - system/API actors are often `simple`
+  - human actors using a richer UI are often `complex`
+- Explain that `0-5` factor inputs are influence scores, not quality grades.
 - Ask for UCP values in small groups:
   - actor complexity
   - use-case complexity
   - technical factors
   - environmental factors
+- For environmental factors, state clearly which higher values are positive and which indicate drag.
 - When helpful, apply a reasonable provisional value and label it clearly as an assumption instead
   of forcing the user through an awkward scoring wall.
 
