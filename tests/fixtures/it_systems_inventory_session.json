@@ -1,0 +1,157 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "responses": [
+        {
+          "key": "idea",
+          "answer": "A system to manage inventory of IT Systems themselves."
+        },
+        {
+          "key": "problem",
+          "answer": "We have many IT Systems and some overlap, some are free, some are expensive, all are slightly different."
+        },
+        {
+          "key": "users",
+          "answer": "IT Business Owners."
+        },
+        {
+          "key": "in_scope",
+          "answer": "All IT systems"
+        },
+        {
+          "key": "out_of_scope",
+          "answer": "OT system."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "responses": [
+        {
+          "key": "outcomes",
+          "answer": "Better planning of IT systems purchasing and life cycle"
+        },
+        {
+          "key": "success_criteria",
+          "answer": "Better planning of IT systems purchasing and life cycle"
+        },
+        {
+          "key": "required_data",
+          "answer": "All meta data for each system"
+        },
+        {
+          "key": "constraints",
+          "answer": "UI must be web based"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "responses": [
+        {
+          "key": "actors",
+          "answer": [
+            "Business owners",
+            "technical owners",
+            "enterprise architects",
+            "procurement",
+            "security",
+            "finance",
+            "application owners",
+            "integration system owners"
+          ]
+        },
+        {
+          "key": "use_cases",
+          "answer": [
+            "Register a system",
+            "edit metadata",
+            "compare overlapping systems",
+            "track lifecycle state",
+            "review risks",
+            "see costs",
+            "approve deprecation",
+            "report portfolio gaps"
+          ]
+        },
+        {
+          "key": "integrations",
+          "answer": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting."
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "responses": [
+        {
+          "key": "workflow_scope",
+          "answer": "Yes business processes like stage gates and approval states must be supported"
+        },
+        {
+          "key": "metadata_fields",
+          "answer": [
+            "System name",
+            "description",
+            "vendor",
+            "deployment type",
+            "business owner",
+            "technical owner",
+            "data classification",
+            "hosting model",
+            "integrations",
+            "capabilities supported",
+            "user population",
+            "geography",
+            "contract dates"
+          ]
+        },
+        {
+          "key": "non_functional_requirements",
+          "answer": [
+            "SSO",
+            "role-based access",
+            "audit trail",
+            "search",
+            "filtering",
+            "performance (regular >1s for web page rendering)",
+            "availability >=99%"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "responses": [
+        {
+          "key": "actor_complexity",
+          "answer": [
+            "IT Business Owner: Simple",
+            "Technical Owner: Simple",
+            "Enterprise Architect: Simple",
+            "Procurement / Security / Finance / Application Owner users: Simple",
+            "Downstream API consumers / external reporting systems: Complex"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "responses": [
+        {
+          "key": "use_case_complexity",
+          "answer": [
+            "register a system: Simple",
+            "edit metadata: Simple",
+            "compare overlapping systems: Average",
+            "track lifecycle state: Simple",
+            "review risks and costs: Simple",
+            "approve deprecation / stage gates: Simple",
+            "report portfolio gaps: Simple",
+            "expose/export data by API: Complex"
+          ]
+        }
+      ]
+    }
+  ]
+}
