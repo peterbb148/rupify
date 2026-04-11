@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from specops_tools.interview import process_round, replay_session
+from specops_tools.interview import get_round, process_round, replay_session
 
 
 class InterviewHarnessTests(unittest.TestCase):
@@ -107,6 +107,44 @@ class InterviewHarnessTests(unittest.TestCase):
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["parsed_answers"]["idea"], "IT systems inventory")
         self.assertEqual(payload["next_round"]["number"], 2)
+
+    def test_ucp_actor_round_exposes_inversion_guidance(self) -> None:
+        """Round 5 should explain the common actor complexity intuition mismatch."""
+        round_definition = get_round(5)
+
+        self.assertIn(
+            "System or API actors are usually simpler than humans using a rich UI.",
+            round_definition.guidance,
+        )
+        question = round_definition.questions[0]
+        self.assertIn("`simple` usually means a system or API actor.", question.guidance)
+        self.assertIn("Enterprise architect: complex", question.example)
+
+    def test_technical_factor_round_exposes_0_to_5_guidance(self) -> None:
+        """Round 7 should clarify that the factor scale is about influence, not quality."""
+        result = process_round(
+            7,
+            (
+                "Technical:\n"
+                "security: 5\n"
+                "third-party access: 4\n"
+                "ease of change: 4\n"
+            ),
+        )
+
+        self.assertIn(
+            "Use a 0-5 influence scale, not a good-versus-bad scale.",
+            result["round"]["guidance"],
+        )
+        self.assertIn(
+            "Score how strongly the factor shapes the system, not whether the team is performing well.",
+            result["round"]["guidance"],
+        )
+        self.assertIn(
+            "Security and third-party access are often high for internal enterprise systems.",
+            result["round"]["questions"][0]["guidance"],
+        )
+        self.assertIn("security: 5", result["round"]["questions"][0]["example"])
 
     def test_replay_cli_reads_fixture(self) -> None:
         """The replay CLI should process a fixture file."""
