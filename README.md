@@ -13,6 +13,21 @@ The interview step can be invoked directly as the `$specops-interview` skill.
 The repository is documentation-first and dogfood-oriented. The immediate goal is to use SpecOps to
 specify and improve SpecOps itself.
 
+## V1 Status
+
+SpecOps V1 is delivered.
+
+Delivered in V1:
+
+- first-class interview flow via `$specops-interview`
+- canonical `specops-model` workflow
+- generated `requirements-spec.md`, `use-case-model.md`, and `ucp-estimate.md`
+- deterministic UCP calculation and Markdown rendering utilities
+- dogfooding examples and replayable interview fixtures
+- interview UX and UCP guidance refinements from real usage
+
+Open roadmap work is now V2-oriented, especially UML/formalization and integrations.
+
 ## Repository Layout
 
 - `docs/`: implementation plan, architecture, dogfooding workflow, and GitHub issue map

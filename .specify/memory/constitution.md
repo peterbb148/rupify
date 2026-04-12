@@ -42,12 +42,19 @@ Python in this repository is run with `uv`. Scripts, validation, and documentati
 Architecture, workflow, model definitions, and governance docs are part of the product. They are
 not disposable notes and must remain aligned with the implementation.
 
+### 8. Documentation Must Be Updated With The Change
+
+Every meaningful implementation change must include the documentation updates needed to keep the
+repository truthful. If code, workflow, issue status, or delivery state changes, the relevant docs
+must be updated in the same change rather than deferred indefinitely.
+
 ## Delivery Rules
 
 - V1 scope is software and system requirements discovery
 - one canonical model must drive requirements, use-case, and UCP outputs
 - UML and formal specification translation are future-facing and must not distort V1
 - GitHub issues are the work tracking source of truth for this repo
+- documentation and issue-status documents must be kept current as part of normal delivery work
 
 ## Amendment Process
 
@@ -59,4 +66,3 @@ Changes to this constitution require:
 
 If a proposed change conflicts with an existing principle, the constitution must be updated before
 the implementation is treated as valid.
-
