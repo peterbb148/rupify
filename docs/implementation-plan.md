@@ -1,5 +1,10 @@
 # SpecOps Implementation Plan
 
+## Status
+
+V1 is complete. This document now serves as the implementation record for what was delivered in V1
+and the shape that should be preserved while V2 expands UML/formalization and integration support.
+
 ## Objective
 
 Deliver a reusable Codex-native skill pack for software requirements discovery. The first release
@@ -10,41 +15,50 @@ requirements spec, use-case model, and UCP estimate from that shared model.
 
 ## 1. Repository Foundation
 
-- Create a documentation-first repo structure
-- Establish UV as the Python workflow
-- Add a SpecKit constitution and initial dogfooding spec
+- Delivered: documentation-first repo structure
+- Delivered: UV as the Python workflow
+- Delivered: SpecKit constitution and initial dogfooding spec
 
 ## 2. Skill Pack
 
-- `specops`: orchestrator skill
-- `specops-discovery`: interview and model normalization
-- `specops-use-cases`: actors, use cases, scenarios, complexity
-- `specops-ucp`: deterministic UCP calculation and estimate reporting
+- Delivered: `specops` orchestrator skill
+- Delivered: `specops-interview` first-class interview skill
+- Delivered: `specops-discovery` interview and model normalization skill
+- Delivered: `specops-use-cases` actor, use-case, scenario, and complexity skill
+- Delivered: `specops-ucp` deterministic UCP calculation and estimate reporting skill
 
 ## 3. Canonical Model and Artifacts
 
-- Define `specops-model.yaml` as the canonical project model
-- Keep artifact generation anchored to that model
-- Reserve space for future UML and formal specification outputs
+- Delivered: `specops-model.yaml` as the canonical project model
+- Delivered: artifact generation anchored to that model
+- Delivered: reserved space for future UML and formal specification outputs
 
 ## 4. Deterministic Utilities
 
-- Add a Python UCP engine
-- Add a renderer that turns a model into Markdown artifacts
-- Keep YAML support explicit through `uv sync --extra yaml`
+- Delivered: Python UCP engine
+- Delivered: renderer that turns a model into Markdown artifacts
+- Delivered: explicit YAML support through `uv sync --extra yaml`
+- Delivered: executable interview CLI and replay harness for automated regression testing
 
 ## 5. Dogfooding
 
-- Use SpecOps to spec and prioritize SpecOps itself
-- Keep one active dogfooding loop inside `.specify/specs/`
-- Drive ongoing work from GitHub issues rather than ad hoc notes
+- Delivered: SpecOps used to spec and prioritize SpecOps itself
+- Delivered: active dogfooding loop inside `.specify/specs/`
+- Delivered: work driven from GitHub issues rather than ad hoc notes
+- Delivered: example-feedback pattern to feed workflow friction back into the product
 
-## Immediate Deliverables
+## V1 Deliverables
 
 - Architecture documentation
 - SpecKit constitution
 - Skill pack scaffold
+- First-class interview entry skill
 - UCP engine and renderer
-- Example project model and generated outputs
+- Example project models and generated outputs
+- Executable interview replay fixtures and tests
 - GitHub issue hierarchy for V1 and V2
 
+## Remaining Roadmap
+
+- V2 UML and formal specification translation
+- V2 integrations and productization
