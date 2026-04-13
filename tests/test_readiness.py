@@ -18,11 +18,13 @@ class ReadinessTests(unittest.TestCase):
                 {"round": 3, "responses": []},
                 {"round": 4, "responses": []},
                 {"round": 5, "responses": []},
+                {"round": 6, "responses": []},
             ]
         )
 
         self.assertEqual(readiness["discovery"], "partial")
         self.assertEqual(readiness["use_case"], "ready")
+        self.assertEqual(readiness["logical"], "ready")
         self.assertEqual(readiness["ucp"], "partial")
 
     def test_identify_stale_artifacts_maps_round_updates_to_outputs(self) -> None:
@@ -30,7 +32,7 @@ class ReadinessTests(unittest.TestCase):
         stale = identify_stale_artifacts(
             [
                 {"round": 2, "responses": []},
-                {"round": 6, "responses": []},
+                {"round": 7, "responses": []},
             ]
         )
 
