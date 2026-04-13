@@ -30,16 +30,86 @@ The canonical project model is `specops-model.yaml`.
   - `non_functional`
 - `logical_view` (optional in V1, expected for V1.5+ full-spec work)
   - `domain_entities`
+  - `domain_entity_objects`
+    - `id`
+    - `name`
+    - `entity_type`
+    - `description`
+    - `attributes`
+    - `responsibilities`
+    - `trace`
   - `relationships`
+  - `relationship_objects`
+    - `id`
+    - `description`
+    - `relationship_type`
+    - `source_name`
+    - `source_entity_id`
+    - `target_name`
+    - `target_entity_id`
+    - `trace`
   - `business_rules`
+  - `business_rule_objects`
+    - `id`
+    - `name`
+    - `rule_text`
+    - `scope`
+    - `trace`
 - `process_view` (optional in V1, expected for V1.5+ full-spec work)
   - `state_entities`
+  - `state_entity_objects`
+    - `id`
+    - `name`
+    - `entity_type`
+    - `description`
+    - `states`
+    - `trace`
   - `states_and_transitions`
+  - `state_transition_objects`
+    - `id`
+    - `description`
+    - `state_entity_id`
+    - `state_entity_name`
+    - `from_state`
+    - `to_state`
+    - `trigger`
+    - `trace`
   - `triggers_and_approvals`
+  - `trigger_objects`
+    - `id`
+    - `event_name`
+    - `outcome`
+    - `description`
+    - `approval_required`
+    - `trace`
 - `architecture_view` (optional in V1, expected for V1.5+ full-spec work)
   - `components_and_services`
+  - `component_objects`
+    - `id`
+    - `name`
+    - `component_kind`
+    - `responsibility`
+    - `runtime_environment`
+    - `trace`
   - `interfaces_and_integrations`
+  - `interface_objects`
+    - `id`
+    - `description`
+    - `source_component_name`
+    - `source_component_id`
+    - `target_component_name`
+    - `target_component_id`
+    - `interaction_verb`
+    - `protocol`
+    - `trace`
   - `runtime_boundaries`
+  - `runtime_boundary_objects`
+    - `id`
+    - `name`
+    - `boundary_type`
+    - `description`
+    - `deployment_nodes`
+    - `trace`
 - `assumptions`
   - supports plain strings
   - may also use structured items with:
