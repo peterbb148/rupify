@@ -102,7 +102,28 @@ Collect:
 This round is for the logical view. Do not force technical design language if the stakeholder is
 still speaking in business concepts.
 
-## Round 6: UCP Actor Complexity
+## Round 6: State and Workflow Model
+
+Ask at most 3 prompts.
+
+Preferred answer shape:
+
+```text
+State entities:
+States and transitions:
+Triggers and approvals:
+```
+
+Collect:
+
+- entities or workflows with meaningful lifecycle behavior
+- key states and allowed transitions
+- approvals, validations, time-based triggers, and exception paths
+
+This round is for the process view. Focus on business lifecycle behavior instead of implementation
+events or internal code hooks.
+
+## Round 7: UCP Actor Complexity
 
 Do not ask for all UCP inputs in one block.
 
@@ -125,7 +146,7 @@ Actor complexity:
 - Actor B: simple/average/complex
 ```
 
-## Round 7: UCP Use-Case Complexity
+## Round 8: UCP Use-Case Complexity
 
 Explain the scale first:
 
@@ -145,7 +166,7 @@ Use-case complexity:
 - Use case B: simple/average/complex
 ```
 
-## Round 8: UCP Technical Factors
+## Round 9: UCP Technical Factors
 
 Explain the influence scale briefly:
 
@@ -172,7 +193,7 @@ complex internal processing:
 ...
 ```
 
-## Round 9: UCP Environmental Factors
+## Round 10: UCP Environmental Factors
 
 Use the same `0-5` influence explanation, but state clearly that:
 
