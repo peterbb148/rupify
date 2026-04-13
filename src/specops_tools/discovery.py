@@ -5,6 +5,20 @@ from __future__ import annotations
 from typing import Any
 
 
+def _slugify(value: str) -> str:
+    """Create a stable slug-like identifier."""
+    cleaned = []
+    for char in value.strip().lower():
+        if char.isalnum():
+            cleaned.append(char)
+        else:
+            cleaned.append("-")
+    result = "".join(cleaned).strip("-")
+    while "--" in result:
+        result = result.replace("--", "-")
+    return result or "item"
+
+
 def _ensure_list(value: Any) -> list[str]:
     """Normalize a scalar or list answer into a clean string list."""
     def _clean(item: Any) -> str:
@@ -19,6 +33,28 @@ def _ensure_list(value: Any) -> list[str]:
         return [_clean(item) for item in value if _clean(item)]
     text = _clean(value)
     return [text] if text else []
+
+
+def _string_items_to_named_items(items: list[str], kind: str) -> list[dict[str, str]]:
+    """Convert string items into simple structured objects."""
+    return [
+        {
+            "id": f"{kind}-{_slugify(item)}",
+            "name": item,
+        }
+        for item in items
+    ]
+
+
+def _string_items_to_described_items(items: list[str], kind: str) -> list[dict[str, str]]:
+    """Convert string items into structured objects with text descriptions."""
+    return [
+        {
+            "id": f"{kind}-{index}",
+            "text": item,
+        }
+        for index, item in enumerate(items, 1)
+    ]
 
 
 def _text_or_empty(value: Any) -> str:
@@ -47,6 +83,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     round_4 = merged_answers.get("round_4", {})
     round_5 = merged_answers.get("round_5", {})
     round_6 = merged_answers.get("round_6", {})
+    round_7 = merged_answers.get("round_7", {})
 
     functional_requirements = []
     if workflow_scope := _text_or_empty(round_4.get("workflow_scope")):
@@ -58,6 +95,16 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     non_functional = _ensure_list(round_4.get("non_functional_requirements"))
     if constraints:
         non_functional = constraints + non_functional
+
+    domain_entities = _ensure_list(round_5.get("domain_entities"))
+    relationships = _ensure_list(round_5.get("relationships"))
+    business_rules = _ensure_list(round_5.get("business_rules"))
+    state_entities = _ensure_list(round_6.get("state_entities"))
+    states_and_transitions = _ensure_list(round_6.get("states_and_transitions"))
+    triggers_and_approvals = _ensure_list(round_6.get("triggers_and_approvals"))
+    components_and_services = _ensure_list(round_7.get("components_and_services"))
+    interfaces_and_integrations = _ensure_list(round_7.get("interfaces_and_integrations"))
+    runtime_boundaries = _ensure_list(round_7.get("runtime_boundaries"))
 
     return {
         "project": {
@@ -75,24 +122,45 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "non_functional": non_functional,
         },
         "logical_view": {
-            "domain_entities": _ensure_list(round_5.get("domain_entities")),
-            "relationships": _ensure_list(round_5.get("relationships")),
-            "business_rules": _ensure_list(round_5.get("business_rules")),
+            "domain_entities": domain_entities,
+            "domain_entity_objects": _string_items_to_named_items(domain_entities, "entity"),
+            "relationships": relationships,
+            "relationship_objects": _string_items_to_described_items(relationships, "relationship"),
+            "business_rules": business_rules,
+            "business_rule_objects": _string_items_to_described_items(
+                business_rules,
+                "business-rule",
+            ),
         },
         "process_view": {
-            "state_entities": _ensure_list(round_6.get("state_entities")),
-            "states_and_transitions": _ensure_list(round_6.get("states_and_transitions")),
-            "triggers_and_approvals": _ensure_list(round_6.get("triggers_and_approvals")),
+            "state_entities": state_entities,
+            "state_entity_objects": _string_items_to_named_items(state_entities, "state-entity"),
+            "states_and_transitions": states_and_transitions,
+            "state_transition_objects": _string_items_to_described_items(
+                states_and_transitions,
+                "state-transition",
+            ),
+            "triggers_and_approvals": triggers_and_approvals,
+            "trigger_objects": _string_items_to_described_items(
+                triggers_and_approvals,
+                "trigger",
+            ),
         },
         "architecture_view": {
-            "components_and_services": _ensure_list(
-                merged_answers.get("round_7", {}).get("components_and_services")
+            "components_and_services": components_and_services,
+            "component_objects": _string_items_to_named_items(
+                components_and_services,
+                "component",
             ),
-            "interfaces_and_integrations": _ensure_list(
-                merged_answers.get("round_7", {}).get("interfaces_and_integrations")
+            "interfaces_and_integrations": interfaces_and_integrations,
+            "interface_objects": _string_items_to_described_items(
+                interfaces_and_integrations,
+                "interface",
             ),
-            "runtime_boundaries": _ensure_list(
-                merged_answers.get("round_7", {}).get("runtime_boundaries")
+            "runtime_boundaries": runtime_boundaries,
+            "runtime_boundary_objects": _string_items_to_described_items(
+                runtime_boundaries,
+                "runtime-boundary",
             ),
         },
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
