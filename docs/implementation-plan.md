@@ -3,8 +3,8 @@
 ## Status
 
 V1 is complete. This document now serves as the implementation record for what was delivered in V1,
-the bridge work now identified as V1.5, and the shape that should be preserved while later work
-expands UML/formalization and integration support.
+the completed V1.5 bridge, the new V1.6 hardening phase, and the shape that should be preserved
+while later work expands UML/formalization and integration support.
 
 ## Objective
 
@@ -73,7 +73,22 @@ V1.5 focuses on:
 
 Reference: [V1.5 Interview Readiness](v1.5-interview-readiness.md)
 
-## Remaining Roadmap After V1.5
+## V1.6 Hardening Work
 
-- V2 UML and formal specification translation
+V1.6 exists because the current system is interview-ready and model-aware, but not yet a full
+RUP-grade specification system.
+
+V1.6 focuses on:
+
+- stronger canonical semantics for analysis and design structures
+- per-view completeness and readiness gates
+- cross-view traceability beyond simple provenance
+- explicit separation between analysis-level and design-level structures where needed
+- one proven end-to-end formal artifact pipeline
+
+Reference: [V1.6 Specification Hardening](v1.6-specification-hardening.md)
+
+## Remaining Roadmap After V1.6
+
+- V2 UML and formal specification translation at broader artifact breadth
 - V2 integrations and productization
