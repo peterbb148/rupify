@@ -17,25 +17,30 @@ Closed V1 issues:
 - `#16` `Improve interview UX and reduce wall-of-text responses`
 - `#17` `Improve UCP scoring guidance in the interview flow`
 
-V1 is complete. A bridge phase now identified as V1.5 should happen before the existing V2 UML
-work is treated as implementation-ready.
+V1 is complete. V1.5 is also complete and now serves as the bridge before the existing V2 UML work
+is treated as implementation-ready.
 
-## Proposed V1.5 Focus
+## Closed V1.5 Work
+
+- `#27` `EPIC: SpecOps V1.5 interview readiness`
+- `#23` `Extend interview coverage for the relevant RUP-aligned views`
+- `#24` `Make ambiguity and provenance first-class in the canonical model`
+- `#25` `Support incremental re-interview and model patching`
+- `#26` `Track per-view readiness and downstream staleness`
+- `#38` `Normalize UCP rounds into canonical model structures`
+- `#39` `Render structured canonical model objects in artifacts`
+- `#40` `Add trace metadata from interview rounds into normalized objects`
+
+## V1.5 Focus Delivered
 
 - interview coverage for the relevant RUP-aligned specification views
 - explicit ambiguity and conflict handling
 - incremental re-interview and model patching
 - readiness, provenance, and staleness tracking
+- deterministic normalization from replay output into the richer canonical model
+- structured rendering and trace-aware artifact output
 
-These themes should shape the next issue set before broader UML rendering work proceeds.
-
-## Proposed V1.5 Issue Decomposition
-
-- `EPIC` `SpecOps V1.5 interview readiness`
-- `FEATURE` `Extend interview coverage for the relevant RUP-aligned views`
-- `FEATURE` `Make ambiguity and provenance first-class in the canonical model`
-- `FEATURE` `Support incremental re-interview and model patching`
-- `FEATURE` `Track per-view readiness and downstream staleness`
+These themes now shape the completed bridge between V1 and the remaining V2 work.
 
 ## Open Epics
 
