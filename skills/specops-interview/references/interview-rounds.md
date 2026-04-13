@@ -123,7 +123,28 @@ Collect:
 This round is for the process view. Focus on business lifecycle behavior instead of implementation
 events or internal code hooks.
 
-## Round 7: UCP Actor Complexity
+## Round 7: Architecture and Deployment View
+
+Ask at most 3 prompts.
+
+Preferred answer shape:
+
+```text
+Components and services:
+Interfaces and integrations:
+Runtime boundaries:
+```
+
+Collect:
+
+- major components, subsystems, or services
+- interfaces and integrations between internal and external parts
+- runtime and deployment boundaries that matter for responsibility or hosting
+
+This round is for the first architectural view. Keep it at the level of major responsibilities and
+boundaries, not low-level implementation details.
+
+## Round 8: UCP Actor Complexity
 
 Do not ask for all UCP inputs in one block.
 
@@ -146,7 +167,7 @@ Actor complexity:
 - Actor B: simple/average/complex
 ```
 
-## Round 8: UCP Use-Case Complexity
+## Round 9: UCP Use-Case Complexity
 
 Explain the scale first:
 
@@ -166,7 +187,7 @@ Use-case complexity:
 - Use case B: simple/average/complex
 ```
 
-## Round 9: UCP Technical Factors
+## Round 10: UCP Technical Factors
 
 Explain the influence scale briefly:
 
@@ -193,7 +214,7 @@ complex internal processing:
 ...
 ```
 
-## Round 10: UCP Environmental Factors
+## Round 11: UCP Environmental Factors
 
 Use the same `0-5` influence explanation, but state clearly that:
 

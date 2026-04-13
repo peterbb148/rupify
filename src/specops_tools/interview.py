@@ -280,6 +280,48 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
     ),
     InterviewRound(
         number=7,
+        title="Architecture and Deployment View",
+        prompt=(
+            "Capture the major components, interfaces, and runtime boundaries that shape the "
+            "architectural view."
+        ),
+        template="Components and services:\nInterfaces and integrations:\nRuntime boundaries:\n",
+        guidance=(
+            "Focus on business-relevant components and boundaries, not low-level implementation classes.",
+            "Capture only the architectural structure that materially affects responsibilities, deployment, or integration.",
+        ),
+        questions=(
+            InterviewQuestion(
+                "components_and_services",
+                "Components and services",
+                "What major components, subsystems, or services are needed?",
+                guidance=(
+                    "Examples include web app, workflow engine, reporting service, API, or integration adapter.",
+                ),
+                example="- Web application\n- Inventory API\n- Workflow service\n- Reporting adapter",
+            ),
+            InterviewQuestion(
+                "interfaces_and_integrations",
+                "Interfaces and integrations",
+                "What interfaces or integrations connect these parts?",
+                guidance=(
+                    "Include APIs, message flows, data feeds, and external system boundaries where they matter.",
+                ),
+                example="- Web application calls Inventory API\n- Reporting adapter exports data to BI platform",
+            ),
+            InterviewQuestion(
+                "runtime_boundaries",
+                "Runtime boundaries",
+                "What runtime, environment, or deployment boundaries matter?",
+                guidance=(
+                    "Capture distinctions such as internal service vs external platform, cloud vs on-prem, or batch vs interactive runtime.",
+                ),
+                example="- Internal web app and API run in the same platform\n- Reporting export runs on a scheduled job",
+            ),
+        ),
+    ),
+    InterviewRound(
+        number=8,
         title="UCP Actor Complexity",
         prompt=(
             "Capture actor complexity using simple/average/complex after discovery is stable."
@@ -306,7 +348,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=8,
+        number=9,
         title="UCP Use-Case Complexity",
         prompt="Capture use-case complexity using simple/average/complex.",
         template="Use-case complexity:\n- Use case A: simple/average/complex\n",
@@ -329,7 +371,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=9,
+        number=10,
         title="UCP Technical Factors",
         prompt="Capture the technical 0-5 influence scores in a compact block.",
         template=(
@@ -356,7 +398,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=10,
+        number=11,
         title="UCP Environmental Factors",
         prompt="Capture the environmental 0-5 influence scores in a compact block.",
         template=(
