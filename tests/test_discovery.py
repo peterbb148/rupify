@@ -92,8 +92,20 @@ class DiscoveryTests(unittest.TestCase):
             "entity-system",
         )
         self.assertEqual(
+            model["logical_view"]["domain_entity_objects"][0]["entity_type"],
+            "domain_entity",
+        )
+        self.assertEqual(
             model["logical_view"]["domain_entity_objects"][0]["trace"]["source_round"],
             5,
+        )
+        self.assertEqual(
+            model["logical_view"]["relationship_objects"][0]["relationship_type"],
+            "has_many",
+        )
+        self.assertEqual(
+            model["logical_view"]["relationship_objects"][0]["source_entity_id"],
+            "entity-system",
         )
         self.assertIn(
             "Draft -> Submitted -> Approved",
@@ -103,14 +115,42 @@ class DiscoveryTests(unittest.TestCase):
             model["process_view"]["state_entity_objects"][0]["id"],
             "state-entity-approval-request",
         )
+        self.assertEqual(
+            model["process_view"]["state_transition_objects"][0]["from_state"],
+            "Draft",
+        )
+        self.assertEqual(
+            model["process_view"]["state_transition_objects"][0]["to_state"],
+            "Submitted",
+        )
+        self.assertEqual(
+            model["process_view"]["trigger_objects"][0]["event_name"],
+            "Submission",
+        )
         self.assertIn("Web app", model["architecture_view"]["components_and_services"])
         self.assertEqual(
             model["architecture_view"]["component_objects"][0]["id"],
             "component-web-app",
         )
         self.assertEqual(
+            model["architecture_view"]["component_objects"][0]["component_kind"],
+            "application",
+        )
+        self.assertEqual(
             model["architecture_view"]["component_objects"][0]["trace"]["source_key"],
             "components_and_services",
+        )
+        self.assertEqual(
+            model["architecture_view"]["interface_objects"][0]["source_component_id"],
+            "component-web-app",
+        )
+        self.assertEqual(
+            model["architecture_view"]["interface_objects"][0]["target_component_id"],
+            "component-api",
+        )
+        self.assertEqual(
+            model["architecture_view"]["runtime_boundary_objects"][0]["boundary_type"],
+            "runtime_separation",
         )
 
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
@@ -244,6 +284,51 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["ucp"]["technical_factors"]["third_party_access"], 4)
         self.assertEqual(model["ucp"]["environmental_factors"]["familiar_with_process"], 4)
         self.assertEqual(model["ucp"]["environmental_factors"]["part_time_staff"], 1)
+
+    def test_normalize_replay_to_model_keeps_semantic_fields_explicit_when_unparsed(self) -> None:
+        """Hardening should expose semantic fields even when deterministic parsing finds no structure."""
+        replay = replay_session(
+            [
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": ["Ledger Entry"]},
+                        {"key": "relationships", "answer": ["Ledger Entry interacts with reporting"]},
+                        {"key": "business_rules", "answer": ["Ledger Entry must be retained"]},
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "states_and_transitions", "answer": ["Manual review path"]},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "interfaces_and_integrations", "answer": ["Event bridge integration"]},
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        relationship = model["logical_view"]["relationship_objects"][0]
+        self.assertEqual(relationship["relationship_type"], "")
+        self.assertEqual(relationship["source_entity_id"], "")
+        self.assertEqual(relationship["target_entity_id"], "")
+        self.assertEqual(relationship["description"], "Ledger Entry interacts with reporting")
+
+        transition = model["process_view"]["state_transition_objects"][0]
+        self.assertEqual(transition["from_state"], "")
+        self.assertEqual(transition["to_state"], "")
+        self.assertEqual(transition["description"], "Manual review path")
+
+        interface = model["architecture_view"]["interface_objects"][0]
+        self.assertEqual(interface["source_component_id"], "")
+        self.assertEqual(interface["target_component_id"], "")
+        self.assertEqual(interface["interaction_verb"], "")
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""

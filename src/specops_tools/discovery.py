@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 TECHNICAL_FACTOR_ALIASES = {
@@ -59,6 +60,18 @@ def _slugify(value: str) -> str:
     return result or "item"
 
 
+def _match_slug(value: str) -> str:
+    """Create a looser deterministic slug for reference matching."""
+    tokens = [token for token in _slugify(value).split("-") if token not in {"a", "an", "the"}]
+    normalized_tokens = []
+    for token in tokens:
+        if len(token) > 3 and token.endswith("s"):
+            normalized_tokens.append(token[:-1])
+        else:
+            normalized_tokens.append(token)
+    return "-".join(normalized_tokens)
+
+
 def _ensure_list(value: Any) -> list[str]:
     """Normalize a scalar or list answer into a clean string list."""
     def _clean(item: Any) -> str:
@@ -99,6 +112,267 @@ def _string_items_to_described_items(items: list[str], kind: str) -> list[dict[s
     ]
 
 
+def _normalize_domain_entities(items: list[str]) -> list[dict[str, Any]]:
+    """Convert domain entity strings into explicit analysis objects."""
+    entities = []
+    for item in items:
+        normalized_name = item.strip()
+        entities.append(
+            {
+                "id": f"entity-{_slugify(normalized_name)}",
+                "name": normalized_name,
+                "entity_type": "domain_entity",
+                "description": "",
+                "attributes": [],
+                "responsibilities": [],
+                "trace": {},
+            }
+        )
+    return entities
+
+
+def _normalize_relationships(
+    items: list[str],
+    entities: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Convert relationship strings into structured relationship objects."""
+    relationships = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        source_name = ""
+        target_name = ""
+        relationship_type = ""
+        normalized = text.lower()
+
+        if " has many " in normalized:
+            source_name, target_name = re.split(r"\bhas many\b", text, maxsplit=1, flags=re.IGNORECASE)
+            relationship_type = "has_many"
+        elif " has a " in normalized:
+            source_name, target_name = re.split(r"\bhas a\b", text, maxsplit=1, flags=re.IGNORECASE)
+            relationship_type = "has_one"
+        elif " has an " in normalized:
+            source_name, target_name = re.split(r"\bhas an\b", text, maxsplit=1, flags=re.IGNORECASE)
+            relationship_type = "has_one"
+        elif " belongs to " in normalized:
+            source_name, target_name = re.split(
+                r"\bbelongs to\b",
+                text,
+                maxsplit=1,
+                flags=re.IGNORECASE,
+            )
+            relationship_type = "belongs_to"
+
+        source_name = source_name.strip()
+        target_name = target_name.strip()
+        source_match = _best_name_match(source_name, entities) if source_name else None
+        target_match = _best_name_match(target_name, entities) if target_name else None
+        relationships.append(
+            {
+                "id": f"relationship-{index}",
+                "description": text,
+                "relationship_type": relationship_type,
+                "source_name": source_name,
+                "source_entity_id": source_match["id"] if source_match else "",
+                "target_name": target_name,
+                "target_entity_id": target_match["id"] if target_match else "",
+                "trace": {},
+            }
+        )
+    return relationships
+
+
+def _normalize_business_rules(items: list[str]) -> list[dict[str, Any]]:
+    """Convert business-rule strings into explicit rule objects."""
+    rules = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        normalized = text.lower()
+        scope = ""
+        if " requires " in normalized:
+            scope = text.split(" requires ", 1)[0].strip()
+        elif " must " in normalized:
+            scope = text.split(" must ", 1)[0].strip()
+        rules.append(
+            {
+                "id": f"business-rule-{index}",
+                "name": f"Rule {index}",
+                "rule_text": text,
+                "scope": scope,
+                "trace": {},
+            }
+        )
+    return rules
+
+
+def _normalize_state_entities(items: list[str]) -> list[dict[str, Any]]:
+    """Convert state-entity strings into explicit lifecycle owner objects."""
+    entities = []
+    for item in items:
+        normalized_name = item.strip()
+        entities.append(
+            {
+                "id": f"state-entity-{_slugify(normalized_name)}",
+                "name": normalized_name,
+                "entity_type": "stateful_entity",
+                "description": "",
+                "states": [],
+                "trace": {},
+            }
+        )
+    return entities
+
+
+def _normalize_state_transitions(items: list[str]) -> list[dict[str, Any]]:
+    """Convert transition strings into structured transition objects."""
+    transitions = []
+    for item in items:
+        text = item.strip()
+        if "->" not in text:
+            transitions.append(
+                {
+                    "id": f"state-transition-{len(transitions) + 1}",
+                    "description": text,
+                    "state_entity_id": "",
+                    "state_entity_name": "",
+                    "from_state": "",
+                    "to_state": "",
+                    "trigger": "",
+                    "trace": {},
+                }
+            )
+            continue
+
+        states = [part.strip() for part in text.split("->") if part.strip()]
+        for source_state, target_state in zip(states, states[1:]):
+            transitions.append(
+                {
+                    "id": f"state-transition-{len(transitions) + 1}",
+                    "description": text,
+                    "state_entity_id": "",
+                    "state_entity_name": "",
+                    "from_state": source_state,
+                    "to_state": target_state,
+                    "trigger": "",
+                    "trace": {},
+                }
+            )
+    return transitions
+
+
+def _normalize_triggers(items: list[str]) -> list[dict[str, Any]]:
+    """Convert trigger strings into structured process event objects."""
+    triggers = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        event_name = ""
+        outcome = ""
+        normalized = text.lower()
+        if " triggers " in normalized:
+            event_name, outcome = re.split(r"\btriggers\b", text, maxsplit=1, flags=re.IGNORECASE)
+        elif " requires " in normalized:
+            event_name, outcome = re.split(r"\brequires\b", text, maxsplit=1, flags=re.IGNORECASE)
+        triggers.append(
+            {
+                "id": f"trigger-{index}",
+                "event_name": event_name.strip(),
+                "outcome": outcome.strip(),
+                "description": text,
+                "approval_required": "approval" in normalized,
+                "trace": {},
+            }
+        )
+    return triggers
+
+
+def _normalize_components(items: list[str]) -> list[dict[str, Any]]:
+    """Convert component strings into explicit architecture objects."""
+    components = []
+    for item in items:
+        normalized_name = item.strip()
+        lowered = normalized_name.lower()
+        component_kind = "component"
+        if "api" in lowered:
+            component_kind = "api"
+        elif "service" in lowered:
+            component_kind = "service"
+        elif "web" in lowered or "ui" in lowered or "portal" in lowered:
+            component_kind = "application"
+        components.append(
+            {
+                "id": f"component-{_slugify(normalized_name)}",
+                "name": normalized_name,
+                "component_kind": component_kind,
+                "responsibility": "",
+                "runtime_environment": "",
+                "trace": {},
+            }
+        )
+    return components
+
+
+def _normalize_interfaces(
+    items: list[str],
+    components: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Convert interface strings into structured interface objects."""
+    interfaces = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        source_name = ""
+        target_name = ""
+        interaction_verb = ""
+        normalized = text.lower()
+
+        if " calls " in normalized:
+            source_name, target_name = re.split(r"\bcalls\b", text, maxsplit=1, flags=re.IGNORECASE)
+            interaction_verb = "calls"
+        elif " sends " in normalized:
+            source_name, target_name = re.split(r"\bsends\b", text, maxsplit=1, flags=re.IGNORECASE)
+            interaction_verb = "sends"
+        elif " receives " in normalized:
+            source_name, target_name = re.split(r"\breceives\b", text, maxsplit=1, flags=re.IGNORECASE)
+            interaction_verb = "receives"
+
+        source_name = source_name.strip()
+        target_name = target_name.strip()
+        source_match = _best_name_match(source_name, components) if source_name else None
+        target_match = _best_name_match(target_name, components) if target_name else None
+        interfaces.append(
+            {
+                "id": f"interface-{index}",
+                "description": text,
+                "source_component_name": source_name,
+                "source_component_id": source_match["id"] if source_match else "",
+                "target_component_name": target_name,
+                "target_component_id": target_match["id"] if target_match else "",
+                "interaction_verb": interaction_verb,
+                "protocol": "",
+                "trace": {},
+            }
+        )
+    return interfaces
+
+
+def _normalize_runtime_boundaries(items: list[str]) -> list[dict[str, Any]]:
+    """Convert runtime boundary strings into explicit deployment boundary objects."""
+    boundaries = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        normalized = text.lower()
+        boundary_type = "runtime_separation" if "separate" in normalized else ""
+        boundaries.append(
+            {
+                "id": f"runtime-boundary-{index}",
+                "name": f"Runtime Boundary {index}",
+                "boundary_type": boundary_type,
+                "description": text,
+                "deployment_nodes": [],
+                "trace": {},
+            }
+        )
+    return boundaries
+
+
 def _with_trace(
     items: list[dict[str, Any]],
     source_round: int,
@@ -118,16 +392,16 @@ def _with_trace(
 
 def _best_name_match(name: str, candidates: list[dict[str, Any]]) -> dict[str, Any] | None:
     """Find the best deterministic name match for a complexity entry."""
-    target_slug = _slugify(name)
+    target_slug = _match_slug(name)
     for candidate in candidates:
-        if _slugify(candidate.get("name", "")) == target_slug:
+        if _match_slug(candidate.get("name", "")) == target_slug:
             return candidate
 
     target_tokens = set(target_slug.split("-"))
     best_match = None
     best_score = 0
     for candidate in candidates:
-        candidate_tokens = set(_slugify(candidate.get("name", "")).split("-"))
+        candidate_tokens = set(_match_slug(candidate.get("name", "")).split("-"))
         score = len(target_tokens & candidate_tokens)
         if score > best_score and score >= 2:
             best_score = score
@@ -308,6 +582,44 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     technical_factors = _normalize_factor_map(round_10, TECHNICAL_FACTOR_ALIASES)
     environmental_factors = _normalize_factor_map(round_11, ENVIRONMENTAL_FACTOR_ALIASES)
 
+    domain_entity_objects = _with_trace(_normalize_domain_entities(domain_entities), 5, "domain_entities")
+    relationship_objects = _with_trace(
+        _normalize_relationships(relationships, domain_entity_objects),
+        5,
+        "relationships",
+    )
+    business_rule_objects = _with_trace(
+        _normalize_business_rules(business_rules),
+        5,
+        "business_rules",
+    )
+    state_entity_objects = _with_trace(_normalize_state_entities(state_entities), 6, "state_entities")
+    state_transition_objects = _with_trace(
+        _normalize_state_transitions(states_and_transitions),
+        6,
+        "states_and_transitions",
+    )
+    trigger_objects = _with_trace(
+        _normalize_triggers(triggers_and_approvals),
+        6,
+        "triggers_and_approvals",
+    )
+    component_objects = _with_trace(
+        _normalize_components(components_and_services),
+        7,
+        "components_and_services",
+    )
+    interface_objects = _with_trace(
+        _normalize_interfaces(interfaces_and_integrations, component_objects),
+        7,
+        "interfaces_and_integrations",
+    )
+    runtime_boundary_objects = _with_trace(
+        _normalize_runtime_boundaries(runtime_boundaries),
+        7,
+        "runtime_boundaries",
+    )
+
     return {
         "project": {
             "name": _text_or_empty(round_1.get("idea")) or "Unnamed Project",
@@ -325,81 +637,27 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "logical_view": {
             "domain_entities": domain_entities,
-            "domain_entity_objects": _with_trace(
-                _string_items_to_named_items(domain_entities, "entity"),
-                5,
-                "domain_entities",
-            ),
+            "domain_entity_objects": domain_entity_objects,
             "relationships": relationships,
-            "relationship_objects": _with_trace(
-                _string_items_to_described_items(relationships, "relationship"),
-                5,
-                "relationships",
-            ),
+            "relationship_objects": relationship_objects,
             "business_rules": business_rules,
-            "business_rule_objects": _with_trace(
-                _string_items_to_described_items(
-                    business_rules,
-                    "business-rule",
-                ),
-                5,
-                "business_rules",
-            ),
+            "business_rule_objects": business_rule_objects,
         },
         "process_view": {
             "state_entities": state_entities,
-            "state_entity_objects": _with_trace(
-                _string_items_to_named_items(state_entities, "state-entity"),
-                6,
-                "state_entities",
-            ),
+            "state_entity_objects": state_entity_objects,
             "states_and_transitions": states_and_transitions,
-            "state_transition_objects": _with_trace(
-                _string_items_to_described_items(
-                    states_and_transitions,
-                    "state-transition",
-                ),
-                6,
-                "states_and_transitions",
-            ),
+            "state_transition_objects": state_transition_objects,
             "triggers_and_approvals": triggers_and_approvals,
-            "trigger_objects": _with_trace(
-                _string_items_to_described_items(
-                    triggers_and_approvals,
-                    "trigger",
-                ),
-                6,
-                "triggers_and_approvals",
-            ),
+            "trigger_objects": trigger_objects,
         },
         "architecture_view": {
             "components_and_services": components_and_services,
-            "component_objects": _with_trace(
-                _string_items_to_named_items(
-                    components_and_services,
-                    "component",
-                ),
-                7,
-                "components_and_services",
-            ),
+            "component_objects": component_objects,
             "interfaces_and_integrations": interfaces_and_integrations,
-            "interface_objects": _with_trace(
-                _string_items_to_described_items(
-                    interfaces_and_integrations,
-                    "interface",
-                ),
-                7,
-                "interfaces_and_integrations",
-            ),
+            "interface_objects": interface_objects,
             "runtime_boundaries": runtime_boundaries,
-            "runtime_boundary_objects": _with_trace(
-                _string_items_to_described_items(
-                    runtime_boundaries,
-                    "runtime-boundary",
-                ),
-                7,
-                "runtime_boundaries",
-            ),
+            "runtime_boundary_objects": runtime_boundary_objects,
         },
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
         "assumptions": [],
