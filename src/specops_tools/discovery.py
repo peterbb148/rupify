@@ -484,6 +484,8 @@ def _normalize_actors(items: list[str]) -> list[dict[str, str]]:
                 "name": normalized_name,
                 "type": actor_type,
                 "description": "",
+                "interaction_style": "user_interface" if actor_type == "human" else "system_interface",
+                "responsibilities": [],
                 "complexity": "unclassified",
                 "trace": {},
             }
@@ -501,7 +503,12 @@ def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
                 "id": _slugify(normalized_name),
                 "name": normalized_name,
                 "primary_actor": "Unspecified",
+                "primary_actor_id": "",
+                "supporting_actor_ids": [],
                 "goal": normalized_name,
+                "trigger": "",
+                "preconditions": [],
+                "postconditions": [],
                 "complexity": "unclassified",
                 "main_success_scenario": [],
                 "extensions": [],
@@ -509,6 +516,31 @@ def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
             }
         )
     return use_cases
+
+
+def _normalize_requirement_objects(
+    items: list[str],
+    requirement_kind: str,
+) -> list[dict[str, Any]]:
+    """Convert requirement strings into explicit canonical requirement objects."""
+    objects = []
+    for index, item in enumerate(items, 1):
+        text = item.strip()
+        quality_attribute = ""
+        if requirement_kind == "non_functional" and ":" in text:
+            quality_attribute = text.split(":", 1)[0].strip()
+        objects.append(
+            {
+                "id": f"{requirement_kind}-requirement-{index}",
+                "statement": text,
+                "requirement_kind": requirement_kind,
+                "quality_attribute": quality_attribute,
+                "linked_use_case_ids": [],
+                "fit_criterion": "",
+                "trace": {},
+            }
+        )
+    return objects
 
 
 def _text_or_empty(value: Any) -> str:
@@ -581,6 +613,42 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     )
     technical_factors = _normalize_factor_map(round_10, TECHNICAL_FACTOR_ALIASES)
     environmental_factors = _normalize_factor_map(round_11, ENVIRONMENTAL_FACTOR_ALIASES)
+    functional_requirement_objects = []
+    if workflow_scope := _text_or_empty(round_4.get("workflow_scope")):
+        functional_requirement_objects.extend(
+            _with_trace(
+                _normalize_requirement_objects([workflow_scope], "functional"),
+                4,
+                "workflow_scope",
+            )
+        )
+    if integrations := _text_or_empty(round_3.get("integrations")):
+        functional_requirement_objects.extend(
+            _with_trace(
+                _normalize_requirement_objects([integrations], "functional"),
+                3,
+                "integrations",
+            )
+        )
+
+    non_functional_requirement_objects = []
+    if constraints:
+        non_functional_requirement_objects.extend(
+            _with_trace(
+                _normalize_requirement_objects(constraints, "non_functional"),
+                2,
+                "constraints",
+            )
+        )
+    round_4_non_functional = _ensure_list(round_4.get("non_functional_requirements"))
+    if round_4_non_functional:
+        non_functional_requirement_objects.extend(
+            _with_trace(
+                _normalize_requirement_objects(round_4_non_functional, "non_functional"),
+                4,
+                "non_functional_requirements",
+            )
+        )
 
     domain_entity_objects = _with_trace(_normalize_domain_entities(domain_entities), 5, "domain_entities")
     relationship_objects = _with_trace(
@@ -633,7 +701,9 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "use_cases": normalized_use_cases,
         "requirements": {
             "functional": functional_requirements,
+            "functional_objects": functional_requirement_objects,
             "non_functional": non_functional,
+            "non_functional_objects": non_functional_requirement_objects,
         },
         "logical_view": {
             "domain_entities": domain_entities,

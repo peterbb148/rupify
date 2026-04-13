@@ -16,18 +16,41 @@ The canonical project model is `specops-model.yaml`.
   - `name`
   - `type`
   - `description`
+  - `interaction_style`
+  - `responsibilities`
   - `complexity`: `simple`, `average`, or `complex`
 - `use_cases`
   - `id`
   - `name`
   - `primary_actor`
+  - `primary_actor_id`
+  - `supporting_actor_ids`
   - `goal`
+  - `trigger`
+  - `preconditions`
+  - `postconditions`
   - `complexity`: `simple`, `average`, or `complex`
   - `main_success_scenario`
   - `extensions`
 - `requirements`
   - `functional`
+  - `functional_objects`
+    - `id`
+    - `statement`
+    - `requirement_kind`
+    - `quality_attribute`
+    - `linked_use_case_ids`
+    - `fit_criterion`
+    - `trace`
   - `non_functional`
+  - `non_functional_objects`
+    - `id`
+    - `statement`
+    - `requirement_kind`
+    - `quality_attribute`
+    - `linked_use_case_ids`
+    - `fit_criterion`
+    - `trace`
 - `logical_view` (optional in V1, expected for V1.5+ full-spec work)
   - `domain_entities`
   - `domain_entity_objects`
