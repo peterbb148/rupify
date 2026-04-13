@@ -71,8 +71,10 @@ These themes now shape the completed bridge into V1.6 hardening work.
 
 - `#8` `EPIC: SpecOps V2 UML and formal specification translation`
 - `#7` `EPIC: SpecOps V2 integrations and productization`
+- `#65` `Add document ingestion and hybrid document-to-spec workflow`
 
 See also: [V2 Go/No-Go Decision](v2-go-no-go-decision.md)
+See also: [Document Ingestion Future Direction](document-ingestion-future.md)
 
 ## Open V2 Decomposition for Epic #8
 
