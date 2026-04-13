@@ -16,6 +16,7 @@ The canonical project model is `specops-model.yaml`.
   - `name`
   - `type`
   - `description`
+  - `model_layer`: `analysis`
   - `interaction_style`
   - `responsibilities`
   - `complexity`: `simple`, `average`, or `complex`
@@ -25,6 +26,7 @@ The canonical project model is `specops-model.yaml`.
   - `primary_actor`
   - `primary_actor_id`
   - `supporting_actor_ids`
+  - `model_layer`: `analysis`
   - `goal`
   - `trigger`
   - `preconditions`
@@ -39,6 +41,7 @@ The canonical project model is `specops-model.yaml`.
     - `statement`
     - `requirement_kind`
     - `quality_attribute`
+    - `model_layer`: `analysis`
     - `linked_use_case_ids`
     - `fit_criterion`
     - `trace`
@@ -48,15 +51,27 @@ The canonical project model is `specops-model.yaml`.
     - `statement`
     - `requirement_kind`
     - `quality_attribute`
+    - `model_layer`: `analysis`
     - `linked_use_case_ids`
     - `fit_criterion`
     - `trace`
+- `analysis_view`
+  - `actor_ids`
+  - `use_case_ids`
+  - `requirement_ids`
+  - `domain_entity_ids`
+  - `relationship_ids`
+  - `business_rule_ids`
+  - `state_entity_ids`
+  - `state_transition_ids`
+  - `trigger_ids`
 - `logical_view` (optional in V1, expected for V1.5+ full-spec work)
   - `domain_entities`
   - `domain_entity_objects`
     - `id`
     - `name`
     - `entity_type`
+    - `model_layer`: `analysis`
     - `description`
     - `attributes`
     - `responsibilities`
@@ -66,6 +81,7 @@ The canonical project model is `specops-model.yaml`.
     - `id`
     - `description`
     - `relationship_type`
+    - `model_layer`: `analysis`
     - `source_name`
     - `source_entity_id`
     - `target_name`
@@ -76,6 +92,7 @@ The canonical project model is `specops-model.yaml`.
     - `id`
     - `name`
     - `rule_text`
+    - `model_layer`: `analysis`
     - `scope`
     - `trace`
 - `process_view` (optional in V1, expected for V1.5+ full-spec work)
@@ -84,6 +101,7 @@ The canonical project model is `specops-model.yaml`.
     - `id`
     - `name`
     - `entity_type`
+    - `model_layer`: `analysis`
     - `description`
     - `states`
     - `trace`
@@ -91,6 +109,7 @@ The canonical project model is `specops-model.yaml`.
   - `state_transition_objects`
     - `id`
     - `description`
+    - `model_layer`: `analysis`
     - `state_entity_id`
     - `state_entity_name`
     - `from_state`
@@ -103,14 +122,20 @@ The canonical project model is `specops-model.yaml`.
     - `event_name`
     - `outcome`
     - `description`
+    - `model_layer`: `analysis`
     - `approval_required`
     - `trace`
+- `design_view`
+  - `component_ids`
+  - `interface_ids`
+  - `runtime_boundary_ids`
 - `architecture_view` (optional in V1, expected for V1.5+ full-spec work)
   - `components_and_services`
   - `component_objects`
     - `id`
     - `name`
     - `component_kind`
+    - `model_layer`: `design`
     - `responsibility`
     - `runtime_environment`
     - `trace`
@@ -118,6 +143,7 @@ The canonical project model is `specops-model.yaml`.
   - `interface_objects`
     - `id`
     - `description`
+    - `model_layer`: `design`
     - `source_component_name`
     - `source_component_id`
     - `target_component_name`
@@ -131,6 +157,7 @@ The canonical project model is `specops-model.yaml`.
     - `name`
     - `boundary_type`
     - `description`
+    - `model_layer`: `design`
     - `deployment_nodes`
     - `trace`
 - `assumptions`
