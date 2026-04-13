@@ -44,6 +44,54 @@ class RenderTests(unittest.TestCase):
         self.assertIn("notes: Team topology still needs confirmation.", rendered)
         self.assertIn("status: unknown", rendered)
 
+    def test_requirements_render_includes_extended_view_sections(self) -> None:
+        """Requirements rendering should include logical, process, and architecture sections when present."""
+        model = build_model()
+        model["logical_view"] = {
+            "domain_entities": ["Member", "Reward"],
+            "relationships": ["A Member can redeem many Rewards."],
+            "business_rules": ["A Reward requires sufficient points."],
+        }
+        model["process_view"] = {
+            "state_entities": ["Redemption request"],
+            "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
+            "triggers_and_approvals": ["Approval is required for manual fulfillment."],
+        }
+        model["architecture_view"] = {
+            "components_and_services": ["Member app", "Rewards API"],
+            "interfaces_and_integrations": ["Member app calls Rewards API."],
+            "runtime_boundaries": ["Rewards API runs as a separate service."],
+        }
+
+        rendered = render_requirements_spec(model)
+
+        self.assertIn("## Logical View", rendered)
+        self.assertIn("Member", rendered)
+        self.assertIn("## Process View", rendered)
+        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("## Architecture View", rendered)
+        self.assertIn("Rewards API runs as a separate service.", rendered)
+
+    def test_use_case_render_includes_process_and_architecture_sections(self) -> None:
+        """Use-case rendering should include relevant process and architecture sections when present."""
+        from specops_tools.render import render_use_case_model
+
+        model = build_model()
+        model["process_view"] = {
+            "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
+            "triggers_and_approvals": ["Approval is required for manual fulfillment."],
+        }
+        model["architecture_view"] = {
+            "interfaces_and_integrations": ["Member app calls Rewards API."],
+        }
+
+        rendered = render_use_case_model(model)
+
+        self.assertIn("## States and Transitions", rendered)
+        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("## Interfaces and Integrations", rendered)
+        self.assertIn("Member app calls Rewards API.", rendered)
+
     def test_ucp_render_supports_structured_uncertainty_items(self) -> None:
         """UCP rendering should preserve uncertainty metadata when present."""
         model = build_model()
