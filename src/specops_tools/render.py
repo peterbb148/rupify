@@ -147,10 +147,27 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
     """
     project = model.get("project", {})
     requirements = model.get("requirements", {})
+    analysis_view = model.get("analysis_view", {})
+    design_view = model.get("design_view", {})
     logical_view = model.get("logical_view", {})
     process_view = model.get("process_view", {})
     architecture_view = model.get("architecture_view", {})
     traceability = model.get("traceability", {})
+    domain_entity_objects = analysis_view.get("domain_entity_objects", logical_view.get("domain_entity_objects", []))
+    relationship_objects = analysis_view.get("relationship_objects", logical_view.get("relationship_objects", []))
+    business_rule_objects = analysis_view.get("business_rule_objects", logical_view.get("business_rule_objects", []))
+    state_entity_objects = analysis_view.get("state_entity_objects", process_view.get("state_entity_objects", []))
+    state_transition_objects = analysis_view.get(
+        "state_transition_objects",
+        process_view.get("state_transition_objects", []),
+    )
+    trigger_objects = analysis_view.get("trigger_objects", process_view.get("trigger_objects", []))
+    component_objects = design_view.get("component_objects", architecture_view.get("component_objects", []))
+    interface_objects = design_view.get("interface_objects", architecture_view.get("interface_objects", []))
+    runtime_boundary_objects = design_view.get(
+        "runtime_boundary_objects",
+        architecture_view.get("runtime_boundary_objects", []),
+    )
     return f"""# Requirements Specification
 
 ## Project
@@ -180,47 +197,47 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 {_bullet_list(requirements.get("non_functional", []))}
 {_object_name_section(
     "Logical View",
-    logical_view.get("domain_entity_objects", []),
+    domain_entity_objects,
     logical_view.get("domain_entities", []),
 )}
 {_object_text_section(
     "Relationships",
-    logical_view.get("relationship_objects", []),
+    relationship_objects,
     logical_view.get("relationships", []),
 )}
 {_object_text_section(
     "Business Rules",
-    logical_view.get("business_rule_objects", []),
+    business_rule_objects,
     logical_view.get("business_rules", []),
 )}
 {_object_name_section(
     "Process View",
-    process_view.get("state_entity_objects", []),
+    state_entity_objects,
     process_view.get("state_entities", []),
 )}
 {_object_text_section(
     "States and Transitions",
-    process_view.get("state_transition_objects", []),
+    state_transition_objects,
     process_view.get("states_and_transitions", []),
 )}
 {_object_text_section(
     "Triggers and Approvals",
-    process_view.get("trigger_objects", []),
+    trigger_objects,
     process_view.get("triggers_and_approvals", []),
 )}
 {_object_name_section(
     "Architecture View",
-    architecture_view.get("component_objects", []),
+    component_objects,
     architecture_view.get("components_and_services", []),
 )}
 {_object_text_section(
     "Interfaces and Integrations",
-    architecture_view.get("interface_objects", []),
+    interface_objects,
     architecture_view.get("interfaces_and_integrations", []),
 )}
 {_object_text_section(
     "Runtime Boundaries",
-    architecture_view.get("runtime_boundary_objects", []),
+    runtime_boundary_objects,
     architecture_view.get("runtime_boundaries", []),
 )}
 {_traceability_section(
@@ -255,8 +272,12 @@ def render_use_case_model(model: dict[str, Any]) -> str:
     Returns:
         Markdown content.
     """
+    analysis_view = model.get("analysis_view", {})
+    design_view = model.get("design_view", {})
+    actors = analysis_view.get("actors", model.get("actors", []))
+    use_cases = analysis_view.get("use_cases", model.get("use_cases", []))
     actor_lines = []
-    for actor in model.get("actors", []):
+    for actor in actors:
         line = (
             f"- `{actor.get('id', 'actor')}` {actor.get('name', 'Unnamed')} "
             f"({actor.get('type', 'unspecified')}, {actor.get('complexity', 'unclassified')}): "
@@ -270,7 +291,7 @@ def render_use_case_model(model: dict[str, Any]) -> str:
         actor_lines.append(line)
 
     use_case_sections = []
-    for use_case in model.get("use_cases", []):
+    for use_case in use_cases:
         main_flow = "\n".join(
             f"{index}. {step}" for index, step in enumerate(use_case.get("main_success_scenario", []), 1)
         ) or "1. No main success scenario documented."
@@ -299,6 +320,12 @@ def render_use_case_model(model: dict[str, Any]) -> str:
     process_view = model.get("process_view", {})
     architecture_view = model.get("architecture_view", {})
     traceability = model.get("traceability", {})
+    state_transition_objects = analysis_view.get(
+        "state_transition_objects",
+        process_view.get("state_transition_objects", []),
+    )
+    trigger_objects = analysis_view.get("trigger_objects", process_view.get("trigger_objects", []))
+    interface_objects = design_view.get("interface_objects", architecture_view.get("interface_objects", []))
 
     return f"""# Use-Case Model
 
@@ -311,17 +338,17 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 {use_case_block}
 {_object_text_section(
     "States and Transitions",
-    process_view.get("state_transition_objects", []),
+    state_transition_objects,
     process_view.get("states_and_transitions", []),
 )}
 {_object_text_section(
     "Triggers and Approvals",
-    process_view.get("trigger_objects", []),
+    trigger_objects,
     process_view.get("triggers_and_approvals", []),
 )}
 {_object_text_section(
     "Interfaces and Integrations",
-    architecture_view.get("interface_objects", []),
+    interface_objects,
     architecture_view.get("interfaces_and_integrations", []),
 )}
 {_traceability_section(

@@ -56,6 +56,15 @@ The canonical project model is `specops-model.yaml`.
     - `fit_criterion`
     - `trace`
 - `analysis_view`
+  - `actors`
+  - `use_cases`
+  - `requirement_objects`
+  - `domain_entity_objects`
+  - `relationship_objects`
+  - `business_rule_objects`
+  - `state_entity_objects`
+  - `state_transition_objects`
+  - `trigger_objects`
   - `actor_ids`
   - `use_case_ids`
   - `requirement_ids`
@@ -145,6 +154,9 @@ The canonical project model is `specops-model.yaml`.
     - `approval_required`
     - `trace`
 - `design_view`
+  - `component_objects`
+  - `interface_objects`
+  - `runtime_boundary_objects`
   - `component_ids`
   - `interface_ids`
   - `runtime_boundary_ids`
