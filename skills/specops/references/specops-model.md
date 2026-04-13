@@ -221,6 +221,7 @@ The model should be rich enough to generate:
 
 - `requirements-spec.md`
 - `use-case-model.md`
+- `state-model.md`
 - `ucp-estimate.md`
 
 For V1.5+ work, the same model should also have stable places to hold:
@@ -228,6 +229,15 @@ For V1.5+ work, the same model should also have stable places to hold:
 - logical-view discovery
 - process/state-view discovery
 - architecture/deployment-view discovery
+
+For the V1.6 proof artifact, `state-model.md` is generated from the canonical process semantics:
+
+- `analysis_view.state_entity_objects`
+- `analysis_view.state_transition_objects`
+- `analysis_view.trigger_objects`
+- relevant `traceability.use_case_to_analysis` links for state entities
+- relevant `traceability.analysis_to_design` links where a stateful analysis object is realized by a
+  design component
 
 If any artifact would require invented inputs, stop and surface the missing fields.
 

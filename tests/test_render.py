@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import unittest
 
-from specops_tools.render import render_requirements_spec
+from specops_tools.discovery import normalize_replay_to_model
+from specops_tools.interview import replay_session
+from specops_tools.render import render_all, render_requirements_spec, render_state_model
 from specops_tools.ucp import calculate_ucp, render_ucp_markdown
 
 try:
@@ -326,6 +328,141 @@ class RenderTests(unittest.TestCase):
             "`trace-uc-analysis-1` redeem-reward -> entity-reward",
             rendered,
         )
+
+    def test_state_model_render_includes_process_traceability(self) -> None:
+        """State-model rendering should surface process semantics and relevant trace links."""
+        model = build_model()
+        model["analysis_view"] = {
+            "state_entity_objects": [
+                {
+                    "id": "state-entity-redemption-request",
+                    "name": "Redemption Request",
+                    "trace": {"source_round": 6, "source_key": "state_entities"},
+                }
+            ],
+            "state_transition_objects": [
+                {
+                    "id": "state-transition-1",
+                    "text": "Requested -> Approved -> Fulfilled",
+                    "trace": {"source_round": 6, "source_key": "states_and_transitions"},
+                }
+            ],
+            "trigger_objects": [
+                {
+                    "id": "trigger-1",
+                    "text": "Approval event moves request to Approved.",
+                    "trace": {"source_round": 6, "source_key": "triggers_and_approvals"},
+                }
+            ],
+        }
+        model["design_view"] = {
+            "component_objects": [
+                {
+                    "id": "component-rewards-api",
+                    "name": "Rewards API",
+                    "trace": {"source_round": 7, "source_key": "components_and_services"},
+                }
+            ]
+        }
+        model["traceability"] = {
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "uc-redeem",
+                    "to_id": "state-entity-redemption-request",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+            "analysis_to_design": [
+                {
+                    "id": "trace-analysis-design-1",
+                    "from_id": "state-entity-redemption-request",
+                    "to_id": "component-rewards-api",
+                    "basis": "design component realizes stateful workflow",
+                }
+            ],
+        }
+
+        rendered = render_state_model(model)
+
+        self.assertIn("# State Model", rendered)
+        self.assertIn("## State Entities", rendered)
+        self.assertIn("`state-entity-redemption-request` Redemption Request", rendered)
+        self.assertIn("## State Transitions", rendered)
+        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("## Use-Case To State Traceability", rendered)
+        self.assertIn("`trace-uc-analysis-1` uc-redeem -> state-entity-redemption-request", rendered)
+        self.assertIn("## State To Design Traceability", rendered)
+        self.assertIn(
+            "`trace-analysis-design-1` state-entity-redemption-request -> component-rewards-api",
+            rendered,
+        )
+
+    def test_render_all_includes_state_model_artifact(self) -> None:
+        """Primary rendering should emit the formal state-model artifact."""
+        outputs = render_all(build_model())
+
+        self.assertIn("state-model.md", outputs)
+        self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
+
+    def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
+        """Replay normalization should be able to produce the formal state-model artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Workflow system"},
+                        {"key": "problem", "answer": "Approval flow is opaque"},
+                        {"key": "in_scope", "answer": "Approval lifecycle"},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Clear workflow status"},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "use_cases", "answer": ["Approve Request"]},
+                    ],
+                },
+                {
+                    "round": 4,
+                    "responses": [
+                        {"key": "workflow_scope", "answer": "Approve Request"},
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["Approval Request"]},
+                        {
+                            "key": "states_and_transitions",
+                            "answer": ["Draft -> Submitted -> Approved"],
+                        },
+                        {
+                            "key": "triggers_and_approvals",
+                            "answer": ["Submission triggers approval review"],
+                        },
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": ["Approval API"]},
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_state_model(model)
+
+        self.assertIn("Approval Request", rendered)
+        self.assertIn("Draft -> Submitted -> Approved", rendered)
 
     def test_ucp_render_supports_structured_uncertainty_items(self) -> None:
         """UCP rendering should preserve uncertainty metadata when present."""

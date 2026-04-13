@@ -123,6 +123,27 @@ class ReadinessTests(unittest.TestCase):
             ["requirements-spec.md", "ucp-estimate.md"],
         )
 
+    def test_identify_stale_artifacts_marks_state_model_for_process_updates(self) -> None:
+        """Process-view updates should mark the formal state-model artifact stale."""
+        stale = identify_stale_artifacts(
+            [
+                {
+                    "round": 6,
+                    "responses": [
+                        {
+                            "key": "states_and_transitions",
+                            "answer": "Draft -> Submitted -> Approved",
+                        }
+                    ],
+                }
+            ]
+        )
+
+        self.assertEqual(
+            stale,
+            ["requirements-spec.md", "state-model.md", "use-case-model.md"],
+        )
+
     def test_evaluate_traceability_reports_missing_links(self) -> None:
         """Trace validation should identify missing links by family."""
         model = {
