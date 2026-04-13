@@ -7,7 +7,10 @@ import unittest
 from specops_tools.render import render_requirements_spec
 from specops_tools.ucp import calculate_ucp, render_ucp_markdown
 
-from test_ucp import build_model
+try:
+    from tests.test_ucp import build_model
+except ModuleNotFoundError:
+    from test_ucp import build_model
 
 
 class RenderTests(unittest.TestCase):
