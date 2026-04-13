@@ -4,7 +4,11 @@ from __future__ import annotations
 
 import unittest
 
-from specops_tools.readiness import evaluate_readiness, identify_stale_artifacts
+from specops_tools.readiness import (
+    evaluate_readiness,
+    evaluate_readiness_details,
+    identify_stale_artifacts,
+)
 
 
 class ReadinessTests(unittest.TestCase):
@@ -14,29 +18,102 @@ class ReadinessTests(unittest.TestCase):
         """Readiness should distinguish complete, partial, and blocked views."""
         readiness = evaluate_readiness(
             [
-                {"round": 1, "responses": []},
-                {"round": 3, "responses": []},
-                {"round": 4, "responses": []},
-                {"round": 5, "responses": []},
-                {"round": 6, "responses": []},
-                {"round": 7, "responses": []},
-                {"round": 8, "responses": []},
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Inventory system"},
+                        {"key": "problem", "answer": "Poor visibility"},
+                        {"key": "in_scope", "answer": "Non-OT"},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Better planning"},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "actors", "answer": "Architect"},
+                        {"key": "use_cases", "answer": "Search systems"},
+                    ],
+                },
+                {
+                    "round": 4,
+                    "responses": [
+                        {"key": "workflow_scope", "answer": "Edit metadata"},
+                    ],
+                },
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": "System"},
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": "System lifecycle"},
+                        {"key": "states_and_transitions", "answer": "Proposed -> Active"},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": "Web app"},
+                        {"key": "interfaces_and_integrations", "answer": "Web app calls API"},
+                    ],
+                },
+                {
+                    "round": 8,
+                    "responses": [
+                        {"key": "actor_complexity", "answer": "Architect: complex"},
+                    ],
+                },
             ]
         )
 
-        self.assertEqual(readiness["discovery"], "partial")
+        self.assertEqual(readiness["discovery"], "ready")
         self.assertEqual(readiness["use_case"], "ready")
-        self.assertEqual(readiness["logical"], "ready")
+        self.assertEqual(readiness["logical"], "partial")
         self.assertEqual(readiness["process"], "ready")
         self.assertEqual(readiness["architecture"], "ready")
         self.assertEqual(readiness["ucp"], "partial")
+
+    def test_evaluate_readiness_details_reports_missing_gate_fields(self) -> None:
+        """Detailed readiness should expose the specific missing keys per view."""
+        details = evaluate_readiness_details(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Inventory system"},
+                        {"key": "problem", "answer": "Poor visibility"},
+                    ],
+                },
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": "System"},
+                        {"key": "business_rules", "answer": "Owner required"},
+                    ],
+                },
+            ]
+        )
+
+        self.assertEqual(details["discovery"]["status"], "partial")
+        self.assertEqual(details["discovery"]["required_missing"], ["in_scope", "outcomes"])
+        self.assertEqual(details["logical"]["status"], "partial")
+        self.assertEqual(details["logical"]["required_missing"], ["relationships"])
+        self.assertEqual(details["logical"]["supporting_present"], ["business_rules"])
 
     def test_identify_stale_artifacts_maps_round_updates_to_outputs(self) -> None:
         """Updated rounds should mark only dependent artifacts stale."""
         stale = identify_stale_artifacts(
             [
-                {"round": 2, "responses": []},
-                {"round": 9, "responses": []},
+                {"round": 2, "responses": [{"key": "constraints", "answer": "Web UI"}]},
+                {"round": 9, "responses": [{"key": "use_case_complexity", "answer": "Search: average"}]},
             ]
         )
 

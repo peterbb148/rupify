@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import json
 from typing import Any
 
-from .readiness import evaluate_readiness, identify_stale_artifacts
+from .readiness import evaluate_readiness, evaluate_readiness_details, identify_stale_artifacts
 
 
 def _normalize_key(value: str) -> str:
@@ -697,6 +697,7 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
         "next_round": transcript[-1]["next_round"] if transcript else None,
         "readiness": evaluate_readiness(normalized_round_inputs),
+        "readiness_details": evaluate_readiness_details(normalized_round_inputs),
         "stale_artifacts": [],
     }
 
