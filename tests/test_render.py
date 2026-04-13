@@ -151,6 +151,46 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_requirements_render_includes_traceability_sections(self) -> None:
+        """Requirements rendering should surface cross-view traceability links when present."""
+        model = build_model()
+        model["traceability"] = {
+            "requirement_to_use_case": [
+                {
+                    "id": "trace-req-uc-1",
+                    "from_id": "functional-requirement-1",
+                    "to_id": "redeem-reward",
+                    "basis": "requirement statement references use-case name",
+                }
+            ],
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "redeem-reward",
+                    "to_id": "entity-reward",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+            "analysis_to_design": [
+                {
+                    "id": "trace-analysis-design-1",
+                    "from_id": "entity-reward",
+                    "to_id": "component-rewards-api",
+                    "basis": "design component name references analysis object name",
+                }
+            ],
+        }
+
+        rendered = render_requirements_spec(model)
+
+        self.assertIn("## Requirement To Use-Case Traceability", rendered)
+        self.assertIn(
+            "`trace-req-uc-1` functional-requirement-1 -> redeem-reward",
+            rendered,
+        )
+        self.assertIn("## Use-Case To Analysis Traceability", rendered)
+        self.assertIn("## Analysis To Design Traceability", rendered)
+
     def test_use_case_render_includes_process_and_architecture_sections(self) -> None:
         """Use-case rendering should include relevant process and architecture sections when present."""
         from specops_tools.render import render_use_case_model
@@ -195,6 +235,39 @@ class RenderTests(unittest.TestCase):
         self.assertIn("## Interfaces and Integrations", rendered)
         self.assertIn(
             "`interface-1` Member app calls Rewards API. [source: round 7 interfaces_and_integrations]",
+            rendered,
+        )
+
+    def test_use_case_render_includes_traceability_sections(self) -> None:
+        """Use-case rendering should surface use-case traceability links when present."""
+        from specops_tools.render import render_use_case_model
+
+        model = build_model()
+        model["traceability"] = {
+            "requirement_to_use_case": [
+                {
+                    "id": "trace-req-uc-1",
+                    "from_id": "functional-requirement-1",
+                    "to_id": "redeem-reward",
+                    "basis": "requirement statement references use-case name",
+                }
+            ],
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "redeem-reward",
+                    "to_id": "entity-reward",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+        }
+
+        rendered = render_use_case_model(model)
+
+        self.assertIn("## Requirement To Use-Case Traceability", rendered)
+        self.assertIn("## Use-Case To Analysis Traceability", rendered)
+        self.assertIn(
+            "`trace-uc-analysis-1` redeem-reward -> entity-reward",
             rendered,
         )
 

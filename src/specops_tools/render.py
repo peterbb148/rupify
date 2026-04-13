@@ -114,6 +114,28 @@ def _object_text_section(
     return _named_section(title, fallback)
 
 
+def _traceability_section(
+    title: str,
+    links: list[dict[str, Any]],
+) -> str:
+    """Render a cross-view traceability section when links exist."""
+    if not links:
+        return ""
+
+    rendered = []
+    for link in links:
+        rendered.append(
+            f"- `{link.get('id', 'trace')}` {link.get('from_id', 'unknown')} -> "
+            f"{link.get('to_id', 'unknown')} ({link.get('basis', 'unspecified basis')})"
+        )
+
+    return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+
+
 def render_requirements_spec(model: dict[str, Any]) -> str:
     """Render the requirements specification artifact.
 
@@ -128,6 +150,7 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
     logical_view = model.get("logical_view", {})
     process_view = model.get("process_view", {})
     architecture_view = model.get("architecture_view", {})
+    traceability = model.get("traceability", {})
     return f"""# Requirements Specification
 
 ## Project
@@ -200,6 +223,18 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
     architecture_view.get("runtime_boundary_objects", []),
     architecture_view.get("runtime_boundaries", []),
 )}
+{_traceability_section(
+    "Requirement To Use-Case Traceability",
+    traceability.get("requirement_to_use_case", []),
+)}
+{_traceability_section(
+    "Use-Case To Analysis Traceability",
+    traceability.get("use_case_to_analysis", []),
+)}
+{_traceability_section(
+    "Analysis To Design Traceability",
+    traceability.get("analysis_to_design", []),
+)}
 
 ## Assumptions
 
@@ -263,6 +298,7 @@ def render_use_case_model(model: dict[str, Any]) -> str:
     use_case_block = "\n".join(use_case_sections) or "No use cases documented."
     process_view = model.get("process_view", {})
     architecture_view = model.get("architecture_view", {})
+    traceability = model.get("traceability", {})
 
     return f"""# Use-Case Model
 
@@ -287,6 +323,14 @@ def render_use_case_model(model: dict[str, Any]) -> str:
     "Interfaces and Integrations",
     architecture_view.get("interface_objects", []),
     architecture_view.get("interfaces_and_integrations", []),
+)}
+{_traceability_section(
+    "Requirement To Use-Case Traceability",
+    traceability.get("requirement_to_use_case", []),
+)}
+{_traceability_section(
+    "Use-Case To Analysis Traceability",
+    traceability.get("use_case_to_analysis", []),
 )}
 """
 
