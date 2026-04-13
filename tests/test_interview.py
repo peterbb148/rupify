@@ -8,7 +8,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from specops_tools.interview import get_round, process_round, replay_session
+from specops_tools.interview import (
+    get_round,
+    merge_round_inputs,
+    process_round,
+    replay_session,
+    replay_session_with_updates,
+)
 
 
 class InterviewHarnessTests(unittest.TestCase):
@@ -85,6 +91,68 @@ class InterviewHarnessTests(unittest.TestCase):
         )
         self.assertEqual(replay["merged_answers"]["round_1"]["problem"], "Poor visibility")
         self.assertEqual(replay["next_round"]["number"], 2)
+
+    def test_merge_round_inputs_updates_only_targeted_response(self) -> None:
+        """A targeted response update should merge into one round without dropping siblings."""
+        merged = merge_round_inputs(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Inventory system"},
+                        {"key": "problem", "answer": "Poor visibility"},
+                        {"key": "users", "answer": "Architects"},
+                    ],
+                }
+            ],
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "problem", "answer": "Poor visibility across regions"},
+                    ],
+                }
+            ],
+        )
+
+        self.assertEqual(len(merged), 1)
+        self.assertEqual(merged[0]["round"], 1)
+        responses = {item["key"]: item["answer"] for item in merged[0]["responses"]}
+        self.assertEqual(responses["idea"], "Inventory system")
+        self.assertEqual(responses["users"], "Architects")
+        self.assertEqual(responses["problem"], "Poor visibility across regions")
+
+    def test_replay_session_with_updates_can_extend_existing_session(self) -> None:
+        """Replaying with updates should preserve prior rounds and add the new answers."""
+        replay = replay_session_with_updates(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Inventory system"},
+                        {"key": "problem", "answer": "Poor visibility"},
+                        {"key": "users", "answer": "Architects"},
+                        {"key": "in_scope", "answer": "Non-OT"},
+                        {"key": "out_of_scope", "answer": "OT"},
+                    ],
+                }
+            ],
+            [
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Better planning"},
+                        {"key": "success_criteria", "answer": "One inventory source"},
+                    ],
+                }
+            ],
+        )
+
+        self.assertEqual(replay["last_round"], 2)
+        self.assertEqual(replay["merged_answers"]["round_1"]["idea"], "Inventory system")
+        self.assertEqual(replay["merged_answers"]["round_2"]["outcomes"], "Better planning")
+        self.assertEqual(replay["next_round"]["number"], 3)
+        self.assertEqual(len(replay["merged_round_inputs"]), 2)
 
     def test_cli_accepts_piped_round_answer(self) -> None:
         """The CLI should accept answer text from stdin."""
@@ -246,6 +314,77 @@ class InterviewHarnessTests(unittest.TestCase):
             "expose/export data by API: Complex",
             payload["merged_answers"]["round_6"]["use_case_complexity"],
         )
+
+    def test_replay_cli_applies_updates_fixture(self) -> None:
+        """The replay CLI should support targeted updates without replay restarts."""
+        repo_root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture_path = Path(temp_dir) / "session.json"
+            updates_path = Path(temp_dir) / "updates.json"
+            fixture_path.write_text(
+                json.dumps(
+                    {
+                        "rounds": [
+                            {
+                                "round": 1,
+                                "responses": [
+                                    {"key": "idea", "answer": "Inventory system"},
+                                    {"key": "problem", "answer": "Poor visibility"},
+                                    {"key": "users", "answer": "Architects"},
+                                    {"key": "in_scope", "answer": "Non-OT"},
+                                    {"key": "out_of_scope", "answer": "OT"},
+                                ],
+                            }
+                        ]
+                    }
+                )
+            )
+            updates_path.write_text(
+                json.dumps(
+                    {
+                        "rounds": [
+                            {
+                                "round": 1,
+                                "responses": [
+                                    {
+                                        "key": "problem",
+                                        "answer": "Poor visibility across regions",
+                                    }
+                                ],
+                            },
+                            {
+                                "round": 2,
+                                "responses": [
+                                    {"key": "outcomes", "answer": "Better planning"},
+                                ],
+                            },
+                        ]
+                    }
+                )
+            )
+
+            completed = subprocess.run(
+                [
+                    "uv",
+                    "run",
+                    "python",
+                    "-m",
+                    "specops_tools.interview_replay",
+                    "--input",
+                    str(fixture_path),
+                    "--updates",
+                    str(updates_path),
+                ],
+                text=True,
+                capture_output=True,
+                check=True,
+                cwd=repo_root,
+            )
+
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["merged_answers"]["round_1"]["problem"], "Poor visibility across regions")
+        self.assertEqual(payload["merged_answers"]["round_2"]["outcomes"], "Better planning")
+        self.assertEqual(payload["next_round"]["number"], 3)
 
 
 if __name__ == "__main__":
