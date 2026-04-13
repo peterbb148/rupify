@@ -66,6 +66,9 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["last_round"], 2)
         self.assertEqual(replay["merged_answers"]["round_1"]["users"], "Architects")
         self.assertEqual(replay["next_round"]["number"], 3)
+        self.assertEqual(replay["readiness"]["discovery"], "ready")
+        self.assertEqual(replay["readiness"]["use_case"], "blocked")
+        self.assertEqual(replay["stale_artifacts"], [])
 
     def test_replay_session_accepts_individual_question_responses(self) -> None:
         """Replay should support storing answers per question instead of per round block."""
@@ -153,6 +156,8 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["merged_answers"]["round_2"]["outcomes"], "Better planning")
         self.assertEqual(replay["next_round"]["number"], 3)
         self.assertEqual(len(replay["merged_round_inputs"]), 2)
+        self.assertEqual(replay["readiness"]["discovery"], "ready")
+        self.assertEqual(replay["stale_artifacts"], ["requirements-spec.md"])
 
     def test_cli_accepts_piped_round_answer(self) -> None:
         """The CLI should accept answer text from stdin."""
@@ -385,6 +390,8 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(payload["merged_answers"]["round_1"]["problem"], "Poor visibility across regions")
         self.assertEqual(payload["merged_answers"]["round_2"]["outcomes"], "Better planning")
         self.assertEqual(payload["next_round"]["number"], 3)
+        self.assertEqual(payload["readiness"]["discovery"], "ready")
+        self.assertEqual(payload["stale_artifacts"], ["requirements-spec.md"])
 
 
 if __name__ == "__main__":
