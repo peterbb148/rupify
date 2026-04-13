@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from .model_metadata import normalize_uncertainty_list
 from .ucp import calculate_ucp, render_ucp_markdown
 
 
@@ -17,6 +18,38 @@ def _bullet_list(items: list[str]) -> str:
         Markdown text.
     """
     return "\n".join(f"- {item}" for item in items) or "- None"
+
+
+def _uncertainty_list(items: list[Any]) -> str:
+    """Render assumptions or open questions with optional metadata.
+
+    Args:
+        items: Raw uncertainty items.
+
+    Returns:
+        Markdown text.
+    """
+    normalized_items = normalize_uncertainty_list(items)
+    if not normalized_items:
+        return "- None"
+
+    rendered = []
+    for item in normalized_items:
+        details = []
+        if item["status"]:
+            details.append(f"status: {item['status']}")
+        if item["source"]:
+            details.append(f"source: {item['source']}")
+        if item["last_updated"]:
+            details.append(f"last updated: {item['last_updated']}")
+        if item["notes"]:
+            details.append(f"notes: {item['notes']}")
+
+        if details:
+            rendered.append(f"- {item['text']} ({'; '.join(details)})")
+        else:
+            rendered.append(f"- {item['text']}")
+    return "\n".join(rendered)
 
 
 def render_requirements_spec(model: dict[str, Any]) -> str:
@@ -60,11 +93,11 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 
 ## Assumptions
 
-{_bullet_list(model.get("assumptions", []))}
+{_uncertainty_list(model.get("assumptions", []))}
 
 ## Open Questions
 
-{_bullet_list(model.get("open_questions", []))}
+{_uncertainty_list(model.get("open_questions", []))}
 """
 
 
@@ -139,4 +172,3 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
         "use-case-model.md": render_use_case_model(model),
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }
-

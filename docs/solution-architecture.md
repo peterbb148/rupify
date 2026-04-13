@@ -19,6 +19,10 @@ Responsibilities:
 - separate facts, assumptions, and open questions
 - stop clearly when the input is insufficient for normalization or UCP
 
+V1.5 extends this layer toward iterative interview management rather than one linear pass. The
+workflow should support targeted re-interview of affected views when new information appears later,
+instead of forcing a full restart.
+
 ## 2. Orchestrator Layer
 
 The `specops` skill is the entrypoint. It performs scope checks, runs the structured interview,
@@ -58,6 +62,10 @@ Required sections:
 - UCP inputs
 - reserved placeholders for future UML and formal specification translations
 
+The next model evolution must also represent ambiguity, provenance, readiness, and staleness so the
+system can preserve incomplete or conflicting information honestly and determine which downstream
+artifacts need regeneration.
+
 The canonical path is `specops-model.yaml`. A JSON mirror is included in examples so the offline
 tooling can run without the optional YAML extra.
 
@@ -74,6 +82,9 @@ Components:
 
 The tooling does not invent heuristic fallbacks. If YAML support is requested without the optional
 dependency, the command fails clearly and tells the user to run `uv sync --extra yaml`.
+
+The same rule should apply to richer specification outputs: if a view is not ready, SpecOps should
+fail clearly or mark that view as partial rather than silently inventing structure.
 
 ## 6. Dogfooding Loop
 

@@ -29,7 +29,21 @@ The canonical project model is `specops-model.yaml`.
   - `functional`
   - `non_functional`
 - `assumptions`
+  - supports plain strings
+  - may also use structured items with:
+    - `text`
+    - `status`
+    - `source`
+    - `last_updated`
+    - `notes`
 - `open_questions`
+  - supports plain strings
+  - may also use structured items with:
+    - `text`
+    - `status`
+    - `source`
+    - `last_updated`
+    - `notes`
 - `ucp`
   - `technical_factors`
   - `environmental_factors`
@@ -47,4 +61,3 @@ The model should be rich enough to generate:
 - `ucp-estimate.md`
 
 If any artifact would require invented inputs, stop and surface the missing fields.
-
