@@ -32,6 +32,30 @@ VIEW_GATES = {
     },
 }
 
+MODEL_GATES = {
+    "use_case": (
+        ("actors", "actor objects"),
+        ("use_cases", "use-case objects"),
+        ("requirements.functional_objects", "functional requirement objects"),
+    ),
+    "logical": (
+        ("logical_view.domain_entity_objects", "domain entity objects"),
+        ("logical_view.relationship_objects", "relationship objects"),
+    ),
+    "process": (
+        ("process_view.state_entity_objects", "state entity objects"),
+        ("process_view.state_transition_objects", "state transition objects"),
+    ),
+    "architecture": (
+        ("architecture_view.component_objects", "component objects"),
+        ("architecture_view.interface_objects", "interface objects"),
+    ),
+    "ucp": (
+        ("ucp.technical_factors", "technical factors"),
+        ("ucp.environmental_factors", "environmental factors"),
+    ),
+}
+
 VIEW_ARTIFACTS = {
     "discovery": ["requirements-spec.md"],
     "use_case": ["requirements-spec.md", "use-case-model.md"],
@@ -60,6 +84,7 @@ def _answered_keys(round_inputs: list[dict[str, Any]]) -> set[str]:
 def _view_detail(
     view_name: str,
     answered_keys: set[str],
+    model: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return detailed gate status for one view."""
     gate = VIEW_GATES[view_name]
@@ -69,8 +94,17 @@ def _view_detail(
     required_missing = sorted(required - answered_keys)
     supporting_present = sorted(supporting & answered_keys)
     supporting_missing = sorted(supporting - answered_keys)
+    model_present: list[str] = []
+    model_missing: list[str] = []
 
-    if not required_missing:
+    if model is not None:
+        for path, label in MODEL_GATES.get(view_name, ()):
+            if _model_has_content(model, path):
+                model_present.append(label)
+            else:
+                model_missing.append(label)
+
+    if not required_missing and not model_missing:
         status = "ready"
     elif required_present or supporting_present:
         status = "partial"
@@ -83,23 +117,53 @@ def _view_detail(
         "required_missing": required_missing,
         "supporting_present": supporting_present,
         "supporting_missing": supporting_missing,
+        "model_present": model_present,
+        "model_missing": model_missing,
     }
 
 
-def evaluate_readiness_details(round_inputs: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+def _get_model_value(model: dict[str, Any], path: str) -> Any:
+    """Resolve a dotted path from the canonical model."""
+    current: Any = model
+    for segment in path.split("."):
+        if not isinstance(current, dict):
+            return None
+        current = current.get(segment)
+    return current
+
+
+def _model_has_content(model: dict[str, Any], path: str) -> bool:
+    """Return whether a canonical model path contains meaningful data."""
+    value = _get_model_value(model, path)
+    if value is None:
+        return False
+    if isinstance(value, dict):
+        return bool(value)
+    if isinstance(value, list):
+        return bool(value)
+    return str(value).strip() != ""
+
+
+def evaluate_readiness_details(
+    round_inputs: list[dict[str, Any]],
+    model: dict[str, Any] | None = None,
+) -> dict[str, dict[str, Any]]:
     """Evaluate detailed readiness by view from replay rounds."""
     answered_keys = _answered_keys(round_inputs)
     return {
-        view_name: _view_detail(view_name, answered_keys)
+        view_name: _view_detail(view_name, answered_keys, model)
         for view_name in VIEW_GATES
     }
 
 
-def evaluate_readiness(round_inputs: list[dict[str, Any]]) -> dict[str, str]:
+def evaluate_readiness(
+    round_inputs: list[dict[str, Any]],
+    model: dict[str, Any] | None = None,
+) -> dict[str, str]:
     """Evaluate readiness by view from replay rounds."""
     return {
         view_name: detail["status"]
-        for view_name, detail in evaluate_readiness_details(round_inputs).items()
+        for view_name, detail in evaluate_readiness_details(round_inputs, model).items()
     }
 
 

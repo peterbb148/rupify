@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import json
 from typing import Any
 
+from .discovery import normalize_replay_to_model
 from .readiness import evaluate_readiness, evaluate_readiness_details, identify_stale_artifacts
 
 
@@ -691,15 +692,17 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         transcript.append(result)
         merged_answers[f"round_{result['round']['number']}"] = result["parsed_answers"]
 
-    return {
+    replay = {
         "transcript": transcript,
         "merged_answers": merged_answers,
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
         "next_round": transcript[-1]["next_round"] if transcript else None,
-        "readiness": evaluate_readiness(normalized_round_inputs),
-        "readiness_details": evaluate_readiness_details(normalized_round_inputs),
         "stale_artifacts": [],
     }
+    model = normalize_replay_to_model(replay)
+    replay["readiness"] = evaluate_readiness(normalized_round_inputs, model)
+    replay["readiness_details"] = evaluate_readiness_details(normalized_round_inputs, model)
+    return replay
 
 
 def replay_session_with_updates(

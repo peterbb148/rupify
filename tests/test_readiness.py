@@ -108,6 +108,31 @@ class ReadinessTests(unittest.TestCase):
         self.assertEqual(details["logical"]["required_missing"], ["relationships"])
         self.assertEqual(details["logical"]["supporting_present"], ["business_rules"])
 
+    def test_evaluate_readiness_uses_model_gates_when_available(self) -> None:
+        """A view should stay partial if canonical objects required by the gate are missing."""
+        round_inputs = [
+            {
+                "round": 5,
+                "responses": [
+                    {"key": "domain_entities", "answer": "System"},
+                    {"key": "relationships", "answer": "System has many records"},
+                ],
+            }
+        ]
+        model = {
+            "logical_view": {
+                "domain_entity_objects": [{"id": "entity-system"}],
+                "relationship_objects": [],
+            }
+        }
+
+        details = evaluate_readiness_details(round_inputs, model)
+        readiness = evaluate_readiness(round_inputs, model)
+
+        self.assertEqual(readiness["logical"], "partial")
+        self.assertEqual(details["logical"]["model_present"], ["domain entity objects"])
+        self.assertEqual(details["logical"]["model_missing"], ["relationship objects"])
+
     def test_identify_stale_artifacts_maps_round_updates_to_outputs(self) -> None:
         """Updated rounds should mark only dependent artifacts stale."""
         stale = identify_stale_artifacts(

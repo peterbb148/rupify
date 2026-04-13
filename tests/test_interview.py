@@ -72,6 +72,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["readiness"]["process"], "blocked")
         self.assertEqual(replay["readiness"]["architecture"], "blocked")
         self.assertEqual(replay["readiness_details"]["discovery"]["required_missing"], [])
+        self.assertEqual(replay["readiness_details"]["use_case"]["model_missing"], ["actor objects", "use-case objects", "functional requirement objects"])
         self.assertEqual(replay["stale_artifacts"], [])
 
     def test_replay_session_accepts_individual_question_responses(self) -> None:
@@ -162,6 +163,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(len(replay["merged_round_inputs"]), 2)
         self.assertEqual(replay["readiness"]["discovery"], "ready")
         self.assertEqual(replay["readiness_details"]["discovery"]["status"], "ready")
+        self.assertEqual(replay["readiness_details"]["discovery"]["model_missing"], [])
         self.assertEqual(replay["stale_artifacts"], ["requirements-spec.md"])
 
     def test_cli_accepts_piped_round_answer(self) -> None:
