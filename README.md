@@ -26,11 +26,11 @@ Delivered in V1:
 - dogfooding examples and replayable interview fixtures
 - interview UX and UCP guidance refinements from real usage
 
-Open roadmap work is now V2-oriented, especially UML/formalization and integrations.
+V1.5 is complete and established the interview/model readiness bridge.
 
-An immediate bridge phase is now also defined as `V1.5`: improve the interview and canonical model
-so SpecOps can cover the relevant RUP-aligned specification views, manage ambiguity explicitly, and
-support targeted re-interview when new information appears later.
+The immediate next phase is now `V1.6`: strengthen the canonical model, readiness rules, and
+cross-view traceability so SpecOps becomes specification-ready before broad V2 UML/formalization and
+integration work.
 
 ## Repository Layout
 
@@ -72,6 +72,7 @@ uv sync --extra yaml
 - [Implementation Plan](docs/implementation-plan.md)
 - [Solution Architecture](docs/solution-architecture.md)
 - [V1.5 Interview Readiness](docs/v1.5-interview-readiness.md)
+- [V1.6 Specification Hardening](docs/v1.6-specification-hardening.md)
 - [Dogfooding Workflow](docs/dogfooding.md)
 - [GitHub Issue Map](docs/github-issue-map.md)
 - [SpecKit Constitution](.specify/memory/constitution.md)
