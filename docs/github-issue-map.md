@@ -62,6 +62,14 @@ These themes now shape the completed bridge into V1.6 hardening work.
 - `#49` `Separate analysis structures from design structures in the canonical model`
 - `#48` `Prove one end-to-end formal artifact pipeline from the canonical model`
 
+## Recommended V1.6 Implementation Order
+
+1. `#47` `Formalize canonical analysis and design model semantics`
+2. `#46` `Define per-view completeness and readiness gates`
+3. `#50` `Implement cross-view specification traceability`
+4. `#49` `Separate analysis structures from design structures in the canonical model`
+5. `#48` `Prove one end-to-end formal artifact pipeline from the canonical model`
+
 ## Open Epics
 
 - `#8` `EPIC: SpecOps V2 UML and formal specification translation`
