@@ -4,6 +4,46 @@ from __future__ import annotations
 
 from typing import Any
 
+TECHNICAL_FACTOR_ALIASES = {
+    "distributed system": "distributed_system",
+    "response time": "response_time",
+    "end-user efficiency": "end_user_efficiency",
+    "end user efficiency": "end_user_efficiency",
+    "complex internal processing": "complex_internal_processing",
+    "reusability": "reusable_code",
+    "reusable code": "reusable_code",
+    "ease of installation": "easy_to_install",
+    "easy to install": "easy_to_install",
+    "ease of use": "easy_to_use",
+    "easy to use": "easy_to_use",
+    "portability": "portability",
+    "ease of change": "easy_to_change",
+    "easy to change": "easy_to_change",
+    "concurrency": "concurrency",
+    "security": "special_security",
+    "special security": "special_security",
+    "third-party access": "third_party_access",
+    "third party access": "third_party_access",
+    "special user training": "special_user_training",
+}
+
+ENVIRONMENTAL_FACTOR_ALIASES = {
+    "team familiarity": "familiar_with_process",
+    "familiar with process": "familiar_with_process",
+    "application experience": "application_experience",
+    "architecture experience": "object_oriented_experience",
+    "object oriented experience": "object_oriented_experience",
+    "analyst capability": "lead_analyst_capability",
+    "lead analyst capability": "lead_analyst_capability",
+    "motivation": "motivation",
+    "requirements stability": "stable_requirements",
+    "stable requirements": "stable_requirements",
+    "part-time staffing": "part_time_staff",
+    "part time staffing": "part_time_staff",
+    "platform difficulty": "difficult_programming_language",
+    "difficult programming language": "difficult_programming_language",
+}
+
 
 def _slugify(value: str) -> str:
     """Create a stable slug-like identifier."""
@@ -55,6 +95,53 @@ def _string_items_to_described_items(items: list[str], kind: str) -> list[dict[s
         }
         for index, item in enumerate(items, 1)
     ]
+
+
+def _best_name_match(name: str, candidates: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Find the best deterministic name match for a complexity entry."""
+    target_slug = _slugify(name)
+    for candidate in candidates:
+        if _slugify(candidate.get("name", "")) == target_slug:
+            return candidate
+
+    target_tokens = set(target_slug.split("-"))
+    best_match = None
+    best_score = 0
+    for candidate in candidates:
+        candidate_tokens = set(_slugify(candidate.get("name", "")).split("-"))
+        score = len(target_tokens & candidate_tokens)
+        if score > best_score and score >= 2:
+            best_score = score
+            best_match = candidate
+    return best_match
+
+
+def _apply_complexity_answers(items: list[dict[str, Any]], answers: list[str]) -> None:
+    """Apply `Name: complexity` answers to normalized objects in place."""
+    for answer in answers:
+        if ":" not in answer:
+            continue
+        name, complexity = answer.split(":", 1)
+        match = _best_name_match(name.strip(), items)
+        if match is not None:
+            match["complexity"] = complexity.strip().lower()
+
+
+def _normalize_factor_map(
+    answers: dict[str, Any],
+    aliases: dict[str, str],
+) -> dict[str, int]:
+    """Normalize parsed factor answers using alias maps."""
+    normalized = {}
+    for raw_key, value in answers.items():
+        canonical_key = aliases.get(raw_key.replace("_", " ").lower())
+        if canonical_key is None:
+            continue
+        try:
+            normalized[canonical_key] = int(str(value).strip())
+        except ValueError:
+            continue
+    return normalized
 
 
 def _normalize_actors(items: list[str]) -> list[dict[str, str]]:
@@ -132,6 +219,10 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     round_5 = merged_answers.get("round_5", {})
     round_6 = merged_answers.get("round_6", {})
     round_7 = merged_answers.get("round_7", {})
+    round_8 = merged_answers.get("round_8", {})
+    round_9 = merged_answers.get("round_9", {})
+    round_10 = merged_answers.get("round_10", {})
+    round_11 = merged_answers.get("round_11", {})
     actors = _ensure_list(round_3.get("actors"))
     use_cases = _ensure_list(round_3.get("use_cases"))
 
@@ -155,6 +246,12 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     components_and_services = _ensure_list(round_7.get("components_and_services"))
     interfaces_and_integrations = _ensure_list(round_7.get("interfaces_and_integrations"))
     runtime_boundaries = _ensure_list(round_7.get("runtime_boundaries"))
+    normalized_actors = _normalize_actors(actors)
+    normalized_use_cases = _normalize_use_cases(use_cases)
+    _apply_complexity_answers(normalized_actors, _ensure_list(round_8.get("actor_complexity")))
+    _apply_complexity_answers(normalized_use_cases, _ensure_list(round_9.get("use_case_complexity")))
+    technical_factors = _normalize_factor_map(round_10, TECHNICAL_FACTOR_ALIASES)
+    environmental_factors = _normalize_factor_map(round_11, ENVIRONMENTAL_FACTOR_ALIASES)
 
     return {
         "project": {
@@ -165,8 +262,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "business_goals": _ensure_list(round_2.get("outcomes")),
         "success_criteria": _ensure_list(round_2.get("success_criteria")),
-        "actors": _normalize_actors(actors),
-        "use_cases": _normalize_use_cases(use_cases),
+        "actors": normalized_actors,
+        "use_cases": normalized_use_cases,
         "requirements": {
             "functional": functional_requirements,
             "non_functional": non_functional,
@@ -217,8 +314,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "assumptions": [],
         "open_questions": [],
         "ucp": {
-            "technical_factors": {},
-            "environmental_factors": {},
+            "technical_factors": technical_factors,
+            "environmental_factors": environmental_factors,
             "productivity_hours_per_ucp": 20,
         },
         "future_placeholders": {

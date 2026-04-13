@@ -160,6 +160,79 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["use_cases"][0]["goal"], "Browse Rewards")
         self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
 
+    def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
+        """UCP round answers should update normalized actor/use-case complexity and factors."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {
+                            "key": "actors",
+                            "answer": ["Operations Manager", "Payment Gateway"],
+                        },
+                        {
+                            "key": "use_cases",
+                            "answer": ["Browse Rewards", "Redeem Reward"],
+                        },
+                    ],
+                },
+                {
+                    "round": 8,
+                    "responses": [
+                        {
+                            "key": "actor_complexity",
+                            "answer": [
+                                "Operations Manager: average",
+                                "Payment Gateway: simple",
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "round": 9,
+                    "responses": [
+                        {
+                            "key": "use_case_complexity",
+                            "answer": [
+                                "Browse Rewards: average",
+                                "Redeem Reward: complex",
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "round": 10,
+                    "responses": [
+                        {
+                            "key": "technical",
+                            "answer": "security: 5\nthird-party access: 4\nresponse time: 3",
+                        }
+                    ],
+                },
+                {
+                    "round": 11,
+                    "responses": [
+                        {
+                            "key": "environmental",
+                            "answer": "team familiarity: 4\nmotivation: 5\npart-time staffing: 1",
+                        }
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(model["actors"][0]["complexity"], "average")
+        self.assertEqual(model["actors"][1]["complexity"], "simple")
+        self.assertEqual(model["use_cases"][0]["complexity"], "average")
+        self.assertEqual(model["use_cases"][1]["complexity"], "complex")
+        self.assertEqual(model["ucp"]["technical_factors"]["special_security"], 5)
+        self.assertEqual(model["ucp"]["technical_factors"]["third_party_access"], 4)
+        self.assertEqual(model["ucp"]["environmental_factors"]["familiar_with_process"], 4)
+        self.assertEqual(model["ucp"]["environmental_factors"]["part_time_staff"], 1)
+
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
         repo_root = Path(__file__).resolve().parents[1]
