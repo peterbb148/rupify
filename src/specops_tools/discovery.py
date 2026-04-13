@@ -792,6 +792,15 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "requirement_ids": [
             item["id"] for item in functional_requirement_objects + non_functional_requirement_objects
         ],
+        "actors": normalized_actors,
+        "use_cases": normalized_use_cases,
+        "requirement_objects": functional_requirement_objects + non_functional_requirement_objects,
+        "domain_entity_objects": domain_entity_objects,
+        "relationship_objects": relationship_objects,
+        "business_rule_objects": business_rule_objects,
+        "state_entity_objects": state_entity_objects,
+        "state_transition_objects": state_transition_objects,
+        "trigger_objects": trigger_objects,
         "domain_entity_ids": [item["id"] for item in domain_entity_objects],
         "relationship_ids": [item["id"] for item in relationship_objects],
         "business_rule_ids": [item["id"] for item in business_rule_objects],
@@ -800,6 +809,9 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "trigger_ids": [item["id"] for item in trigger_objects],
     }
     design_view = {
+        "component_objects": component_objects,
+        "interface_objects": interface_objects,
+        "runtime_boundary_objects": runtime_boundary_objects,
         "component_ids": [item["id"] for item in component_objects],
         "interface_ids": [item["id"] for item in interface_objects],
         "runtime_boundary_ids": [item["id"] for item in runtime_boundary_objects],

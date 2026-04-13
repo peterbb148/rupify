@@ -151,6 +151,62 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_render_prefers_layer_collections_when_present(self) -> None:
+        """Rendering should remain coherent when analysis/design objects live under layer sections."""
+        from specops_tools.render import render_use_case_model
+
+        model = build_model()
+        model["actors"] = []
+        model["use_cases"] = []
+        model["analysis_view"] = {
+            "actors": [
+                {
+                    "id": "member",
+                    "name": "Member",
+                    "type": "human",
+                    "complexity": "average",
+                    "description": "",
+                    "trace": {"source_round": 3, "source_key": "actors"},
+                }
+            ],
+            "use_cases": [
+                {
+                    "id": "redeem-reward",
+                    "name": "Redeem Reward",
+                    "primary_actor": "Member",
+                    "goal": "Redeem Reward",
+                    "complexity": "average",
+                    "main_success_scenario": [],
+                    "extensions": [],
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                }
+            ],
+            "state_transition_objects": [
+                {
+                    "id": "state-transition-1",
+                    "text": "Requested -> Approved",
+                    "trace": {"source_round": 6, "source_key": "states_and_transitions"},
+                }
+            ],
+            "trigger_objects": [],
+        }
+        model["design_view"] = {
+            "interface_objects": [
+                {
+                    "id": "interface-1",
+                    "text": "App calls API",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                }
+            ]
+        }
+
+        rendered = render_use_case_model(model)
+
+        self.assertIn("`member` Member", rendered)
+        self.assertIn("### Redeem Reward", rendered)
+        self.assertIn("`state-transition-1` Requested -> Approved", rendered)
+        self.assertIn("`interface-1` App calls API", rendered)
+
     def test_requirements_render_includes_traceability_sections(self) -> None:
         """Requirements rendering should surface cross-view traceability links when present."""
         model = build_model()

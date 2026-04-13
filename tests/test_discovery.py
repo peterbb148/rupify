@@ -100,6 +100,10 @@ class DiscoveryTests(unittest.TestCase):
             model["analysis_view"]["requirement_ids"][0],
             model["requirements"]["functional_objects"][0]["id"],
         )
+        self.assertEqual(
+            model["analysis_view"]["domain_entity_objects"][0]["id"],
+            "entity-system",
+        )
         self.assertEqual(model["actors"], [])
         self.assertEqual(model["use_cases"], [])
         self.assertIn("System", model["logical_view"]["domain_entities"])
@@ -167,6 +171,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["design_view"]["component_ids"][0],
             model["architecture_view"]["component_objects"][0]["id"],
+        )
+        self.assertEqual(
+            model["design_view"]["component_objects"][0]["id"],
+            "component-web-app",
         )
         self.assertEqual(
             model["architecture_view"]["interface_objects"][0]["source_component_id"],
@@ -249,6 +257,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
         self.assertEqual(model["analysis_view"]["actor_ids"][0], "operations-manager")
         self.assertEqual(model["analysis_view"]["use_case_ids"][0], "browse-rewards")
+        self.assertEqual(model["analysis_view"]["actors"][0]["id"], "operations-manager")
+        self.assertEqual(model["analysis_view"]["use_cases"][0]["id"], "browse-rewards")
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
         """UCP round answers should update normalized actor/use-case complexity and factors."""
