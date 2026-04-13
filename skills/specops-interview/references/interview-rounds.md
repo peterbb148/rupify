@@ -81,7 +81,28 @@ Collect:
 - core metadata fields
 - non-functional requirements
 
-## Round 5: UCP Actor Complexity
+## Round 5: Domain Model
+
+Ask at most 3 prompts.
+
+Preferred answer shape:
+
+```text
+Domain entities:
+Relationships:
+Business rules:
+```
+
+Collect:
+
+- core domain concepts
+- important business relationships
+- rules that govern validity, ownership, lifecycle, and approvals
+
+This round is for the logical view. Do not force technical design language if the stakeholder is
+still speaking in business concepts.
+
+## Round 6: UCP Actor Complexity
 
 Do not ask for all UCP inputs in one block.
 
@@ -104,7 +125,7 @@ Actor complexity:
 - Actor B: simple/average/complex
 ```
 
-## Round 6: UCP Use-Case Complexity
+## Round 7: UCP Use-Case Complexity
 
 Explain the scale first:
 
@@ -124,7 +145,7 @@ Use-case complexity:
 - Use case B: simple/average/complex
 ```
 
-## Round 7: UCP Technical Factors
+## Round 8: UCP Technical Factors
 
 Explain the influence scale briefly:
 
@@ -151,7 +172,7 @@ complex internal processing:
 ...
 ```
 
-## Round 8: UCP Environmental Factors
+## Round 9: UCP Environmental Factors
 
 Use the same `0-5` influence explanation, but state clearly that:
 

@@ -79,6 +79,14 @@ def _parse_block_answer(text: str) -> dict[str, Any]:
     return parsed
 
 
+LEGACY_ROUND_KEY_MAP = {
+    5: "actor_complexity",
+    6: "use_case_complexity",
+    7: "technical",
+    8: "environmental",
+}
+
+
 @dataclass(frozen=True)
 class InterviewQuestion:
     """Definition of one question within an interview round."""
@@ -195,6 +203,49 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
     ),
     InterviewRound(
         number=5,
+        title="Domain Model",
+        prompt=(
+            "Capture the core domain concepts, important relationships, and key business rules that "
+            "shape the logical view."
+        ),
+        template="Domain entities:\nRelationships:\nBusiness rules:\n",
+        guidance=(
+            "Focus on the important nouns, relationships, and rules, not implementation classes.",
+            "If a relationship or rule is unclear, record the ambiguity instead of inventing detail.",
+        ),
+        questions=(
+            InterviewQuestion(
+                "domain_entities",
+                "Domain entities",
+                "What are the core business entities or concepts?",
+                guidance=(
+                    "Prefer domain concepts such as System, Lifecycle, Approval, Contract, or Risk.",
+                    "Avoid technical table or API naming unless it already matters to the business.",
+                ),
+                example="- System\n- Capability\n- Contract\n- Lifecycle state",
+            ),
+            InterviewQuestion(
+                "relationships",
+                "Relationships",
+                "How do the important entities relate to each other?",
+                guidance=(
+                    "Capture business relationships such as ownership, dependency, approval, or containment.",
+                ),
+                example="- A System has one Business Owner\n- A System supports many Capabilities",
+            ),
+            InterviewQuestion(
+                "business_rules",
+                "Business rules",
+                "What key rules or constraints govern these entities?",
+                guidance=(
+                    "Include rules that shape lifecycle transitions, approvals, ownership, or data validity.",
+                ),
+                example="- A deprecation request requires at least one approver\n- Contract end date cannot precede go-live date",
+            ),
+        ),
+    ),
+    InterviewRound(
+        number=6,
         title="UCP Actor Complexity",
         prompt=(
             "Capture actor complexity using simple/average/complex after discovery is stable."
@@ -221,7 +272,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=6,
+        number=7,
         title="UCP Use-Case Complexity",
         prompt="Capture use-case complexity using simple/average/complex.",
         template="Use-case complexity:\n- Use case A: simple/average/complex\n",
@@ -244,7 +295,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=7,
+        number=8,
         title="UCP Technical Factors",
         prompt="Capture the technical 0-5 influence scores in a compact block.",
         template=(
@@ -271,7 +322,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=8,
+        number=9,
         title="UCP Environmental Factors",
         prompt="Capture the environmental 0-5 influence scores in a compact block.",
         template=(
@@ -324,6 +375,29 @@ def next_round(number: int) -> InterviewRound | None:
     return get_round(number + 1)
 
 
+def _resolve_round_number(number: int, item: dict[str, Any]) -> int:
+    """Resolve a round number, including compatibility with legacy replay fixtures."""
+    if number not in LEGACY_ROUND_KEY_MAP:
+        return number
+
+    expected_key = LEGACY_ROUND_KEY_MAP[number]
+    candidate_keys: set[str] = set()
+
+    if "responses" in item:
+        for response in item["responses"]:
+            key = response.get("key")
+            label = response.get("label")
+            if key is None and label is None:
+                continue
+            candidate_keys.add(key or _normalize_key(str(label)))
+    else:
+        candidate_keys.update(_parse_block_answer(str(item.get("answer", ""))).keys())
+
+    if expected_key in candidate_keys:
+        return number + 1
+    return number
+
+
 def _round_payload(round_definition: InterviewRound) -> dict[str, Any]:
     """Serialize a round definition for CLI output."""
     return {
@@ -354,6 +428,7 @@ def _stringify_response_value(value: Any) -> str:
 
 def _coerce_round_answer(number: int, item: dict[str, Any]) -> tuple[str, list[dict[str, str]]]:
     """Convert replay input into canonical answer text and response items."""
+    number = _resolve_round_number(number, item)
     if "responses" in item:
         round_definition = get_round(number)
         keyed_values: dict[str, Any] = {}
@@ -414,7 +489,7 @@ def _normalize_round_item(item: dict[str, Any]) -> dict[str, Any]:
     Returns:
         Normalized round item with canonical response entries.
     """
-    round_number = int(item["round"])
+    round_number = _resolve_round_number(int(item["round"]), item)
     answer_text, response_items = _coerce_round_answer(round_number, item)
     normalized_item: dict[str, Any] = {
         "round": round_number,
@@ -485,6 +560,7 @@ def process_round(number: int, answer_text: str) -> dict[str, Any]:
     Returns:
         Structured round result.
     """
+    number = _resolve_round_number(number, {"round": number, "answer": answer_text})
     round_definition = get_round(number)
     parsed_answers = _parse_block_answer(answer_text)
     following_round = next_round(number)
@@ -522,22 +598,23 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
     """
     transcript = []
     merged_answers: dict[str, Any] = {}
+    normalized_round_inputs = [_normalize_round_item(item) for item in round_inputs]
 
-    for item in round_inputs:
-        round_number = int(item["round"])
+    for item in normalized_round_inputs:
+        round_number = _resolve_round_number(int(item["round"]), item)
         answer_text, response_items = _coerce_round_answer(round_number, item)
         result = process_round(round_number, answer_text)
         if response_items:
             result["responses"] = response_items
         transcript.append(result)
-        merged_answers[f"round_{round_number}"] = result["parsed_answers"]
+        merged_answers[f"round_{result['round']['number']}"] = result["parsed_answers"]
 
     return {
         "transcript": transcript,
         "merged_answers": merged_answers,
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
         "next_round": transcript[-1]["next_round"] if transcript else None,
-        "readiness": evaluate_readiness(round_inputs),
+        "readiness": evaluate_readiness(normalized_round_inputs),
         "stale_artifacts": [],
     }
 

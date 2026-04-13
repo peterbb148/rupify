@@ -8,12 +8,14 @@ from typing import Any
 VIEW_REQUIREMENTS = {
     "discovery": {1, 2},
     "use_case": {3, 4},
-    "ucp": {5, 6, 7, 8},
+    "logical": {5},
+    "ucp": {6, 7, 8, 9},
 }
 
 VIEW_ARTIFACTS = {
     "discovery": ["requirements-spec.md"],
     "use_case": ["requirements-spec.md", "use-case-model.md"],
+    "logical": ["requirements-spec.md"],
     "ucp": ["ucp-estimate.md"],
 }
 
