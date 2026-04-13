@@ -403,6 +403,76 @@ def _coerce_round_answer(number: int, item: dict[str, Any]) -> tuple[str, list[d
     return answer_text, response_items
 
 
+def _normalize_round_item(item: dict[str, Any]) -> dict[str, Any]:
+    """Normalize one round input into a response-based shape.
+
+    Args:
+        item: Raw round input.
+
+    Returns:
+        Normalized round item with canonical response entries.
+    """
+    round_number = int(item["round"])
+    answer_text, response_items = _coerce_round_answer(round_number, item)
+    normalized_item: dict[str, Any] = {
+        "round": round_number,
+        "responses": response_items,
+    }
+    if answer_text.strip():
+        normalized_item["answer"] = answer_text
+    return normalized_item
+
+
+def merge_round_inputs(
+    round_inputs: list[dict[str, Any]],
+    updates: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Merge targeted updates into an existing replay session.
+
+    Round number acts as the stable round identifier. Within a round, question key acts as the
+    stable response identifier when responses are provided.
+
+    Args:
+        round_inputs: Existing replay rounds.
+        updates: Update items to apply.
+
+    Returns:
+        Merged round inputs ordered by round number.
+    """
+    merged_by_round: dict[int, dict[str, Any]] = {
+        int(item["round"]): _normalize_round_item(item)
+        for item in round_inputs
+    }
+
+    for update in updates:
+        round_number = int(update["round"])
+        normalized_update = _normalize_round_item(update)
+
+        if "responses" in update:
+            existing = merged_by_round.get(round_number, {"round": round_number, "responses": []})
+            existing_by_key = {
+                response["key"]: response
+                for response in existing.get("responses", [])
+            }
+            for response in normalized_update["responses"]:
+                existing_by_key[response["key"]] = response
+
+            merged_responses = []
+            for question in get_round(round_number).questions:
+                if question.key in existing_by_key:
+                    merged_responses.append(existing_by_key[question.key])
+
+            merged_by_round[round_number] = {
+                "round": round_number,
+                "responses": merged_responses,
+            }
+            continue
+
+        merged_by_round[round_number] = normalized_update
+
+    return [merged_by_round[number] for number in sorted(merged_by_round)]
+
+
 def process_round(number: int, answer_text: str) -> dict[str, Any]:
     """Process one round answer and prepare the next prompt.
 
@@ -466,6 +536,25 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
         "next_round": transcript[-1]["next_round"] if transcript else None,
     }
+
+
+def replay_session_with_updates(
+    round_inputs: list[dict[str, Any]],
+    updates: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Replay a session after applying targeted updates.
+
+    Args:
+        round_inputs: Existing replay rounds.
+        updates: Round updates to merge into the existing session.
+
+    Returns:
+        Structured replay summary including the merged session input.
+    """
+    merged_rounds = merge_round_inputs(round_inputs, updates)
+    replay = replay_session(merged_rounds)
+    replay["merged_round_inputs"] = merged_rounds
+    return replay
 
 
 def to_json(data: dict[str, Any]) -> str:
