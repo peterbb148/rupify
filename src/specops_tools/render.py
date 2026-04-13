@@ -98,7 +98,8 @@ def _object_text_section(
     if items:
         rendered_lines = []
         for item in items:
-            line = f"- `{item.get('id', 'item')}` {item.get('text', '')}"
+            text = item.get("text") or item.get("description") or item.get("rule_text") or ""
+            line = f"- `{item.get('id', 'item')}` {text}"
             if trace := item.get("trace"):
                 line = (
                     f"{line} [source: round {trace.get('source_round')} "
@@ -134,6 +135,18 @@ def _traceability_section(
 
 {"\n".join(rendered)}
 """
+
+
+def _filter_trace_links(
+    links: list[dict[str, Any]],
+    relevant_ids: set[str],
+) -> list[dict[str, Any]]:
+    """Keep only trace links that reference the relevant ids."""
+    return [
+        link
+        for link in links
+        if link.get("from_id") in relevant_ids or link.get("to_id") in relevant_ids
+    ]
 
 
 def render_requirements_spec(model: dict[str, Any]) -> str:
@@ -362,6 +375,75 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_state_model(model: dict[str, Any]) -> str:
+    """Render the formal state-model artifact.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Markdown content.
+    """
+    project = model.get("project", {})
+    analysis_view = model.get("analysis_view", {})
+    process_view = model.get("process_view", {})
+    design_view = model.get("design_view", {})
+    traceability = model.get("traceability", {})
+    state_entity_objects = analysis_view.get(
+        "state_entity_objects",
+        process_view.get("state_entity_objects", []),
+    )
+    state_transition_objects = analysis_view.get(
+        "state_transition_objects",
+        process_view.get("state_transition_objects", []),
+    )
+    trigger_objects = analysis_view.get(
+        "trigger_objects",
+        process_view.get("trigger_objects", []),
+    )
+    component_objects = design_view.get("component_objects", [])
+    state_entity_ids = {item.get("id", "") for item in state_entity_objects if item.get("id")}
+    component_ids = {item.get("id", "") for item in component_objects if item.get("id")}
+
+    return f"""# State Model
+
+## Project
+
+- Name: {project.get("name", "Unnamed Project")}
+- Domain: {project.get("domain", "Unspecified")}
+
+## Scope
+
+{project.get("system_scope", "Unspecified")}
+{_object_name_section(
+    "State Entities",
+    state_entity_objects,
+    process_view.get("state_entities", []),
+)}
+{_object_text_section(
+    "State Transitions",
+    state_transition_objects,
+    process_view.get("states_and_transitions", []),
+)}
+{_object_text_section(
+    "Triggers and Approvals",
+    trigger_objects,
+    process_view.get("triggers_and_approvals", []),
+)}
+{_traceability_section(
+    "Use-Case To State Traceability",
+    _filter_trace_links(traceability.get("use_case_to_analysis", []), state_entity_ids),
+)}
+{_traceability_section(
+    "State To Design Traceability",
+    _filter_trace_links(
+        traceability.get("analysis_to_design", []),
+        state_entity_ids | component_ids,
+    ),
+)}
+"""
+
+
 def render_all(model: dict[str, Any]) -> dict[str, str]:
     """Render all primary artifacts for a model.
 
@@ -375,5 +457,6 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
     return {
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
+        "state-model.md": render_state_model(model),
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }
