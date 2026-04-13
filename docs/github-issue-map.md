@@ -17,8 +17,8 @@ Closed V1 issues:
 - `#16` `Improve interview UX and reduce wall-of-text responses`
 - `#17` `Improve UCP scoring guidance in the interview flow`
 
-V1 is complete. V1.5 is also complete. The next active bridge is now V1.6, which exists to harden
-the model and workflow before broad V2 UML/formalization work is treated as implementation-ready.
+V1 is complete. V1.5 is complete. V1.6 is also complete, and the remaining open work is now V2
+breadth rather than foundational hardening.
 
 ## Closed V1.5 Work
 
@@ -42,9 +42,14 @@ the model and workflow before broad V2 UML/formalization work is treated as impl
 
 These themes now shape the completed bridge into V1.6 hardening work.
 
-## Open V1.6 Work
+## Closed V1.6 Work
 
 - `#45` `EPIC: SpecOps V1.6 specification hardening`
+- `#47` `Formalize canonical analysis and design model semantics`
+- `#46` `Define per-view completeness and readiness gates`
+- `#50` `Implement cross-view specification traceability`
+- `#49` `Separate analysis structures from design structures in the canonical model`
+- `#48` `Prove one end-to-end formal artifact pipeline from the canonical model`
 
 ## V1.6 Focus
 
@@ -54,21 +59,13 @@ These themes now shape the completed bridge into V1.6 hardening work.
 - separate analysis-level and design-level structures where needed
 - prove at least one real formal artifact pipeline end to end
 
-## Open V1.6 Decomposition for Epic #45
+## V1.6 Delivered Outcome
 
-- `#47` `Formalize canonical analysis and design model semantics`
-- `#46` `Define per-view completeness and readiness gates`
-- `#50` `Implement cross-view specification traceability`
-- `#49` `Separate analysis structures from design structures in the canonical model`
-- `#48` `Prove one end-to-end formal artifact pipeline from the canonical model`
-
-## Recommended V1.6 Implementation Order
-
-1. `#47` `Formalize canonical analysis and design model semantics`
-2. `#46` `Define per-view completeness and readiness gates`
-3. `#50` `Implement cross-view specification traceability`
-4. `#49` `Separate analysis structures from design structures in the canonical model`
-5. `#48` `Prove one end-to-end formal artifact pipeline from the canonical model`
+- stronger canonical semantics for analysis and design objects
+- field-level and model-backed readiness gates by view
+- cross-view trace links plus validation
+- source-of-truth separation between analysis and design collections
+- one proven formal artifact pipeline via `state-model.md`
 
 ## Open Epics
 
@@ -88,7 +85,7 @@ These themes now shape the completed bridge into V1.6 hardening work.
 - V1 foundation epic owns repo documentation, constitution, and branch conventions
 - V1 workflow epic owns the orchestrator, subskills, model, renderer, and UCP logic
 - V1 dogfooding epic owns the self-hosting spec, validation loop, and workflow adjustments
-- V1.6 is the active hardening bridge between the completed V1.5 work and the future-facing V2
+- V1.6 is the completed hardening bridge between the completed V1.5 work and the future-facing V2
   epics
 - V2 epics remain future-facing and should build on the stricter V1.6 baseline rather than bypass
   it

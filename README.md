@@ -1,11 +1,12 @@
 # SpecOps
 
 SpecOps is a Codex-native skill pack for software requirements discovery. It is designed to
-interview a stakeholder, normalize the answers into a canonical project model, and generate three
+interview a stakeholder, normalize the answers into a canonical project model, and generate
 first-class artifacts from the same source of truth:
 
 - `requirements-spec.md`
 - `use-case-model.md`
+- `state-model.md`
 - `ucp-estimate.md`
 
 The interview step can be invoked directly as the `$specops-interview` skill.
@@ -28,9 +29,11 @@ Delivered in V1:
 
 V1.5 is complete and established the interview/model readiness bridge.
 
-The immediate next phase is now `V1.6`: strengthen the canonical model, readiness rules, and
-cross-view traceability so SpecOps becomes specification-ready before broad V2 UML/formalization and
-integration work.
+V1.6 is also complete. It hardened the canonical model, readiness rules, cross-view traceability,
+analysis/design separation, and proved one end-to-end formal artifact pipeline via `state-model.md`.
+
+The remaining roadmap is now V2 breadth work: broader UML/formal specification coverage and
+integrations/productization on top of the hardened baseline.
 
 ## Repository Layout
 
