@@ -63,6 +63,43 @@ def _named_section(title: str, items: list[str]) -> str:
 """
 
 
+def _object_name_section(
+    title: str,
+    items: list[dict[str, Any]],
+    fallback: list[str],
+) -> str:
+    """Render a section from named objects, falling back to strings."""
+    if items:
+        rendered = []
+        for item in items:
+            line = f"- `{item.get('id', 'item')}` {item.get('name', 'Unnamed')}"
+            if item.get("description"):
+                line = f"{line}: {item['description']}"
+            rendered.append(line)
+        return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+    return _named_section(title, fallback)
+
+
+def _object_text_section(
+    title: str,
+    items: list[dict[str, Any]],
+    fallback: list[str],
+) -> str:
+    """Render a section from text objects, falling back to strings."""
+    if items:
+        rendered = "\n".join(f"- `{item.get('id', 'item')}` {item.get('text', '')}" for item in items)
+        return f"""
+## {title}
+
+{rendered}
+"""
+    return _named_section(title, fallback)
+
+
 def render_requirements_spec(model: dict[str, Any]) -> str:
     """Render the requirements specification artifact.
 
@@ -104,15 +141,51 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 ## Non-Functional Requirements
 
 {_bullet_list(requirements.get("non_functional", []))}
-{_named_section("Logical View", logical_view.get("domain_entities", []))}
-{_named_section("Relationships", logical_view.get("relationships", []))}
-{_named_section("Business Rules", logical_view.get("business_rules", []))}
-{_named_section("Process View", process_view.get("state_entities", []))}
-{_named_section("States and Transitions", process_view.get("states_and_transitions", []))}
-{_named_section("Triggers and Approvals", process_view.get("triggers_and_approvals", []))}
-{_named_section("Architecture View", architecture_view.get("components_and_services", []))}
-{_named_section("Interfaces and Integrations", architecture_view.get("interfaces_and_integrations", []))}
-{_named_section("Runtime Boundaries", architecture_view.get("runtime_boundaries", []))}
+{_object_name_section(
+    "Logical View",
+    logical_view.get("domain_entity_objects", []),
+    logical_view.get("domain_entities", []),
+)}
+{_object_text_section(
+    "Relationships",
+    logical_view.get("relationship_objects", []),
+    logical_view.get("relationships", []),
+)}
+{_object_text_section(
+    "Business Rules",
+    logical_view.get("business_rule_objects", []),
+    logical_view.get("business_rules", []),
+)}
+{_object_name_section(
+    "Process View",
+    process_view.get("state_entity_objects", []),
+    process_view.get("state_entities", []),
+)}
+{_object_text_section(
+    "States and Transitions",
+    process_view.get("state_transition_objects", []),
+    process_view.get("states_and_transitions", []),
+)}
+{_object_text_section(
+    "Triggers and Approvals",
+    process_view.get("trigger_objects", []),
+    process_view.get("triggers_and_approvals", []),
+)}
+{_object_name_section(
+    "Architecture View",
+    architecture_view.get("component_objects", []),
+    architecture_view.get("components_and_services", []),
+)}
+{_object_text_section(
+    "Interfaces and Integrations",
+    architecture_view.get("interface_objects", []),
+    architecture_view.get("interfaces_and_integrations", []),
+)}
+{_object_text_section(
+    "Runtime Boundaries",
+    architecture_view.get("runtime_boundary_objects", []),
+    architecture_view.get("runtime_boundaries", []),
+)}
 
 ## Assumptions
 
@@ -179,9 +252,21 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 ## Use Cases
 
 {use_case_block}
-{_named_section("States and Transitions", process_view.get("states_and_transitions", []))}
-{_named_section("Triggers and Approvals", process_view.get("triggers_and_approvals", []))}
-{_named_section("Interfaces and Integrations", architecture_view.get("interfaces_and_integrations", []))}
+{_object_text_section(
+    "States and Transitions",
+    process_view.get("state_transition_objects", []),
+    process_view.get("states_and_transitions", []),
+)}
+{_object_text_section(
+    "Triggers and Approvals",
+    process_view.get("trigger_objects", []),
+    process_view.get("triggers_and_approvals", []),
+)}
+{_object_text_section(
+    "Interfaces and Integrations",
+    architecture_view.get("interface_objects", []),
+    architecture_view.get("interfaces_and_integrations", []),
+)}
 """
 
 
