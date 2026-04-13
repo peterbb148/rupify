@@ -649,6 +649,63 @@ def _text_or_empty(value: Any) -> str:
     return str(value).strip()
 
 
+def _requirement_statements_by_kind(
+    requirement_objects: list[dict[str, Any]],
+    requirement_kind: str,
+) -> list[str]:
+    """Derive legacy requirement statement lists from canonical requirement objects."""
+    return [
+        item["statement"]
+        for item in requirement_objects
+        if item.get("requirement_kind") == requirement_kind and item.get("statement")
+    ]
+
+
+def _derive_logical_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
+    """Build the legacy logical view mirror from analysis-layer source data."""
+    domain_entity_objects = analysis_view["domain_entity_objects"]
+    relationship_objects = analysis_view["relationship_objects"]
+    business_rule_objects = analysis_view["business_rule_objects"]
+    return {
+        "domain_entities": [item["name"] for item in domain_entity_objects],
+        "domain_entity_objects": domain_entity_objects,
+        "relationships": [item["description"] for item in relationship_objects],
+        "relationship_objects": relationship_objects,
+        "business_rules": [item["rule_text"] for item in business_rule_objects],
+        "business_rule_objects": business_rule_objects,
+    }
+
+
+def _derive_process_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
+    """Build the legacy process view mirror from analysis-layer source data."""
+    state_entity_objects = analysis_view["state_entity_objects"]
+    state_transition_objects = analysis_view["state_transition_objects"]
+    trigger_objects = analysis_view["trigger_objects"]
+    return {
+        "state_entities": [item["name"] for item in state_entity_objects],
+        "state_entity_objects": state_entity_objects,
+        "states_and_transitions": [item["description"] for item in state_transition_objects],
+        "state_transition_objects": state_transition_objects,
+        "triggers_and_approvals": [item["description"] for item in trigger_objects],
+        "trigger_objects": trigger_objects,
+    }
+
+
+def _derive_architecture_view(design_view: dict[str, Any]) -> dict[str, Any]:
+    """Build the legacy architecture view mirror from design-layer source data."""
+    component_objects = design_view["component_objects"]
+    interface_objects = design_view["interface_objects"]
+    runtime_boundary_objects = design_view["runtime_boundary_objects"]
+    return {
+        "components_and_services": [item["name"] for item in component_objects],
+        "component_objects": component_objects,
+        "interfaces_and_integrations": [item["description"] for item in interface_objects],
+        "interface_objects": interface_objects,
+        "runtime_boundaries": [item["description"] for item in runtime_boundary_objects],
+        "runtime_boundary_objects": runtime_boundary_objects,
+    }
+
+
 def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     """Normalize replay output into a canonical SpecOps model shape.
 
@@ -673,31 +730,13 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     round_9 = merged_answers.get("round_9", {})
     round_10 = merged_answers.get("round_10", {})
     round_11 = merged_answers.get("round_11", {})
-    actors = _ensure_list(round_3.get("actors"))
-    use_cases = _ensure_list(round_3.get("use_cases"))
-
-    functional_requirements = []
-    if workflow_scope := _text_or_empty(round_4.get("workflow_scope")):
-        functional_requirements.append(workflow_scope)
-    if integrations := _text_or_empty(round_3.get("integrations")):
-        functional_requirements.append(integrations)
-
     constraints = _ensure_list(round_2.get("constraints"))
-    non_functional = _ensure_list(round_4.get("non_functional_requirements"))
-    if constraints:
-        non_functional = constraints + non_functional
-
-    domain_entities = _ensure_list(round_5.get("domain_entities"))
-    relationships = _ensure_list(round_5.get("relationships"))
-    business_rules = _ensure_list(round_5.get("business_rules"))
-    state_entities = _ensure_list(round_6.get("state_entities"))
-    states_and_transitions = _ensure_list(round_6.get("states_and_transitions"))
-    triggers_and_approvals = _ensure_list(round_6.get("triggers_and_approvals"))
-    components_and_services = _ensure_list(round_7.get("components_and_services"))
-    interfaces_and_integrations = _ensure_list(round_7.get("interfaces_and_integrations"))
-    runtime_boundaries = _ensure_list(round_7.get("runtime_boundaries"))
-    normalized_actors = _with_trace(_normalize_actors(actors), 3, "actors")
-    normalized_use_cases = _with_trace(_normalize_use_cases(use_cases), 3, "use_cases")
+    normalized_actors = _with_trace(_normalize_actors(_ensure_list(round_3.get("actors"))), 3, "actors")
+    normalized_use_cases = _with_trace(
+        _normalize_use_cases(_ensure_list(round_3.get("use_cases"))),
+        3,
+        "use_cases",
+    )
     _apply_complexity_answers_with_trace(
         normalized_actors,
         _ensure_list(round_8.get("actor_complexity")),
@@ -749,52 +788,59 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             )
         )
 
-    domain_entity_objects = _with_trace(_normalize_domain_entities(domain_entities), 5, "domain_entities")
+    domain_entity_objects = _with_trace(
+        _normalize_domain_entities(_ensure_list(round_5.get("domain_entities"))),
+        5,
+        "domain_entities",
+    )
     relationship_objects = _with_trace(
-        _normalize_relationships(relationships, domain_entity_objects),
+        _normalize_relationships(_ensure_list(round_5.get("relationships")), domain_entity_objects),
         5,
         "relationships",
     )
     business_rule_objects = _with_trace(
-        _normalize_business_rules(business_rules),
+        _normalize_business_rules(_ensure_list(round_5.get("business_rules"))),
         5,
         "business_rules",
     )
-    state_entity_objects = _with_trace(_normalize_state_entities(state_entities), 6, "state_entities")
+    state_entity_objects = _with_trace(
+        _normalize_state_entities(_ensure_list(round_6.get("state_entities"))),
+        6,
+        "state_entities",
+    )
     state_transition_objects = _with_trace(
-        _normalize_state_transitions(states_and_transitions),
+        _normalize_state_transitions(_ensure_list(round_6.get("states_and_transitions"))),
         6,
         "states_and_transitions",
     )
     trigger_objects = _with_trace(
-        _normalize_triggers(triggers_and_approvals),
+        _normalize_triggers(_ensure_list(round_6.get("triggers_and_approvals"))),
         6,
         "triggers_and_approvals",
     )
     component_objects = _with_trace(
-        _normalize_components(components_and_services),
+        _normalize_components(_ensure_list(round_7.get("components_and_services"))),
         7,
         "components_and_services",
     )
     interface_objects = _with_trace(
-        _normalize_interfaces(interfaces_and_integrations, component_objects),
+        _normalize_interfaces(_ensure_list(round_7.get("interfaces_and_integrations")), component_objects),
         7,
         "interfaces_and_integrations",
     )
     runtime_boundary_objects = _with_trace(
-        _normalize_runtime_boundaries(runtime_boundaries),
+        _normalize_runtime_boundaries(_ensure_list(round_7.get("runtime_boundaries"))),
         7,
         "runtime_boundaries",
     )
+    all_requirement_objects = functional_requirement_objects + non_functional_requirement_objects
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
-        "requirement_ids": [
-            item["id"] for item in functional_requirement_objects + non_functional_requirement_objects
-        ],
+        "requirement_ids": [item["id"] for item in all_requirement_objects],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
-        "requirement_objects": functional_requirement_objects + non_functional_requirement_objects,
+        "requirement_objects": all_requirement_objects,
         "domain_entity_objects": domain_entity_objects,
         "relationship_objects": relationship_objects,
         "business_rule_objects": business_rule_objects,
@@ -816,7 +862,6 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "interface_ids": [item["id"] for item in interface_objects],
         "runtime_boundary_ids": [item["id"] for item in runtime_boundary_objects],
     }
-    all_requirement_objects = functional_requirement_objects + non_functional_requirement_objects
     traceability = _build_trace_links(
         all_requirement_objects,
         normalized_use_cases,
@@ -824,6 +869,9 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         state_entity_objects,
         component_objects,
     )
+    logical_view = _derive_logical_view(analysis_view)
+    process_view = _derive_process_view(analysis_view)
+    architecture_view = _derive_architecture_view(design_view)
 
     return {
         "project": {
@@ -837,37 +885,16 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
         "requirements": {
-            "functional": functional_requirements,
+            "functional": _requirement_statements_by_kind(all_requirement_objects, "functional"),
             "functional_objects": functional_requirement_objects,
-            "non_functional": non_functional,
+            "non_functional": _requirement_statements_by_kind(all_requirement_objects, "non_functional"),
             "non_functional_objects": non_functional_requirement_objects,
         },
         "analysis_view": analysis_view,
         "traceability": traceability,
-        "logical_view": {
-            "domain_entities": domain_entities,
-            "domain_entity_objects": domain_entity_objects,
-            "relationships": relationships,
-            "relationship_objects": relationship_objects,
-            "business_rules": business_rules,
-            "business_rule_objects": business_rule_objects,
-        },
-        "process_view": {
-            "state_entities": state_entities,
-            "state_entity_objects": state_entity_objects,
-            "states_and_transitions": states_and_transitions,
-            "state_transition_objects": state_transition_objects,
-            "triggers_and_approvals": triggers_and_approvals,
-            "trigger_objects": trigger_objects,
-        },
-        "architecture_view": {
-            "components_and_services": components_and_services,
-            "component_objects": component_objects,
-            "interfaces_and_integrations": interfaces_and_integrations,
-            "interface_objects": interface_objects,
-            "runtime_boundaries": runtime_boundaries,
-            "runtime_boundary_objects": runtime_boundary_objects,
-        },
+        "logical_view": logical_view,
+        "process_view": process_view,
+        "architecture_view": architecture_view,
         "design_view": design_view,
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
         "assumptions": [],
