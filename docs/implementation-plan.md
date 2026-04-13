@@ -2,8 +2,9 @@
 
 ## Status
 
-V1 is complete. This document now serves as the implementation record for what was delivered in V1
-and the shape that should be preserved while V2 expands UML/formalization and integration support.
+V1 is complete. This document now serves as the implementation record for what was delivered in V1,
+the bridge work now identified as V1.5, and the shape that should be preserved while later work
+expands UML/formalization and integration support.
 
 ## Objective
 
@@ -58,7 +59,21 @@ requirements spec, use-case model, and UCP estimate from that shared model.
 - Executable interview replay fixtures and tests
 - GitHub issue hierarchy for V1 and V2
 
-## Remaining Roadmap
+## V1.5 Bridge Work
+
+The next phase is not direct UML rendering. It is interview and model readiness for full
+specification work.
+
+V1.5 focuses on:
+
+- stronger interview coverage across the relevant RUP-aligned views
+- explicit ambiguity handling for unknowns, assumptions, conflicts, and stale answers
+- incremental re-interview so new information can update the model without restarting from scratch
+- readiness, provenance, and traceability needed before deterministic UML outputs are credible
+
+Reference: [V1.5 Interview Readiness](v1.5-interview-readiness.md)
+
+## Remaining Roadmap After V1.5
 
 - V2 UML and formal specification translation
 - V2 integrations and productization

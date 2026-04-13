@@ -17,7 +17,25 @@ Closed V1 issues:
 - `#16` `Improve interview UX and reduce wall-of-text responses`
 - `#17` `Improve UCP scoring guidance in the interview flow`
 
-V1 is complete. Remaining open work is V2.
+V1 is complete. A bridge phase now identified as V1.5 should happen before the existing V2 UML
+work is treated as implementation-ready.
+
+## Proposed V1.5 Focus
+
+- interview coverage for the relevant RUP-aligned specification views
+- explicit ambiguity and conflict handling
+- incremental re-interview and model patching
+- readiness, provenance, and staleness tracking
+
+These themes should shape the next issue set before broader UML rendering work proceeds.
+
+## Proposed V1.5 Issue Decomposition
+
+- `EPIC` `SpecOps V1.5 interview readiness`
+- `FEATURE` `Extend interview coverage for the relevant RUP-aligned views`
+- `FEATURE` `Make ambiguity and provenance first-class in the canonical model`
+- `FEATURE` `Support incremental re-interview and model patching`
+- `FEATURE` `Track per-view readiness and downstream staleness`
 
 ## Open Epics
 

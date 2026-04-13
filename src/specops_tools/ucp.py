@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .model_metadata import normalize_uncertainty_list
+
 ACTOR_WEIGHTS = {
     "simple": 1,
     "average": 2,
@@ -191,8 +193,13 @@ def render_ucp_markdown(model: dict[str, Any], results: dict[str, Any]) -> str:
         Markdown report content.
     """
     project_name = model.get("project", {}).get("name", "Unnamed Project")
-    assumptions = "\n".join(f"- {item}" for item in results["assumptions"]) or "- None"
-    open_questions = "\n".join(f"- {item}" for item in results["open_questions"]) or "- None"
+    assumptions = "\n".join(
+        _render_uncertainty_item(item) for item in normalize_uncertainty_list(results["assumptions"])
+    ) or "- None"
+    open_questions = "\n".join(
+        _render_uncertainty_item(item)
+        for item in normalize_uncertainty_list(results["open_questions"])
+    ) or "- None"
 
     return f"""# UCP Estimate
 
@@ -225,3 +232,19 @@ def render_ucp_markdown(model: dict[str, Any], results: dict[str, Any]) -> str:
 {open_questions}
 """
 
+
+def _render_uncertainty_item(item: dict[str, str]) -> str:
+    """Render a normalized uncertainty item into one Markdown bullet."""
+    details = []
+    if item["status"]:
+        details.append(f"status: {item['status']}")
+    if item["source"]:
+        details.append(f"source: {item['source']}")
+    if item["last_updated"]:
+        details.append(f"last updated: {item['last_updated']}")
+    if item["notes"]:
+        details.append(f"notes: {item['notes']}")
+
+    if details:
+        return f"- {item['text']} ({'; '.join(details)})"
+    return f"- {item['text']}"
