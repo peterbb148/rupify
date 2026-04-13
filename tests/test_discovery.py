@@ -91,6 +91,10 @@ class DiscoveryTests(unittest.TestCase):
             model["logical_view"]["domain_entity_objects"][0]["id"],
             "entity-system",
         )
+        self.assertEqual(
+            model["logical_view"]["domain_entity_objects"][0]["trace"]["source_round"],
+            5,
+        )
         self.assertIn(
             "Draft -> Submitted -> Approved",
             model["process_view"]["states_and_transitions"],
@@ -103,6 +107,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["architecture_view"]["component_objects"][0]["id"],
             "component-web-app",
+        )
+        self.assertEqual(
+            model["architecture_view"]["component_objects"][0]["trace"]["source_key"],
+            "components_and_services",
         )
 
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
@@ -154,10 +162,12 @@ class DiscoveryTests(unittest.TestCase):
 
         self.assertEqual(model["actors"][0]["id"], "operations-manager")
         self.assertEqual(model["actors"][0]["type"], "human")
+        self.assertEqual(model["actors"][0]["trace"]["source_round"], 3)
         self.assertEqual(model["actors"][1]["type"], "system")
         self.assertEqual(model["actors"][2]["type"], "system")
         self.assertEqual(model["use_cases"][0]["id"], "browse-rewards")
         self.assertEqual(model["use_cases"][0]["goal"], "Browse Rewards")
+        self.assertEqual(model["use_cases"][0]["trace"]["source_key"], "use_cases")
         self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
@@ -225,8 +235,10 @@ class DiscoveryTests(unittest.TestCase):
         model = normalize_replay_to_model(replay)
 
         self.assertEqual(model["actors"][0]["complexity"], "average")
+        self.assertEqual(model["actors"][0]["complexity_trace"]["source_round"], 8)
         self.assertEqual(model["actors"][1]["complexity"], "simple")
         self.assertEqual(model["use_cases"][0]["complexity"], "average")
+        self.assertEqual(model["use_cases"][0]["complexity_trace"]["source_key"], "use_case_complexity")
         self.assertEqual(model["use_cases"][1]["complexity"], "complex")
         self.assertEqual(model["ucp"]["technical_factors"]["special_security"], 5)
         self.assertEqual(model["ucp"]["technical_factors"]["third_party_access"], 4)
