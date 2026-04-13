@@ -6,6 +6,8 @@ from dataclasses import dataclass
 import json
 from typing import Any
 
+from .readiness import evaluate_readiness, identify_stale_artifacts
+
 
 def _normalize_key(value: str) -> str:
     """Normalize a human label into a snake_case key.
@@ -535,6 +537,8 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         "merged_answers": merged_answers,
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
         "next_round": transcript[-1]["next_round"] if transcript else None,
+        "readiness": evaluate_readiness(round_inputs),
+        "stale_artifacts": [],
     }
 
 
@@ -554,6 +558,7 @@ def replay_session_with_updates(
     merged_rounds = merge_round_inputs(round_inputs, updates)
     replay = replay_session(merged_rounds)
     replay["merged_round_inputs"] = merged_rounds
+    replay["stale_artifacts"] = identify_stale_artifacts(updates)
     return replay
 
 
