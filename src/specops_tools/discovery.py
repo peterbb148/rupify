@@ -72,6 +72,23 @@ def _match_slug(value: str) -> str:
     return "-".join(normalized_tokens)
 
 
+def _text_matches_name(text: str, name: str) -> bool:
+    """Return whether a text value explicitly mentions a canonical name."""
+    text_slug = _match_slug(text)
+    name_slug = _match_slug(name)
+    if not text_slug or not name_slug:
+        return False
+    if text_slug == name_slug:
+        return True
+    text_tokens = text_slug.split("-")
+    name_tokens = name_slug.split("-")
+    if len(name_tokens) == 1:
+        return name_slug in text_tokens
+    phrase = "-".join(name_tokens)
+    joined = "-".join(text_tokens)
+    return phrase in joined
+
+
 def _ensure_list(value: Any) -> list[str]:
     """Normalize a scalar or list answer into a clean string list."""
     def _clean(item: Any) -> str:
@@ -556,6 +573,75 @@ def _normalize_requirement_objects(
     return objects
 
 
+def _build_trace_links(
+    requirement_objects: list[dict[str, Any]],
+    use_cases: list[dict[str, Any]],
+    domain_entities: list[dict[str, Any]],
+    state_entities: list[dict[str, Any]],
+    components: list[dict[str, Any]],
+) -> dict[str, list[dict[str, Any]]]:
+    """Build conservative cross-view trace links from explicit textual references."""
+    requirement_to_use_case = []
+    use_case_to_analysis = []
+    analysis_to_design = []
+
+    for requirement in requirement_objects:
+        linked_use_case_ids = []
+        for use_case in use_cases:
+            if _text_matches_name(requirement["statement"], use_case["name"]):
+                requirement_to_use_case.append(
+                    {
+                        "id": f"trace-req-uc-{len(requirement_to_use_case) + 1}",
+                        "from_id": requirement["id"],
+                        "to_id": use_case["id"],
+                        "link_type": "requirement_to_use_case",
+                        "basis": "requirement statement references use-case name",
+                    }
+                )
+                linked_use_case_ids.append(use_case["id"])
+        requirement["linked_use_case_ids"] = linked_use_case_ids
+
+    analysis_candidates = domain_entities + state_entities
+    for use_case in use_cases:
+        use_case_text = " ".join(
+            [
+                use_case.get("name", ""),
+                use_case.get("goal", ""),
+                *use_case.get("main_success_scenario", []),
+            ]
+        ).strip()
+        for analysis_object in analysis_candidates:
+            if _text_matches_name(use_case_text, analysis_object["name"]):
+                use_case_to_analysis.append(
+                    {
+                        "id": f"trace-uc-analysis-{len(use_case_to_analysis) + 1}",
+                        "from_id": use_case["id"],
+                        "to_id": analysis_object["id"],
+                        "link_type": "use_case_to_analysis",
+                        "basis": "use-case text references analysis object name",
+                    }
+                )
+
+    for analysis_object in analysis_candidates:
+        for component in components:
+            if _text_matches_name(component["name"], analysis_object["name"]):
+                analysis_to_design.append(
+                    {
+                        "id": f"trace-analysis-design-{len(analysis_to_design) + 1}",
+                        "from_id": analysis_object["id"],
+                        "to_id": component["id"],
+                        "link_type": "analysis_to_design",
+                        "basis": "design component name references analysis object name",
+                    }
+                )
+
+    return {
+        "requirement_to_use_case": requirement_to_use_case,
+        "use_case_to_analysis": use_case_to_analysis,
+        "analysis_to_design": analysis_to_design,
+    }
+
+
 def _text_or_empty(value: Any) -> str:
     """Normalize a scalar answer into a string."""
     if value is None:
@@ -718,6 +804,14 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "interface_ids": [item["id"] for item in interface_objects],
         "runtime_boundary_ids": [item["id"] for item in runtime_boundary_objects],
     }
+    all_requirement_objects = functional_requirement_objects + non_functional_requirement_objects
+    traceability = _build_trace_links(
+        all_requirement_objects,
+        normalized_use_cases,
+        domain_entity_objects,
+        state_entity_objects,
+        component_objects,
+    )
 
     return {
         "project": {
@@ -737,6 +831,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "non_functional_objects": non_functional_requirement_objects,
         },
         "analysis_view": analysis_view,
+        "traceability": traceability,
         "logical_view": {
             "domain_entities": domain_entities,
             "domain_entity_objects": domain_entity_objects,
