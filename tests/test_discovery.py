@@ -85,11 +85,23 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("Clearer specs", model["business_goals"])
         self.assertIn("Web based", model["requirements"]["non_functional"])
         self.assertIn("System", model["logical_view"]["domain_entities"])
+        self.assertEqual(
+            model["logical_view"]["domain_entity_objects"][0]["id"],
+            "entity-system",
+        )
         self.assertIn(
             "Draft -> Submitted -> Approved",
             model["process_view"]["states_and_transitions"],
         )
+        self.assertEqual(
+            model["process_view"]["state_entity_objects"][0]["id"],
+            "state-entity-approval-request",
+        )
         self.assertIn("Web app", model["architecture_view"]["components_and_services"])
+        self.assertEqual(
+            model["architecture_view"]["component_objects"][0]["id"],
+            "component-web-app",
+        )
 
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
         """Missing optional view rounds should still produce stable empty sections."""
@@ -108,8 +120,11 @@ class DiscoveryTests(unittest.TestCase):
         model = normalize_replay_to_model(replay)
 
         self.assertEqual(model["logical_view"]["domain_entities"], [])
+        self.assertEqual(model["logical_view"]["domain_entity_objects"], [])
         self.assertEqual(model["process_view"]["state_entities"], [])
+        self.assertEqual(model["process_view"]["state_entity_objects"], [])
         self.assertEqual(model["architecture_view"]["components_and_services"], [])
+        self.assertEqual(model["architecture_view"]["component_objects"], [])
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
@@ -127,4 +142,6 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("UI must be web based", model["requirements"]["non_functional"])
         self.assertIn("System name", model["metadata_fields"])
         self.assertEqual(model["logical_view"]["domain_entities"], [])
+        self.assertEqual(model["logical_view"]["relationship_objects"], [])
         self.assertEqual(model["process_view"]["state_entities"], [])
+        self.assertEqual(model["architecture_view"]["runtime_boundary_objects"], [])
