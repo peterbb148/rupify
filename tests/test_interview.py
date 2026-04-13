@@ -70,6 +70,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["readiness"]["use_case"], "blocked")
         self.assertEqual(replay["readiness"]["logical"], "blocked")
         self.assertEqual(replay["readiness"]["process"], "blocked")
+        self.assertEqual(replay["readiness"]["architecture"], "blocked")
         self.assertEqual(replay["stale_artifacts"], [])
 
     def test_replay_session_accepts_individual_question_responses(self) -> None:
@@ -209,9 +210,22 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(round_definition.questions[1].key, "states_and_transitions")
         self.assertEqual(round_definition.questions[2].key, "triggers_and_approvals")
 
-    def test_ucp_actor_round_exposes_inversion_guidance(self) -> None:
-        """Round 7 should explain the common actor complexity intuition mismatch."""
+    def test_architecture_round_exposes_view_guidance(self) -> None:
+        """Round 7 should gather architectural structure without collapsing into implementation detail."""
         round_definition = get_round(7)
+
+        self.assertIn(
+            "Focus on business-relevant components and boundaries, not low-level implementation classes.",
+            round_definition.guidance,
+        )
+        self.assertEqual(round_definition.questions[0].key, "components_and_services")
+        self.assertIn("Workflow service", round_definition.questions[0].example)
+        self.assertEqual(round_definition.questions[1].key, "interfaces_and_integrations")
+        self.assertEqual(round_definition.questions[2].key, "runtime_boundaries")
+
+    def test_ucp_actor_round_exposes_inversion_guidance(self) -> None:
+        """Round 8 should explain the common actor complexity intuition mismatch."""
+        round_definition = get_round(8)
 
         self.assertIn(
             "System or API actors are usually simpler than humans using a rich UI.",
@@ -222,9 +236,9 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertIn("Enterprise architect: complex", question.example)
 
     def test_technical_factor_round_exposes_0_to_5_guidance(self) -> None:
-        """Round 9 should clarify that the factor scale is about influence, not quality."""
+        """Round 10 should clarify that the factor scale is about influence, not quality."""
         result = process_round(
-            9,
+            10,
             (
                 "Technical:\n"
                 "security: 5\n"
@@ -313,8 +327,8 @@ class InterviewHarnessTests(unittest.TestCase):
         )
 
         payload = json.loads(completed.stdout)
-        self.assertEqual(payload["last_round"], 8)
-        self.assertEqual(payload["next_round"]["number"], 9)
+        self.assertEqual(payload["last_round"], 9)
+        self.assertEqual(payload["next_round"]["number"], 10)
         self.assertEqual(
             payload["transcript"][0]["responses"][0]["label"],
             "Idea",
@@ -341,14 +355,15 @@ class InterviewHarnessTests(unittest.TestCase):
         )
         self.assertIn(
             "IT Business Owner: Simple",
-            payload["merged_answers"]["round_7"]["actor_complexity"],
+            payload["merged_answers"]["round_8"]["actor_complexity"],
         )
         self.assertIn(
             "expose/export data by API: Complex",
-            payload["merged_answers"]["round_8"]["use_case_complexity"],
+            payload["merged_answers"]["round_9"]["use_case_complexity"],
         )
         self.assertEqual(payload["readiness"]["logical"], "blocked")
         self.assertEqual(payload["readiness"]["process"], "blocked")
+        self.assertEqual(payload["readiness"]["architecture"], "blocked")
 
     def test_replay_cli_applies_updates_fixture(self) -> None:
         """The replay CLI should support targeted updates without replay restarts."""

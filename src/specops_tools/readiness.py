@@ -10,7 +10,8 @@ VIEW_REQUIREMENTS = {
     "use_case": {3, 4},
     "logical": {5},
     "process": {6},
-    "ucp": {7, 8, 9, 10},
+    "architecture": {7},
+    "ucp": {8, 9, 10, 11},
 }
 
 VIEW_ARTIFACTS = {
@@ -18,6 +19,7 @@ VIEW_ARTIFACTS = {
     "use_case": ["requirements-spec.md", "use-case-model.md"],
     "logical": ["requirements-spec.md"],
     "process": ["requirements-spec.md", "use-case-model.md"],
+    "architecture": ["requirements-spec.md", "use-case-model.md"],
     "ucp": ["ucp-estimate.md"],
 }
 
