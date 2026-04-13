@@ -176,6 +176,54 @@ requirements:
     - The system must support search and filtering.
     - The system must provide availability of at least 99%.
     - The system must provide acceptable web performance for normal page rendering.
+logical_view:
+  domain_entities:
+    - System
+    - Capability
+    - Business Owner
+    - Technical Owner
+    - Contract
+    - Lifecycle State
+    - Approval Request
+    - Risk Assessment
+  relationships:
+    - A System has one Business Owner and one Technical Owner.
+    - A System may support multiple Capabilities.
+    - A System may have one or more Contracts over time.
+    - A System has one current Lifecycle State.
+    - An Approval Request belongs to a System lifecycle or deprecation workflow.
+    - A Risk Assessment is recorded against a System or portfolio slice.
+  business_rules:
+    - A System cannot move to an active lifecycle state without required metadata.
+    - A deprecation-related approval request must reference a valid System record.
+    - Contract end date and ownership data must remain available for lifecycle planning.
+process_view:
+  state_entities:
+    - System lifecycle
+    - Deprecation request
+    - Approval workflow
+  states_and_transitions:
+    - System lifecycle: Proposed -> Active -> Tolerated -> Sunset -> Decommissioned.
+    - Deprecation request: Draft -> Submitted -> Approved or Rejected.
+    - Approval workflow: Pending -> Approved or Rejected.
+  triggers_and_approvals:
+    - Moving from a requested lifecycle transition to completion may require governance approval.
+    - Missing required metadata blocks promotion into an active lifecycle state.
+    - A rejected approval returns the request to rework instead of completing the transition.
+architecture_view:
+  components_and_services:
+    - Web application for inventory, workflow, and review actions.
+    - Inventory API for downstream reporting and automation access.
+    - Workflow service for lifecycle transitions and approvals.
+    - Reporting/export adapter for downstream portfolio reporting.
+  interfaces_and_integrations:
+    - Web application uses the Inventory API and Workflow service.
+    - Reporting/export adapter publishes inventory and lifecycle data to downstream reporting systems.
+    - Downstream API consumers read inventory and lifecycle data through authenticated API calls.
+  runtime_boundaries:
+    - Interactive user workflows run through the web application and backing services.
+    - Reporting/export flows may run as scheduled integration jobs.
+    - Downstream systems consume data across an API boundary rather than direct database access.
 metadata_fields:
   - system name
   - description

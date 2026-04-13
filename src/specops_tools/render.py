@@ -52,6 +52,17 @@ def _uncertainty_list(items: list[Any]) -> str:
     return "\n".join(rendered)
 
 
+def _named_section(title: str, items: list[str]) -> str:
+    """Render a markdown section only when items exist."""
+    if not items:
+        return ""
+    return f"""
+## {title}
+
+{_bullet_list(items)}
+"""
+
+
 def render_requirements_spec(model: dict[str, Any]) -> str:
     """Render the requirements specification artifact.
 
@@ -63,6 +74,9 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
     """
     project = model.get("project", {})
     requirements = model.get("requirements", {})
+    logical_view = model.get("logical_view", {})
+    process_view = model.get("process_view", {})
+    architecture_view = model.get("architecture_view", {})
     return f"""# Requirements Specification
 
 ## Project
@@ -90,6 +104,15 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 ## Non-Functional Requirements
 
 {_bullet_list(requirements.get("non_functional", []))}
+{_named_section("Logical View", logical_view.get("domain_entities", []))}
+{_named_section("Relationships", logical_view.get("relationships", []))}
+{_named_section("Business Rules", logical_view.get("business_rules", []))}
+{_named_section("Process View", process_view.get("state_entities", []))}
+{_named_section("States and Transitions", process_view.get("states_and_transitions", []))}
+{_named_section("Triggers and Approvals", process_view.get("triggers_and_approvals", []))}
+{_named_section("Architecture View", architecture_view.get("components_and_services", []))}
+{_named_section("Interfaces and Integrations", architecture_view.get("interfaces_and_integrations", []))}
+{_named_section("Runtime Boundaries", architecture_view.get("runtime_boundaries", []))}
 
 ## Assumptions
 
@@ -144,6 +167,8 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 
     actor_block = "\n".join(actor_lines) or "- None"
     use_case_block = "\n".join(use_case_sections) or "No use cases documented."
+    process_view = model.get("process_view", {})
+    architecture_view = model.get("architecture_view", {})
 
     return f"""# Use-Case Model
 
@@ -154,6 +179,9 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 ## Use Cases
 
 {use_case_block}
+{_named_section("States and Transitions", process_view.get("states_and_transitions", []))}
+{_named_section("Triggers and Approvals", process_view.get("triggers_and_approvals", []))}
+{_named_section("Interfaces and Integrations", architecture_view.get("interfaces_and_integrations", []))}
 """
 
 
