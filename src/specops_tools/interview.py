@@ -79,14 +79,6 @@ def _parse_block_answer(text: str) -> dict[str, Any]:
     return parsed
 
 
-LEGACY_ROUND_KEY_MAP = {
-    5: "actor_complexity",
-    6: "use_case_complexity",
-    7: "technical",
-    8: "environmental",
-}
-
-
 @dataclass(frozen=True)
 class InterviewQuestion:
     """Definition of one question within an interview round."""
@@ -246,6 +238,48 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
     ),
     InterviewRound(
         number=6,
+        title="State and Workflow Model",
+        prompt=(
+            "Capture the important lifecycle states, transitions, and triggers that shape the "
+            "process view."
+        ),
+        template="State entities:\nStates and transitions:\nTriggers and approvals:\n",
+        guidance=(
+            "Focus on business lifecycle behavior, approvals, and transitions, not implementation events.",
+            "If a process is unclear, capture the uncertainty instead of forcing a complete state machine.",
+        ),
+        questions=(
+            InterviewQuestion(
+                "state_entities",
+                "State entities",
+                "Which entities or workflows have meaningful states or lifecycle behavior?",
+                guidance=(
+                    "Typical examples are System, Approval Request, Contract, Case, or Application Lifecycle.",
+                ),
+                example="- System lifecycle\n- Deprecation request\n- Approval request",
+            ),
+            InterviewQuestion(
+                "states_and_transitions",
+                "States and transitions",
+                "What are the key states and allowed transitions?",
+                guidance=(
+                    "Capture the main states and the transitions stakeholders care about.",
+                ),
+                example="- Proposed -> Active -> Sunset -> Decommissioned\n- Submitted -> Approved or Rejected",
+            ),
+            InterviewQuestion(
+                "triggers_and_approvals",
+                "Triggers and approvals",
+                "What triggers transitions, and where are approvals or exceptions required?",
+                guidance=(
+                    "Include approvals, validations, time-based triggers, and exception paths where relevant.",
+                ),
+                example="- Deprecation requires governance approval\n- Missing metadata blocks promotion to Active",
+            ),
+        ),
+    ),
+    InterviewRound(
+        number=7,
         title="UCP Actor Complexity",
         prompt=(
             "Capture actor complexity using simple/average/complex after discovery is stable."
@@ -272,7 +306,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=7,
+        number=8,
         title="UCP Use-Case Complexity",
         prompt="Capture use-case complexity using simple/average/complex.",
         template="Use-case complexity:\n- Use case A: simple/average/complex\n",
@@ -295,7 +329,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=8,
+        number=9,
         title="UCP Technical Factors",
         prompt="Capture the technical 0-5 influence scores in a compact block.",
         template=(
@@ -322,7 +356,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
     ),
     InterviewRound(
-        number=9,
+        number=10,
         title="UCP Environmental Factors",
         prompt="Capture the environmental 0-5 influence scores in a compact block.",
         template=(
@@ -377,10 +411,6 @@ def next_round(number: int) -> InterviewRound | None:
 
 def _resolve_round_number(number: int, item: dict[str, Any]) -> int:
     """Resolve a round number, including compatibility with legacy replay fixtures."""
-    if number not in LEGACY_ROUND_KEY_MAP:
-        return number
-
-    expected_key = LEGACY_ROUND_KEY_MAP[number]
     candidate_keys: set[str] = set()
 
     if "responses" in item:
@@ -393,8 +423,18 @@ def _resolve_round_number(number: int, item: dict[str, Any]) -> int:
     else:
         candidate_keys.update(_parse_block_answer(str(item.get("answer", ""))).keys())
 
-    if expected_key in candidate_keys:
-        return number + 1
+    if candidate_keys:
+        matching_rounds = []
+        for round_definition in ROUND_DEFINITIONS:
+            round_keys = {question.key for question in round_definition.questions}
+            if candidate_keys <= round_keys:
+                matching_rounds.append(round_definition.number)
+
+        if len(matching_rounds) == 1:
+            return matching_rounds[0]
+        if number in matching_rounds:
+            return number
+
     return number
 
 

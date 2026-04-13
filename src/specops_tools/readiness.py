@@ -9,13 +9,15 @@ VIEW_REQUIREMENTS = {
     "discovery": {1, 2},
     "use_case": {3, 4},
     "logical": {5},
-    "ucp": {6, 7, 8, 9},
+    "process": {6},
+    "ucp": {7, 8, 9, 10},
 }
 
 VIEW_ARTIFACTS = {
     "discovery": ["requirements-spec.md"],
     "use_case": ["requirements-spec.md", "use-case-model.md"],
     "logical": ["requirements-spec.md"],
+    "process": ["requirements-spec.md", "use-case-model.md"],
     "ucp": ["ucp-estimate.md"],
 }
 
