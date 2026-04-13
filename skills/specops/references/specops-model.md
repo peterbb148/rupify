@@ -11,7 +11,7 @@ The canonical project model is `specops-model.yaml`.
   - `system_scope`
 - `business_goals`
 - `success_criteria`
-- `actors`
+- `actors` (compatibility mirror derived from `analysis_view.actors`)
   - `id`
   - `name`
   - `type`
@@ -20,7 +20,7 @@ The canonical project model is `specops-model.yaml`.
   - `interaction_style`
   - `responsibilities`
   - `complexity`: `simple`, `average`, or `complex`
-- `use_cases`
+- `use_cases` (compatibility mirror derived from `analysis_view.use_cases`)
   - `id`
   - `name`
   - `primary_actor`
@@ -55,7 +55,7 @@ The canonical project model is `specops-model.yaml`.
     - `linked_use_case_ids`
     - `fit_criterion`
     - `trace`
-- `analysis_view`
+- `analysis_view` (authoritative source for analysis-layer objects)
   - `actors`
   - `use_cases`
   - `requirement_objects`
@@ -93,7 +93,7 @@ The canonical project model is `specops-model.yaml`.
     - `to_id`
     - `link_type`
     - `basis`
-- `logical_view` (optional in V1, expected for V1.5+ full-spec work)
+- `logical_view` (derived compatibility view from `analysis_view` for V1/V1.5 renderers)
   - `domain_entities`
   - `domain_entity_objects`
     - `id`
@@ -123,7 +123,7 @@ The canonical project model is `specops-model.yaml`.
     - `model_layer`: `analysis`
     - `scope`
     - `trace`
-- `process_view` (optional in V1, expected for V1.5+ full-spec work)
+- `process_view` (derived compatibility view from `analysis_view` for V1/V1.5 renderers)
   - `state_entities`
   - `state_entity_objects`
     - `id`
@@ -153,14 +153,14 @@ The canonical project model is `specops-model.yaml`.
     - `model_layer`: `analysis`
     - `approval_required`
     - `trace`
-- `design_view`
+- `design_view` (authoritative source for design-layer objects)
   - `component_objects`
   - `interface_objects`
   - `runtime_boundary_objects`
   - `component_ids`
   - `interface_ids`
   - `runtime_boundary_ids`
-- `architecture_view` (optional in V1, expected for V1.5+ full-spec work)
+- `architecture_view` (derived compatibility view from `design_view` for V1/V1.5 renderers)
   - `components_and_services`
   - `component_objects`
     - `id`
@@ -230,3 +230,8 @@ For V1.5+ work, the same model should also have stable places to hold:
 - architecture/deployment-view discovery
 
 If any artifact would require invented inputs, stop and surface the missing fields.
+
+For V1.6 hardening, `analysis_view` and `design_view` are the source of truth. The older top-level
+and per-view object collections remain in the contract as compatibility mirrors for existing
+renderers and fixtures, but they should be derived from the layer-owned collections rather than
+maintained independently.

@@ -101,6 +101,10 @@ class DiscoveryTests(unittest.TestCase):
             model["requirements"]["functional_objects"][0]["id"],
         )
         self.assertEqual(
+            model["analysis_view"]["requirement_objects"][0]["id"],
+            model["requirements"]["functional_objects"][0]["id"],
+        )
+        self.assertEqual(
             model["analysis_view"]["domain_entity_objects"][0]["id"],
             "entity-system",
         )
@@ -188,6 +192,18 @@ class DiscoveryTests(unittest.TestCase):
             model["architecture_view"]["runtime_boundary_objects"][0]["boundary_type"],
             "runtime_separation",
         )
+        self.assertEqual(
+            model["logical_view"]["domain_entity_objects"],
+            model["analysis_view"]["domain_entity_objects"],
+        )
+        self.assertEqual(
+            model["process_view"]["state_entity_objects"],
+            model["analysis_view"]["state_entity_objects"],
+        )
+        self.assertEqual(
+            model["architecture_view"]["component_objects"],
+            model["design_view"]["component_objects"],
+        )
 
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
         """Missing optional view rounds should still produce stable empty sections."""
@@ -259,6 +275,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["analysis_view"]["use_case_ids"][0], "browse-rewards")
         self.assertEqual(model["analysis_view"]["actors"][0]["id"], "operations-manager")
         self.assertEqual(model["analysis_view"]["use_cases"][0]["id"], "browse-rewards")
+        self.assertEqual(model["actors"], model["analysis_view"]["actors"])
+        self.assertEqual(model["use_cases"], model["analysis_view"]["use_cases"])
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
         """UCP round answers should update normalized actor/use-case complexity and factors."""
@@ -407,12 +425,24 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(functional_object["model_layer"], "analysis")
         self.assertEqual(functional_object["linked_use_case_ids"], [])
         self.assertEqual(functional_object["fit_criterion"], "")
+        self.assertEqual(
+            model["requirements"]["functional"],
+            [item["statement"] for item in model["analysis_view"]["requirement_objects"][:1]],
+        )
 
         non_functional_object = model["requirements"]["non_functional_objects"][0]
         self.assertEqual(non_functional_object["statement"], "Security: SSO required")
         self.assertEqual(non_functional_object["quality_attribute"], "Security")
         self.assertEqual(non_functional_object["requirement_kind"], "non_functional")
         self.assertEqual(non_functional_object["model_layer"], "analysis")
+        self.assertEqual(
+            model["requirements"]["non_functional"],
+            [
+                item["statement"]
+                for item in model["analysis_view"]["requirement_objects"]
+                if item["requirement_kind"] == "non_functional"
+            ],
+        )
 
     def test_normalize_replay_to_model_builds_cross_view_trace_links(self) -> None:
         """Normalization should create deterministic cross-view links when names match explicitly."""
