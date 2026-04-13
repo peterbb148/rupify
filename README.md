@@ -77,6 +77,7 @@ uv sync --extra yaml
 - [V1.5 Interview Readiness](docs/v1.5-interview-readiness.md)
 - [V1.6 Specification Hardening](docs/v1.6-specification-hardening.md)
 - [V2 Go/No-Go Decision](docs/v2-go-no-go-decision.md)
+- [Document Ingestion Future Direction](docs/document-ingestion-future.md)
 - [Dogfooding Workflow](docs/dogfooding.md)
 - [GitHub Issue Map](docs/github-issue-map.md)
 - [SpecKit Constitution](.specify/memory/constitution.md)
