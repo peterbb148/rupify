@@ -57,6 +57,54 @@ def _string_items_to_described_items(items: list[str], kind: str) -> list[dict[s
     ]
 
 
+def _normalize_actors(items: list[str]) -> list[dict[str, str]]:
+    """Convert actor strings into simple canonical actor objects."""
+    actors = []
+    for item in items:
+        normalized_name = item.strip()
+        actor_type = "system" if any(
+            marker in normalized_name.lower()
+            for marker in (
+                "system",
+                "api",
+                "service",
+                "integration",
+                "consumer",
+                "gateway",
+                "platform",
+            )
+        ) else "human"
+        actors.append(
+            {
+                "id": _slugify(normalized_name),
+                "name": normalized_name,
+                "type": actor_type,
+                "description": "",
+                "complexity": "unclassified",
+            }
+        )
+    return actors
+
+
+def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
+    """Convert use-case strings into simple canonical use-case objects."""
+    use_cases = []
+    for item in items:
+        normalized_name = item.strip()
+        use_cases.append(
+            {
+                "id": _slugify(normalized_name),
+                "name": normalized_name,
+                "primary_actor": "Unspecified",
+                "goal": normalized_name,
+                "complexity": "unclassified",
+                "main_success_scenario": [],
+                "extensions": [],
+            }
+        )
+    return use_cases
+
+
 def _text_or_empty(value: Any) -> str:
     """Normalize a scalar answer into a string."""
     if value is None:
@@ -84,6 +132,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     round_5 = merged_answers.get("round_5", {})
     round_6 = merged_answers.get("round_6", {})
     round_7 = merged_answers.get("round_7", {})
+    actors = _ensure_list(round_3.get("actors"))
+    use_cases = _ensure_list(round_3.get("use_cases"))
 
     functional_requirements = []
     if workflow_scope := _text_or_empty(round_4.get("workflow_scope")):
@@ -115,8 +165,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "business_goals": _ensure_list(round_2.get("outcomes")),
         "success_criteria": _ensure_list(round_2.get("success_criteria")),
-        "actors": [],
-        "use_cases": [],
+        "actors": _normalize_actors(actors),
+        "use_cases": _normalize_use_cases(use_cases),
         "requirements": {
             "functional": functional_requirements,
             "non_functional": non_functional,

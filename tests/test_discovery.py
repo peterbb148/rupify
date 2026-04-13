@@ -84,6 +84,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["project"]["name"], "SpecOps Test")
         self.assertIn("Clearer specs", model["business_goals"])
         self.assertIn("Web based", model["requirements"]["non_functional"])
+        self.assertEqual(model["actors"], [])
+        self.assertEqual(model["use_cases"], [])
         self.assertIn("System", model["logical_view"]["domain_entities"])
         self.assertEqual(
             model["logical_view"]["domain_entity_objects"][0]["id"],
@@ -125,6 +127,38 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["process_view"]["state_entity_objects"], [])
         self.assertEqual(model["architecture_view"]["components_and_services"], [])
         self.assertEqual(model["architecture_view"]["component_objects"], [])
+        self.assertEqual(model["actors"], [])
+        self.assertEqual(model["use_cases"], [])
+
+    def test_normalize_replay_to_model_maps_actors_and_use_cases(self) -> None:
+        """Round-3 actor and use-case discovery should produce structured canonical objects."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {
+                            "key": "actors",
+                            "answer": ["Operations Manager", "Payment Gateway", "Reporting API"],
+                        },
+                        {
+                            "key": "use_cases",
+                            "answer": ["Browse Rewards", "Redeem Reward"],
+                        },
+                    ],
+                }
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(model["actors"][0]["id"], "operations-manager")
+        self.assertEqual(model["actors"][0]["type"], "human")
+        self.assertEqual(model["actors"][1]["type"], "system")
+        self.assertEqual(model["actors"][2]["type"], "system")
+        self.assertEqual(model["use_cases"][0]["id"], "browse-rewards")
+        self.assertEqual(model["use_cases"][0]["goal"], "Browse Rewards")
+        self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
@@ -141,6 +175,9 @@ class DiscoveryTests(unittest.TestCase):
         )
         self.assertIn("UI must be web based", model["requirements"]["non_functional"])
         self.assertIn("System name", model["metadata_fields"])
+        self.assertEqual(model["actors"][0]["name"], "Business owners")
+        self.assertEqual(model["actors"][0]["type"], "human")
+        self.assertEqual(model["use_cases"][0]["name"], "Register a system")
         self.assertEqual(model["logical_view"]["domain_entities"], [])
         self.assertEqual(model["logical_view"]["relationship_objects"], [])
         self.assertEqual(model["process_view"]["state_entities"], [])
