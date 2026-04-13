@@ -122,6 +122,7 @@ def _normalize_domain_entities(items: list[str]) -> list[dict[str, Any]]:
                 "id": f"entity-{_slugify(normalized_name)}",
                 "name": normalized_name,
                 "entity_type": "domain_entity",
+                "model_layer": "analysis",
                 "description": "",
                 "attributes": [],
                 "responsibilities": [],
@@ -171,6 +172,7 @@ def _normalize_relationships(
                 "id": f"relationship-{index}",
                 "description": text,
                 "relationship_type": relationship_type,
+                "model_layer": "analysis",
                 "source_name": source_name,
                 "source_entity_id": source_match["id"] if source_match else "",
                 "target_name": target_name,
@@ -197,6 +199,7 @@ def _normalize_business_rules(items: list[str]) -> list[dict[str, Any]]:
                 "id": f"business-rule-{index}",
                 "name": f"Rule {index}",
                 "rule_text": text,
+                "model_layer": "analysis",
                 "scope": scope,
                 "trace": {},
             }
@@ -214,6 +217,7 @@ def _normalize_state_entities(items: list[str]) -> list[dict[str, Any]]:
                 "id": f"state-entity-{_slugify(normalized_name)}",
                 "name": normalized_name,
                 "entity_type": "stateful_entity",
+                "model_layer": "analysis",
                 "description": "",
                 "states": [],
                 "trace": {},
@@ -232,6 +236,7 @@ def _normalize_state_transitions(items: list[str]) -> list[dict[str, Any]]:
                 {
                     "id": f"state-transition-{len(transitions) + 1}",
                     "description": text,
+                    "model_layer": "analysis",
                     "state_entity_id": "",
                     "state_entity_name": "",
                     "from_state": "",
@@ -248,6 +253,7 @@ def _normalize_state_transitions(items: list[str]) -> list[dict[str, Any]]:
                 {
                     "id": f"state-transition-{len(transitions) + 1}",
                     "description": text,
+                    "model_layer": "analysis",
                     "state_entity_id": "",
                     "state_entity_name": "",
                     "from_state": source_state,
@@ -277,6 +283,7 @@ def _normalize_triggers(items: list[str]) -> list[dict[str, Any]]:
                 "event_name": event_name.strip(),
                 "outcome": outcome.strip(),
                 "description": text,
+                "model_layer": "analysis",
                 "approval_required": "approval" in normalized,
                 "trace": {},
             }
@@ -302,6 +309,7 @@ def _normalize_components(items: list[str]) -> list[dict[str, Any]]:
                 "id": f"component-{_slugify(normalized_name)}",
                 "name": normalized_name,
                 "component_kind": component_kind,
+                "model_layer": "design",
                 "responsibility": "",
                 "runtime_environment": "",
                 "trace": {},
@@ -341,6 +349,7 @@ def _normalize_interfaces(
             {
                 "id": f"interface-{index}",
                 "description": text,
+                "model_layer": "design",
                 "source_component_name": source_name,
                 "source_component_id": source_match["id"] if source_match else "",
                 "target_component_name": target_name,
@@ -366,6 +375,7 @@ def _normalize_runtime_boundaries(items: list[str]) -> list[dict[str, Any]]:
                 "name": f"Runtime Boundary {index}",
                 "boundary_type": boundary_type,
                 "description": text,
+                "model_layer": "design",
                 "deployment_nodes": [],
                 "trace": {},
             }
@@ -484,6 +494,7 @@ def _normalize_actors(items: list[str]) -> list[dict[str, str]]:
                 "name": normalized_name,
                 "type": actor_type,
                 "description": "",
+                "model_layer": "analysis",
                 "interaction_style": "user_interface" if actor_type == "human" else "system_interface",
                 "responsibilities": [],
                 "complexity": "unclassified",
@@ -505,6 +516,7 @@ def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
                 "primary_actor": "Unspecified",
                 "primary_actor_id": "",
                 "supporting_actor_ids": [],
+                "model_layer": "analysis",
                 "goal": normalized_name,
                 "trigger": "",
                 "preconditions": [],
@@ -535,6 +547,7 @@ def _normalize_requirement_objects(
                 "statement": text,
                 "requirement_kind": requirement_kind,
                 "quality_attribute": quality_attribute,
+                "model_layer": "analysis",
                 "linked_use_case_ids": [],
                 "fit_criterion": "",
                 "trace": {},
@@ -687,6 +700,24 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         7,
         "runtime_boundaries",
     )
+    analysis_view = {
+        "actor_ids": [item["id"] for item in normalized_actors],
+        "use_case_ids": [item["id"] for item in normalized_use_cases],
+        "requirement_ids": [
+            item["id"] for item in functional_requirement_objects + non_functional_requirement_objects
+        ],
+        "domain_entity_ids": [item["id"] for item in domain_entity_objects],
+        "relationship_ids": [item["id"] for item in relationship_objects],
+        "business_rule_ids": [item["id"] for item in business_rule_objects],
+        "state_entity_ids": [item["id"] for item in state_entity_objects],
+        "state_transition_ids": [item["id"] for item in state_transition_objects],
+        "trigger_ids": [item["id"] for item in trigger_objects],
+    }
+    design_view = {
+        "component_ids": [item["id"] for item in component_objects],
+        "interface_ids": [item["id"] for item in interface_objects],
+        "runtime_boundary_ids": [item["id"] for item in runtime_boundary_objects],
+    }
 
     return {
         "project": {
@@ -705,6 +736,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "non_functional": non_functional,
             "non_functional_objects": non_functional_requirement_objects,
         },
+        "analysis_view": analysis_view,
         "logical_view": {
             "domain_entities": domain_entities,
             "domain_entity_objects": domain_entity_objects,
@@ -729,6 +761,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "runtime_boundaries": runtime_boundaries,
             "runtime_boundary_objects": runtime_boundary_objects,
         },
+        "design_view": design_view,
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
         "assumptions": [],
         "open_questions": [],

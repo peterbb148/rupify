@@ -89,8 +89,16 @@ class DiscoveryTests(unittest.TestCase):
             "functional",
         )
         self.assertEqual(
+            model["requirements"]["functional_objects"][0]["model_layer"],
+            "analysis",
+        )
+        self.assertEqual(
             model["requirements"]["non_functional_objects"][0]["requirement_kind"],
             "non_functional",
+        )
+        self.assertEqual(
+            model["analysis_view"]["requirement_ids"][0],
+            model["requirements"]["functional_objects"][0]["id"],
         )
         self.assertEqual(model["actors"], [])
         self.assertEqual(model["use_cases"], [])
@@ -102,6 +110,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["logical_view"]["domain_entity_objects"][0]["entity_type"],
             "domain_entity",
+        )
+        self.assertEqual(
+            model["logical_view"]["domain_entity_objects"][0]["model_layer"],
+            "analysis",
         )
         self.assertEqual(
             model["logical_view"]["domain_entity_objects"][0]["trace"]["source_round"],
@@ -145,8 +157,16 @@ class DiscoveryTests(unittest.TestCase):
             "application",
         )
         self.assertEqual(
+            model["architecture_view"]["component_objects"][0]["model_layer"],
+            "design",
+        )
+        self.assertEqual(
             model["architecture_view"]["component_objects"][0]["trace"]["source_key"],
             "components_and_services",
+        )
+        self.assertEqual(
+            model["design_view"]["component_ids"][0],
+            model["architecture_view"]["component_objects"][0]["id"],
         )
         self.assertEqual(
             model["architecture_view"]["interface_objects"][0]["source_component_id"],
@@ -210,6 +230,7 @@ class DiscoveryTests(unittest.TestCase):
 
         self.assertEqual(model["actors"][0]["id"], "operations-manager")
         self.assertEqual(model["actors"][0]["type"], "human")
+        self.assertEqual(model["actors"][0]["model_layer"], "analysis")
         self.assertEqual(model["actors"][0]["interaction_style"], "user_interface")
         self.assertEqual(model["actors"][0]["responsibilities"], [])
         self.assertEqual(model["actors"][0]["trace"]["source_round"], 3)
@@ -218,6 +239,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["actors"][2]["type"], "system")
         self.assertEqual(model["use_cases"][0]["id"], "browse-rewards")
         self.assertEqual(model["use_cases"][0]["goal"], "Browse Rewards")
+        self.assertEqual(model["use_cases"][0]["model_layer"], "analysis")
         self.assertEqual(model["use_cases"][0]["primary_actor_id"], "")
         self.assertEqual(model["use_cases"][0]["supporting_actor_ids"], [])
         self.assertEqual(model["use_cases"][0]["trigger"], "")
@@ -225,6 +247,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["use_cases"][0]["postconditions"], [])
         self.assertEqual(model["use_cases"][0]["trace"]["source_key"], "use_cases")
         self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
+        self.assertEqual(model["analysis_view"]["actor_ids"][0], "operations-manager")
+        self.assertEqual(model["analysis_view"]["use_case_ids"][0], "browse-rewards")
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
         """UCP round answers should update normalized actor/use-case complexity and factors."""
@@ -370,6 +394,7 @@ class DiscoveryTests(unittest.TestCase):
 
         functional_object = model["requirements"]["functional_objects"][0]
         self.assertEqual(functional_object["statement"], "Support change approval flow")
+        self.assertEqual(functional_object["model_layer"], "analysis")
         self.assertEqual(functional_object["linked_use_case_ids"], [])
         self.assertEqual(functional_object["fit_criterion"], "")
 
@@ -377,6 +402,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(non_functional_object["statement"], "Security: SSO required")
         self.assertEqual(non_functional_object["quality_attribute"], "Security")
         self.assertEqual(non_functional_object["requirement_kind"], "non_functional")
+        self.assertEqual(non_functional_object["model_layer"], "analysis")
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
