@@ -49,28 +49,57 @@ class RenderTests(unittest.TestCase):
         model = build_model()
         model["logical_view"] = {
             "domain_entities": ["Member", "Reward"],
+            "domain_entity_objects": [
+                {"id": "entity-member", "name": "Member"},
+                {"id": "entity-reward", "name": "Reward"},
+            ],
             "relationships": ["A Member can redeem many Rewards."],
+            "relationship_objects": [
+                {"id": "relationship-1", "text": "A Member can redeem many Rewards."},
+            ],
             "business_rules": ["A Reward requires sufficient points."],
+            "business_rule_objects": [
+                {"id": "business-rule-1", "text": "A Reward requires sufficient points."},
+            ],
         }
         model["process_view"] = {
             "state_entities": ["Redemption request"],
+            "state_entity_objects": [
+                {"id": "state-entity-redemption-request", "name": "Redemption request"},
+            ],
             "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
+            "state_transition_objects": [
+                {"id": "state-transition-1", "text": "Requested -> Approved -> Fulfilled"},
+            ],
             "triggers_and_approvals": ["Approval is required for manual fulfillment."],
+            "trigger_objects": [
+                {"id": "trigger-1", "text": "Approval is required for manual fulfillment."},
+            ],
         }
         model["architecture_view"] = {
             "components_and_services": ["Member app", "Rewards API"],
+            "component_objects": [
+                {"id": "component-member-app", "name": "Member app"},
+                {"id": "component-rewards-api", "name": "Rewards API"},
+            ],
             "interfaces_and_integrations": ["Member app calls Rewards API."],
+            "interface_objects": [
+                {"id": "interface-1", "text": "Member app calls Rewards API."},
+            ],
             "runtime_boundaries": ["Rewards API runs as a separate service."],
+            "runtime_boundary_objects": [
+                {"id": "runtime-boundary-1", "text": "Rewards API runs as a separate service."},
+            ],
         }
 
         rendered = render_requirements_spec(model)
 
         self.assertIn("## Logical View", rendered)
-        self.assertIn("Member", rendered)
+        self.assertIn("`entity-member` Member", rendered)
         self.assertIn("## Process View", rendered)
-        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("`state-transition-1` Requested -> Approved -> Fulfilled", rendered)
         self.assertIn("## Architecture View", rendered)
-        self.assertIn("Rewards API runs as a separate service.", rendered)
+        self.assertIn("`runtime-boundary-1` Rewards API runs as a separate service.", rendered)
 
     def test_use_case_render_includes_process_and_architecture_sections(self) -> None:
         """Use-case rendering should include relevant process and architecture sections when present."""
@@ -79,18 +108,27 @@ class RenderTests(unittest.TestCase):
         model = build_model()
         model["process_view"] = {
             "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
+            "state_transition_objects": [
+                {"id": "state-transition-1", "text": "Requested -> Approved -> Fulfilled"},
+            ],
             "triggers_and_approvals": ["Approval is required for manual fulfillment."],
+            "trigger_objects": [
+                {"id": "trigger-1", "text": "Approval is required for manual fulfillment."},
+            ],
         }
         model["architecture_view"] = {
             "interfaces_and_integrations": ["Member app calls Rewards API."],
+            "interface_objects": [
+                {"id": "interface-1", "text": "Member app calls Rewards API."},
+            ],
         }
 
         rendered = render_use_case_model(model)
 
         self.assertIn("## States and Transitions", rendered)
-        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("`state-transition-1` Requested -> Approved -> Fulfilled", rendered)
         self.assertIn("## Interfaces and Integrations", rendered)
-        self.assertIn("Member app calls Rewards API.", rendered)
+        self.assertIn("`interface-1` Member app calls Rewards API.", rendered)
 
     def test_ucp_render_supports_structured_uncertainty_items(self) -> None:
         """UCP rendering should preserve uncertainty metadata when present."""
