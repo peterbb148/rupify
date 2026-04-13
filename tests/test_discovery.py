@@ -404,6 +404,60 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(non_functional_object["requirement_kind"], "non_functional")
         self.assertEqual(non_functional_object["model_layer"], "analysis")
 
+    def test_normalize_replay_to_model_builds_cross_view_trace_links(self) -> None:
+        """Normalization should create deterministic cross-view links when names match explicitly."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "actors", "answer": ["Operator"]},
+                        {"key": "use_cases", "answer": ["Approve System"]},
+                        {"key": "integrations", "answer": "System API"},
+                    ],
+                },
+                {
+                    "round": 4,
+                    "responses": [
+                        {"key": "workflow_scope", "answer": "Approve System"},
+                    ],
+                },
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": ["System"]},
+                        {"key": "relationships", "answer": ["System has many approvals"]},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": ["System API"]},
+                        {"key": "interfaces_and_integrations", "answer": ["Portal calls System API"]},
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(
+            model["traceability"]["requirement_to_use_case"][0]["link_type"],
+            "requirement_to_use_case",
+        )
+        self.assertEqual(
+            model["requirements"]["functional_objects"][0]["linked_use_case_ids"],
+            ["approve-system"],
+        )
+        self.assertEqual(
+            model["traceability"]["use_case_to_analysis"][0]["to_id"],
+            "entity-system",
+        )
+        self.assertEqual(
+            model["traceability"]["analysis_to_design"][0]["to_id"],
+            "component-system-api",
+        )
+
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
         repo_root = Path(__file__).resolve().parents[1]

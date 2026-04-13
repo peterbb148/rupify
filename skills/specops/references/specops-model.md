@@ -65,6 +65,25 @@ The canonical project model is `specops-model.yaml`.
   - `state_entity_ids`
   - `state_transition_ids`
   - `trigger_ids`
+- `traceability`
+  - `requirement_to_use_case`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `use_case_to_analysis`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `analysis_to_design`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
 - `logical_view` (optional in V1, expected for V1.5+ full-spec work)
   - `domain_entities`
   - `domain_entity_objects`
