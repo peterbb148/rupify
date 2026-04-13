@@ -72,6 +72,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["readiness"]["process"], "blocked")
         self.assertEqual(replay["readiness"]["architecture"], "blocked")
         self.assertEqual(replay["readiness_details"]["discovery"]["required_missing"], [])
+        self.assertEqual(replay["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
         self.assertEqual(replay["stale_artifacts"], [])
 
     def test_replay_session_accepts_individual_question_responses(self) -> None:
@@ -162,6 +163,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(len(replay["merged_round_inputs"]), 2)
         self.assertEqual(replay["readiness"]["discovery"], "ready")
         self.assertEqual(replay["readiness_details"]["discovery"]["status"], "ready")
+        self.assertEqual(replay["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
         self.assertEqual(replay["stale_artifacts"], ["requirements-spec.md"])
 
     def test_cli_accepts_piped_round_answer(self) -> None:
@@ -367,6 +369,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(payload["readiness"]["process"], "blocked")
         self.assertEqual(payload["readiness"]["architecture"], "blocked")
         self.assertIn("domain_entities", payload["readiness_details"]["logical"]["required_missing"])
+        self.assertEqual(payload["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
 
     def test_replay_cli_applies_updates_fixture(self) -> None:
         """The replay CLI should support targeted updates without replay restarts."""
@@ -440,6 +443,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(payload["next_round"]["number"], 3)
         self.assertEqual(payload["readiness"]["discovery"], "ready")
         self.assertEqual(payload["readiness_details"]["discovery"]["required_missing"], [])
+        self.assertEqual(payload["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
         self.assertEqual(payload["stale_artifacts"], ["requirements-spec.md"])
 
 

@@ -6,7 +6,13 @@ from dataclasses import dataclass
 import json
 from typing import Any
 
-from .readiness import evaluate_readiness, evaluate_readiness_details, identify_stale_artifacts
+from .discovery import normalize_replay_to_model
+from .readiness import (
+    evaluate_readiness,
+    evaluate_readiness_details,
+    evaluate_traceability,
+    identify_stale_artifacts,
+)
 
 
 def _normalize_key(value: str) -> str:
@@ -691,7 +697,7 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         transcript.append(result)
         merged_answers[f"round_{result['round']['number']}"] = result["parsed_answers"]
 
-    return {
+    replay = {
         "transcript": transcript,
         "merged_answers": merged_answers,
         "last_round": transcript[-1]["round"]["number"] if transcript else None,
@@ -700,6 +706,9 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         "readiness_details": evaluate_readiness_details(normalized_round_inputs),
         "stale_artifacts": [],
     }
+    model = normalize_replay_to_model(replay)
+    replay["traceability_validation"] = evaluate_traceability(model)
+    return replay
 
 
 def replay_session_with_updates(

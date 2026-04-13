@@ -7,6 +7,7 @@ import unittest
 from specops_tools.readiness import (
     evaluate_readiness,
     evaluate_readiness_details,
+    evaluate_traceability,
     identify_stale_artifacts,
 )
 
@@ -120,4 +121,47 @@ class ReadinessTests(unittest.TestCase):
         self.assertEqual(
             stale,
             ["requirements-spec.md", "ucp-estimate.md"],
+        )
+
+    def test_evaluate_traceability_reports_missing_links(self) -> None:
+        """Trace validation should identify missing links by family."""
+        model = {
+            "requirements": {
+                "functional_objects": [
+                    {"id": "functional-requirement-1"},
+                    {"id": "functional-requirement-2"},
+                ]
+            },
+            "use_cases": [
+                {"id": "approve-system"},
+                {"id": "search-systems"},
+            ],
+            "logical_view": {"domain_entity_objects": [{"id": "entity-system"}]},
+            "process_view": {"state_entity_objects": []},
+            "architecture_view": {"component_objects": [{"id": "component-system-api"}]},
+            "traceability": {
+                "requirement_to_use_case": [
+                    {"from_id": "functional-requirement-1", "to_id": "approve-system"}
+                ],
+                "use_case_to_analysis": [],
+                "analysis_to_design": [],
+            },
+        }
+
+        validation = evaluate_traceability(model)
+
+        self.assertEqual(validation["requirement_to_use_case"]["status"], "partial")
+        self.assertEqual(
+            validation["requirement_to_use_case"]["missing_from_ids"],
+            ["functional-requirement-2"],
+        )
+        self.assertEqual(validation["use_case_to_analysis"]["status"], "blocked")
+        self.assertEqual(
+            validation["use_case_to_analysis"]["missing_from_ids"],
+            ["approve-system", "search-systems"],
+        )
+        self.assertEqual(validation["analysis_to_design"]["status"], "blocked")
+        self.assertEqual(
+            validation["analysis_to_design"]["missing_from_ids"],
+            ["entity-system"],
         )
