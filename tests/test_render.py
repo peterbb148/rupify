@@ -50,56 +50,106 @@ class RenderTests(unittest.TestCase):
         model["logical_view"] = {
             "domain_entities": ["Member", "Reward"],
             "domain_entity_objects": [
-                {"id": "entity-member", "name": "Member"},
-                {"id": "entity-reward", "name": "Reward"},
+                {
+                    "id": "entity-member",
+                    "name": "Member",
+                    "trace": {"source_round": 5, "source_key": "domain_entities"},
+                },
+                {
+                    "id": "entity-reward",
+                    "name": "Reward",
+                    "trace": {"source_round": 5, "source_key": "domain_entities"},
+                },
             ],
             "relationships": ["A Member can redeem many Rewards."],
             "relationship_objects": [
-                {"id": "relationship-1", "text": "A Member can redeem many Rewards."},
+                {
+                    "id": "relationship-1",
+                    "text": "A Member can redeem many Rewards.",
+                    "trace": {"source_round": 5, "source_key": "relationships"},
+                },
             ],
             "business_rules": ["A Reward requires sufficient points."],
             "business_rule_objects": [
-                {"id": "business-rule-1", "text": "A Reward requires sufficient points."},
+                {
+                    "id": "business-rule-1",
+                    "text": "A Reward requires sufficient points.",
+                    "trace": {"source_round": 5, "source_key": "business_rules"},
+                },
             ],
         }
         model["process_view"] = {
             "state_entities": ["Redemption request"],
             "state_entity_objects": [
-                {"id": "state-entity-redemption-request", "name": "Redemption request"},
+                {
+                    "id": "state-entity-redemption-request",
+                    "name": "Redemption request",
+                    "trace": {"source_round": 6, "source_key": "state_entities"},
+                },
             ],
             "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
             "state_transition_objects": [
-                {"id": "state-transition-1", "text": "Requested -> Approved -> Fulfilled"},
+                {
+                    "id": "state-transition-1",
+                    "text": "Requested -> Approved -> Fulfilled",
+                    "trace": {"source_round": 6, "source_key": "states_and_transitions"},
+                },
             ],
             "triggers_and_approvals": ["Approval is required for manual fulfillment."],
             "trigger_objects": [
-                {"id": "trigger-1", "text": "Approval is required for manual fulfillment."},
+                {
+                    "id": "trigger-1",
+                    "text": "Approval is required for manual fulfillment.",
+                    "trace": {"source_round": 6, "source_key": "triggers_and_approvals"},
+                },
             ],
         }
         model["architecture_view"] = {
             "components_and_services": ["Member app", "Rewards API"],
             "component_objects": [
-                {"id": "component-member-app", "name": "Member app"},
-                {"id": "component-rewards-api", "name": "Rewards API"},
+                {
+                    "id": "component-member-app",
+                    "name": "Member app",
+                    "trace": {"source_round": 7, "source_key": "components_and_services"},
+                },
+                {
+                    "id": "component-rewards-api",
+                    "name": "Rewards API",
+                    "trace": {"source_round": 7, "source_key": "components_and_services"},
+                },
             ],
             "interfaces_and_integrations": ["Member app calls Rewards API."],
             "interface_objects": [
-                {"id": "interface-1", "text": "Member app calls Rewards API."},
+                {
+                    "id": "interface-1",
+                    "text": "Member app calls Rewards API.",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                },
             ],
             "runtime_boundaries": ["Rewards API runs as a separate service."],
             "runtime_boundary_objects": [
-                {"id": "runtime-boundary-1", "text": "Rewards API runs as a separate service."},
+                {
+                    "id": "runtime-boundary-1",
+                    "text": "Rewards API runs as a separate service.",
+                    "trace": {"source_round": 7, "source_key": "runtime_boundaries"},
+                },
             ],
         }
 
         rendered = render_requirements_spec(model)
 
         self.assertIn("## Logical View", rendered)
-        self.assertIn("`entity-member` Member", rendered)
+        self.assertIn("`entity-member` Member [source: round 5 domain_entities]", rendered)
         self.assertIn("## Process View", rendered)
-        self.assertIn("`state-transition-1` Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn(
+            "`state-transition-1` Requested -> Approved -> Fulfilled [source: round 6 states_and_transitions]",
+            rendered,
+        )
         self.assertIn("## Architecture View", rendered)
-        self.assertIn("`runtime-boundary-1` Rewards API runs as a separate service.", rendered)
+        self.assertIn(
+            "`runtime-boundary-1` Rewards API runs as a separate service. [source: round 7 runtime_boundaries]",
+            rendered,
+        )
 
     def test_use_case_render_includes_process_and_architecture_sections(self) -> None:
         """Use-case rendering should include relevant process and architecture sections when present."""
@@ -109,26 +159,44 @@ class RenderTests(unittest.TestCase):
         model["process_view"] = {
             "states_and_transitions": ["Requested -> Approved -> Fulfilled"],
             "state_transition_objects": [
-                {"id": "state-transition-1", "text": "Requested -> Approved -> Fulfilled"},
+                {
+                    "id": "state-transition-1",
+                    "text": "Requested -> Approved -> Fulfilled",
+                    "trace": {"source_round": 6, "source_key": "states_and_transitions"},
+                },
             ],
             "triggers_and_approvals": ["Approval is required for manual fulfillment."],
             "trigger_objects": [
-                {"id": "trigger-1", "text": "Approval is required for manual fulfillment."},
+                {
+                    "id": "trigger-1",
+                    "text": "Approval is required for manual fulfillment.",
+                    "trace": {"source_round": 6, "source_key": "triggers_and_approvals"},
+                },
             ],
         }
         model["architecture_view"] = {
             "interfaces_and_integrations": ["Member app calls Rewards API."],
             "interface_objects": [
-                {"id": "interface-1", "text": "Member app calls Rewards API."},
+                {
+                    "id": "interface-1",
+                    "text": "Member app calls Rewards API.",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                },
             ],
         }
 
         rendered = render_use_case_model(model)
 
         self.assertIn("## States and Transitions", rendered)
-        self.assertIn("`state-transition-1` Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn(
+            "`state-transition-1` Requested -> Approved -> Fulfilled [source: round 6 states_and_transitions]",
+            rendered,
+        )
         self.assertIn("## Interfaces and Integrations", rendered)
-        self.assertIn("`interface-1` Member app calls Rewards API.", rendered)
+        self.assertIn(
+            "`interface-1` Member app calls Rewards API. [source: round 7 interfaces_and_integrations]",
+            rendered,
+        )
 
     def test_ucp_render_supports_structured_uncertainty_items(self) -> None:
         """UCP rendering should preserve uncertainty metadata when present."""

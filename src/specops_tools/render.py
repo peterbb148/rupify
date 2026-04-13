@@ -75,6 +75,11 @@ def _object_name_section(
             line = f"- `{item.get('id', 'item')}` {item.get('name', 'Unnamed')}"
             if item.get("description"):
                 line = f"{line}: {item['description']}"
+            if trace := item.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
             rendered.append(line)
         return f"""
 ## {title}
@@ -91,7 +96,16 @@ def _object_text_section(
 ) -> str:
     """Render a section from text objects, falling back to strings."""
     if items:
-        rendered = "\n".join(f"- `{item.get('id', 'item')}` {item.get('text', '')}" for item in items)
+        rendered_lines = []
+        for item in items:
+            line = f"- `{item.get('id', 'item')}` {item.get('text', '')}"
+            if trace := item.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
+            rendered_lines.append(line)
+        rendered = "\n".join(rendered_lines)
         return f"""
 ## {title}
 
@@ -208,11 +222,17 @@ def render_use_case_model(model: dict[str, Any]) -> str:
     """
     actor_lines = []
     for actor in model.get("actors", []):
-        actor_lines.append(
+        line = (
             f"- `{actor.get('id', 'actor')}` {actor.get('name', 'Unnamed')} "
             f"({actor.get('type', 'unspecified')}, {actor.get('complexity', 'unclassified')}): "
             f"{actor.get('description', 'No description')}"
         )
+        if trace := actor.get("trace"):
+            line = (
+                f"{line} [source: round {trace.get('source_round')} "
+                f"{trace.get('source_key')}]"
+            )
+        actor_lines.append(line)
 
     use_case_sections = []
     for use_case in model.get("use_cases", []):
@@ -227,6 +247,7 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 - Primary actor: {use_case.get("primary_actor", "Unspecified")}
 - Complexity: {use_case.get("complexity", "unclassified")}
 - Goal: {use_case.get("goal", "Unspecified")}
+- Source: round {use_case.get("trace", {}).get("source_round", "n/a")} {use_case.get("trace", {}).get("source_key", "")}
 
 #### Main Success Scenario
 

@@ -81,6 +81,7 @@ def _string_items_to_named_items(items: list[str], kind: str) -> list[dict[str, 
         {
             "id": f"{kind}-{_slugify(item)}",
             "name": item,
+            "trace": {},
         }
         for item in items
     ]
@@ -92,9 +93,27 @@ def _string_items_to_described_items(items: list[str], kind: str) -> list[dict[s
         {
             "id": f"{kind}-{index}",
             "text": item,
+            "trace": {},
         }
         for index, item in enumerate(items, 1)
     ]
+
+
+def _with_trace(
+    items: list[dict[str, Any]],
+    source_round: int,
+    source_key: str,
+) -> list[dict[str, Any]]:
+    """Attach deterministic source trace metadata to normalized objects."""
+    traced_items = []
+    for item in items:
+        traced_item = dict(item)
+        traced_item["trace"] = {
+            "source_round": source_round,
+            "source_key": source_key,
+        }
+        traced_items.append(traced_item)
+    return traced_items
 
 
 def _best_name_match(name: str, candidates: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -125,6 +144,30 @@ def _apply_complexity_answers(items: list[dict[str, Any]], answers: list[str]) -
         match = _best_name_match(name.strip(), items)
         if match is not None:
             match["complexity"] = complexity.strip().lower()
+            match["complexity_trace"] = {
+                "source_round": None,
+                "source_key": "",
+            }
+
+
+def _apply_complexity_answers_with_trace(
+    items: list[dict[str, Any]],
+    answers: list[str],
+    source_round: int,
+    source_key: str,
+) -> None:
+    """Apply complexity answers and attach their trace metadata."""
+    _apply_complexity_answers(items, answers)
+    for answer in answers:
+        if ":" not in answer:
+            continue
+        name, _complexity = answer.split(":", 1)
+        match = _best_name_match(name.strip(), items)
+        if match is not None:
+            match["complexity_trace"] = {
+                "source_round": source_round,
+                "source_key": source_key,
+            }
 
 
 def _normalize_factor_map(
@@ -168,6 +211,7 @@ def _normalize_actors(items: list[str]) -> list[dict[str, str]]:
                 "type": actor_type,
                 "description": "",
                 "complexity": "unclassified",
+                "trace": {},
             }
         )
     return actors
@@ -187,6 +231,7 @@ def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
                 "complexity": "unclassified",
                 "main_success_scenario": [],
                 "extensions": [],
+                "trace": {},
             }
         )
     return use_cases
@@ -246,10 +291,20 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     components_and_services = _ensure_list(round_7.get("components_and_services"))
     interfaces_and_integrations = _ensure_list(round_7.get("interfaces_and_integrations"))
     runtime_boundaries = _ensure_list(round_7.get("runtime_boundaries"))
-    normalized_actors = _normalize_actors(actors)
-    normalized_use_cases = _normalize_use_cases(use_cases)
-    _apply_complexity_answers(normalized_actors, _ensure_list(round_8.get("actor_complexity")))
-    _apply_complexity_answers(normalized_use_cases, _ensure_list(round_9.get("use_case_complexity")))
+    normalized_actors = _with_trace(_normalize_actors(actors), 3, "actors")
+    normalized_use_cases = _with_trace(_normalize_use_cases(use_cases), 3, "use_cases")
+    _apply_complexity_answers_with_trace(
+        normalized_actors,
+        _ensure_list(round_8.get("actor_complexity")),
+        8,
+        "actor_complexity",
+    )
+    _apply_complexity_answers_with_trace(
+        normalized_use_cases,
+        _ensure_list(round_9.get("use_case_complexity")),
+        9,
+        "use_case_complexity",
+    )
     technical_factors = _normalize_factor_map(round_10, TECHNICAL_FACTOR_ALIASES)
     environmental_factors = _normalize_factor_map(round_11, ENVIRONMENTAL_FACTOR_ALIASES)
 
@@ -270,44 +325,80 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "logical_view": {
             "domain_entities": domain_entities,
-            "domain_entity_objects": _string_items_to_named_items(domain_entities, "entity"),
+            "domain_entity_objects": _with_trace(
+                _string_items_to_named_items(domain_entities, "entity"),
+                5,
+                "domain_entities",
+            ),
             "relationships": relationships,
-            "relationship_objects": _string_items_to_described_items(relationships, "relationship"),
+            "relationship_objects": _with_trace(
+                _string_items_to_described_items(relationships, "relationship"),
+                5,
+                "relationships",
+            ),
             "business_rules": business_rules,
-            "business_rule_objects": _string_items_to_described_items(
-                business_rules,
-                "business-rule",
+            "business_rule_objects": _with_trace(
+                _string_items_to_described_items(
+                    business_rules,
+                    "business-rule",
+                ),
+                5,
+                "business_rules",
             ),
         },
         "process_view": {
             "state_entities": state_entities,
-            "state_entity_objects": _string_items_to_named_items(state_entities, "state-entity"),
+            "state_entity_objects": _with_trace(
+                _string_items_to_named_items(state_entities, "state-entity"),
+                6,
+                "state_entities",
+            ),
             "states_and_transitions": states_and_transitions,
-            "state_transition_objects": _string_items_to_described_items(
-                states_and_transitions,
-                "state-transition",
+            "state_transition_objects": _with_trace(
+                _string_items_to_described_items(
+                    states_and_transitions,
+                    "state-transition",
+                ),
+                6,
+                "states_and_transitions",
             ),
             "triggers_and_approvals": triggers_and_approvals,
-            "trigger_objects": _string_items_to_described_items(
-                triggers_and_approvals,
-                "trigger",
+            "trigger_objects": _with_trace(
+                _string_items_to_described_items(
+                    triggers_and_approvals,
+                    "trigger",
+                ),
+                6,
+                "triggers_and_approvals",
             ),
         },
         "architecture_view": {
             "components_and_services": components_and_services,
-            "component_objects": _string_items_to_named_items(
-                components_and_services,
-                "component",
+            "component_objects": _with_trace(
+                _string_items_to_named_items(
+                    components_and_services,
+                    "component",
+                ),
+                7,
+                "components_and_services",
             ),
             "interfaces_and_integrations": interfaces_and_integrations,
-            "interface_objects": _string_items_to_described_items(
-                interfaces_and_integrations,
-                "interface",
+            "interface_objects": _with_trace(
+                _string_items_to_described_items(
+                    interfaces_and_integrations,
+                    "interface",
+                ),
+                7,
+                "interfaces_and_integrations",
             ),
             "runtime_boundaries": runtime_boundaries,
-            "runtime_boundary_objects": _string_items_to_described_items(
-                runtime_boundaries,
-                "runtime-boundary",
+            "runtime_boundary_objects": _with_trace(
+                _string_items_to_described_items(
+                    runtime_boundaries,
+                    "runtime-boundary",
+                ),
+                7,
+                "runtime_boundaries",
             ),
         },
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
