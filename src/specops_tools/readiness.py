@@ -35,7 +35,7 @@ VIEW_GATES = {
 VIEW_ARTIFACTS = {
     "discovery": ["requirements-spec.md"],
     "use_case": ["requirements-spec.md", "use-case-model.md"],
-    "logical": ["requirements-spec.md"],
+    "logical": ["domain-model.md", "requirements-spec.md"],
     "process": ["requirements-spec.md", "use-case-model.md", "state-model.md"],
     "architecture": ["requirements-spec.md", "use-case-model.md"],
     "ucp": ["ucp-estimate.md"],

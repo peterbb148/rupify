@@ -221,6 +221,7 @@ The model should be rich enough to generate:
 
 - `requirements-spec.md`
 - `use-case-model.md`
+- `domain-model.md`
 - `state-model.md`
 - `ucp-estimate.md`
 
@@ -238,6 +239,14 @@ For the V1.6 proof artifact, `state-model.md` is generated from the canonical pr
 - relevant `traceability.use_case_to_analysis` links for state entities
 - relevant `traceability.analysis_to_design` links where a stateful analysis object is realized by a
   design component
+
+For the first V2 domain/class artifact, `domain-model.md` is generated from the canonical logical
+semantics:
+
+- `analysis_view.domain_entity_objects`
+- `analysis_view.relationship_objects`
+- `analysis_view.business_rule_objects`
+- relevant `traceability.use_case_to_analysis` links for domain entities
 
 If any artifact would require invented inputs, stop and surface the missing fields.
 
