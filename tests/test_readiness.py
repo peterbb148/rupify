@@ -162,6 +162,30 @@ class ReadinessTests(unittest.TestCase):
             ["domain-model.md", "requirements-spec.md"],
         )
 
+    def test_identify_stale_artifacts_marks_interaction_model_for_use_case_and_architecture_updates(self) -> None:
+        """Use-case or architecture updates should mark the formal interaction-model artifact stale."""
+        stale = identify_stale_artifacts(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "use_cases", "answer": "Redeem Reward"},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "interfaces_and_integrations", "answer": "Member App calls Rewards API"},
+                    ],
+                },
+            ]
+        )
+
+        self.assertEqual(
+            stale,
+            ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+        )
+
     def test_evaluate_traceability_reports_missing_links(self) -> None:
         """Trace validation should identify missing links by family."""
         model = {

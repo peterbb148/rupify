@@ -204,6 +204,11 @@ class DiscoveryTests(unittest.TestCase):
             model["architecture_view"]["runtime_boundary_objects"][0]["boundary_type"],
             "runtime_separation",
         )
+        self.assertEqual(model["interaction_view"]["realization_objects"], [])
+        self.assertEqual(
+            model["interaction_view"]["message_objects"][0]["interaction_verb"],
+            "calls",
+        )
         self.assertEqual(
             model["logical_view"]["domain_entity_objects"],
             model["analysis_view"]["domain_entity_objects"],
@@ -289,6 +294,14 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["analysis_view"]["use_cases"][0]["id"], "browse-rewards")
         self.assertEqual(model["actors"], model["analysis_view"]["actors"])
         self.assertEqual(model["use_cases"], model["analysis_view"]["use_cases"])
+        self.assertEqual(
+            model["interaction_view"]["realization_objects"][0]["use_case_id"],
+            "browse-rewards",
+        )
+        self.assertEqual(
+            model["interaction_view"]["realization_objects"][0]["steps"],
+            [],
+        )
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
         """UCP round answers should update normalized actor/use-case complexity and factors."""

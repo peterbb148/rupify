@@ -471,6 +471,81 @@ def render_domain_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_interaction_model(model: dict[str, Any]) -> str:
+    """Render the formal interaction-model artifact.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Markdown content.
+    """
+    project = model.get("project", {})
+    interaction_view = model.get("interaction_view", {})
+    realization_objects = interaction_view.get("realization_objects", [])
+    message_objects = interaction_view.get("message_objects", [])
+
+    realizations = []
+    for realization in realization_objects:
+        steps = "\n".join(
+            f"{index}. {step}" for index, step in enumerate(realization.get("steps", []), 1)
+        ) or "1. No interaction steps documented."
+        participant_names = ", ".join(realization.get("participant_names", [])) or "Unspecified"
+        line = f"""### {realization.get("use_case_name", "Unnamed Use Case")}
+
+- Realization ID: `{realization.get("id", "interaction-realization")}`
+- Use case ID: `{realization.get("use_case_id", "use-case")}`
+- Participants: {participant_names}
+
+#### Steps
+
+{steps}
+"""
+        if trace := realization.get("trace"):
+            line = (
+                f"{line}\n- Source: round {trace.get('source_round', 'n/a')} "
+                f"{trace.get('source_key', '')}"
+            )
+        realizations.append(line)
+
+    message_lines = []
+    for message in message_objects:
+        line = (
+            f"- `{message.get('id', 'interaction-message')}` "
+            f"{message.get('source_name', 'Unknown')} -> {message.get('target_name', 'Unknown')}"
+        )
+        if message.get("interaction_verb"):
+            line = f"{line} ({message['interaction_verb']})"
+        if message.get("description"):
+            line = f"{line}: {message['description']}"
+        if trace := message.get("trace"):
+            line = (
+                f"{line} [source: round {trace.get('source_round')} "
+                f"{trace.get('source_key')}]"
+            )
+        message_lines.append(line)
+
+    return f"""# Interaction Model
+
+## Project
+
+- Name: {project.get("name", "Unnamed Project")}
+- Domain: {project.get("domain", "Unspecified")}
+
+## Scope
+
+{project.get("system_scope", "Unspecified")}
+
+## Use-Case Realizations
+
+{"\n\n".join(realizations) or "No interaction realizations documented."}
+
+## Message Flows
+
+{"\n".join(message_lines) or "- None"}
+"""
+
+
 def render_state_model(model: dict[str, Any]) -> str:
     """Render the formal state-model artifact.
 
@@ -554,6 +629,7 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
         "domain-model.md": render_domain_model(model),
+        "interaction-model.md": render_interaction_model(model),
         "state-model.md": render_state_model(model),
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }
