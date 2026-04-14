@@ -17,8 +17,9 @@ Closed V1 issues:
 - `#16` `Improve interview UX and reduce wall-of-text responses`
 - `#17` `Improve UCP scoring guidance in the interview flow`
 
-V1 is complete. V1.5 is complete. V1.6 is also complete, and the remaining open work is now V2
-breadth rather than foundational hardening.
+V1 is complete. V1.5 is complete. V1.6 is also complete. The initial V2 formal-artifact
+translation work is now also delivered on `main`, and the remaining open work is follow-on V2
+expansion plus integrations/productization.
 
 ## Closed V1.5 Work
 
@@ -67,23 +68,31 @@ These themes now shape the completed bridge into V1.6 hardening work.
 - source-of-truth separation between analysis and design collections
 - one proven formal artifact pipeline via `state-model.md`
 
-## Open Epics
+## Closed Initial V2 Work
 
 - `#8` `EPIC: SpecOps V2 UML and formal specification translation`
+- `#11` `Implement V2 domain and class modeling`
+- `#14` `Implement V2 interaction diagram support`
+- `#12` `Implement V2 component and deployment modeling`
+- `#13` `Implement V2 RUP traceability layer`
+- `#15` `Implement V2 state modeling support`
+
+## V2 Delivered Outcome
+
+- `domain-model.md` as a first-class formal domain/class artifact
+- `interaction-model.md` as a first-class interaction artifact
+- `deployment-model.md` as a first-class component/deployment artifact
+- broadened `state-model.md` semantics for richer state-machine support
+- explicit cross-view traceability plus artifact lineage and validation
+
+## Open Epics
+
 - `#7` `EPIC: SpecOps V2 integrations and productization`
 - `#65` `Add document ingestion and hybrid document-to-spec workflow`
 
 See also: [V2 Go/No-Go Decision](v2-go-no-go-decision.md)
 See also: [RUP Artifact Coverage Matrix](rup-artifact-coverage-matrix.md)
 See also: [Document Ingestion Future Direction](document-ingestion-future.md)
-
-## Open V2 Decomposition for Epic #8
-
-- `#11` `Implement V2 domain and class modeling`
-- `#14` `Implement V2 interaction diagram support`
-- `#15` `Implement V2 state modeling support`
-- `#12` `Implement V2 component and deployment modeling`
-- `#13` `Implement V2 RUP traceability layer`
 
 ## Relationship Model
 
@@ -92,8 +101,9 @@ See also: [Document Ingestion Future Direction](document-ingestion-future.md)
 - V1 dogfooding epic owns the self-hosting spec, validation loop, and workflow adjustments
 - V1.6 is the completed hardening bridge between the completed V1.5 work and the future-facing V2
   epics
-- V2 epics remain future-facing and should build on the stricter V1.6 baseline rather than bypass
-  it
+- the initial V2 UML/formal translation epic is complete and establishes the first broader formal
+  artifact family on top of the stricter V1.6 baseline
+- the remaining V2 work is now expansion and productization rather than foundational translation
 
 ## Labels To Use
 
