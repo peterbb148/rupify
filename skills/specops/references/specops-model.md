@@ -114,6 +114,10 @@ The canonical project model is `specops-model.yaml`.
     - `source_entity_id`
     - `target_name`
     - `target_entity_id`
+    - `source_multiplicity`
+    - `target_multiplicity`
+    - `source_role_name`
+    - `target_role_name`
     - `trace`
   - `business_rules`
   - `business_rule_objects`

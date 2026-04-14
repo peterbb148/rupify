@@ -411,6 +411,7 @@ class RenderTests(unittest.TestCase):
                 {
                     "id": "entity-member",
                     "name": "Member",
+                    "attributes": ["id", "email"],
                     "trace": {"source_round": 5, "source_key": "domain_entities"},
                 }
             ],
@@ -418,6 +419,10 @@ class RenderTests(unittest.TestCase):
                 {
                     "id": "relationship-1",
                     "description": "A Member redeems Rewards.",
+                    "source_multiplicity": "1",
+                    "target_multiplicity": "*",
+                    "source_role_name": "rewards",
+                    "target_role_name": "member",
                     "trace": {"source_round": 5, "source_key": "relationships"},
                 }
             ],
@@ -444,9 +449,11 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn("# Domain Model", rendered)
         self.assertIn("## Domain Entities", rendered)
-        self.assertIn("`entity-member` Member", rendered)
+        self.assertIn("`entity-member` Member [id, email]", rendered)
         self.assertIn("## Relationships", rendered)
         self.assertIn("A Member redeems Rewards.", rendered)
+        self.assertIn("multiplicity: 1 -> *", rendered)
+        self.assertIn("roles: rewards / member", rendered)
         self.assertIn("## Business Rules", rendered)
         self.assertIn("A Member must have enough points.", rendered)
         self.assertIn("## Use-Case To Domain Traceability", rendered)

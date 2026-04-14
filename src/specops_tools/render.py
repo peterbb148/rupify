@@ -73,6 +73,8 @@ def _object_name_section(
         rendered = []
         for item in items:
             line = f"- `{item.get('id', 'item')}` {item.get('name', 'Unnamed')}"
+            if item.get("attributes"):
+                line = f"{line} [{', '.join(item['attributes'])}]"
             if item.get("description"):
                 line = f"{line}: {item['description']}"
             if trace := item.get("trace"):
@@ -135,6 +137,41 @@ def _traceability_section(
 
 {"\n".join(rendered)}
 """
+
+
+def _relationship_section(
+    title: str,
+    items: list[dict[str, Any]],
+    fallback: list[str],
+) -> str:
+    """Render relationships with richer class-model semantics when present."""
+    if items:
+        rendered = []
+        for item in items:
+            semantic_bits = []
+            if item.get("source_multiplicity") or item.get("target_multiplicity"):
+                semantic_bits.append(
+                    f"multiplicity: {item.get('source_multiplicity', '')} -> {item.get('target_multiplicity', '')}"
+                )
+            if item.get("source_role_name") or item.get("target_role_name"):
+                semantic_bits.append(
+                    f"roles: {item.get('source_role_name', '')} / {item.get('target_role_name', '')}"
+                )
+            line = f"- `{item.get('id', 'item')}` {item.get('description', '')}"
+            if semantic_bits:
+                line = f"{line} ({'; '.join(semantic_bits)})"
+            if trace := item.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
+            rendered.append(line)
+        return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+    return _named_section(title, fallback)
 
 
 def _filter_trace_links(
@@ -417,7 +454,7 @@ def render_domain_model(model: dict[str, Any]) -> str:
     domain_entity_objects,
     logical_view.get("domain_entities", []),
 )}
-{_object_text_section(
+{_relationship_section(
     "Relationships",
     relationship_objects,
     logical_view.get("relationships", []),
