@@ -144,6 +144,24 @@ class ReadinessTests(unittest.TestCase):
             ["requirements-spec.md", "state-model.md", "use-case-model.md"],
         )
 
+    def test_identify_stale_artifacts_marks_domain_model_for_logical_updates(self) -> None:
+        """Logical-view updates should mark the formal domain-model artifact stale."""
+        stale = identify_stale_artifacts(
+            [
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "relationships", "answer": "A Member redeems Rewards"},
+                    ],
+                }
+            ]
+        )
+
+        self.assertEqual(
+            stale,
+            ["domain-model.md", "requirements-spec.md"],
+        )
+
     def test_evaluate_traceability_reports_missing_links(self) -> None:
         """Trace validation should identify missing links by family."""
         model = {

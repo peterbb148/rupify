@@ -6,7 +6,12 @@ import unittest
 
 from specops_tools.discovery import normalize_replay_to_model
 from specops_tools.interview import replay_session
-from specops_tools.render import render_all, render_requirements_spec, render_state_model
+from specops_tools.render import (
+    render_all,
+    render_domain_model,
+    render_requirements_spec,
+    render_state_model,
+)
 from specops_tools.ucp import calculate_ucp, render_ucp_markdown
 
 try:
@@ -398,11 +403,62 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_domain_model_render_includes_logical_traceability(self) -> None:
+        """Domain-model rendering should surface logical semantics and relevant trace links."""
+        model = build_model()
+        model["analysis_view"] = {
+            "domain_entity_objects": [
+                {
+                    "id": "entity-member",
+                    "name": "Member",
+                    "trace": {"source_round": 5, "source_key": "domain_entities"},
+                }
+            ],
+            "relationship_objects": [
+                {
+                    "id": "relationship-1",
+                    "description": "A Member redeems Rewards.",
+                    "trace": {"source_round": 5, "source_key": "relationships"},
+                }
+            ],
+            "business_rule_objects": [
+                {
+                    "id": "business-rule-1",
+                    "rule_text": "A Member must have enough points.",
+                    "trace": {"source_round": 5, "source_key": "business_rules"},
+                }
+            ],
+        }
+        model["traceability"] = {
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "uc-redeem",
+                    "to_id": "entity-member",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+        }
+
+        rendered = render_domain_model(model)
+
+        self.assertIn("# Domain Model", rendered)
+        self.assertIn("## Domain Entities", rendered)
+        self.assertIn("`entity-member` Member", rendered)
+        self.assertIn("## Relationships", rendered)
+        self.assertIn("A Member redeems Rewards.", rendered)
+        self.assertIn("## Business Rules", rendered)
+        self.assertIn("A Member must have enough points.", rendered)
+        self.assertIn("## Use-Case To Domain Traceability", rendered)
+        self.assertIn("`trace-uc-analysis-1` uc-redeem -> entity-member", rendered)
+
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
 
+        self.assertIn("domain-model.md", outputs)
         self.assertIn("state-model.md", outputs)
+        self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
@@ -463,6 +519,51 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn("Approval Request", rendered)
         self.assertIn("Draft -> Submitted -> Approved", rendered)
+
+    def test_end_to_end_domain_model_pipeline_from_replay(self) -> None:
+        """Replay normalization should be able to produce the formal domain-model artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Membership platform"},
+                        {"key": "problem", "answer": "Customer and reward rules are unclear"},
+                        {"key": "in_scope", "answer": "Reward redemption domain"},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Clear domain language"},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "use_cases", "answer": ["Redeem Reward"]},
+                    ],
+                },
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": ["Member", "Reward"]},
+                        {"key": "relationships", "answer": ["A Member redeems Rewards"]},
+                        {
+                            "key": "business_rules",
+                            "answer": ["A Member must have sufficient points"],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_domain_model(model)
+
+        self.assertIn("Member", rendered)
+        self.assertIn("Reward", rendered)
+        self.assertIn("A Member redeems Rewards", rendered)
 
     def test_ucp_render_supports_structured_uncertainty_items(self) -> None:
         """UCP rendering should preserve uncertainty metadata when present."""

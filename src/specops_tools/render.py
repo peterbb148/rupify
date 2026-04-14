@@ -375,6 +375,65 @@ def render_use_case_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_domain_model(model: dict[str, Any]) -> str:
+    """Render the formal domain-model artifact.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Markdown content.
+    """
+    project = model.get("project", {})
+    analysis_view = model.get("analysis_view", {})
+    logical_view = model.get("logical_view", {})
+    traceability = model.get("traceability", {})
+    domain_entity_objects = analysis_view.get(
+        "domain_entity_objects",
+        logical_view.get("domain_entity_objects", []),
+    )
+    relationship_objects = analysis_view.get(
+        "relationship_objects",
+        logical_view.get("relationship_objects", []),
+    )
+    business_rule_objects = analysis_view.get(
+        "business_rule_objects",
+        logical_view.get("business_rule_objects", []),
+    )
+    domain_entity_ids = {item.get("id", "") for item in domain_entity_objects if item.get("id")}
+
+    return f"""# Domain Model
+
+## Project
+
+- Name: {project.get("name", "Unnamed Project")}
+- Domain: {project.get("domain", "Unspecified")}
+
+## Scope
+
+{project.get("system_scope", "Unspecified")}
+{_object_name_section(
+    "Domain Entities",
+    domain_entity_objects,
+    logical_view.get("domain_entities", []),
+)}
+{_object_text_section(
+    "Relationships",
+    relationship_objects,
+    logical_view.get("relationships", []),
+)}
+{_object_text_section(
+    "Business Rules",
+    business_rule_objects,
+    logical_view.get("business_rules", []),
+)}
+{_traceability_section(
+    "Use-Case To Domain Traceability",
+    _filter_trace_links(traceability.get("use_case_to_analysis", []), domain_entity_ids),
+)}
+"""
+
+
 def render_state_model(model: dict[str, Any]) -> str:
     """Render the formal state-model artifact.
 
@@ -457,6 +516,7 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
     return {
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
+        "domain-model.md": render_domain_model(model),
         "state-model.md": render_state_model(model),
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }
