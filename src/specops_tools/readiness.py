@@ -37,7 +37,12 @@ VIEW_ARTIFACTS = {
     "use_case": ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
     "logical": ["domain-model.md", "requirements-spec.md"],
     "process": ["requirements-spec.md", "use-case-model.md", "state-model.md"],
-    "architecture": ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+    "architecture": [
+        "deployment-model.md",
+        "interaction-model.md",
+        "requirements-spec.md",
+        "use-case-model.md",
+    ],
     "ucp": ["ucp-estimate.md"],
 }
 

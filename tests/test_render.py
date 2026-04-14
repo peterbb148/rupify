@@ -8,6 +8,7 @@ from specops_tools.discovery import normalize_replay_to_model
 from specops_tools.interview import replay_session
 from specops_tools.render import (
     render_all,
+    render_deployment_model,
     render_domain_model,
     render_interaction_model,
     render_requirements_spec,
@@ -464,9 +465,11 @@ class RenderTests(unittest.TestCase):
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
 
+        self.assertIn("deployment-model.md", outputs)
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("state-model.md", outputs)
+        self.assertTrue(outputs["deployment-model.md"].startswith("# Deployment Model"))
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
@@ -552,6 +555,85 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn("Redeem Reward", rendered)
         self.assertIn("Member App -> Rewards API", rendered)
+
+    def test_deployment_model_render_includes_components_and_boundaries(self) -> None:
+        """Deployment-model rendering should surface components, interfaces, and boundaries."""
+        model = build_model()
+        model["design_view"] = {
+            "component_objects": [
+                {
+                    "id": "component-member-app",
+                    "name": "Member App",
+                    "trace": {"source_round": 7, "source_key": "components_and_services"},
+                }
+            ],
+            "interface_objects": [
+                {
+                    "id": "interface-1",
+                    "description": "Member App calls Rewards API",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                }
+            ],
+            "runtime_boundary_objects": [
+                {
+                    "id": "runtime-boundary-1",
+                    "description": "Rewards API runs separately from the UI",
+                    "trace": {"source_round": 7, "source_key": "runtime_boundaries"},
+                }
+            ],
+        }
+
+        rendered = render_deployment_model(model)
+
+        self.assertIn("# Deployment Model", rendered)
+        self.assertIn("## Components", rendered)
+        self.assertIn("`component-member-app` Member App", rendered)
+        self.assertIn("## Interfaces and Integrations", rendered)
+        self.assertIn("Member App calls Rewards API", rendered)
+        self.assertIn("## Runtime Boundaries", rendered)
+        self.assertIn("Rewards API runs separately from the UI", rendered)
+
+    def test_end_to_end_deployment_model_pipeline_from_replay(self) -> None:
+        """Replay normalization should be able to produce the formal deployment-model artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Rewards system"},
+                        {"key": "problem", "answer": "Deployment structure is unclear"},
+                        {"key": "in_scope", "answer": "Component and deployment view"},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Clearer deployment understanding"},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": ["Member App", "Rewards API"]},
+                        {
+                            "key": "interfaces_and_integrations",
+                            "answer": ["Member App calls Rewards API"],
+                        },
+                        {
+                            "key": "runtime_boundaries",
+                            "answer": ["Rewards API runs separately from the UI"],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_deployment_model(model)
+
+        self.assertIn("Member App", rendered)
+        self.assertIn("Rewards API", rendered)
+        self.assertIn("Rewards API runs separately from the UI", rendered)
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal state-model artifact."""
