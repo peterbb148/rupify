@@ -546,6 +546,27 @@ class DiscoveryTests(unittest.TestCase):
             model["traceability"]["analysis_to_design"][0]["to_id"],
             "component-system-api",
         )
+        self.assertIn(
+            "domain-model.md",
+            {
+                link["to_artifact"]
+                for link in model["traceability"]["artifact_lineage"]
+            },
+        )
+        self.assertIn(
+            "interaction-model.md",
+            {
+                link["to_artifact"]
+                for link in model["traceability"]["artifact_lineage"]
+            },
+        )
+        self.assertIn(
+            "deployment-model.md",
+            {
+                link["to_artifact"]
+                for link in model["traceability"]["artifact_lineage"]
+            },
+        )
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""

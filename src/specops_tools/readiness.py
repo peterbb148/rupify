@@ -118,12 +118,15 @@ def identify_stale_artifacts(updates: list[dict[str, Any]]) -> list[str]:
     return sorted(stale_artifacts)
 
 
-def _linked_source_ids(links: list[dict[str, Any]]) -> set[str]:
+def _linked_source_ids(
+    links: list[dict[str, Any]],
+    source_key: str = "from_id",
+) -> set[str]:
     """Return source ids participating in a trace link collection."""
     return {
-        str(link.get("from_id"))
+        str(link.get(source_key))
         for link in links
-        if str(link.get("from_id", "")).strip()
+        if str(link.get(source_key, "")).strip()
     }
 
 
@@ -131,10 +134,12 @@ def _trace_family_result(
     expected_from_ids: list[str],
     links: list[dict[str, Any]],
     family: str,
+    *,
+    source_key: str = "from_id",
 ) -> dict[str, Any]:
     """Return validation details for one trace family."""
     expected = [item for item in expected_from_ids if item]
-    linked = _linked_source_ids(links)
+    linked = _linked_source_ids(links, source_key)
     missing = [item for item in expected if item not in linked]
 
     if not expected:
@@ -166,6 +171,21 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
         + model.get("process_view", {}).get("state_entity_objects", [])
     )
     design_objects = model.get("architecture_view", {}).get("component_objects", [])
+    artifact_source_objects = (
+        requirement_objects
+        + use_cases
+        + model.get("logical_view", {}).get("domain_entity_objects", [])
+        + model.get("logical_view", {}).get("relationship_objects", [])
+        + model.get("logical_view", {}).get("business_rule_objects", [])
+        + model.get("process_view", {}).get("state_entity_objects", [])
+        + model.get("process_view", {}).get("state_transition_objects", [])
+        + model.get("process_view", {}).get("trigger_objects", [])
+        + model.get("architecture_view", {}).get("component_objects", [])
+        + model.get("architecture_view", {}).get("interface_objects", [])
+        + model.get("architecture_view", {}).get("runtime_boundary_objects", [])
+        + model.get("interaction_view", {}).get("realization_objects", [])
+        + model.get("interaction_view", {}).get("message_objects", [])
+    )
 
     return {
         "requirement_to_use_case": _trace_family_result(
@@ -182,5 +202,10 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
             [item.get("id", "") for item in analysis_objects] if design_objects else [],
             traceability.get("analysis_to_design", []),
             "analysis_to_design",
+        ),
+        "artifact_lineage": _trace_family_result(
+            [item.get("id", "") for item in artifact_source_objects],
+            traceability.get("artifact_lineage", []),
+            "artifact_lineage",
         ),
     }

@@ -93,6 +93,13 @@ The canonical project model is `specops-model.yaml`.
     - `to_id`
     - `link_type`
     - `basis`
+  - `artifact_lineage`
+    - `id`
+    - `from_id`
+    - `to_artifact`
+    - `artifact_section`
+    - `link_type`
+    - `basis`
 - `interaction_view`
   - `realization_objects`
     - `id`

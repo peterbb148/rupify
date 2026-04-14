@@ -460,6 +460,20 @@ class RenderTests(unittest.TestCase):
         self.assertIn("A Member must have enough points.", rendered)
         self.assertIn("## Use-Case To Domain Traceability", rendered)
         self.assertIn("`trace-uc-analysis-1` uc-redeem -> entity-member", rendered)
+        model["traceability"]["artifact_lineage"] = [
+            {
+                "id": "trace-artifact-domain-1",
+                "from_id": "entity-member",
+                "to_artifact": "domain-model.md",
+                "artifact_section": "domain entities",
+                "basis": "canonical domain entities object renders into domain-model.md",
+            }
+        ]
+
+        rendered = render_domain_model(model)
+
+        self.assertIn("## Artifact Lineage", rendered)
+        self.assertIn("entity-member -> domain-model.md#domain entities", rendered)
 
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
@@ -511,6 +525,25 @@ class RenderTests(unittest.TestCase):
         self.assertIn("## Message Flows", rendered)
         self.assertIn("Member App -> Rewards API", rendered)
         self.assertIn("(calls)", rendered)
+        model["traceability"] = {
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-interaction-1",
+                    "from_id": "interaction-message-1",
+                    "to_artifact": "interaction-model.md",
+                    "artifact_section": "message flows",
+                    "basis": "canonical message flows object renders into interaction-model.md",
+                }
+            ]
+        }
+
+        rendered = render_interaction_model(model)
+
+        self.assertIn("## Artifact Lineage", rendered)
+        self.assertIn(
+            "interaction-message-1 -> interaction-model.md#message flows",
+            rendered,
+        )
 
     def test_end_to_end_interaction_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal interaction-model artifact."""
@@ -592,6 +625,25 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Member App calls Rewards API", rendered)
         self.assertIn("## Runtime Boundaries", rendered)
         self.assertIn("Rewards API runs separately from the UI", rendered)
+        model["traceability"] = {
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-deployment-1",
+                    "from_id": "component-member-app",
+                    "to_artifact": "deployment-model.md",
+                    "artifact_section": "components",
+                    "basis": "canonical components object renders into deployment-model.md",
+                }
+            ]
+        }
+
+        rendered = render_deployment_model(model)
+
+        self.assertIn("## Artifact Lineage", rendered)
+        self.assertIn(
+            "component-member-app -> deployment-model.md#components",
+            rendered,
+        )
 
     def test_end_to_end_deployment_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal deployment-model artifact."""

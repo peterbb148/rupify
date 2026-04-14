@@ -139,6 +139,31 @@ def _traceability_section(
 """
 
 
+def _artifact_lineage_section(
+    title: str,
+    links: list[dict[str, Any]],
+    artifact_name: str,
+) -> str:
+    """Render artifact-lineage links for one generated artifact."""
+    relevant_links = [link for link in links if link.get("to_artifact") == artifact_name]
+    if not relevant_links:
+        return ""
+
+    rendered = []
+    for link in relevant_links:
+        rendered.append(
+            f"- `{link.get('id', 'trace')}` {link.get('from_id', 'unknown')} -> "
+            f"{link.get('to_artifact', artifact_name)}#{link.get('artifact_section', 'unspecified')} "
+            f"({link.get('basis', 'unspecified basis')})"
+        )
+
+    return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+
+
 def _relationship_section(
     title: str,
     items: list[dict[str, Any]],
@@ -468,6 +493,11 @@ def render_domain_model(model: dict[str, Any]) -> str:
     "Use-Case To Domain Traceability",
     _filter_trace_links(traceability.get("use_case_to_analysis", []), domain_entity_ids),
 )}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "domain-model.md",
+)}
 """
 
 
@@ -482,6 +512,7 @@ def render_interaction_model(model: dict[str, Any]) -> str:
     """
     project = model.get("project", {})
     interaction_view = model.get("interaction_view", {})
+    traceability = model.get("traceability", {})
     realization_objects = interaction_view.get("realization_objects", [])
     message_objects = interaction_view.get("message_objects", [])
 
@@ -543,6 +574,11 @@ def render_interaction_model(model: dict[str, Any]) -> str:
 ## Message Flows
 
 {"\n".join(message_lines) or "- None"}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "interaction-model.md",
+)}
 """
 
 
@@ -558,6 +594,7 @@ def render_deployment_model(model: dict[str, Any]) -> str:
     project = model.get("project", {})
     design_view = model.get("design_view", {})
     architecture_view = model.get("architecture_view", {})
+    traceability = model.get("traceability", {})
     component_objects = design_view.get(
         "component_objects",
         architecture_view.get("component_objects", []),
@@ -595,6 +632,11 @@ def render_deployment_model(model: dict[str, Any]) -> str:
     "Runtime Boundaries",
     runtime_boundary_objects,
     architecture_view.get("runtime_boundaries", []),
+)}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "deployment-model.md",
 )}
 """
 
@@ -664,6 +706,11 @@ def render_state_model(model: dict[str, Any]) -> str:
         traceability.get("analysis_to_design", []),
         state_entity_ids | component_ids,
     ),
+)}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "state-model.md",
 )}
 """
 
