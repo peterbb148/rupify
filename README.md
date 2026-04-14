@@ -32,8 +32,16 @@ V1.5 is complete and established the interview/model readiness bridge.
 V1.6 is also complete. It hardened the canonical model, readiness rules, cross-view traceability,
 analysis/design separation, and proved one end-to-end formal artifact pipeline via `state-model.md`.
 
-The remaining roadmap is now V2 breadth work: broader UML/formal specification coverage and
-integrations/productization on top of the hardened baseline.
+V2 has now started and the first formal artifact breadth is delivered on top of that baseline:
+
+- `domain-model.md`
+- `interaction-model.md`
+- `deployment-model.md`
+- broadened `state-model.md`
+- richer artifact lineage and cross-view traceability
+
+The remaining roadmap is now follow-on V2 expansion plus integrations/productization rather than
+foundational UML readiness work.
 
 ## Repository Layout
 
