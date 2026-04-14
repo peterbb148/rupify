@@ -93,6 +93,28 @@ The canonical project model is `specops-model.yaml`.
     - `to_id`
     - `link_type`
     - `basis`
+- `interaction_view`
+  - `realization_objects`
+    - `id`
+    - `use_case_id`
+    - `use_case_name`
+    - `participant_ids`
+    - `participant_names`
+    - `steps`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `message_objects`
+    - `id`
+    - `source_name`
+    - `source_id`
+    - `target_name`
+    - `target_id`
+    - `interaction_verb`
+    - `description`
+    - `model_layer`: `design`
+    - `trace`
+  - `realization_ids`
+  - `message_ids`
 - `logical_view` (derived compatibility view from `analysis_view` for V1/V1.5 renderers)
   - `domain_entities`
   - `domain_entity_objects`
@@ -226,6 +248,7 @@ The model should be rich enough to generate:
 - `requirements-spec.md`
 - `use-case-model.md`
 - `domain-model.md`
+- `interaction-model.md`
 - `state-model.md`
 - `ucp-estimate.md`
 
@@ -251,6 +274,14 @@ semantics:
 - `analysis_view.relationship_objects`
 - `analysis_view.business_rule_objects`
 - relevant `traceability.use_case_to_analysis` links for domain entities
+
+For the first V2 interaction artifact, `interaction-model.md` is generated from the canonical
+interaction semantics:
+
+- `interaction_view.realization_objects`
+- `interaction_view.message_objects`
+- use-case realizations anchored to canonical use-case objects
+- message flows anchored to canonical interface objects
 
 If any artifact would require invented inputs, stop and surface the missing fields.
 

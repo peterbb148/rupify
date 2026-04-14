@@ -9,6 +9,7 @@ from specops_tools.interview import replay_session
 from specops_tools.render import (
     render_all,
     render_domain_model,
+    render_interaction_model,
     render_requirements_spec,
     render_state_model,
 )
@@ -464,9 +465,93 @@ class RenderTests(unittest.TestCase):
         outputs = render_all(build_model())
 
         self.assertIn("domain-model.md", outputs)
+        self.assertIn("interaction-model.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
+        self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
+
+    def test_interaction_model_render_includes_realizations_and_messages(self) -> None:
+        """Interaction-model rendering should surface use-case realizations and message flows."""
+        model = build_model()
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "participant_ids": ["customer"],
+                    "participant_names": ["Customer"],
+                    "steps": ["Customer selects reward.", "System validates points."],
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                }
+            ],
+            "message_objects": [
+                {
+                    "id": "interaction-message-1",
+                    "source_name": "Member App",
+                    "source_id": "component-member-app",
+                    "target_name": "Rewards API",
+                    "target_id": "component-rewards-api",
+                    "interaction_verb": "calls",
+                    "description": "Member App calls Rewards API",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                }
+            ],
+        }
+
+        rendered = render_interaction_model(model)
+
+        self.assertIn("# Interaction Model", rendered)
+        self.assertIn("### Redeem Reward", rendered)
+        self.assertIn("Customer selects reward.", rendered)
+        self.assertIn("## Message Flows", rendered)
+        self.assertIn("Member App -> Rewards API", rendered)
+        self.assertIn("(calls)", rendered)
+
+    def test_end_to_end_interaction_model_pipeline_from_replay(self) -> None:
+        """Replay normalization should be able to produce the formal interaction-model artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Rewards system"},
+                        {"key": "problem", "answer": "Interaction flow is unclear"},
+                        {"key": "in_scope", "answer": "Reward redemption flow"},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "outcomes", "answer": "Clearer interaction path"},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "actors", "answer": ["Customer"]},
+                        {"key": "use_cases", "answer": ["Redeem Reward"]},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": ["Member App", "Rewards API"]},
+                        {
+                            "key": "interfaces_and_integrations",
+                            "answer": ["Member App calls Rewards API"],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_interaction_model(model)
+
+        self.assertIn("Redeem Reward", rendered)
+        self.assertIn("Member App -> Rewards API", rendered)
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal state-model artifact."""

@@ -735,6 +735,70 @@ def _derive_architecture_view(design_view: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _build_interaction_view(
+    use_cases: list[dict[str, Any]],
+    actors: list[dict[str, Any]],
+    interface_objects: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Build a conservative interaction view from use-case and interface data."""
+    actor_name_to_id = {
+        item.get("name", ""): item.get("id", "")
+        for item in actors
+        if item.get("name") and item.get("id")
+    }
+
+    realization_objects = []
+    for index, use_case in enumerate(use_cases, 1):
+        participant_ids = []
+        participant_names = []
+        primary_actor_name = use_case.get("primary_actor", "")
+        primary_actor_id = use_case.get("primary_actor_id", "") or actor_name_to_id.get(primary_actor_name, "")
+        if primary_actor_id:
+            participant_ids.append(primary_actor_id)
+        if primary_actor_name and primary_actor_name != "Unspecified":
+            participant_names.append(primary_actor_name)
+
+        for actor_id in use_case.get("supporting_actor_ids", []):
+            if actor_id and actor_id not in participant_ids:
+                participant_ids.append(actor_id)
+
+        realization_objects.append(
+            {
+                "id": f"interaction-realization-{index}",
+                "use_case_id": use_case.get("id", ""),
+                "use_case_name": use_case.get("name", ""),
+                "participant_ids": participant_ids,
+                "participant_names": participant_names,
+                "steps": list(use_case.get("main_success_scenario", [])),
+                "model_layer": "analysis",
+                "trace": use_case.get("trace", {}),
+            }
+        )
+
+    message_objects = []
+    for index, interface in enumerate(interface_objects, 1):
+        message_objects.append(
+            {
+                "id": f"interaction-message-{index}",
+                "source_name": interface.get("source_component_name", ""),
+                "source_id": interface.get("source_component_id", ""),
+                "target_name": interface.get("target_component_name", ""),
+                "target_id": interface.get("target_component_id", ""),
+                "interaction_verb": interface.get("interaction_verb", ""),
+                "description": interface.get("description", ""),
+                "model_layer": "design",
+                "trace": interface.get("trace", {}),
+            }
+        )
+
+    return {
+        "realization_objects": realization_objects,
+        "message_objects": message_objects,
+        "realization_ids": [item["id"] for item in realization_objects],
+        "message_ids": [item["id"] for item in message_objects],
+    }
+
+
 def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     """Normalize replay output into a canonical SpecOps model shape.
 
@@ -901,6 +965,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     logical_view = _derive_logical_view(analysis_view)
     process_view = _derive_process_view(analysis_view)
     architecture_view = _derive_architecture_view(design_view)
+    interaction_view = _build_interaction_view(
+        normalized_use_cases,
+        normalized_actors,
+        interface_objects,
+    )
 
     return {
         "project": {
@@ -925,6 +994,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "process_view": process_view,
         "architecture_view": architecture_view,
         "design_view": design_view,
+        "interaction_view": interaction_view,
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
         "assumptions": [],
         "open_questions": [],
