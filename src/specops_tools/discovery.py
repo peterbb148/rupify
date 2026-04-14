@@ -671,6 +671,60 @@ def _build_trace_links(
     }
 
 
+def _build_artifact_lineage(
+    requirement_objects: list[dict[str, Any]],
+    use_cases: list[dict[str, Any]],
+    domain_entity_objects: list[dict[str, Any]],
+    relationship_objects: list[dict[str, Any]],
+    business_rule_objects: list[dict[str, Any]],
+    state_entity_objects: list[dict[str, Any]],
+    state_transition_objects: list[dict[str, Any]],
+    trigger_objects: list[dict[str, Any]],
+    component_objects: list[dict[str, Any]],
+    interface_objects: list[dict[str, Any]],
+    runtime_boundary_objects: list[dict[str, Any]],
+    realization_objects: list[dict[str, Any]],
+    message_objects: list[dict[str, Any]],
+) -> list[dict[str, str]]:
+    """Build conservative lineage links from canonical objects to generated artifacts."""
+    lineage_specs = [
+        ("requirements-spec.md", "functional requirements", requirement_objects),
+        ("use-case-model.md", "use cases", use_cases),
+        ("domain-model.md", "domain entities", domain_entity_objects),
+        ("domain-model.md", "relationships", relationship_objects),
+        ("domain-model.md", "business rules", business_rule_objects),
+        ("interaction-model.md", "use-case realizations", realization_objects),
+        ("interaction-model.md", "message flows", message_objects),
+        ("deployment-model.md", "components", component_objects),
+        ("deployment-model.md", "interfaces and integrations", interface_objects),
+        ("deployment-model.md", "runtime boundaries", runtime_boundary_objects),
+        ("state-model.md", "state entities", state_entity_objects),
+        ("state-model.md", "state transitions", state_transition_objects),
+        ("state-model.md", "triggers and approvals", trigger_objects),
+    ]
+
+    artifact_lineage = []
+    for artifact_name, artifact_section, objects in lineage_specs:
+        artifact_slug = artifact_name.replace(".md", "").replace(".", "-")
+        section_slug = _slugify(artifact_section)
+        for item in objects:
+            source_id = item.get("id", "")
+            if not source_id:
+                continue
+            artifact_lineage.append(
+                {
+                    "id": f"trace-artifact-{artifact_slug}-{section_slug}-{source_id}",
+                    "from_id": source_id,
+                    "to_artifact": artifact_name,
+                    "artifact_section": artifact_section,
+                    "link_type": "artifact_lineage",
+                    "basis": f"canonical {artifact_section} object renders into {artifact_name}",
+                }
+            )
+
+    return artifact_lineage
+
+
 def _text_or_empty(value: Any) -> str:
     """Normalize a scalar answer into a string."""
     if value is None:
@@ -955,13 +1009,6 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "interface_ids": [item["id"] for item in interface_objects],
         "runtime_boundary_ids": [item["id"] for item in runtime_boundary_objects],
     }
-    traceability = _build_trace_links(
-        all_requirement_objects,
-        normalized_use_cases,
-        domain_entity_objects,
-        state_entity_objects,
-        component_objects,
-    )
     logical_view = _derive_logical_view(analysis_view)
     process_view = _derive_process_view(analysis_view)
     architecture_view = _derive_architecture_view(design_view)
@@ -969,6 +1016,28 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         normalized_use_cases,
         normalized_actors,
         interface_objects,
+    )
+    traceability = _build_trace_links(
+        all_requirement_objects,
+        normalized_use_cases,
+        domain_entity_objects,
+        state_entity_objects,
+        component_objects,
+    )
+    traceability["artifact_lineage"] = _build_artifact_lineage(
+        all_requirement_objects,
+        normalized_use_cases,
+        domain_entity_objects,
+        relationship_objects,
+        business_rule_objects,
+        state_entity_objects,
+        state_transition_objects,
+        trigger_objects,
+        component_objects,
+        interface_objects,
+        runtime_boundary_objects,
+        interaction_view["realization_objects"],
+        interaction_view["message_objects"],
     )
 
     return {

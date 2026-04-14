@@ -256,3 +256,15 @@ class ReadinessTests(unittest.TestCase):
             validation["analysis_to_design"]["missing_from_ids"],
             ["entity-system"],
         )
+        self.assertEqual(validation["artifact_lineage"]["status"], "blocked")
+        self.assertEqual(
+            validation["artifact_lineage"]["missing_from_ids"],
+            [
+                "functional-requirement-1",
+                "functional-requirement-2",
+                "approve-system",
+                "search-systems",
+                "entity-system",
+                "component-system-api",
+            ],
+        )
