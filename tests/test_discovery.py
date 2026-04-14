@@ -108,6 +108,10 @@ class DiscoveryTests(unittest.TestCase):
             model["analysis_view"]["domain_entity_objects"][0]["id"],
             "entity-system",
         )
+        self.assertEqual(
+            model["analysis_view"]["domain_entity_objects"][1]["attributes"],
+            [],
+        )
         self.assertEqual(model["actors"], [])
         self.assertEqual(model["use_cases"], [])
         self.assertIn("System", model["logical_view"]["domain_entities"])
@@ -134,6 +138,14 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["logical_view"]["relationship_objects"][0]["source_entity_id"],
             "entity-system",
+        )
+        self.assertEqual(
+            model["logical_view"]["relationship_objects"][0]["source_multiplicity"],
+            "1",
+        )
+        self.assertEqual(
+            model["logical_view"]["relationship_objects"][0]["target_multiplicity"],
+            "*",
         )
         self.assertIn(
             "Draft -> Submitted -> Approved",
@@ -386,6 +398,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(relationship["relationship_type"], "")
         self.assertEqual(relationship["source_entity_id"], "")
         self.assertEqual(relationship["target_entity_id"], "")
+        self.assertEqual(relationship["source_multiplicity"], "")
+        self.assertEqual(relationship["target_multiplicity"], "")
         self.assertEqual(relationship["description"], "Ledger Entry interacts with reporting")
 
         transition = model["process_view"]["state_transition_objects"][0]
@@ -397,6 +411,28 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(interface["source_component_id"], "")
         self.assertEqual(interface["target_component_id"], "")
         self.assertEqual(interface["interaction_verb"], "")
+
+    def test_normalize_replay_to_model_parses_domain_attributes(self) -> None:
+        """Domain entities should parse simple attribute lists when explicitly stated."""
+        replay = replay_session(
+            [
+                {
+                    "round": 5,
+                    "responses": [
+                        {
+                            "key": "domain_entities",
+                            "answer": ["Member: id, email, points balance"],
+                        },
+                    ],
+                }
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        entity = model["logical_view"]["domain_entity_objects"][0]
+        self.assertEqual(entity["name"], "Member")
+        self.assertEqual(entity["attributes"], ["id", "email", "points balance"])
 
     def test_normalize_replay_to_model_adds_requirement_objects(self) -> None:
         """Requirement lists should also have explicit semantic object forms."""

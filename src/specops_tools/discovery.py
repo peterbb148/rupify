@@ -134,6 +134,16 @@ def _normalize_domain_entities(items: list[str]) -> list[dict[str, Any]]:
     entities = []
     for item in items:
         normalized_name = item.strip()
+        attributes = []
+        name_part = normalized_name
+        if ":" in normalized_name:
+            name_part, attribute_part = normalized_name.split(":", 1)
+            normalized_name = name_part.strip()
+            attributes = [
+                attribute.strip()
+                for attribute in attribute_part.split(",")
+                if attribute.strip()
+            ]
         entities.append(
             {
                 "id": f"entity-{_slugify(normalized_name)}",
@@ -141,7 +151,7 @@ def _normalize_domain_entities(items: list[str]) -> list[dict[str, Any]]:
                 "entity_type": "domain_entity",
                 "model_layer": "analysis",
                 "description": "",
-                "attributes": [],
+                "attributes": attributes,
                 "responsibilities": [],
                 "trace": {},
             }
@@ -160,17 +170,27 @@ def _normalize_relationships(
         source_name = ""
         target_name = ""
         relationship_type = ""
+        source_multiplicity = ""
+        target_multiplicity = ""
+        source_role_name = ""
+        target_role_name = ""
         normalized = text.lower()
 
         if " has many " in normalized:
             source_name, target_name = re.split(r"\bhas many\b", text, maxsplit=1, flags=re.IGNORECASE)
             relationship_type = "has_many"
+            source_multiplicity = "1"
+            target_multiplicity = "*"
         elif " has a " in normalized:
             source_name, target_name = re.split(r"\bhas a\b", text, maxsplit=1, flags=re.IGNORECASE)
             relationship_type = "has_one"
+            source_multiplicity = "1"
+            target_multiplicity = "1"
         elif " has an " in normalized:
             source_name, target_name = re.split(r"\bhas an\b", text, maxsplit=1, flags=re.IGNORECASE)
             relationship_type = "has_one"
+            source_multiplicity = "1"
+            target_multiplicity = "1"
         elif " belongs to " in normalized:
             source_name, target_name = re.split(
                 r"\bbelongs to\b",
@@ -179,9 +199,14 @@ def _normalize_relationships(
                 flags=re.IGNORECASE,
             )
             relationship_type = "belongs_to"
+            source_multiplicity = "*"
+            target_multiplicity = "1"
 
         source_name = source_name.strip()
         target_name = target_name.strip()
+        if source_name and target_name:
+            source_role_name = _slugify(target_name).replace("-", "_")
+            target_role_name = _slugify(source_name).replace("-", "_")
         source_match = _best_name_match(source_name, entities) if source_name else None
         target_match = _best_name_match(target_name, entities) if target_name else None
         relationships.append(
@@ -194,6 +219,10 @@ def _normalize_relationships(
                 "source_entity_id": source_match["id"] if source_match else "",
                 "target_name": target_name,
                 "target_entity_id": target_match["id"] if target_match else "",
+                "source_multiplicity": source_multiplicity,
+                "target_multiplicity": target_multiplicity,
+                "source_role_name": source_role_name,
+                "target_role_name": target_role_name,
                 "trace": {},
             }
         )
