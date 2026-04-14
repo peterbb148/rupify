@@ -169,6 +169,9 @@ The canonical project model is `specops-model.yaml`.
     - `from_state`
     - `to_state`
     - `trigger`
+    - `is_exception_flow`
+    - `is_terminal_transition`
+    - `constraint`
     - `trace`
   - `triggers_and_approvals`
   - `trigger_objects`
@@ -178,6 +181,8 @@ The canonical project model is `specops-model.yaml`.
     - `description`
     - `model_layer`: `analysis`
     - `approval_required`
+    - `constraint_type`
+    - `exceptional_behavior`
     - `trace`
 - `design_view` (authoritative source for design-layer objects)
   - `component_objects`
