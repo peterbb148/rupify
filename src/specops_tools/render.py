@@ -75,6 +75,8 @@ def _object_name_section(
             line = f"- `{item.get('id', 'item')}` {item.get('name', 'Unnamed')}"
             if item.get("attributes"):
                 line = f"{line} [{', '.join(item['attributes'])}]"
+            if item.get("states"):
+                line = f"{line} {{states: {', '.join(item['states'])}}}"
             if item.get("description"):
                 line = f"{line}: {item['description']}"
             if trace := item.get("trace"):
@@ -183,6 +185,95 @@ def _relationship_section(
                     f"roles: {item.get('source_role_name', '')} / {item.get('target_role_name', '')}"
                 )
             line = f"- `{item.get('id', 'item')}` {item.get('description', '')}"
+            if semantic_bits:
+                line = f"{line} ({'; '.join(semantic_bits)})"
+            if trace := item.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
+            rendered.append(line)
+        return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+    return _named_section(title, fallback)
+
+
+def _state_transition_section(
+    title: str,
+    items: list[dict[str, Any]],
+    fallback: list[str],
+) -> str:
+    """Render transitions with richer state-machine semantics when present."""
+    if items:
+        rendered = []
+        for item in items:
+            from_state = item.get("from_state", "")
+            to_state = item.get("to_state", "")
+            if from_state or to_state:
+                line = (
+                    f"- `{item.get('id', 'item')}` {from_state or '?'} -> {to_state or '?'}"
+                )
+            else:
+                text = item.get("description") or item.get("text") or ""
+                line = f"- `{item.get('id', 'item')}` {text}"
+
+            semantic_bits = []
+            if item.get("state_entity_name"):
+                semantic_bits.append(f"entity: {item['state_entity_name']}")
+            if item.get("trigger"):
+                semantic_bits.append(f"trigger: {item['trigger']}")
+            if item.get("constraint"):
+                semantic_bits.append(f"constraint: {item['constraint']}")
+            if item.get("is_exception_flow"):
+                semantic_bits.append("exception flow")
+            if item.get("is_terminal_transition"):
+                semantic_bits.append("terminal transition")
+            if semantic_bits:
+                line = f"{line} ({'; '.join(semantic_bits)})"
+
+            if trace := item.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
+            rendered.append(line)
+        return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+    return _named_section(title, fallback)
+
+
+def _trigger_section(
+    title: str,
+    items: list[dict[str, Any]],
+    fallback: list[str],
+) -> str:
+    """Render lifecycle constraints and triggers with explicit process semantics."""
+    if items:
+        rendered = []
+        for item in items:
+            text = (
+                item.get("description")
+                or item.get("text")
+                or item.get("outcome")
+                or item.get("event_name")
+                or ""
+            )
+            line = f"- `{item.get('id', 'item')}` {text}"
+            semantic_bits = []
+            if item.get("event_name"):
+                semantic_bits.append(f"event: {item['event_name']}")
+            if item.get("constraint_type"):
+                semantic_bits.append(f"type: {item['constraint_type']}")
+            if item.get("approval_required"):
+                semantic_bits.append("approval required")
+            if item.get("exceptional_behavior"):
+                semantic_bits.append("exceptional behavior")
             if semantic_bits:
                 line = f"{line} ({'; '.join(semantic_bits)})"
             if trace := item.get("trace"):
@@ -686,12 +777,12 @@ def render_state_model(model: dict[str, Any]) -> str:
     state_entity_objects,
     process_view.get("state_entities", []),
 )}
-{_object_text_section(
+{_state_transition_section(
     "State Transitions",
     state_transition_objects,
     process_view.get("states_and_transitions", []),
 )}
-{_object_text_section(
+{_trigger_section(
     "Triggers and Approvals",
     trigger_objects,
     process_view.get("triggers_and_approvals", []),

@@ -164,8 +164,20 @@ class DiscoveryTests(unittest.TestCase):
             "Submitted",
         )
         self.assertEqual(
+            model["process_view"]["state_transition_objects"][0]["state_entity_id"],
+            "state-entity-approval-request",
+        )
+        self.assertEqual(
+            model["process_view"]["state_entity_objects"][0]["states"],
+            ["Draft", "Submitted", "Approved"],
+        )
+        self.assertEqual(
             model["process_view"]["trigger_objects"][0]["event_name"],
             "Submission",
+        )
+        self.assertEqual(
+            model["process_view"]["trigger_objects"][0]["constraint_type"],
+            "event",
         )
         self.assertIn("Web app", model["architecture_view"]["components_and_services"])
         self.assertEqual(
@@ -589,4 +601,43 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["logical_view"]["domain_entities"], [])
         self.assertEqual(model["logical_view"]["relationship_objects"], [])
         self.assertEqual(model["process_view"]["state_entities"], [])
+
+    def test_normalize_replay_to_model_enriches_state_machine_semantics(self) -> None:
+        """State normalization should derive lifecycle semantics when the source text is explicit."""
+        replay = replay_session(
+            [
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["Approval Request"]},
+                        {
+                            "key": "states_and_transitions",
+                            "answer": [
+                                "Approval Request: Draft -> Submitted -> Approved",
+                                "Approval Request: Submitted -> Rejected",
+                            ],
+                        },
+                        {
+                            "key": "triggers_and_approvals",
+                            "answer": [
+                                "Submission requires manager approval",
+                                "Rejection event moves request to Rejected",
+                            ],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        transitions = model["process_view"]["state_transition_objects"]
+        triggers = model["process_view"]["trigger_objects"]
+
+        self.assertEqual(transitions[0]["state_entity_name"], "Approval Request")
+        self.assertEqual(transitions[1]["is_terminal_transition"], True)
+        self.assertEqual(transitions[2]["is_exception_flow"], True)
+        self.assertEqual(transitions[2]["is_terminal_transition"], True)
+        self.assertEqual(triggers[0]["approval_required"], True)
+        self.assertEqual(triggers[0]["constraint_type"], "approval")
+        self.assertEqual(triggers[1]["exceptional_behavior"], True)
         self.assertEqual(model["architecture_view"]["runtime_boundary_objects"], [])

@@ -272,39 +272,88 @@ def _normalize_state_entities(items: list[str]) -> list[dict[str, Any]]:
     return entities
 
 
+def _parse_state_transition_prefix(text: str) -> tuple[str, str]:
+    """Split a transition string into optional entity prefix and transition body."""
+    if ":" not in text:
+        return "", text
+    prefix, remainder = text.split(":", 1)
+    if "->" not in remainder:
+        return "", text
+    return prefix.strip(), remainder.strip()
+
+
+def _is_exception_state(state_name: str) -> bool:
+    """Return whether a state label clearly represents an exceptional path."""
+    normalized = _slugify(state_name)
+    return normalized in {
+        "rejected",
+        "cancelled",
+        "canceled",
+        "failed",
+        "error",
+        "exception",
+        "escalated",
+    }
+
+
+def _is_terminal_state(state_name: str) -> bool:
+    """Return whether a state label clearly represents a terminal lifecycle state."""
+    normalized = _slugify(state_name)
+    return normalized in {
+        "approved",
+        "fulfilled",
+        "completed",
+        "closed",
+        "cancelled",
+        "canceled",
+        "rejected",
+        "failed",
+        "inactive",
+        "archived",
+    }
+
+
 def _normalize_state_transitions(items: list[str]) -> list[dict[str, Any]]:
     """Convert transition strings into structured transition objects."""
     transitions = []
     for item in items:
         text = item.strip()
-        if "->" not in text:
+        entity_name, transition_text = _parse_state_transition_prefix(text)
+        if "->" not in transition_text:
             transitions.append(
                 {
                     "id": f"state-transition-{len(transitions) + 1}",
                     "description": text,
                     "model_layer": "analysis",
-                    "state_entity_id": "",
-                    "state_entity_name": "",
+                    "state_entity_id": f"state-entity-{_slugify(entity_name)}" if entity_name else "",
+                    "state_entity_name": entity_name,
                     "from_state": "",
                     "to_state": "",
                     "trigger": "",
+                    "is_exception_flow": False,
+                    "is_terminal_transition": False,
+                    "constraint": "",
                     "trace": {},
                 }
             )
             continue
 
-        states = [part.strip() for part in text.split("->") if part.strip()]
+        states = [part.strip() for part in transition_text.split("->") if part.strip()]
         for source_state, target_state in zip(states, states[1:]):
+            is_last_transition = target_state == states[-1]
             transitions.append(
                 {
                     "id": f"state-transition-{len(transitions) + 1}",
                     "description": text,
                     "model_layer": "analysis",
-                    "state_entity_id": "",
-                    "state_entity_name": "",
+                    "state_entity_id": f"state-entity-{_slugify(entity_name)}" if entity_name else "",
+                    "state_entity_name": entity_name,
                     "from_state": source_state,
                     "to_state": target_state,
                     "trigger": "",
+                    "is_exception_flow": _is_exception_state(target_state),
+                    "is_terminal_transition": is_last_transition and _is_terminal_state(target_state),
+                    "constraint": "",
                     "trace": {},
                 }
             )
@@ -331,6 +380,11 @@ def _normalize_triggers(items: list[str]) -> list[dict[str, Any]]:
                 "description": text,
                 "model_layer": "analysis",
                 "approval_required": "approval" in normalized,
+                "constraint_type": "approval" if "approval" in normalized else "event",
+                "exceptional_behavior": any(
+                    marker in normalized
+                    for marker in ("reject", "cancel", "fail", "error", "exception", "escalat")
+                ),
                 "trace": {},
             }
         )
@@ -853,6 +907,52 @@ def _build_interaction_view(
     }
 
 
+def _bind_state_semantics(
+    state_entity_objects: list[dict[str, Any]],
+    state_transition_objects: list[dict[str, Any]],
+    trigger_objects: list[dict[str, Any]],
+) -> None:
+    """Link transitions to explicit lifecycle owners and derive entity state lists."""
+    entity_id_by_name = {
+        _match_slug(item.get("name", "")): item.get("id", "")
+        for item in state_entity_objects
+        if item.get("name") and item.get("id")
+    }
+
+    for transition in state_transition_objects:
+        state_entity_name = transition.get("state_entity_name", "")
+        if state_entity_name and not transition.get("state_entity_id"):
+            transition["state_entity_id"] = entity_id_by_name.get(_match_slug(state_entity_name), "")
+
+        if not transition.get("state_entity_id") and len(state_entity_objects) == 1:
+            transition["state_entity_id"] = state_entity_objects[0]["id"]
+            transition["state_entity_name"] = state_entity_objects[0]["name"]
+
+        trigger_text = " ".join(
+            part for part in (transition.get("description", ""), transition.get("constraint", "")) if part
+        )
+        normalized_trigger_text = trigger_text.lower()
+        for trigger in trigger_objects:
+            event_name = trigger.get("event_name", "")
+            if event_name and event_name.lower() in normalized_trigger_text:
+                transition["trigger"] = event_name
+                break
+
+    states_by_entity_id: dict[str, list[str]] = {
+        item.get("id", ""): [] for item in state_entity_objects if item.get("id")
+    }
+    for transition in state_transition_objects:
+        entity_id = transition.get("state_entity_id", "")
+        if not entity_id or entity_id not in states_by_entity_id:
+            continue
+        for state_name in (transition.get("from_state", ""), transition.get("to_state", "")):
+            if state_name and state_name not in states_by_entity_id[entity_id]:
+                states_by_entity_id[entity_id].append(state_name)
+
+    for entity in state_entity_objects:
+        entity["states"] = states_by_entity_id.get(entity.get("id", ""), [])
+
+
 def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     """Normalize replay output into a canonical SpecOps model shape.
 
@@ -964,6 +1064,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         _normalize_triggers(_ensure_list(round_6.get("triggers_and_approvals"))),
         6,
         "triggers_and_approvals",
+    )
+    _bind_state_semantics(
+        state_entity_objects,
+        state_transition_objects,
+        trigger_objects,
     )
     component_objects = _with_trace(
         _normalize_components(_ensure_list(round_7.get("components_and_services"))),

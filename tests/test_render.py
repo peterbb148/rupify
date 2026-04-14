@@ -344,20 +344,44 @@ class RenderTests(unittest.TestCase):
                 {
                     "id": "state-entity-redemption-request",
                     "name": "Redemption Request",
+                    "states": ["Requested", "Approved", "Fulfilled"],
                     "trace": {"source_round": 6, "source_key": "state_entities"},
                 }
             ],
             "state_transition_objects": [
                 {
                     "id": "state-transition-1",
-                    "text": "Requested -> Approved -> Fulfilled",
+                    "description": "Requested -> Approved -> Fulfilled",
+                    "state_entity_name": "Redemption Request",
+                    "from_state": "Requested",
+                    "to_state": "Approved",
+                    "trigger": "Approval event",
+                    "constraint": "manager approval",
+                    "is_exception_flow": False,
+                    "is_terminal_transition": False,
+                    "trace": {"source_round": 6, "source_key": "states_and_transitions"},
+                },
+                {
+                    "id": "state-transition-2",
+                    "description": "Approved -> Fulfilled",
+                    "state_entity_name": "Redemption Request",
+                    "from_state": "Approved",
+                    "to_state": "Fulfilled",
+                    "trigger": "",
+                    "constraint": "",
+                    "is_exception_flow": False,
+                    "is_terminal_transition": True,
                     "trace": {"source_round": 6, "source_key": "states_and_transitions"},
                 }
             ],
             "trigger_objects": [
                 {
                     "id": "trigger-1",
-                    "text": "Approval event moves request to Approved.",
+                    "description": "Approval event moves request to Approved.",
+                    "event_name": "Approval event",
+                    "constraint_type": "approval",
+                    "approval_required": True,
+                    "exceptional_behavior": False,
                     "trace": {"source_round": 6, "source_key": "triggers_and_approvals"},
                 }
             ],
@@ -395,8 +419,17 @@ class RenderTests(unittest.TestCase):
         self.assertIn("# State Model", rendered)
         self.assertIn("## State Entities", rendered)
         self.assertIn("`state-entity-redemption-request` Redemption Request", rendered)
+        self.assertIn("{states: Requested, Approved, Fulfilled}", rendered)
         self.assertIn("## State Transitions", rendered)
-        self.assertIn("Requested -> Approved -> Fulfilled", rendered)
+        self.assertIn("Requested -> Approved", rendered)
+        self.assertIn("entity: Redemption Request", rendered)
+        self.assertIn("trigger: Approval event", rendered)
+        self.assertIn("constraint: manager approval", rendered)
+        self.assertIn("terminal transition", rendered)
+        self.assertIn("## Triggers and Approvals", rendered)
+        self.assertIn("Approval event moves request to Approved.", rendered)
+        self.assertIn("type: approval", rendered)
+        self.assertIn("approval required", rendered)
         self.assertIn("## Use-Case To State Traceability", rendered)
         self.assertIn("`trace-uc-analysis-1` uc-redeem -> state-entity-redemption-request", rendered)
         self.assertIn("## State To Design Traceability", rendered)
@@ -744,7 +777,8 @@ class RenderTests(unittest.TestCase):
         rendered = render_state_model(model)
 
         self.assertIn("Approval Request", rendered)
-        self.assertIn("Draft -> Submitted -> Approved", rendered)
+        self.assertIn("Draft -> Submitted", rendered)
+        self.assertIn("Submitted -> Approved", rendered)
 
     def test_end_to_end_domain_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal domain-model artifact."""
