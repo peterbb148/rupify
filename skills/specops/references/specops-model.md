@@ -249,6 +249,7 @@ The model should be rich enough to generate:
 - `use-case-model.md`
 - `domain-model.md`
 - `interaction-model.md`
+- `deployment-model.md`
 - `state-model.md`
 - `ucp-estimate.md`
 
@@ -282,6 +283,14 @@ interaction semantics:
 - `interaction_view.message_objects`
 - use-case realizations anchored to canonical use-case objects
 - message flows anchored to canonical interface objects
+
+For the first V2 component/deployment artifact, `deployment-model.md` is generated from the
+canonical design and architecture semantics:
+
+- `design_view.component_objects`
+- `design_view.interface_objects`
+- `design_view.runtime_boundary_objects`
+- current deployment/runtime boundary data without invented node structure
 
 If any artifact would require invented inputs, stop and surface the missing fields.
 

@@ -546,6 +546,59 @@ def render_interaction_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_deployment_model(model: dict[str, Any]) -> str:
+    """Render the formal deployment-model artifact.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Markdown content.
+    """
+    project = model.get("project", {})
+    design_view = model.get("design_view", {})
+    architecture_view = model.get("architecture_view", {})
+    component_objects = design_view.get(
+        "component_objects",
+        architecture_view.get("component_objects", []),
+    )
+    interface_objects = design_view.get(
+        "interface_objects",
+        architecture_view.get("interface_objects", []),
+    )
+    runtime_boundary_objects = design_view.get(
+        "runtime_boundary_objects",
+        architecture_view.get("runtime_boundary_objects", []),
+    )
+
+    return f"""# Deployment Model
+
+## Project
+
+- Name: {project.get("name", "Unnamed Project")}
+- Domain: {project.get("domain", "Unspecified")}
+
+## Scope
+
+{project.get("system_scope", "Unspecified")}
+{_object_name_section(
+    "Components",
+    component_objects,
+    architecture_view.get("components_and_services", []),
+)}
+{_object_text_section(
+    "Interfaces and Integrations",
+    interface_objects,
+    architecture_view.get("interfaces_and_integrations", []),
+)}
+{_object_text_section(
+    "Runtime Boundaries",
+    runtime_boundary_objects,
+    architecture_view.get("runtime_boundaries", []),
+)}
+"""
+
+
 def render_state_model(model: dict[str, Any]) -> str:
     """Render the formal state-model artifact.
 
@@ -630,6 +683,7 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
         "use-case-model.md": render_use_case_model(model),
         "domain-model.md": render_domain_model(model),
         "interaction-model.md": render_interaction_model(model),
+        "deployment-model.md": render_deployment_model(model),
         "state-model.md": render_state_model(model),
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }

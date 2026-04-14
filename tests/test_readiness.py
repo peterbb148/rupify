@@ -183,7 +183,35 @@ class ReadinessTests(unittest.TestCase):
 
         self.assertEqual(
             stale,
-            ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+            [
+                "deployment-model.md",
+                "interaction-model.md",
+                "requirements-spec.md",
+                "use-case-model.md",
+            ],
+        )
+
+    def test_identify_stale_artifacts_marks_deployment_model_for_architecture_updates(self) -> None:
+        """Architecture updates should mark the formal deployment-model artifact stale."""
+        stale = identify_stale_artifacts(
+            [
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "runtime_boundaries", "answer": "Rewards API runs separately from the UI"},
+                    ],
+                },
+            ]
+        )
+
+        self.assertEqual(
+            stale,
+            [
+                "deployment-model.md",
+                "interaction-model.md",
+                "requirements-spec.md",
+                "use-case-model.md",
+            ],
         )
 
     def test_evaluate_traceability_reports_missing_links(self) -> None:
