@@ -92,6 +92,7 @@ These themes now shape the completed bridge into V1.6 hardening work.
 
 See also: [V2 Go/No-Go Decision](v2-go-no-go-decision.md)
 See also: [RUP Artifact Coverage Matrix](rup-artifact-coverage-matrix.md)
+See also: [Mermaid Publication Workflows](mermaid-publication-workflows.md)
 See also: [Document Ingestion Future Direction](document-ingestion-future.md)
 
 ## Relationship Model
