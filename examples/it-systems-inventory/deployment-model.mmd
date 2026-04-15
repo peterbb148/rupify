@@ -1,1 +1,7 @@
 flowchart LR
+System_Inventory_Web_App["System Inventory Web App"]
+System_Inventory_API["System Inventory API"]
+Reporting_Consumers["Reporting Consumers"]
+System_Inventory_Web_App -->|"System Inventory Web App calls System Inventory API"| System_Inventory_API
+System_Inventory_API -->|"System Inventory API sends Reporting Consumers"| Reporting_Consumers
+RuntimeBoundary_1["System Inventory API runs separately from the UI"]

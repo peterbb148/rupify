@@ -1,223 +1,1671 @@
 {
-  "project": {
-    "name": "IT Systems Inventory and Lifecycle Management",
-    "domain": "Enterprise IT portfolio management",
-    "problem_statement": "The company has many overlapping IT systems with different costs, risks, and lifecycle states. IT Business Owners and related stakeholders lack a single system for inventory, planning, deprecation, cost management, and risk oversight.",
-    "system_scope": "Web-based inventory and lifecycle management system for all non-OT IT systems."
-  },
-  "business_goals": [
-    "Improve planning of IT system purchasing and lifecycle decisions.",
-    "Create a single inventory source of truth for non-OT IT systems.",
-    "Improve visibility of overlap, cost, risk, and deprecation status."
-  ],
-  "success_criteria": [
-    "Stakeholders can inventory all non-OT systems in one place.",
-    "Lifecycle and approval states are visible and configurable.",
-    "Downstream systems can consume data through an API.",
-    "The system supports lifecycle planning, deprecation, and cost/risk management workflows."
-  ],
   "actors": [
     {
-      "id": "business-owner",
-      "name": "IT Business Owner",
-      "type": "human",
-      "description": "Owns business accountability for systems and uses the platform for inventory, planning, lifecycle oversight, and approvals.",
-      "complexity": "complex"
+      "complexity": "complex",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "business-owners",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "Business owners",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
     },
     {
-      "id": "technical-owner",
-      "name": "Technical Owner",
-      "type": "human",
-      "description": "Maintains technical metadata, lifecycle details, and system-level attributes.",
-      "complexity": "complex"
+      "complexity": "complex",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "technical-owners",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "technical owners",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
     },
     {
-      "id": "enterprise-architect",
-      "name": "Enterprise Architect",
-      "type": "human",
-      "description": "Reviews overlap, portfolio fit, capability coverage, and strategic lifecycle direction.",
-      "complexity": "complex"
+      "complexity": "complex",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "enterprise-architects",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "enterprise architects",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
     },
     {
-      "id": "governance-user",
-      "name": "Procurement/Security/Finance/Application Owner",
-      "type": "human",
-      "description": "Contributes governance, cost, security, and ownership review activities.",
-      "complexity": "average"
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "procurement",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "procurement",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
     },
     {
-      "id": "downstream-system",
-      "name": "Downstream API Consumer",
-      "type": "system",
-      "description": "Reads inventory and lifecycle data through the API for reporting or automation.",
-      "complexity": "simple"
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "security",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "security",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "finance",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "finance",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
+    },
+    {
+      "complexity": "complex",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "application-owners",
+      "interaction_style": "user_interface",
+      "model_layer": "analysis",
+      "name": "application owners",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "human"
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "actor_complexity",
+        "source_round": 8
+      },
+      "description": "",
+      "id": "integration-system-owners",
+      "interaction_style": "system_interface",
+      "model_layer": "analysis",
+      "name": "integration system owners",
+      "responsibilities": [],
+      "trace": {
+        "source_key": "actors",
+        "source_round": 3
+      },
+      "type": "system"
     }
   ],
-  "use_cases": [
-    {
-      "id": "register-system",
-      "name": "Register a system",
-      "primary_actor": "IT Business Owner",
-      "goal": "Add a non-OT IT system to the inventory.",
-      "complexity": "simple",
-      "main_success_scenario": [
-        "IT Business Owner opens the registration flow.",
-        "User enters required metadata for the system.",
-        "System validates the submission.",
-        "System creates the inventory record."
-      ],
-      "extensions": [
-        "Required metadata is missing.",
-        "A potential duplicate system is detected."
-      ]
-    },
-    {
-      "id": "edit-metadata",
-      "name": "Edit system metadata",
-      "primary_actor": "Technical Owner",
-      "goal": "Maintain and update metadata for an existing system.",
-      "complexity": "average",
-      "main_success_scenario": [
-        "Technical Owner locates the system record.",
-        "Technical Owner edits metadata fields.",
-        "System validates the changes.",
-        "System saves the updated record and audit trail."
-      ],
-      "extensions": [
-        "User lacks permission to edit certain fields.",
-        "A field value violates policy or data validation."
-      ]
-    },
-    {
-      "id": "compare-overlap",
-      "name": "Compare overlapping systems",
-      "primary_actor": "Enterprise Architect",
-      "goal": "Identify and compare systems with overlapping purpose or capability.",
-      "complexity": "complex",
-      "main_success_scenario": [
-        "Enterprise Architect searches or selects systems for comparison.",
-        "System displays metadata, capabilities, cost, risk, and lifecycle information side by side.",
-        "Enterprise Architect reviews overlap indicators and redundancy signals.",
-        "System supports documenting comparison outcomes."
-      ],
-      "extensions": [
-        "Overlap signals are incomplete because metadata is missing.",
-        "Comparison scope spans too many systems and must be narrowed."
-      ]
-    },
-    {
-      "id": "track-lifecycle",
-      "name": "Track lifecycle state",
-      "primary_actor": "IT Business Owner",
-      "goal": "Maintain lifecycle state and progression for a system.",
-      "complexity": "average",
-      "main_success_scenario": [
-        "IT Business Owner opens the lifecycle view for a system.",
-        "User reviews current lifecycle state and allowed transitions.",
-        "User updates or submits a lifecycle transition.",
-        "System records the transition and exposes the updated state."
-      ],
-      "extensions": [
-        "Requested transition is not allowed by workflow rules.",
-        "Transition requires approval before completion."
-      ]
-    },
-    {
-      "id": "review-risk-cost",
-      "name": "Review risks and costs",
-      "primary_actor": "Procurement/Security/Finance/Application Owner",
-      "goal": "Inspect risk and cost dimensions for a system or portfolio slice.",
-      "complexity": "average",
-      "main_success_scenario": [
-        "Governance user opens a system or portfolio view.",
-        "System shows annual cost, contract end, owner gap, security rating, business criticality, technical debt, and redundancy.",
-        "Governance user filters or searches the results.",
-        "Governance user records or exports the review outcome."
-      ],
-      "extensions": [
-        "Required source data is missing or stale.",
-        "Some data is restricted by role."
-      ]
-    },
-    {
-      "id": "approve-deprecation",
-      "name": "Approve deprecation and stage gates",
-      "primary_actor": "Procurement/Security/Finance/Application Owner",
-      "goal": "Execute workflow approvals for lifecycle stage gates and deprecation decisions.",
-      "complexity": "complex",
-      "main_success_scenario": [
-        "A lifecycle or deprecation request is submitted.",
-        "Governance user reviews the request and supporting metadata.",
-        "Governance user approves or rejects the stage-gate decision.",
-        "System records the decision and updates the workflow state."
-      ],
-      "extensions": [
-        "Additional approvers are required.",
-        "A rejection sends the item back for rework.",
-        "Mandatory supporting information is missing."
-      ]
-    },
-    {
-      "id": "report-portfolio-gaps",
-      "name": "Report portfolio gaps",
-      "primary_actor": "Enterprise Architect",
-      "goal": "Identify gaps, duplication, or planning issues across the IT system portfolio.",
-      "complexity": "complex",
-      "main_success_scenario": [
-        "Enterprise Architect selects a scope such as capability, geography, or ownership area.",
-        "System analyzes the selected inventory subset.",
-        "System presents detected gaps, duplication, or lifecycle concerns.",
-        "Enterprise Architect exports or shares the results."
-      ],
-      "extensions": [
-        "The selected data set is incomplete.",
-        "Gap analysis rules need refinement for the selected scope."
-      ]
-    },
-    {
-      "id": "export-api",
-      "name": "Expose inventory data by API",
-      "primary_actor": "Downstream API Consumer",
-      "goal": "Retrieve inventory and lifecycle data programmatically.",
-      "complexity": "average",
-      "main_success_scenario": [
-        "Downstream system authenticates to the API.",
-        "Downstream system requests inventory or lifecycle data.",
-        "System validates access rights and query parameters.",
-        "System returns the requested data."
-      ],
-      "extensions": [
-        "Caller is unauthorized.",
-        "Query parameters are invalid.",
-        "Requested data includes restricted fields."
-      ]
-    }
-  ],
-  "requirements": {
-    "functional": [
-      "The system must manage inventory for all non-OT IT systems.",
-      "The system must allow users to register a system.",
-      "The system must allow authorized users to edit system metadata.",
-      "The system must support comparison of overlapping systems.",
-      "The system must track configurable lifecycle states, including proposed, active, tolerated, sunset, and decommissioned.",
-      "The system must track annual cost, contract end, owner gap, security rating, business criticality, technical debt, and redundancy.",
-      "The system must support business workflows such as stage gates and approval states.",
-      "The system must provide API access for downstream systems and AI agents.",
-      "The system must support reporting of portfolio gaps.",
-      "The system must support risk and cost review across inventoried systems."
+  "analysis_view": {
+    "actor_ids": [
+      "business-owners",
+      "technical-owners",
+      "enterprise-architects",
+      "procurement",
+      "security",
+      "finance",
+      "application-owners",
+      "integration-system-owners"
     ],
-    "non_functional": [
-      "The UI must be web based.",
-      "The system must support SSO.",
-      "The system must support role-based access control.",
-      "The system must provide an audit trail.",
-      "The system must support search and filtering.",
-      "The system must provide availability of at least 99%.",
-      "The system must provide acceptable web performance for normal page rendering."
+    "actors": [
+      {
+        "complexity": "complex",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "business-owners",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "Business owners",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "complex",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "technical-owners",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "technical owners",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "complex",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "enterprise-architects",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "enterprise architects",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "procurement",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "procurement",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "security",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "security",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "finance",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "finance",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "complex",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "application-owners",
+        "interaction_style": "user_interface",
+        "model_layer": "analysis",
+        "name": "application owners",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "human"
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "actor_complexity",
+          "source_round": 8
+        },
+        "description": "",
+        "id": "integration-system-owners",
+        "interaction_style": "system_interface",
+        "model_layer": "analysis",
+        "name": "integration system owners",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "actors",
+          "source_round": 3
+        },
+        "type": "system"
+      }
+    ],
+    "business_rule_ids": [
+      "business-rule-1",
+      "business-rule-2",
+      "business-rule-3"
+    ],
+    "business_rule_objects": [
+      {
+        "id": "business-rule-1",
+        "model_layer": "analysis",
+        "name": "Rule 1",
+        "rule_text": "A System must have a business owner before it becomes Active.",
+        "scope": "A System",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      },
+      {
+        "id": "business-rule-2",
+        "model_layer": "analysis",
+        "name": "Rule 2",
+        "rule_text": "A System lifecycle state change requires approval for deprecation.",
+        "scope": "A System lifecycle state change",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      },
+      {
+        "id": "business-rule-3",
+        "model_layer": "analysis",
+        "name": "Rule 3",
+        "rule_text": "A System must record vendor and contract dates.",
+        "scope": "A System",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      }
+    ],
+    "domain_entity_ids": [
+      "entity-system",
+      "entity-risk-assessment",
+      "entity-cost-record",
+      "entity-capability",
+      "entity-contract",
+      "entity-integration"
+    ],
+    "domain_entity_objects": [
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-system",
+        "model_layer": "analysis",
+        "name": "System",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-risk-assessment",
+        "model_layer": "analysis",
+        "name": "Risk Assessment",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-cost-record",
+        "model_layer": "analysis",
+        "name": "Cost Record",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-capability",
+        "model_layer": "analysis",
+        "name": "Capability",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-contract",
+        "model_layer": "analysis",
+        "name": "Contract",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-integration",
+        "model_layer": "analysis",
+        "name": "Integration",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      }
+    ],
+    "relationship_ids": [
+      "relationship-1",
+      "relationship-2",
+      "relationship-3",
+      "relationship-4",
+      "relationship-5",
+      "relationship-6",
+      "relationship-7"
+    ],
+    "relationship_objects": [
+      {
+        "description": "A System has one Business Owner",
+        "id": "relationship-1",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has one Technical Owner",
+        "id": "relationship-2",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Integrations",
+        "id": "relationship-3",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "integrations",
+        "target_entity_id": "entity-integration",
+        "target_multiplicity": "*",
+        "target_name": "Integrations",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Capabilities",
+        "id": "relationship-4",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "capabilities",
+        "target_entity_id": "",
+        "target_multiplicity": "*",
+        "target_name": "Capabilities",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has one Contract",
+        "id": "relationship-5",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Risk Assessments",
+        "id": "relationship-6",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "risk_assessments",
+        "target_entity_id": "entity-risk-assessment",
+        "target_multiplicity": "*",
+        "target_name": "Risk Assessments",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Cost Records",
+        "id": "relationship-7",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "cost_records",
+        "target_entity_id": "entity-cost-record",
+        "target_multiplicity": "*",
+        "target_name": "Cost Records",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      }
+    ],
+    "requirement_ids": [
+      "functional-requirement-1",
+      "functional-requirement-1",
+      "non_functional-requirement-1",
+      "non_functional-requirement-1",
+      "non_functional-requirement-2",
+      "non_functional-requirement-3",
+      "non_functional-requirement-4",
+      "non_functional-requirement-5",
+      "non_functional-requirement-6",
+      "non_functional-requirement-7"
+    ],
+    "requirement_objects": [
+      {
+        "fit_criterion": "",
+        "id": "functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "functional",
+        "statement": "Yes business processes like stage gates and approval states must be supported",
+        "trace": {
+          "source_key": "workflow_scope",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "functional",
+        "statement": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting.",
+        "trace": {
+          "source_key": "integrations",
+          "source_round": 3
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "UI must be web based",
+        "trace": {
+          "source_key": "constraints",
+          "source_round": 2
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "SSO",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-2",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "role-based access",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-3",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "audit trail",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-4",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "search",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-5",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "filtering",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-6",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "performance (regular >1s for web page rendering)",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-7",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "availability >=99%",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      }
+    ],
+    "state_entity_ids": [
+      "state-entity-system"
+    ],
+    "state_entity_objects": [
+      {
+        "description": "",
+        "entity_type": "stateful_entity",
+        "id": "state-entity-system",
+        "model_layer": "analysis",
+        "name": "System",
+        "states": [
+          "Proposed",
+          "Active",
+          "Retiring",
+          "Retired",
+          "Deprecated"
+        ],
+        "trace": {
+          "source_key": "state_entities",
+          "source_round": 6
+        }
+      }
+    ],
+    "state_transition_ids": [
+      "state-transition-1",
+      "state-transition-2",
+      "state-transition-3",
+      "state-transition-4"
+    ],
+    "state_transition_objects": [
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Proposed",
+        "id": "state-transition-1",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Active",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Active",
+        "id": "state-transition-2",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Retiring",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Retiring",
+        "id": "state-transition-3",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Retired",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Active -> Deprecated",
+        "from_state": "Active",
+        "id": "state-transition-4",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Deprecated",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      }
+    ],
+    "trigger_ids": [
+      "trigger-1",
+      "trigger-2"
+    ],
+    "trigger_objects": [
+      {
+        "approval_required": true,
+        "constraint_type": "approval",
+        "description": "Deprecation approval requires enterprise architect review",
+        "event_name": "Deprecation approval",
+        "exceptional_behavior": false,
+        "id": "trigger-1",
+        "model_layer": "analysis",
+        "outcome": "enterprise architect review",
+        "trace": {
+          "source_key": "triggers_and_approvals",
+          "source_round": 6
+        }
+      },
+      {
+        "approval_required": false,
+        "constraint_type": "event",
+        "description": "Contract expiry triggers lifecycle review",
+        "event_name": "Contract expiry",
+        "exceptional_behavior": false,
+        "id": "trigger-2",
+        "model_layer": "analysis",
+        "outcome": "lifecycle review",
+        "trace": {
+          "source_key": "triggers_and_approvals",
+          "source_round": 6
+        }
+      }
+    ],
+    "use_case_ids": [
+      "register-a-system",
+      "edit-metadata",
+      "compare-overlapping-systems",
+      "track-lifecycle-state",
+      "review-risks",
+      "see-costs",
+      "approve-deprecation",
+      "report-portfolio-gaps"
+    ],
+    "use_cases": [
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "Register a system",
+        "id": "register-a-system",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "Register a system",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "simple",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "edit metadata",
+        "id": "edit-metadata",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "edit metadata",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "compare overlapping systems",
+        "id": "compare-overlapping-systems",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "compare overlapping systems",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "track lifecycle state",
+        "id": "track-lifecycle-state",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "track lifecycle state",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "simple",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "review risks",
+        "id": "review-risks",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "review risks",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "simple",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "see costs",
+        "id": "see-costs",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "see costs",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "approve deprecation",
+        "id": "approve-deprecation",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "approve deprecation",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      },
+      {
+        "complexity": "average",
+        "complexity_trace": {
+          "source_key": "use_case_complexity",
+          "source_round": 9
+        },
+        "extensions": [],
+        "goal": "report portfolio gaps",
+        "id": "report-portfolio-gaps",
+        "main_success_scenario": [],
+        "model_layer": "analysis",
+        "name": "report portfolio gaps",
+        "postconditions": [],
+        "preconditions": [],
+        "primary_actor": "Unspecified",
+        "primary_actor_id": "",
+        "supporting_actor_ids": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "trigger": ""
+      }
+    ]
+  },
+  "architecture_view": {
+    "component_objects": [
+      {
+        "component_kind": "application",
+        "id": "component-system-inventory-web-app",
+        "model_layer": "design",
+        "name": "System Inventory Web App",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      },
+      {
+        "component_kind": "api",
+        "id": "component-system-inventory-api",
+        "model_layer": "design",
+        "name": "System Inventory API",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      },
+      {
+        "component_kind": "component",
+        "id": "component-reporting-consumers",
+        "model_layer": "design",
+        "name": "Reporting Consumers",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      }
+    ],
+    "components_and_services": [
+      "System Inventory Web App",
+      "System Inventory API",
+      "Reporting Consumers"
+    ],
+    "interface_objects": [
+      {
+        "description": "System Inventory Web App calls System Inventory API",
+        "id": "interface-1",
+        "interaction_verb": "calls",
+        "model_layer": "design",
+        "protocol": "",
+        "source_component_id": "component-system-inventory-web-app",
+        "source_component_name": "System Inventory Web App",
+        "target_component_id": "component-system-inventory-api",
+        "target_component_name": "System Inventory API",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      },
+      {
+        "description": "System Inventory API sends Reporting Consumers",
+        "id": "interface-2",
+        "interaction_verb": "sends",
+        "model_layer": "design",
+        "protocol": "",
+        "source_component_id": "component-system-inventory-api",
+        "source_component_name": "System Inventory API",
+        "target_component_id": "component-reporting-consumers",
+        "target_component_name": "Reporting Consumers",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      }
+    ],
+    "interfaces_and_integrations": [
+      "System Inventory Web App calls System Inventory API",
+      "System Inventory API sends Reporting Consumers"
+    ],
+    "runtime_boundaries": [
+      "System Inventory API runs separately from the UI"
+    ],
+    "runtime_boundary_objects": [
+      {
+        "boundary_type": "runtime_separation",
+        "deployment_nodes": [],
+        "description": "System Inventory API runs separately from the UI",
+        "id": "runtime-boundary-1",
+        "model_layer": "design",
+        "name": "Runtime Boundary 1",
+        "trace": {
+          "source_key": "runtime_boundaries",
+          "source_round": 7
+        }
+      }
+    ]
+  },
+  "assumptions": [],
+  "business_goals": [
+    "Better planning of IT systems purchasing and life cycle"
+  ],
+  "design_view": {
+    "component_ids": [
+      "component-system-inventory-web-app",
+      "component-system-inventory-api",
+      "component-reporting-consumers"
+    ],
+    "component_objects": [
+      {
+        "component_kind": "application",
+        "id": "component-system-inventory-web-app",
+        "model_layer": "design",
+        "name": "System Inventory Web App",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      },
+      {
+        "component_kind": "api",
+        "id": "component-system-inventory-api",
+        "model_layer": "design",
+        "name": "System Inventory API",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      },
+      {
+        "component_kind": "component",
+        "id": "component-reporting-consumers",
+        "model_layer": "design",
+        "name": "Reporting Consumers",
+        "responsibility": "",
+        "runtime_environment": "",
+        "trace": {
+          "source_key": "components_and_services",
+          "source_round": 7
+        }
+      }
+    ],
+    "interface_ids": [
+      "interface-1",
+      "interface-2"
+    ],
+    "interface_objects": [
+      {
+        "description": "System Inventory Web App calls System Inventory API",
+        "id": "interface-1",
+        "interaction_verb": "calls",
+        "model_layer": "design",
+        "protocol": "",
+        "source_component_id": "component-system-inventory-web-app",
+        "source_component_name": "System Inventory Web App",
+        "target_component_id": "component-system-inventory-api",
+        "target_component_name": "System Inventory API",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      },
+      {
+        "description": "System Inventory API sends Reporting Consumers",
+        "id": "interface-2",
+        "interaction_verb": "sends",
+        "model_layer": "design",
+        "protocol": "",
+        "source_component_id": "component-system-inventory-api",
+        "source_component_name": "System Inventory API",
+        "target_component_id": "component-reporting-consumers",
+        "target_component_name": "Reporting Consumers",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      }
+    ],
+    "runtime_boundary_ids": [
+      "runtime-boundary-1"
+    ],
+    "runtime_boundary_objects": [
+      {
+        "boundary_type": "runtime_separation",
+        "deployment_nodes": [],
+        "description": "System Inventory API runs separately from the UI",
+        "id": "runtime-boundary-1",
+        "model_layer": "design",
+        "name": "Runtime Boundary 1",
+        "trace": {
+          "source_key": "runtime_boundaries",
+          "source_round": 7
+        }
+      }
+    ]
+  },
+  "future_placeholders": {
+    "formal_specification": [],
+    "uml": []
+  },
+  "interaction_view": {
+    "message_ids": [
+      "interaction-message-1",
+      "interaction-message-2"
+    ],
+    "message_objects": [
+      {
+        "description": "System Inventory Web App calls System Inventory API",
+        "id": "interaction-message-1",
+        "interaction_verb": "calls",
+        "model_layer": "design",
+        "source_id": "component-system-inventory-web-app",
+        "source_name": "System Inventory Web App",
+        "target_id": "component-system-inventory-api",
+        "target_name": "System Inventory API",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      },
+      {
+        "description": "System Inventory API sends Reporting Consumers",
+        "id": "interaction-message-2",
+        "interaction_verb": "sends",
+        "model_layer": "design",
+        "source_id": "component-system-inventory-api",
+        "source_name": "System Inventory API",
+        "target_id": "component-reporting-consumers",
+        "target_name": "Reporting Consumers",
+        "trace": {
+          "source_key": "interfaces_and_integrations",
+          "source_round": 7
+        }
+      }
+    ],
+    "realization_ids": [
+      "interaction-realization-1",
+      "interaction-realization-2",
+      "interaction-realization-3",
+      "interaction-realization-4",
+      "interaction-realization-5",
+      "interaction-realization-6",
+      "interaction-realization-7",
+      "interaction-realization-8"
+    ],
+    "realization_objects": [
+      {
+        "id": "interaction-realization-1",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "register-a-system",
+        "use_case_name": "Register a system"
+      },
+      {
+        "id": "interaction-realization-2",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "edit-metadata",
+        "use_case_name": "edit metadata"
+      },
+      {
+        "id": "interaction-realization-3",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "compare-overlapping-systems",
+        "use_case_name": "compare overlapping systems"
+      },
+      {
+        "id": "interaction-realization-4",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "track-lifecycle-state",
+        "use_case_name": "track lifecycle state"
+      },
+      {
+        "id": "interaction-realization-5",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "review-risks",
+        "use_case_name": "review risks"
+      },
+      {
+        "id": "interaction-realization-6",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "see-costs",
+        "use_case_name": "see costs"
+      },
+      {
+        "id": "interaction-realization-7",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "approve-deprecation",
+        "use_case_name": "approve deprecation"
+      },
+      {
+        "id": "interaction-realization-8",
+        "model_layer": "analysis",
+        "participant_ids": [],
+        "participant_names": [],
+        "steps": [],
+        "trace": {
+          "source_key": "use_cases",
+          "source_round": 3
+        },
+        "use_case_id": "report-portfolio-gaps",
+        "use_case_name": "report portfolio gaps"
+      }
+    ]
+  },
+  "logical_view": {
+    "business_rule_objects": [
+      {
+        "id": "business-rule-1",
+        "model_layer": "analysis",
+        "name": "Rule 1",
+        "rule_text": "A System must have a business owner before it becomes Active.",
+        "scope": "A System",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      },
+      {
+        "id": "business-rule-2",
+        "model_layer": "analysis",
+        "name": "Rule 2",
+        "rule_text": "A System lifecycle state change requires approval for deprecation.",
+        "scope": "A System lifecycle state change",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      },
+      {
+        "id": "business-rule-3",
+        "model_layer": "analysis",
+        "name": "Rule 3",
+        "rule_text": "A System must record vendor and contract dates.",
+        "scope": "A System",
+        "trace": {
+          "source_key": "business_rules",
+          "source_round": 5
+        }
+      }
+    ],
+    "business_rules": [
+      "A System must have a business owner before it becomes Active.",
+      "A System lifecycle state change requires approval for deprecation.",
+      "A System must record vendor and contract dates."
+    ],
+    "domain_entities": [
+      "System",
+      "Risk Assessment",
+      "Cost Record",
+      "Capability",
+      "Contract",
+      "Integration"
+    ],
+    "domain_entity_objects": [
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-system",
+        "model_layer": "analysis",
+        "name": "System",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-risk-assessment",
+        "model_layer": "analysis",
+        "name": "Risk Assessment",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-cost-record",
+        "model_layer": "analysis",
+        "name": "Cost Record",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-capability",
+        "model_layer": "analysis",
+        "name": "Capability",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-contract",
+        "model_layer": "analysis",
+        "name": "Contract",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      },
+      {
+        "attributes": [],
+        "description": "",
+        "entity_type": "domain_entity",
+        "id": "entity-integration",
+        "model_layer": "analysis",
+        "name": "Integration",
+        "responsibilities": [],
+        "trace": {
+          "source_key": "domain_entities",
+          "source_round": 5
+        }
+      }
+    ],
+    "relationship_objects": [
+      {
+        "description": "A System has one Business Owner",
+        "id": "relationship-1",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has one Technical Owner",
+        "id": "relationship-2",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Integrations",
+        "id": "relationship-3",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "integrations",
+        "target_entity_id": "entity-integration",
+        "target_multiplicity": "*",
+        "target_name": "Integrations",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Capabilities",
+        "id": "relationship-4",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "capabilities",
+        "target_entity_id": "",
+        "target_multiplicity": "*",
+        "target_name": "Capabilities",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has one Contract",
+        "id": "relationship-5",
+        "model_layer": "analysis",
+        "relationship_type": "",
+        "source_entity_id": "",
+        "source_multiplicity": "",
+        "source_name": "",
+        "source_role_name": "",
+        "target_entity_id": "",
+        "target_multiplicity": "",
+        "target_name": "",
+        "target_role_name": "",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Risk Assessments",
+        "id": "relationship-6",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "risk_assessments",
+        "target_entity_id": "entity-risk-assessment",
+        "target_multiplicity": "*",
+        "target_name": "Risk Assessments",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      },
+      {
+        "description": "A System has many Cost Records",
+        "id": "relationship-7",
+        "model_layer": "analysis",
+        "relationship_type": "has_many",
+        "source_entity_id": "entity-system",
+        "source_multiplicity": "1",
+        "source_name": "A System",
+        "source_role_name": "cost_records",
+        "target_entity_id": "entity-cost-record",
+        "target_multiplicity": "*",
+        "target_name": "Cost Records",
+        "target_role_name": "a_system",
+        "trace": {
+          "source_key": "relationships",
+          "source_round": 5
+        }
+      }
+    ],
+    "relationships": [
+      "A System has one Business Owner",
+      "A System has one Technical Owner",
+      "A System has many Integrations",
+      "A System has many Capabilities",
+      "A System has one Contract",
+      "A System has many Risk Assessments",
+      "A System has many Cost Records"
     ]
   },
   "metadata_fields": [
-    "system name",
+    "System name",
     "description",
     "vendor",
     "deployment type",
@@ -231,50 +1679,1034 @@
     "geography",
     "contract dates"
   ],
-  "assumptions": [
-    "The system acts as the CMDB for IT applications and systems, excluding OT systems.",
-    "API consumers include downstream reporting systems and AI agents.",
-    "Lifecycle states are configurable even though an initial default set exists.",
-    "V1 includes workflow support for approvals and stage gates, not just passive inventory.",
-    "The UCP inputs were estimated using defaults for a similar internal enterprise system at a company of about 1000 people."
+  "open_questions": [],
+  "process_view": {
+    "state_entities": [
+      "System"
+    ],
+    "state_entity_objects": [
+      {
+        "description": "",
+        "entity_type": "stateful_entity",
+        "id": "state-entity-system",
+        "model_layer": "analysis",
+        "name": "System",
+        "states": [
+          "Proposed",
+          "Active",
+          "Retiring",
+          "Retired",
+          "Deprecated"
+        ],
+        "trace": {
+          "source_key": "state_entities",
+          "source_round": 6
+        }
+      }
+    ],
+    "state_transition_objects": [
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Proposed",
+        "id": "state-transition-1",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Active",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Active",
+        "id": "state-transition-2",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Retiring",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Proposed -> Active -> Retiring -> Retired",
+        "from_state": "Retiring",
+        "id": "state-transition-3",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Retired",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      },
+      {
+        "constraint": "",
+        "description": "System: Active -> Deprecated",
+        "from_state": "Active",
+        "id": "state-transition-4",
+        "is_exception_flow": false,
+        "is_terminal_transition": false,
+        "model_layer": "analysis",
+        "state_entity_id": "state-entity-system",
+        "state_entity_name": "System",
+        "to_state": "Deprecated",
+        "trace": {
+          "source_key": "states_and_transitions",
+          "source_round": 6
+        },
+        "trigger": ""
+      }
+    ],
+    "states_and_transitions": [
+      "System: Proposed -> Active -> Retiring -> Retired",
+      "System: Proposed -> Active -> Retiring -> Retired",
+      "System: Proposed -> Active -> Retiring -> Retired",
+      "System: Active -> Deprecated"
+    ],
+    "trigger_objects": [
+      {
+        "approval_required": true,
+        "constraint_type": "approval",
+        "description": "Deprecation approval requires enterprise architect review",
+        "event_name": "Deprecation approval",
+        "exceptional_behavior": false,
+        "id": "trigger-1",
+        "model_layer": "analysis",
+        "outcome": "enterprise architect review",
+        "trace": {
+          "source_key": "triggers_and_approvals",
+          "source_round": 6
+        }
+      },
+      {
+        "approval_required": false,
+        "constraint_type": "event",
+        "description": "Contract expiry triggers lifecycle review",
+        "event_name": "Contract expiry",
+        "exceptional_behavior": false,
+        "id": "trigger-2",
+        "model_layer": "analysis",
+        "outcome": "lifecycle review",
+        "trace": {
+          "source_key": "triggers_and_approvals",
+          "source_round": 6
+        }
+      }
+    ],
+    "triggers_and_approvals": [
+      "Deprecation approval requires enterprise architect review",
+      "Contract expiry triggers lifecycle review"
+    ]
+  },
+  "project": {
+    "domain": "Unspecified",
+    "name": "A system to manage inventory of IT Systems themselves.",
+    "problem_statement": "We have many IT Systems and some overlap, some are free, some are expensive, all are slightly different.",
+    "system_scope": "All IT systems"
+  },
+  "requirements": {
+    "functional": [
+      "Yes business processes like stage gates and approval states must be supported",
+      "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting."
+    ],
+    "functional_objects": [
+      {
+        "fit_criterion": "",
+        "id": "functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "functional",
+        "statement": "Yes business processes like stage gates and approval states must be supported",
+        "trace": {
+          "source_key": "workflow_scope",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "functional",
+        "statement": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting.",
+        "trace": {
+          "source_key": "integrations",
+          "source_round": 3
+        }
+      }
+    ],
+    "non_functional": [
+      "UI must be web based",
+      "SSO",
+      "role-based access",
+      "audit trail",
+      "search",
+      "filtering",
+      "performance (regular >1s for web page rendering)",
+      "availability >=99%"
+    ],
+    "non_functional_objects": [
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "UI must be web based",
+        "trace": {
+          "source_key": "constraints",
+          "source_round": 2
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-1",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "SSO",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-2",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "role-based access",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-3",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "audit trail",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-4",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "search",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-5",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "filtering",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-6",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "performance (regular >1s for web page rendering)",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      },
+      {
+        "fit_criterion": "",
+        "id": "non_functional-requirement-7",
+        "linked_use_case_ids": [],
+        "model_layer": "analysis",
+        "quality_attribute": "",
+        "requirement_kind": "non_functional",
+        "statement": "availability >=99%",
+        "trace": {
+          "source_key": "non_functional_requirements",
+          "source_round": 4
+        }
+      }
+    ]
+  },
+  "success_criteria": [
+    "Better planning of IT systems purchasing and life cycle"
   ],
-  "open_questions": [
-    "Did performance mean page rendering should be less than 1 second rather than greater than 1 second?",
-    "Are integrations/interfaces first-class inventory objects or only metadata on systems?",
-    "Should procurement, security, finance, and application owners have distinct roles and workflows in V1?",
-    "What exact approval workflows and stage-gate states are required in V1?",
-    "What data model is required for overlap analysis and portfolio gap reporting?"
-  ],
+  "traceability": {
+    "analysis_to_design": [
+      {
+        "basis": "design component name references analysis object name",
+        "from_id": "entity-system",
+        "id": "trace-analysis-design-1",
+        "link_type": "analysis_to_design",
+        "to_id": "component-system-inventory-web-app"
+      },
+      {
+        "basis": "design component name references analysis object name",
+        "from_id": "entity-system",
+        "id": "trace-analysis-design-2",
+        "link_type": "analysis_to_design",
+        "to_id": "component-system-inventory-api"
+      },
+      {
+        "basis": "design component name references analysis object name",
+        "from_id": "state-entity-system",
+        "id": "trace-analysis-design-3",
+        "link_type": "analysis_to_design",
+        "to_id": "component-system-inventory-web-app"
+      },
+      {
+        "basis": "design component name references analysis object name",
+        "from_id": "state-entity-system",
+        "id": "trace-analysis-design-4",
+        "link_type": "analysis_to_design",
+        "to_id": "component-system-inventory-api"
+      }
+    ],
+    "artifact_lineage": [
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "functional-requirement-1",
+        "id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "functional-requirement-1",
+        "id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-1",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-1",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-2",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-3",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-3",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-4",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-4",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-5",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-5",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-6",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-6",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "functional requirements",
+        "basis": "canonical functional requirements object renders into requirements-spec.md",
+        "from_id": "non_functional-requirement-7",
+        "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-7",
+        "link_type": "artifact_lineage",
+        "to_artifact": "requirements-spec.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "register-a-system",
+        "id": "trace-artifact-use-case-model-use-cases-register-a-system",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "edit-metadata",
+        "id": "trace-artifact-use-case-model-use-cases-edit-metadata",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "compare-overlapping-systems",
+        "id": "trace-artifact-use-case-model-use-cases-compare-overlapping-systems",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "track-lifecycle-state",
+        "id": "trace-artifact-use-case-model-use-cases-track-lifecycle-state",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "review-risks",
+        "id": "trace-artifact-use-case-model-use-cases-review-risks",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "see-costs",
+        "id": "trace-artifact-use-case-model-use-cases-see-costs",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "approve-deprecation",
+        "id": "trace-artifact-use-case-model-use-cases-approve-deprecation",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "use cases",
+        "basis": "canonical use cases object renders into use-case-model.md",
+        "from_id": "report-portfolio-gaps",
+        "id": "trace-artifact-use-case-model-use-cases-report-portfolio-gaps",
+        "link_type": "artifact_lineage",
+        "to_artifact": "use-case-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-system",
+        "id": "trace-artifact-domain-model-domain-entities-entity-system",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-risk-assessment",
+        "id": "trace-artifact-domain-model-domain-entities-entity-risk-assessment",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-cost-record",
+        "id": "trace-artifact-domain-model-domain-entities-entity-cost-record",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-capability",
+        "id": "trace-artifact-domain-model-domain-entities-entity-capability",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-contract",
+        "id": "trace-artifact-domain-model-domain-entities-entity-contract",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "domain entities",
+        "basis": "canonical domain entities object renders into domain-model.md",
+        "from_id": "entity-integration",
+        "id": "trace-artifact-domain-model-domain-entities-entity-integration",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-1",
+        "id": "trace-artifact-domain-model-relationships-relationship-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-2",
+        "id": "trace-artifact-domain-model-relationships-relationship-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-3",
+        "id": "trace-artifact-domain-model-relationships-relationship-3",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-4",
+        "id": "trace-artifact-domain-model-relationships-relationship-4",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-5",
+        "id": "trace-artifact-domain-model-relationships-relationship-5",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-6",
+        "id": "trace-artifact-domain-model-relationships-relationship-6",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "relationships",
+        "basis": "canonical relationships object renders into domain-model.md",
+        "from_id": "relationship-7",
+        "id": "trace-artifact-domain-model-relationships-relationship-7",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "business rules",
+        "basis": "canonical business rules object renders into domain-model.md",
+        "from_id": "business-rule-1",
+        "id": "trace-artifact-domain-model-business-rules-business-rule-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "business rules",
+        "basis": "canonical business rules object renders into domain-model.md",
+        "from_id": "business-rule-2",
+        "id": "trace-artifact-domain-model-business-rules-business-rule-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "business rules",
+        "basis": "canonical business rules object renders into domain-model.md",
+        "from_id": "business-rule-3",
+        "id": "trace-artifact-domain-model-business-rules-business-rule-3",
+        "link_type": "artifact_lineage",
+        "to_artifact": "domain-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-1",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-2",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-3",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-3",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-4",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-4",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-5",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-5",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-6",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-6",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-7",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-7",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "use-case realizations",
+        "basis": "canonical use-case realizations object renders into interaction-model.md",
+        "from_id": "interaction-realization-8",
+        "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-8",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "message flows",
+        "basis": "canonical message flows object renders into interaction-model.md",
+        "from_id": "interaction-message-1",
+        "id": "trace-artifact-interaction-model-message-flows-interaction-message-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "message flows",
+        "basis": "canonical message flows object renders into interaction-model.md",
+        "from_id": "interaction-message-2",
+        "id": "trace-artifact-interaction-model-message-flows-interaction-message-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "interaction-model.md"
+      },
+      {
+        "artifact_section": "components",
+        "basis": "canonical components object renders into deployment-model.md",
+        "from_id": "component-system-inventory-web-app",
+        "id": "trace-artifact-deployment-model-components-component-system-inventory-web-app",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "components",
+        "basis": "canonical components object renders into deployment-model.md",
+        "from_id": "component-system-inventory-api",
+        "id": "trace-artifact-deployment-model-components-component-system-inventory-api",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "components",
+        "basis": "canonical components object renders into deployment-model.md",
+        "from_id": "component-reporting-consumers",
+        "id": "trace-artifact-deployment-model-components-component-reporting-consumers",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "interfaces and integrations",
+        "basis": "canonical interfaces and integrations object renders into deployment-model.md",
+        "from_id": "interface-1",
+        "id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "interfaces and integrations",
+        "basis": "canonical interfaces and integrations object renders into deployment-model.md",
+        "from_id": "interface-2",
+        "id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "runtime boundaries",
+        "basis": "canonical runtime boundaries object renders into deployment-model.md",
+        "from_id": "runtime-boundary-1",
+        "id": "trace-artifact-deployment-model-runtime-boundaries-runtime-boundary-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "deployment-model.md"
+      },
+      {
+        "artifact_section": "state entities",
+        "basis": "canonical state entities object renders into state-model.md",
+        "from_id": "state-entity-system",
+        "id": "trace-artifact-state-model-state-entities-state-entity-system",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "state transitions",
+        "basis": "canonical state transitions object renders into state-model.md",
+        "from_id": "state-transition-1",
+        "id": "trace-artifact-state-model-state-transitions-state-transition-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "state transitions",
+        "basis": "canonical state transitions object renders into state-model.md",
+        "from_id": "state-transition-2",
+        "id": "trace-artifact-state-model-state-transitions-state-transition-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "state transitions",
+        "basis": "canonical state transitions object renders into state-model.md",
+        "from_id": "state-transition-3",
+        "id": "trace-artifact-state-model-state-transitions-state-transition-3",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "state transitions",
+        "basis": "canonical state transitions object renders into state-model.md",
+        "from_id": "state-transition-4",
+        "id": "trace-artifact-state-model-state-transitions-state-transition-4",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "triggers and approvals",
+        "basis": "canonical triggers and approvals object renders into state-model.md",
+        "from_id": "trigger-1",
+        "id": "trace-artifact-state-model-triggers-and-approvals-trigger-1",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      },
+      {
+        "artifact_section": "triggers and approvals",
+        "basis": "canonical triggers and approvals object renders into state-model.md",
+        "from_id": "trigger-2",
+        "id": "trace-artifact-state-model-triggers-and-approvals-trigger-2",
+        "link_type": "artifact_lineage",
+        "to_artifact": "state-model.md"
+      }
+    ],
+    "requirement_to_use_case": [],
+    "use_case_to_analysis": [
+      {
+        "basis": "use-case text references analysis object name",
+        "from_id": "register-a-system",
+        "id": "trace-uc-analysis-1",
+        "link_type": "use_case_to_analysis",
+        "to_id": "entity-system"
+      },
+      {
+        "basis": "use-case text references analysis object name",
+        "from_id": "register-a-system",
+        "id": "trace-uc-analysis-2",
+        "link_type": "use_case_to_analysis",
+        "to_id": "state-entity-system"
+      },
+      {
+        "basis": "use-case text references analysis object name",
+        "from_id": "compare-overlapping-systems",
+        "id": "trace-uc-analysis-3",
+        "link_type": "use_case_to_analysis",
+        "to_id": "entity-system"
+      },
+      {
+        "basis": "use-case text references analysis object name",
+        "from_id": "compare-overlapping-systems",
+        "id": "trace-uc-analysis-4",
+        "link_type": "use_case_to_analysis",
+        "to_id": "state-entity-system"
+      }
+    ]
+  },
   "ucp": {
+    "environmental_factors": {
+      "application_experience": 3,
+      "difficult_programming_language": 2,
+      "familiar_with_process": 3,
+      "lead_analyst_capability": 4,
+      "motivation": 4,
+      "object_oriented_experience": 3,
+      "part_time_staff": 1,
+      "stable_requirements": 3
+    },
     "productivity_hours_per_ucp": 20,
     "technical_factors": {
-      "distributed_system": 4,
-      "response_time": 3,
-      "end_user_efficiency": 4,
-      "complex_internal_processing": 3,
-      "reusable_code": 3,
+      "complex_internal_processing": 2,
+      "concurrency": 2,
+      "distributed_system": 3,
+      "easy_to_change": 4,
       "easy_to_install": 2,
       "easy_to_use": 4,
+      "end_user_efficiency": 4,
       "portability": 2,
-      "easy_to_change": 4,
-      "concurrency": 3,
-      "special_security": 5,
-      "third_party_access": 4,
-      "special_user_training": 2
-    },
-    "environmental_factors": {
-      "familiar_with_process": 3,
-      "application_experience": 3,
-      "object_oriented_experience": 3,
-      "lead_analyst_capability": 3,
-      "motivation": 4,
-      "stable_requirements": 2,
-      "part_time_staff": 2,
-      "difficult_programming_language": 2
+      "response_time": 2,
+      "reusable_code": 3,
+      "special_security": 4,
+      "special_user_training": 1,
+      "third_party_access": 4
     }
   },
-  "future_placeholders": {
-    "uml": [],
-    "formal_specification": []
-  }
+  "use_cases": [
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "Register a system",
+      "id": "register-a-system",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "Register a system",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "simple",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "edit metadata",
+      "id": "edit-metadata",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "edit metadata",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "compare overlapping systems",
+      "id": "compare-overlapping-systems",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "compare overlapping systems",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "track lifecycle state",
+      "id": "track-lifecycle-state",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "track lifecycle state",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "simple",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "review risks",
+      "id": "review-risks",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "review risks",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "simple",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "see costs",
+      "id": "see-costs",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "see costs",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "approve deprecation",
+      "id": "approve-deprecation",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "approve deprecation",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    },
+    {
+      "complexity": "average",
+      "complexity_trace": {
+        "source_key": "use_case_complexity",
+        "source_round": 9
+      },
+      "extensions": [],
+      "goal": "report portfolio gaps",
+      "id": "report-portfolio-gaps",
+      "main_success_scenario": [],
+      "model_layer": "analysis",
+      "name": "report portfolio gaps",
+      "postconditions": [],
+      "preconditions": [],
+      "primary_actor": "Unspecified",
+      "primary_actor_id": "",
+      "supporting_actor_ids": [],
+      "trace": {
+        "source_key": "use_cases",
+        "source_round": 3
+      },
+      "trigger": ""
+    }
+  ]
 }
