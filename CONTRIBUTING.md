@@ -21,6 +21,8 @@ For YAML support:
 uv sync --extra yaml
 ```
 
+The current Python package and CLI names still use the `specops` prefix for compatibility.
+
 ## Useful Commands
 
 Run the test suite:

@@ -22,7 +22,6 @@ workflow.
 ## Current Status
 
 Rupify currently provides:
-
 - interview-driven discovery via local skills and replayable fixtures
 - a canonical project model as the source of truth
 - formal Markdown outputs for requirements, use cases, domain, interaction, deployment, state, and
