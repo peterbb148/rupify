@@ -20,6 +20,7 @@ from specops_tools.render import (
     render_formal_artifacts,
     render_interaction_model,
     render_requirements_spec,
+    render_state_mermaid,
     render_state_model,
 )
 from specops_tools.ucp import calculate_ucp, render_ucp_markdown
@@ -552,6 +553,49 @@ class RenderTests(unittest.TestCase):
         self.assertIn("class Reward {", rendered)
         self.assertIn('Member "1" --> "*" Reward : has_many', rendered)
 
+    def test_render_state_mermaid_outputs_state_diagram(self) -> None:
+        """State Mermaid rendering should emit a deterministic state diagram."""
+        model = build_model()
+        model["analysis_view"] = {
+            "state_entity_objects": [
+                {
+                    "id": "state-entity-redemption-request",
+                    "name": "Redemption Request",
+                    "states": ["Requested", "Approved", "Rejected"],
+                }
+            ],
+            "state_transition_objects": [
+                {
+                    "id": "state-transition-1",
+                    "state_entity_name": "Redemption Request",
+                    "from_state": "Requested",
+                    "to_state": "Approved",
+                    "trigger": "Approval event",
+                    "constraint": "manager approval",
+                    "is_exception_flow": False,
+                    "is_terminal_transition": False,
+                },
+                {
+                    "id": "state-transition-2",
+                    "state_entity_name": "Redemption Request",
+                    "from_state": "Requested",
+                    "to_state": "Rejected",
+                    "trigger": "Validation failure",
+                    "constraint": "",
+                    "is_exception_flow": True,
+                    "is_terminal_transition": True,
+                },
+            ],
+        }
+
+        rendered = render_state_mermaid(model)
+
+        self.assertTrue(rendered.startswith("stateDiagram-v2"))
+        self.assertIn('state "Redemption Request" as lifecycle {', rendered)
+        self.assertIn('state "Requested" as Requested', rendered)
+        self.assertIn("Requested --> Approved : Approval event | manager approval", rendered)
+        self.assertIn("Requested --> Rejected : Validation failure | exception | terminal", rendered)
+
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
@@ -662,6 +706,53 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "domain-model.mmd").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
+    def test_render_cli_supports_state_mermaid_artifact_family(self) -> None:
+        """The renderer CLI should support Mermaid state diagram output."""
+        model = build_model()
+        model["analysis_view"] = {
+            "state_entity_objects": [
+                {
+                    "id": "state-entity-redemption-request",
+                    "name": "Redemption Request",
+                    "states": ["Requested", "Approved"],
+                }
+            ],
+            "state_transition_objects": [
+                {
+                    "id": "state-transition-1",
+                    "from_state": "Requested",
+                    "to_state": "Approved",
+                    "trigger": "Approval event",
+                    "constraint": "",
+                    "is_exception_flow": False,
+                    "is_terminal_transition": False,
+                }
+            ],
+        }
+
+        with TemporaryDirectory() as temp_dir:
+            model_path = Path(temp_dir) / "model.json"
+            output_dir = Path(temp_dir) / "out"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+
+            with patch(
+                "sys.argv",
+                [
+                    "render_cli",
+                    "--model",
+                    str(model_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--artifact-family",
+                    "state-mermaid",
+                ],
+            ):
+                exit_code = render_cli_main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "state-model.mmd").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
+
     def test_render_artifact_family_supports_domain_mermaid_selection(self) -> None:
         """Artifact-family rendering should allow explicit Mermaid domain selection."""
         model = build_model()
@@ -676,6 +767,21 @@ class RenderTests(unittest.TestCase):
 
         self.assertEqual(set(outputs), {"domain-model.mmd"})
         self.assertTrue(outputs["domain-model.mmd"].startswith("classDiagram"))
+
+    def test_render_artifact_family_supports_state_mermaid_selection(self) -> None:
+        """Artifact-family rendering should allow explicit Mermaid state selection."""
+        model = build_model()
+        model["analysis_view"] = {
+            "state_entity_objects": [
+                {"id": "state-entity-redemption-request", "name": "Redemption Request", "states": []}
+            ],
+            "state_transition_objects": [],
+        }
+
+        outputs = render_artifact_family(model, "state-mermaid")
+
+        self.assertEqual(set(outputs), {"state-model.mmd"})
+        self.assertTrue(outputs["state-model.mmd"].startswith("stateDiagram-v2"))
 
     def test_render_all_supports_real_cmdb_fixture(self) -> None:
         """The checked-in CMDB fixture should render the full current bundle, including UCP."""
