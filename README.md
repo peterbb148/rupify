@@ -133,23 +133,6 @@ read `*.yaml` models directly, install the optional dependency with:
 uv sync --extra yaml
 ```
 
-## Primary Documents
-
-- [End-to-End Usage](docs/end-to-end-usage.md)
-- [Implementation Plan](docs/implementation-plan.md)
-- [Solution Architecture](docs/solution-architecture.md)
-- [V1.5 Interview Readiness](docs/v1.5-interview-readiness.md)
-- [V1.6 Specification Hardening](docs/v1.6-specification-hardening.md)
-- [V2 Go/No-Go Decision](docs/v2-go-no-go-decision.md)
-- [RUP Artifact Coverage Matrix](docs/rup-artifact-coverage-matrix.md)
-- [Repo Review](docs/repo-review-2026-04.md)
-- [Mermaid Publication Workflows](docs/mermaid-publication-workflows.md)
-- [Document Ingestion Future Direction](docs/document-ingestion-future.md)
-- [Dogfooding Workflow](docs/dogfooding.md)
-- [GitHub Issue Map](docs/github-issue-map.md)
-- [SpecKit Constitution](.specify/memory/constitution.md)
-- [Contributing](CONTRIBUTING.md)
-
 ## Dogfooding Example
 
 The IT systems inventory example is both a sample workflow output and a feedback input for
