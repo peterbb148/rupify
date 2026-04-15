@@ -6,8 +6,8 @@ import json
 import unittest
 from pathlib import Path
 
-from specops_tools.discovery import normalize_replay_to_model
-from specops_tools.interview import replay_session
+from rupify_tools.discovery import normalize_replay_to_model
+from rupify_tools.interview import replay_session
 
 
 class DiscoveryTests(unittest.TestCase):
@@ -20,7 +20,7 @@ class DiscoveryTests(unittest.TestCase):
                 {
                     "round": 1,
                     "responses": [
-                        {"key": "idea", "answer": "SpecOps Test"},
+                        {"key": "idea", "answer": "Rupify Test"},
                         {"key": "problem", "answer": "Fragmented requirements"},
                         {"key": "in_scope", "answer": "V1.5 interview flow"},
                     ],
@@ -81,7 +81,7 @@ class DiscoveryTests(unittest.TestCase):
 
         model = normalize_replay_to_model(replay)
 
-        self.assertEqual(model["project"]["name"], "SpecOps Test")
+        self.assertEqual(model["project"]["name"], "Rupify Test")
         self.assertIn("Clearer specs", model["business_goals"])
         self.assertIn("Web based", model["requirements"]["non_functional"])
         self.assertEqual(
@@ -241,7 +241,7 @@ class DiscoveryTests(unittest.TestCase):
                 {
                     "round": 1,
                     "responses": [
-                        {"key": "idea", "answer": "SpecOps Test"},
+                        {"key": "idea", "answer": "Rupify Test"},
                         {"key": "problem", "answer": "Fragmented requirements"},
                     ],
                 }

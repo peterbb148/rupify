@@ -21,8 +21,6 @@ For YAML support:
 uv sync --extra yaml
 ```
 
-The current Python package and CLI names still use the `specops` prefix for compatibility.
-
 ## Useful Commands
 
 Run the test suite:
@@ -34,26 +32,26 @@ uv run python -m unittest
 Render formal artifacts from a model:
 
 ```bash
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-formal \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-formal \
   --artifact-family formal
 ```
 
 Replay the checked-in interview fixture:
 
 ```bash
-uv run specops-interview-replay \
+uv run rupify-interview-replay \
   --input tests/fixtures/it_systems_inventory_session.json
 ```
 
 Generate the formal bundle directly from the fixture:
 
 ```bash
-uv run python -m specops_tools.interview_to_formal_cli \
+uv run python -m rupify_tools.interview_to_formal_cli \
   --input tests/fixtures/it_systems_inventory_session.json \
-  --output-dir /tmp/specops-from-interview \
-  --write-model /tmp/specops-from-interview/specops-model.json
+  --output-dir /tmp/rupify-from-interview \
+  --write-model /tmp/rupify-from-interview/rupify-model.json
 ```
 
 ## Contribution Rules

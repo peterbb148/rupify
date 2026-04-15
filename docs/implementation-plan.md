@@ -24,15 +24,15 @@ publication outputs generated from the same model.
 
 ## 2. Skill Pack
 
-- Delivered: `specops` orchestrator skill
-- Delivered: `specops-interview` first-class interview skill
-- Delivered: `specops-discovery` interview and model normalization skill
-- Delivered: `specops-use-cases` actor, use-case, scenario, and complexity skill
-- Delivered: `specops-ucp` deterministic UCP calculation and estimate reporting skill
+- Delivered: `rupify` orchestrator skill
+- Delivered: `rupify-interview` first-class interview skill
+- Delivered: `rupify-discovery` interview and model normalization skill
+- Delivered: `rupify-use-cases` actor, use-case, scenario, and complexity skill
+- Delivered: `rupify-ucp` deterministic UCP calculation and estimate reporting skill
 
 ## 3. Canonical Model and Artifacts
 
-- Delivered: `specops-model.yaml` as the canonical project model
+- Delivered: `rupify-model.yaml` as the canonical project model
 - Delivered: artifact generation anchored to that model
 - Delivered: reserved space for future UML and formal specification outputs
 

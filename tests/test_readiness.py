@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from specops_tools.readiness import (
+from rupify_tools.readiness import (
     evaluate_readiness,
     evaluate_readiness_details,
     evaluate_traceability,

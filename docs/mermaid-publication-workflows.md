@@ -13,7 +13,7 @@ Rupify currently supports these Mermaid artifact families:
 - `state-mermaid` -> `state-model.mmd`
 
 These outputs are generated from the canonical model through
-`python -m specops_tools.render_cli --artifact-family ...`.
+`python -m rupify_tools.render_cli --artifact-family ...`.
 
 They are not hand-authored source artifacts. The canonical model remains the source of truth.
 
@@ -22,9 +22,9 @@ They are not hand-authored source artifacts. The canonical model remains the sou
 Generate Mermaid outputs from a checked-in model:
 
 ```bash
-uv run python -m specops_tools.render_cli \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-mermaid \
+uv run python -m rupify_tools.render_cli \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-mermaid \
   --artifact-family domain-mermaid
 ```
 

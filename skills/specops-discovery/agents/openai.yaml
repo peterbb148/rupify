@@ -1,5 +1,0 @@
-interface:
-  display_name: "SpecOps Discovery"
-  short_description: "Interview and normalize software requirements"
-  default_prompt: "Use $specops-discovery to capture a software problem and normalize it into the SpecOps canonical model."
-

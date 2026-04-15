@@ -1,7 +1,7 @@
 [project]
-name = "specops-tools"
+name = "rupify-tools"
 version = "0.1.0"
-description = "Utilities for the SpecOps skill pack"
+description = "Utilities for the Rupify skill pack"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
@@ -12,17 +12,17 @@ yaml = [
 ]
 
 [project.scripts]
-specops-interview = "specops_tools.interview_cli:main"
-specops-interview-replay = "specops_tools.interview_replay:main"
-specops-ucp = "specops_tools.ucp_cli:main"
-specops-render = "specops_tools.render_cli:main"
+rupify-interview = "rupify_tools.interview_cli:main"
+rupify-interview-replay = "rupify_tools.interview_replay:main"
+rupify-ucp = "rupify_tools.ucp_cli:main"
+rupify-render = "rupify_tools.render_cli:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/specops_tools"]
+packages = ["src/rupify_tools"]
 
 [tool.uv]
 package = true

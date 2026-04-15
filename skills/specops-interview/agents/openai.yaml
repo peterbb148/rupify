@@ -1,5 +1,0 @@
-interface:
-  display_name: "SpecOps Interview"
-  short_description: "Run the software discovery interview"
-  default_prompt: "Use $specops-interview to interview me about a software idea and gather the inputs needed for the SpecOps model."
-

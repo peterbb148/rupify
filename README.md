@@ -15,12 +15,9 @@ Current first-class outputs include:
 - `ucp-estimate.md`
 - Mermaid diagram bundles for domain, interaction, deployment, and state views
 
-The interview step can still be invoked through the existing `$specops-interview` skill while the
-outward-facing rename to Rupify is underway.
-
 The repository is documentation-first and dogfood-oriented. The current open-source goal is to make
-Rupify usable as a model-driven specification system while retaining compatibility with the
-existing internal `specops` package and skill names.
+Rupify usable as a model-driven specification system with a clear end-to-end skill and CLI
+workflow.
 
 ## Current Status
 
@@ -48,7 +45,6 @@ important scope boundaries:
 - the Python tooling and example workflows are executable locally
 - the skill pack is designed for Codex-style environments where local skills are available
 - the canonical model and generated artifacts are the supported interoperability surface
-- the current Python package, module, and CLI names still use `specops*` for compatibility
 - productization and document-ingestion work are still active roadmap items
 
 ## Repository Layout
@@ -56,16 +52,16 @@ important scope boundaries:
 - `docs/`: implementation plan, architecture, dogfooding workflow, and GitHub issue map
 - `.specify/`: SpecKit constitution and the first dogfooding spec
 - `skills/`: orchestrator and subskills
-- `src/specops_tools/`: UV-based Python utilities for deterministic rendering and UCP scoring
+- `src/rupify_tools/`: UV-based Python utilities for deterministic rendering and UCP scoring
 - `examples/`: canonical example models, generated artifacts, and dogfooding feedback files
 
 ## Skill Entry Points
 
-- `$specops-interview`: run the stakeholder interview as a first-class skill
-- `$specops-discovery`: normalize interview output into the canonical model
-- `$specops-use-cases`: refine actors, scenarios, and complexity
-- `$specops-ucp`: calculate the deterministic estimate
-- `$specops`: run the broader interview-to-artifact workflow
+- `$rupify-interview`: run the stakeholder interview as a first-class skill
+- `$rupify-discovery`: normalize interview output into the canonical model
+- `$rupify-use-cases`: refine actors, scenarios, and complexity
+- `$rupify-ucp`: calculate the deterministic estimate
+- `$rupify`: run the broader interview-to-artifact workflow
 
 ## Python Workflow
 
@@ -95,30 +91,30 @@ uv sync --extra yaml
 After `uv sync`, the current supported commands are:
 
 ```bash
-uv run specops-interview --help
-uv run specops-interview-replay --help
-uv run specops-ucp --help
-uv run specops-render --help
+uv run rupify-interview --help
+uv run rupify-interview-replay --help
+uv run rupify-ucp --help
+uv run rupify-render --help
 ```
 
 There is also one module-only CLI for the interview-fixture-to-formal flow:
 
 ```bash
-uv run python -m specops_tools.interview_to_formal_cli --help
+uv run python -m rupify_tools.interview_to_formal_cli --help
 ```
 
 Common commands:
 
 ```bash
 uv run python -m unittest
-uv run python -m specops_tools.ucp_cli --model examples/loyalty-platform/specops-model.json
-uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-out
-uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-formal --artifact-family formal
-uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid --artifact-family domain-mermaid
-uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-state --artifact-family state-mermaid
-uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-interaction --artifact-family interaction-mermaid
-uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-deployment --artifact-family deployment-mermaid
-uv run python -m specops_tools.interview_to_formal_cli --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/specops-from-interview --write-model /tmp/specops-from-interview/specops-model.json
+uv run python -m rupify_tools.ucp_cli --model examples/loyalty-platform/rupify-model.json
+uv run python -m rupify_tools.render_cli --model examples/loyalty-platform/rupify-model.json --output-dir /tmp/rupify-out
+uv run python -m rupify_tools.render_cli --model examples/loyalty-platform/rupify-model.json --output-dir /tmp/rupify-formal --artifact-family formal
+uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid --artifact-family domain-mermaid
+uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-state --artifact-family state-mermaid
+uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-interaction --artifact-family interaction-mermaid
+uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-deployment --artifact-family deployment-mermaid
+uv run python -m rupify_tools.interview_to_formal_cli --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/rupify-from-interview --write-model /tmp/rupify-from-interview/rupify-model.json
 ```
 
 YAML parsing is optional and intentionally not installed by default. If you want the CLI tools to
@@ -150,8 +146,8 @@ uv sync --extra yaml
 The IT systems inventory example is both a sample workflow output and a feedback input for
 improving Rupify:
 
-- [Example Model](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-model.yaml)
-- [Example Feedback](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-feedback.md)
+- [Example Model](examples/it-systems-inventory/rupify-model.yaml)
+- [Example Feedback](examples/it-systems-inventory/rupify-feedback.md)
 
 ## Current Limitations
 
