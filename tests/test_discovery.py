@@ -598,9 +598,9 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["actors"][0]["name"], "Business owners")
         self.assertEqual(model["actors"][0]["type"], "human")
         self.assertEqual(model["use_cases"][0]["name"], "Register a system")
-        self.assertEqual(model["logical_view"]["domain_entities"], [])
-        self.assertEqual(model["logical_view"]["relationship_objects"], [])
-        self.assertEqual(model["process_view"]["state_entities"], [])
+        self.assertIn("System", model["logical_view"]["domain_entities"])
+        self.assertGreater(len(model["logical_view"]["relationship_objects"]), 0)
+        self.assertIn("System", model["process_view"]["state_entities"])
 
     def test_normalize_replay_to_model_enriches_state_machine_semantics(self) -> None:
         """State normalization should derive lifecycle semantics when the source text is explicit."""

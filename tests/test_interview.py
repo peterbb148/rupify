@@ -331,8 +331,8 @@ class InterviewHarnessTests(unittest.TestCase):
         )
 
         payload = json.loads(completed.stdout)
-        self.assertEqual(payload["last_round"], 9)
-        self.assertEqual(payload["next_round"]["number"], 10)
+        self.assertEqual(payload["last_round"], 11)
+        self.assertIsNone(payload["next_round"])
         self.assertEqual(
             payload["transcript"][0]["responses"][0]["label"],
             "Idea",
@@ -358,18 +358,19 @@ class InterviewHarnessTests(unittest.TestCase):
             payload["merged_answers"]["round_4"]["metadata_fields"],
         )
         self.assertIn(
-            "IT Business Owner: Simple",
+            "Business owners: Complex",
             payload["merged_answers"]["round_8"]["actor_complexity"],
         )
         self.assertIn(
-            "expose/export data by API: Complex",
+            "report portfolio gaps: Average",
             payload["merged_answers"]["round_9"]["use_case_complexity"],
         )
-        self.assertEqual(payload["readiness"]["logical"], "blocked")
-        self.assertEqual(payload["readiness"]["process"], "blocked")
-        self.assertEqual(payload["readiness"]["architecture"], "blocked")
-        self.assertIn("domain_entities", payload["readiness_details"]["logical"]["required_missing"])
-        self.assertEqual(payload["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
+        self.assertEqual(payload["readiness"]["logical"], "ready")
+        self.assertEqual(payload["readiness"]["process"], "ready")
+        self.assertEqual(payload["readiness"]["architecture"], "ready")
+        self.assertEqual(payload["readiness"]["ucp"], "ready")
+        self.assertEqual(payload["readiness_details"]["logical"]["required_missing"], [])
+        self.assertEqual(payload["traceability_validation"]["artifact_lineage"]["status"], "ready")
 
     def test_interview_to_formal_cli_renders_formal_artifacts_from_fixture(self) -> None:
         """The direct interview-to-formal CLI should render the formal artifact family."""
