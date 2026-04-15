@@ -815,7 +815,20 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
     Returns:
         Mapping of filename to rendered content.
     """
-    ucp_results = calculate_ucp(model)
+    outputs = render_formal_artifacts(model)
+    outputs.update(render_ucp_artifact(model))
+    return outputs
+
+
+def render_formal_artifacts(model: dict[str, Any]) -> dict[str, str]:
+    """Render the formal artifact family without UCP output.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mapping of filename to rendered content.
+    """
     return {
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
@@ -823,5 +836,41 @@ def render_all(model: dict[str, Any]) -> dict[str, str]:
         "interaction-model.md": render_interaction_model(model),
         "deployment-model.md": render_deployment_model(model),
         "state-model.md": render_state_model(model),
+    }
+
+
+def render_ucp_artifact(model: dict[str, Any]) -> dict[str, str]:
+    """Render only the strict UCP estimate artifact.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mapping of filename to rendered content.
+    """
+    ucp_results = calculate_ucp(model)
+    return {
         "ucp-estimate.md": render_ucp_markdown(model, ucp_results),
     }
+
+
+def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[str, str]:
+    """Render one explicit artifact family.
+
+    Args:
+        model: Canonical SpecOps model.
+        artifact_family: One of `all`, `formal`, or `ucp`.
+
+    Returns:
+        Mapping of filename to rendered content.
+
+    Raises:
+        ValueError: If the requested family is unsupported.
+    """
+    if artifact_family == "all":
+        return render_all(model)
+    if artifact_family == "formal":
+        return render_formal_artifacts(model)
+    if artifact_family == "ucp":
+        return render_ucp_artifact(model)
+    raise ValueError(f"Unsupported artifact family '{artifact_family}'.")
