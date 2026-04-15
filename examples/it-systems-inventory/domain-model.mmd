@@ -1,1 +1,16 @@
 classDiagram
+class System {
+}
+class Risk_Assessment {
+}
+class Cost_Record {
+}
+class Capability {
+}
+class Contract {
+}
+class Integration {
+}
+System "1" --> "*" Integration : has_many
+System "1" --> "*" Risk_Assessment : has_many
+System "1" --> "*" Cost_Record : has_many

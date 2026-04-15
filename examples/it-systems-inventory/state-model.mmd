@@ -1,1 +1,12 @@
 stateDiagram-v2
+state "System" as lifecycle {
+  state "Proposed" as Proposed
+  state "Active" as Active
+  state "Retiring" as Retiring
+  state "Retired" as Retired
+  state "Deprecated" as Deprecated
+  Proposed --> Active
+  Active --> Retiring
+  Retiring --> Retired
+  Active --> Deprecated
+}
