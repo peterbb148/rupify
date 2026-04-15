@@ -20,7 +20,7 @@ def main() -> int:
     parser.add_argument("--output-dir", required=True, help="Output directory for rendered files.")
     parser.add_argument(
         "--artifact-family",
-        choices=("all", "formal", "ucp"),
+        choices=("all", "formal", "ucp", "domain-mermaid"),
         default="all",
         help="Artifact family to render. Use 'formal' to skip strict UCP output.",
     )

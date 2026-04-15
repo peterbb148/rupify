@@ -16,6 +16,7 @@ from specops_tools.render import (
     render_artifact_family,
     render_deployment_model,
     render_domain_model,
+    render_domain_mermaid,
     render_formal_artifacts,
     render_interaction_model,
     render_requirements_spec,
@@ -515,6 +516,42 @@ class RenderTests(unittest.TestCase):
         self.assertIn("## Artifact Lineage", rendered)
         self.assertIn("entity-member -> domain-model.md#domain entities", rendered)
 
+    def test_render_domain_mermaid_outputs_class_diagram(self) -> None:
+        """Domain Mermaid rendering should emit a deterministic class diagram."""
+        model = build_model()
+        model["analysis_view"] = {
+            "domain_entity_objects": [
+                {
+                    "id": "entity-member",
+                    "name": "Member",
+                    "attributes": ["id", "email"],
+                },
+                {
+                    "id": "entity-reward",
+                    "name": "Reward",
+                    "attributes": ["id", "pointsCost"],
+                },
+            ],
+            "relationship_objects": [
+                {
+                    "id": "relationship-1",
+                    "relationship_type": "has_many",
+                    "source_entity_id": "entity-member",
+                    "target_entity_id": "entity-reward",
+                    "source_multiplicity": "1",
+                    "target_multiplicity": "*",
+                }
+            ],
+        }
+
+        rendered = render_domain_mermaid(model)
+
+        self.assertTrue(rendered.startswith("classDiagram"))
+        self.assertIn("class Member {", rendered)
+        self.assertIn("+id", rendered)
+        self.assertIn("class Reward {", rendered)
+        self.assertIn('Member "1" --> "*" Reward : has_many', rendered)
+
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
@@ -587,6 +624,58 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "deployment-model.md").exists())
             self.assertTrue((output_dir / "state-model.md").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
+
+    def test_render_cli_supports_domain_mermaid_artifact_family(self) -> None:
+        """The renderer CLI should support Mermaid domain diagram output."""
+        model = build_model()
+        model["analysis_view"] = {
+            "domain_entity_objects": [
+                {
+                    "id": "entity-member",
+                    "name": "Member",
+                    "attributes": ["id", "email"],
+                }
+            ],
+            "relationship_objects": [],
+        }
+
+        with TemporaryDirectory() as temp_dir:
+            model_path = Path(temp_dir) / "model.json"
+            output_dir = Path(temp_dir) / "out"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+
+            with patch(
+                "sys.argv",
+                [
+                    "render_cli",
+                    "--model",
+                    str(model_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--artifact-family",
+                    "domain-mermaid",
+                ],
+            ):
+                exit_code = render_cli_main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "domain-model.mmd").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
+
+    def test_render_artifact_family_supports_domain_mermaid_selection(self) -> None:
+        """Artifact-family rendering should allow explicit Mermaid domain selection."""
+        model = build_model()
+        model["analysis_view"] = {
+            "domain_entity_objects": [
+                {"id": "entity-member", "name": "Member", "attributes": []}
+            ],
+            "relationship_objects": [],
+        }
+
+        outputs = render_artifact_family(model, "domain-mermaid")
+
+        self.assertEqual(set(outputs), {"domain-model.mmd"})
+        self.assertTrue(outputs["domain-model.mmd"].startswith("classDiagram"))
 
     def test_render_all_supports_real_cmdb_fixture(self) -> None:
         """The checked-in CMDB fixture should render the full current bundle, including UCP."""

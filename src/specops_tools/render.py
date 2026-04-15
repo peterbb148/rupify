@@ -592,6 +592,81 @@ def render_domain_model(model: dict[str, Any]) -> str:
 """
 
 
+def _mermaid_class_name(name: str, fallback_id: str) -> str:
+    """Return a Mermaid-safe class identifier."""
+    candidate = "".join(char if char.isalnum() else "_" for char in name.strip())
+    if not candidate.strip("_"):
+        candidate = "".join(char if char.isalnum() else "_" for char in fallback_id)
+    if candidate and candidate[0].isdigit():
+        candidate = f"Entity_{candidate}"
+    return candidate or "Entity"
+
+
+def _mermaid_relationship_line(
+    relationship: dict[str, Any],
+    entity_class_names: dict[str, str],
+) -> str | None:
+    """Render one Mermaid class relationship when source and target are known."""
+    source_id = relationship.get("source_entity_id", "")
+    target_id = relationship.get("target_entity_id", "")
+    if not source_id or not target_id:
+        return None
+
+    source_class = entity_class_names.get(source_id)
+    target_class = entity_class_names.get(target_id)
+    if not source_class or not target_class:
+        return None
+
+    source_multiplicity = relationship.get("source_multiplicity", "") or '"1"'
+    target_multiplicity = relationship.get("target_multiplicity", "") or '"1"'
+    relationship_label = relationship.get("relationship_type", "") or relationship.get("description", "")
+    relationship_label = relationship_label.replace('"', "'")
+    return (
+        f'{source_class} "{source_multiplicity}" --> "{target_multiplicity}" '
+        f'{target_class} : {relationship_label}'
+    )
+
+
+def render_domain_mermaid(model: dict[str, Any]) -> str:
+    """Render a Mermaid class diagram from the canonical domain model.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mermaid classDiagram text.
+    """
+    analysis_view = model.get("analysis_view", {})
+    logical_view = model.get("logical_view", {})
+    domain_entity_objects = analysis_view.get(
+        "domain_entity_objects",
+        logical_view.get("domain_entity_objects", []),
+    )
+    relationship_objects = analysis_view.get(
+        "relationship_objects",
+        logical_view.get("relationship_objects", []),
+    )
+
+    lines = ["classDiagram"]
+    entity_class_names: dict[str, str] = {}
+
+    for entity in domain_entity_objects:
+        entity_id = entity.get("id", "")
+        class_name = _mermaid_class_name(entity.get("name", ""), entity_id)
+        entity_class_names[entity_id] = class_name
+        lines.append(f"class {class_name} {{")
+        for attribute in entity.get("attributes", []):
+            lines.append(f"  +{attribute}")
+        lines.append("}")
+
+    for relationship in relationship_objects:
+        relationship_line = _mermaid_relationship_line(relationship, entity_class_names)
+        if relationship_line:
+            lines.append(relationship_line)
+
+    return "\n".join(lines)
+
+
 def render_interaction_model(model: dict[str, Any]) -> str:
     """Render the formal interaction-model artifact.
 
@@ -859,7 +934,7 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
 
     Args:
         model: Canonical SpecOps model.
-        artifact_family: One of `all`, `formal`, or `ucp`.
+        artifact_family: One of `all`, `formal`, `ucp`, or `domain-mermaid`.
 
     Returns:
         Mapping of filename to rendered content.
@@ -873,4 +948,8 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
         return render_formal_artifacts(model)
     if artifact_family == "ucp":
         return render_ucp_artifact(model)
+    if artifact_family == "domain-mermaid":
+        return {
+            "domain-model.mmd": render_domain_mermaid(model),
+        }
     raise ValueError(f"Unsupported artifact family '{artifact_family}'.")
