@@ -14,6 +14,7 @@ yaml = [
 [project.scripts]
 rupify-interview = "rupify_tools.interview_cli:main"
 rupify-interview-replay = "rupify_tools.interview_replay:main"
+rupify-interview-to-formal = "rupify_tools.interview_to_formal_cli:main"
 rupify-ucp = "rupify_tools.ucp_cli:main"
 rupify-render = "rupify_tools.render_cli:main"
 
