@@ -2,62 +2,124 @@
 
 ## Project
 
-- Name: IT Systems Inventory and Lifecycle Management
-- Domain: Enterprise IT portfolio management
-- Scope: Web-based inventory and lifecycle management system for all non-OT IT systems.
+- Name: A system to manage inventory of IT Systems themselves.
+- Domain: Unspecified
+- Scope: All IT systems
 
 ## Problem Statement
 
-The company has many overlapping IT systems with different costs, risks, and lifecycle states. IT Business Owners and related stakeholders lack a single system for inventory, planning, deprecation, cost management, and risk oversight.
+We have many IT Systems and some overlap, some are free, some are expensive, all are slightly different.
 
 ## Business Goals
 
-- Improve planning of IT system purchasing and lifecycle decisions.
-- Create a single inventory source of truth for non-OT IT systems.
-- Improve visibility of overlap, cost, risk, and deprecation status.
+- Better planning of IT systems purchasing and life cycle
 
 ## Success Criteria
 
-- Stakeholders can inventory all non-OT systems in one place.
-- Lifecycle and approval states are visible and configurable.
-- Downstream systems can consume data through an API.
-- The system supports lifecycle planning, deprecation, and cost/risk management workflows.
+- Better planning of IT systems purchasing and life cycle
 
 ## Functional Requirements
 
-- The system must manage inventory for all non-OT IT systems.
-- The system must allow users to register a system.
-- The system must allow authorized users to edit system metadata.
-- The system must support comparison of overlapping systems.
-- The system must track configurable lifecycle states, including proposed, active, tolerated, sunset, and decommissioned.
-- The system must track annual cost, contract end, owner gap, security rating, business criticality, technical debt, and redundancy.
-- The system must support business workflows such as stage gates and approval states.
-- The system must provide API access for downstream systems and AI agents.
-- The system must support reporting of portfolio gaps.
-- The system must support risk and cost review across inventoried systems.
+- Yes business processes like stage gates and approval states must be supported
+- I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting.
 
 ## Non-Functional Requirements
 
-- The UI must be web based.
-- The system must support SSO.
-- The system must support role-based access control.
-- The system must provide an audit trail.
-- The system must support search and filtering.
-- The system must provide availability of at least 99%.
-- The system must provide acceptable web performance for normal page rendering.
+- UI must be web based
+- SSO
+- role-based access
+- audit trail
+- search
+- filtering
+- performance (regular >1s for web page rendering)
+- availability >=99%
+
+## Logical View
+
+- `entity-system` System [source: round 5 domain_entities]
+- `entity-risk-assessment` Risk Assessment [source: round 5 domain_entities]
+- `entity-cost-record` Cost Record [source: round 5 domain_entities]
+- `entity-capability` Capability [source: round 5 domain_entities]
+- `entity-contract` Contract [source: round 5 domain_entities]
+- `entity-integration` Integration [source: round 5 domain_entities]
+
+
+## Relationships
+
+- `relationship-1` A System has one Business Owner [source: round 5 relationships]
+- `relationship-2` A System has one Technical Owner [source: round 5 relationships]
+- `relationship-3` A System has many Integrations [source: round 5 relationships]
+- `relationship-4` A System has many Capabilities [source: round 5 relationships]
+- `relationship-5` A System has one Contract [source: round 5 relationships]
+- `relationship-6` A System has many Risk Assessments [source: round 5 relationships]
+- `relationship-7` A System has many Cost Records [source: round 5 relationships]
+
+
+## Business Rules
+
+- `business-rule-1` A System must have a business owner before it becomes Active. [source: round 5 business_rules]
+- `business-rule-2` A System lifecycle state change requires approval for deprecation. [source: round 5 business_rules]
+- `business-rule-3` A System must record vendor and contract dates. [source: round 5 business_rules]
+
+
+## Process View
+
+- `state-entity-system` System {states: Proposed, Active, Retiring, Retired, Deprecated} [source: round 6 state_entities]
+
+
+## States and Transitions
+
+- `state-transition-1` System: Proposed -> Active -> Retiring -> Retired [source: round 6 states_and_transitions]
+- `state-transition-2` System: Proposed -> Active -> Retiring -> Retired [source: round 6 states_and_transitions]
+- `state-transition-3` System: Proposed -> Active -> Retiring -> Retired [source: round 6 states_and_transitions]
+- `state-transition-4` System: Active -> Deprecated [source: round 6 states_and_transitions]
+
+
+## Triggers and Approvals
+
+- `trigger-1` Deprecation approval requires enterprise architect review [source: round 6 triggers_and_approvals]
+- `trigger-2` Contract expiry triggers lifecycle review [source: round 6 triggers_and_approvals]
+
+
+## Architecture View
+
+- `component-system-inventory-web-app` System Inventory Web App [source: round 7 components_and_services]
+- `component-system-inventory-api` System Inventory API [source: round 7 components_and_services]
+- `component-reporting-consumers` Reporting Consumers [source: round 7 components_and_services]
+
+
+## Interfaces and Integrations
+
+- `interface-1` System Inventory Web App calls System Inventory API [source: round 7 interfaces_and_integrations]
+- `interface-2` System Inventory API sends Reporting Consumers [source: round 7 interfaces_and_integrations]
+
+
+## Runtime Boundaries
+
+- `runtime-boundary-1` System Inventory API runs separately from the UI [source: round 7 runtime_boundaries]
+
+
+
+## Use-Case To Analysis Traceability
+
+- `trace-uc-analysis-1` register-a-system -> entity-system (use-case text references analysis object name)
+- `trace-uc-analysis-2` register-a-system -> state-entity-system (use-case text references analysis object name)
+- `trace-uc-analysis-3` compare-overlapping-systems -> entity-system (use-case text references analysis object name)
+- `trace-uc-analysis-4` compare-overlapping-systems -> state-entity-system (use-case text references analysis object name)
+
+
+## Analysis To Design Traceability
+
+- `trace-analysis-design-1` entity-system -> component-system-inventory-web-app (design component name references analysis object name)
+- `trace-analysis-design-2` entity-system -> component-system-inventory-api (design component name references analysis object name)
+- `trace-analysis-design-3` state-entity-system -> component-system-inventory-web-app (design component name references analysis object name)
+- `trace-analysis-design-4` state-entity-system -> component-system-inventory-api (design component name references analysis object name)
+
 
 ## Assumptions
 
-- The system acts as the CMDB for IT applications and systems, excluding OT systems.
-- API consumers include downstream reporting systems and AI agents.
-- Lifecycle states are configurable even though an initial default set exists.
-- V1 includes workflow support for approvals and stage gates, not just passive inventory.
-- The UCP inputs were estimated using defaults for a similar internal enterprise system at a company of about 1000 people.
+- None
 
 ## Open Questions
 
-- Did performance mean page rendering should be less than 1 second rather than greater than 1 second?
-- Are integrations/interfaces first-class inventory objects or only metadata on systems?
-- Should procurement, security, finance, and application owners have distinct roles and workflows in V1?
-- What exact approval workflows and stage-gate states are required in V1?
-- What data model is required for overlap analysis and portfolio gap reporting?
+- None
