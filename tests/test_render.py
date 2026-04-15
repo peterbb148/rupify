@@ -18,6 +18,7 @@ from specops_tools.render import (
     render_domain_model,
     render_domain_mermaid,
     render_formal_artifacts,
+    render_interaction_mermaid,
     render_interaction_model,
     render_requirements_spec,
     render_state_mermaid,
@@ -596,6 +597,37 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Requested --> Approved : Approval event | manager approval", rendered)
         self.assertIn("Requested --> Rejected : Validation failure | exception | terminal", rendered)
 
+    def test_render_interaction_mermaid_outputs_sequence_diagram(self) -> None:
+        """Interaction Mermaid rendering should emit a deterministic sequence diagram."""
+        model = build_model()
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "use_case_name": "Redeem Reward",
+                    "participant_names": ["Customer", "Rewards API"],
+                    "steps": ["Customer selects reward.", "System validates points."],
+                }
+            ],
+            "message_objects": [
+                {
+                    "id": "interaction-message-1",
+                    "source_name": "Member App",
+                    "target_name": "Rewards API",
+                    "description": "Member App calls Rewards API",
+                }
+            ],
+        }
+
+        rendered = render_interaction_mermaid(model)
+
+        self.assertTrue(rendered.startswith("sequenceDiagram"))
+        self.assertIn('participant Customer as "Customer"', rendered)
+        self.assertIn('participant Rewards_API as "Rewards API"', rendered)
+        self.assertIn("Note over Customer, Rewards_API: Redeem Reward", rendered)
+        self.assertIn("Customer->>Rewards_API: Customer selects reward.", rendered)
+        self.assertIn("Member_App->>Rewards_API: Member App calls Rewards API", rendered)
+
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
@@ -753,6 +785,44 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "state-model.mmd").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
+    def test_render_cli_supports_interaction_mermaid_artifact_family(self) -> None:
+        """The renderer CLI should support Mermaid interaction diagram output."""
+        model = build_model()
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "use_case_name": "Redeem Reward",
+                    "participant_names": ["Customer", "Rewards API"],
+                    "steps": ["Customer selects reward."],
+                }
+            ],
+            "message_objects": [],
+        }
+
+        with TemporaryDirectory() as temp_dir:
+            model_path = Path(temp_dir) / "model.json"
+            output_dir = Path(temp_dir) / "out"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+
+            with patch(
+                "sys.argv",
+                [
+                    "render_cli",
+                    "--model",
+                    str(model_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--artifact-family",
+                    "interaction-mermaid",
+                ],
+            ):
+                exit_code = render_cli_main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "interaction-model.mmd").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
+
     def test_render_artifact_family_supports_domain_mermaid_selection(self) -> None:
         """Artifact-family rendering should allow explicit Mermaid domain selection."""
         model = build_model()
@@ -782,6 +852,19 @@ class RenderTests(unittest.TestCase):
 
         self.assertEqual(set(outputs), {"state-model.mmd"})
         self.assertTrue(outputs["state-model.mmd"].startswith("stateDiagram-v2"))
+
+    def test_render_artifact_family_supports_interaction_mermaid_selection(self) -> None:
+        """Artifact-family rendering should allow explicit Mermaid interaction selection."""
+        model = build_model()
+        model["interaction_view"] = {
+            "realization_objects": [],
+            "message_objects": [],
+        }
+
+        outputs = render_artifact_family(model, "interaction-mermaid")
+
+        self.assertEqual(set(outputs), {"interaction-model.mmd"})
+        self.assertTrue(outputs["interaction-model.mmd"].startswith("sequenceDiagram"))
 
     def test_render_all_supports_real_cmdb_fixture(self) -> None:
         """The checked-in CMDB fixture should render the full current bundle, including UCP."""
