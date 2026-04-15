@@ -2,7 +2,7 @@
 
 ## Purpose
 
-SpecOps should eventually support one or more unstructured documents as first-class input for
+Rupify should eventually support one or more unstructured documents as first-class input for
 building a system specification.
 
 This should not replace the canonical model or bypass the interview workflow. It should add a new
@@ -21,7 +21,7 @@ The intended future flow is:
 5. generate targeted follow-up interview questions only where needed
 6. render the existing artifacts from the merged canonical model
 
-This means SpecOps would support:
+This means Rupify would support:
 
 - interview-first specification
 - document-first specification
@@ -59,7 +59,7 @@ Real system knowledge is often distributed across:
 - interface descriptions
 - old requirement sets
 
-If SpecOps can only interview stakeholders, it leaves value on the table and forces manual
+If Rupify can only interview stakeholders, it leaves value on the table and forces manual
 re-entry of information that already exists in written form.
 
 ## Recommended Implementation Order

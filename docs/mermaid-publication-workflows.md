@@ -1,11 +1,11 @@
 # Mermaid Publication Workflows
 
-This document explains how SpecOps Mermaid outputs should be generated, stored, and embedded in
+This document explains how Rupify Mermaid outputs should be generated, stored, and embedded in
 GitHub and Confluence.
 
 ## Supported Mermaid Outputs
 
-SpecOps currently supports these Mermaid artifact families:
+Rupify currently supports these Mermaid artifact families:
 
 - `domain-mermaid` -> `domain-model.mmd`
 - `interaction-mermaid` -> `interaction-model.mmd`

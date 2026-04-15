@@ -1,8 +1,8 @@
-# SpecOps Solution Architecture
+# Rupify Solution Architecture
 
 ## Overview
 
-SpecOps is structured as a skill pack with a small deterministic tooling layer underneath it. The
+Rupify is structured as a skill pack with a small deterministic tooling layer underneath it. The
 skills define the interview and reasoning workflow. The Python tools provide calculation and
 rendering paths where freeform prompting would be brittle.
 
@@ -83,12 +83,12 @@ Components:
 The tooling does not invent heuristic fallbacks. If YAML support is requested without the optional
 dependency, the command fails clearly and tells the user to run `uv sync --extra yaml`.
 
-The same rule should apply to richer specification outputs: if a view is not ready, SpecOps should
+The same rule should apply to richer specification outputs: if a view is not ready, Rupify should
 fail clearly or mark that view as partial rather than silently inventing structure.
 
 ## 6. Dogfooding Loop
 
-SpecOps is expected to define and refine itself.
+Rupify is expected to define and refine itself.
 
 The loop is:
 

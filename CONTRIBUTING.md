@@ -2,7 +2,7 @@
 
 ## Scope
 
-SpecOps is a model-driven specification system. Contributions should preserve that design:
+Rupify is a model-driven specification system. Contributions should preserve that design:
 
 - interview and discovery feed the canonical model
 - the canonical model is the source of truth
@@ -20,6 +20,8 @@ For YAML support:
 ```bash
 uv sync --extra yaml
 ```
+
+The current Python package and CLI names still use the `specops` prefix for compatibility.
 
 ## Useful Commands
 

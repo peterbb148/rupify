@@ -2,13 +2,13 @@
 
 ## Purpose
 
-This note maps a pragmatic RUP-style artifact set against what SpecOps actually implements today.
+This note maps a pragmatic RUP-style artifact set against what Rupify actually implements today.
 
 The point is not to claim that RUP has one single universally binding template pack. The point is
 to make the current gap visible between:
 
 - a RUP-aligned specification system
-- the narrower artifact set that SpecOps can currently generate
+- the narrower artifact set that Rupify can currently generate
 
 ## Status Scale
 
@@ -19,7 +19,7 @@ to make the current gap visible between:
 
 ## Coverage Matrix
 
-| RUP-style artifact / view | What it usually covers | SpecOps status | Current SpecOps equivalent | Gap / next issue |
+| RUP-style artifact / view | What it usually covers | Rupify status | Current Rupify equivalent | Gap / next issue |
 | --- | --- | --- | --- | --- |
 | Vision / scope | problem, stakeholders, business goals, scope | `partial` | `project`, `business_goals`, `success_criteria`, rendered in `requirements-spec.md` | no standalone vision artifact yet |
 | Supplementary requirements | non-functional requirements, constraints, quality attributes | `partial` | `requirements.non_functional`, `requirements-spec.md` | stronger fit criteria and broader formal structure still needed |
@@ -32,9 +32,9 @@ to make the current gap visible between:
 | Cross-artifact traceability | requirement -> use case -> analysis -> design | `partial` | canonical `traceability` plus validation and rendered trace sections | `#13` broader RUP traceability layer |
 | Estimate / planning support | size and effort estimation | `full` | `ucp-estimate.md` | not a classic RUP core artifact, but implemented |
 
-## What SpecOps Follows Today
+## What Rupify Follows Today
 
-SpecOps does follow a RUP-aligned internal structure in a meaningful sense:
+Rupify does follow a RUP-aligned internal structure in a meaningful sense:
 
 - separate analysis and design layers
 - explicit logical, process, and architecture views
@@ -44,9 +44,9 @@ SpecOps does follow a RUP-aligned internal structure in a meaningful sense:
 
 That is enough to say the system is RUP-aligned in architecture.
 
-## What SpecOps Does Not Yet Follow
+## What Rupify Does Not Yet Follow
 
-SpecOps does not yet implement a complete first-class artifact set for a broad RUP/UML solution
+Rupify does not yet implement a complete first-class artifact set for a broad RUP/UML solution
 architecture workflow.
 
 The main gaps are:
