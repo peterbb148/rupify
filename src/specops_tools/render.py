@@ -748,6 +748,73 @@ def render_interaction_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_interaction_mermaid(model: dict[str, Any]) -> str:
+    """Render a Mermaid sequence diagram from the canonical interaction model.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mermaid sequenceDiagram text.
+    """
+    interaction_view = model.get("interaction_view", {})
+    realization_objects = interaction_view.get("realization_objects", [])
+    message_objects = interaction_view.get("message_objects", [])
+
+    lines = ["sequenceDiagram"]
+    participant_names: list[str] = []
+
+    def add_participant(name: str) -> None:
+        if name and name not in participant_names:
+            participant_names.append(name)
+
+    for realization in realization_objects:
+        for participant_name in realization.get("participant_names", []):
+            add_participant(participant_name)
+    for message in message_objects:
+        add_participant(message.get("source_name", ""))
+        add_participant(message.get("target_name", ""))
+
+    for participant_name in participant_names:
+        safe_name = _mermaid_class_name(participant_name, participant_name)
+        lines.append(f'participant {safe_name} as "{participant_name}"')
+
+    for realization in realization_objects:
+        participant_ids = [
+            _mermaid_class_name(name, name) for name in realization.get("participant_names", [])
+        ]
+        if participant_ids:
+            lines.append(
+                f"Note over {', '.join(participant_ids)}: "
+                f"{realization.get('use_case_name', 'Unnamed Use Case')}"
+            )
+        if len(participant_ids) >= 2:
+            source = participant_ids[0]
+            target = participant_ids[1]
+            for step in realization.get("steps", []):
+                lines.append(f"{source}->>{target}: {step}")
+        elif len(participant_ids) == 1:
+            participant = participant_ids[0]
+            for step in realization.get("steps", []):
+                lines.append(f"{participant}->>{participant}: {step}")
+
+    for message in message_objects:
+        source_name = message.get("source_name", "")
+        target_name = message.get("target_name", "")
+        if not source_name or not target_name:
+            continue
+        source = _mermaid_class_name(source_name, source_name)
+        target = _mermaid_class_name(target_name, target_name)
+        description = (
+            message.get("description", "")
+            or message.get("interaction_verb", "")
+            or "message"
+        )
+        lines.append(f"{source}->>{target}: {description}")
+
+    return "\n".join(lines)
+
+
 def render_deployment_model(model: dict[str, Any]) -> str:
     """Render the formal deployment-model artifact.
 
@@ -1024,7 +1091,7 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
 
     Args:
         model: Canonical SpecOps model.
-        artifact_family: One of `all`, `formal`, `ucp`, `domain-mermaid`, or `state-mermaid`.
+        artifact_family: One of `all`, `formal`, `ucp`, `domain-mermaid`, `state-mermaid`, or `interaction-mermaid`.
 
     Returns:
         Mapping of filename to rendered content.
@@ -1045,5 +1112,9 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
     if artifact_family == "state-mermaid":
         return {
             "state-model.mmd": render_state_mermaid(model),
+        }
+    if artifact_family == "interaction-mermaid":
+        return {
+            "interaction-model.mmd": render_interaction_mermaid(model),
         }
     raise ValueError(f"Unsupported artifact family '{artifact_family}'.")
