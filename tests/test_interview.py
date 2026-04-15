@@ -1,4 +1,4 @@
-"""Tests for the executable SpecOps interview harness."""
+"""Tests for the executable Rupify interview harness."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from specops_tools.interview import (
+from rupify_tools.interview import (
     get_round,
     merge_round_inputs,
     process_round,
@@ -170,7 +170,7 @@ class InterviewHarnessTests(unittest.TestCase):
         """The CLI should accept answer text from stdin."""
         repo_root = Path(__file__).resolve().parents[1]
         completed = subprocess.run(
-            ["uv", "run", "python", "-m", "specops_tools.interview_cli", "--round", "1"],
+            ["uv", "run", "python", "-m", "rupify_tools.interview_cli", "--round", "1"],
             input=(
                 "Idea: IT systems inventory\n"
                 "Problem: duplicate systems\n"
@@ -295,7 +295,7 @@ class InterviewHarnessTests(unittest.TestCase):
                     "run",
                     "python",
                     "-m",
-                    "specops_tools.interview_replay",
+                    "rupify_tools.interview_replay",
                     "--input",
                     str(fixture_path),
                 ],
@@ -320,7 +320,7 @@ class InterviewHarnessTests(unittest.TestCase):
                 "run",
                 "python",
                 "-m",
-                "specops_tools.interview_replay",
+                "rupify_tools.interview_replay",
                 "--input",
                 str(fixture_path),
             ],
@@ -379,7 +379,7 @@ class InterviewHarnessTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             output_dir = Path(temp_dir) / "formal-out"
-            model_path = Path(temp_dir) / "specops-model.json"
+            model_path = Path(temp_dir) / "rupify-model.json"
 
             completed = subprocess.run(
                 [
@@ -387,7 +387,7 @@ class InterviewHarnessTests(unittest.TestCase):
                     "run",
                     "python",
                     "-m",
-                    "specops_tools.interview_to_formal_cli",
+                    "rupify_tools.interview_to_formal_cli",
                     "--input",
                     str(fixture_path),
                     "--output-dir",
@@ -465,7 +465,7 @@ class InterviewHarnessTests(unittest.TestCase):
                     "run",
                     "python",
                     "-m",
-                    "specops_tools.interview_replay",
+                    "rupify_tools.interview_replay",
                     "--input",
                     str(fixture_path),
                     "--updates",

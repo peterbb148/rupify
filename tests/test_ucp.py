@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import unittest
 
-from specops_tools.ucp import calculate_ucp
+from rupify_tools.ucp import calculate_ucp
 
 
 def build_model() -> dict[str, object]:
     """Create a representative test model.
 
     Returns:
-        Canonical SpecOps model fixture.
+        Canonical Rupify model fixture.
     """
     return {
         "project": {

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rupify Use Cases"
+  short_description: "Refine actors, scenarios, and complexity"
+  default_prompt: "Use $rupify-use-cases to turn my canonical Rupify model into a clearer actor and use-case structure."
+

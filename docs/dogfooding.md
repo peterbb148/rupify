@@ -17,7 +17,7 @@ The first loop for this repo is:
 
 ## Repo Convention
 
-- keep the dogfooding spec in `.specify/specs/001-dogfood-specops/`
+- keep the dogfooding spec in `.specify/specs/001-dogfood-rupify/`
 - keep long-lived governance rules in `.specify/memory/constitution.md`
 - keep work tracked in GitHub issues
 - prefer updating the model or spec over adding disconnected notes
@@ -47,4 +47,4 @@ When an example is important enough to shape the product, keep a sibling feedbac
 Current dogfooding example:
 
 - `examples/it-systems-inventory/`
-- `examples/it-systems-inventory/specops-feedback.md`
+- `examples/it-systems-inventory/rupify-feedback.md`

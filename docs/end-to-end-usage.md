@@ -25,9 +25,9 @@ Use this when you already have a canonical model.
 ### Formal Markdown Artifacts
 
 ```bash
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-formal \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-formal \
   --artifact-family formal
 ```
 
@@ -43,39 +43,39 @@ This renders:
 ### UCP Estimate
 
 ```bash
-uv run specops-ucp --model examples/it-systems-inventory/specops-model.json
+uv run rupify-ucp --model examples/it-systems-inventory/rupify-model.json
 ```
 
 Or through the renderer:
 
 ```bash
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-ucp \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-ucp \
   --artifact-family ucp
 ```
 
 ### Mermaid Outputs
 
 ```bash
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-mermaid-domain \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-mermaid-domain \
   --artifact-family domain-mermaid
 
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-mermaid-interaction \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-mermaid-interaction \
   --artifact-family interaction-mermaid
 
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-mermaid-deployment \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-mermaid-deployment \
   --artifact-family deployment-mermaid
 
-uv run specops-render \
-  --model examples/it-systems-inventory/specops-model.json \
-  --output-dir /tmp/specops-mermaid-state \
+uv run rupify-render \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-mermaid-state \
   --artifact-family state-mermaid
 ```
 
@@ -85,10 +85,10 @@ Use this when you have a replayable interview fixture and want the normalized mo
 artifact bundle.
 
 ```bash
-uv run python -m specops_tools.interview_to_formal_cli \
+uv run python -m rupify_tools.interview_to_formal_cli \
   --input tests/fixtures/it_systems_inventory_session.json \
-  --output-dir /tmp/specops-from-interview \
-  --write-model /tmp/specops-from-interview/specops-model.json
+  --output-dir /tmp/rupify-from-interview \
+  --write-model /tmp/rupify-from-interview/rupify-model.json
 ```
 
 This does three things:
@@ -105,14 +105,14 @@ without starting over.
 ### Replay Existing Fixture
 
 ```bash
-uv run specops-interview-replay \
+uv run rupify-interview-replay \
   --input tests/fixtures/it_systems_inventory_session.json
 ```
 
 ### Replay With Targeted Updates
 
 ```bash
-uv run specops-interview-replay \
+uv run rupify-interview-replay \
   --input tests/fixtures/it_systems_inventory_session.json \
   --updates path/to/updates.json
 ```
@@ -129,33 +129,31 @@ The replay result includes:
 Use this for low-level testing or skill development.
 
 ```bash
-uv run specops-interview --round 3 --input path/to/answers.txt
+uv run rupify-interview --round 3 --input path/to/answers.txt
 ```
 
 You can also pipe text through stdin:
 
 ```bash
-cat path/to/answers.txt | uv run specops-interview --round 3
+cat path/to/answers.txt | uv run rupify-interview --round 3
 ```
 
 ## Skill Usage
 
 The repo also ships local skills intended for Codex-style environments.
 
-Those skill names still use the older `specops` prefix for compatibility:
-
-- `$specops`
-- `$specops-interview`
-- `$specops-discovery`
-- `$specops-use-cases`
-- `$specops-ucp`
+- `$rupify`
+- `$rupify-interview`
+- `$rupify-discovery`
+- `$rupify-use-cases`
+- `$rupify-ucp`
 
 Recommended skill-level flow:
 
-1. start with `$specops-interview` or `$specops`
-2. normalize with `$specops-discovery`
-3. refine actors/use cases with `$specops-use-cases`
-4. estimate with `$specops-ucp`
+1. start with `$rupify-interview` or `$rupify`
+2. normalize with `$rupify-discovery`
+3. refine actors/use cases with `$rupify-use-cases`
+4. estimate with `$rupify-ucp`
 
 These skills are repo-local assets, not a standalone published package format by themselves.
 

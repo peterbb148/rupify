@@ -10,7 +10,7 @@ rendering paths where freeform prompting would be brittle.
 
 ## 1. Interview Entry Layer
 
-The interview is a first-class skill entrypoint: `specops-interview`. It owns the stakeholder
+The interview is a first-class skill entrypoint: `rupify-interview`. It owns the stakeholder
 conversation and gathers the inputs needed for modeling and estimation readiness.
 
 Responsibilities:
@@ -25,7 +25,7 @@ instead of forcing a full restart.
 
 ## 2. Orchestrator Layer
 
-The `specops` skill is the entrypoint. It performs scope checks, runs the structured interview,
+The `rupify` skill is the entrypoint. It performs scope checks, runs the structured interview,
 builds or updates the canonical model, and coordinates the downstream artifact generation flow.
 
 Responsibilities:
@@ -33,17 +33,17 @@ Responsibilities:
 - verify the request is about software or system requirements
 - collect business goals, actors, use cases, constraints, and estimation inputs
 - stop clearly when the model is not sufficient for a defensible estimate
-- invoke `specops-interview` when the interview should be run as its own skill
+- invoke `rupify-interview` when the interview should be run as its own skill
 - route to subskills using the canonical model instead of reinterpreting raw chat history
 
 ## 3. Domain Skills
 
 The orchestrator delegates to focused skills:
 
-- `specops-interview` for the interview itself
-- `specops-discovery` for elicitation and normalization
-- `specops-use-cases` for actor and use-case structure
-- `specops-ucp` for complexity classification and UCP scoring
+- `rupify-interview` for the interview itself
+- `rupify-discovery` for elicitation and normalization
+- `rupify-use-cases` for actor and use-case structure
+- `rupify-ucp` for complexity classification and UCP scoring
 
 This keeps each skill narrow and reusable without turning the repo into a plugin or application.
 
@@ -66,12 +66,12 @@ The next model evolution must also represent ambiguity, provenance, readiness, a
 system can preserve incomplete or conflicting information honestly and determine which downstream
 artifacts need regeneration.
 
-The canonical path is `specops-model.yaml`. A JSON mirror is included in examples so the offline
+The canonical path is `rupify-model.yaml`. A JSON mirror is included in examples so the offline
 tooling can run without the optional YAML extra.
 
 ## 5. Deterministic Python Utilities
 
-The Python utilities live in `src/specops_tools/` and are executed with `uv run`.
+The Python utilities live in `src/rupify_tools/` and are executed with `uv run`.
 
 Components:
 

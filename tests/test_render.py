@@ -1,4 +1,4 @@
-"""Tests for rendering SpecOps artifacts."""
+"""Tests for rendering Rupify artifacts."""
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from specops_tools.discovery import normalize_replay_to_model
-from specops_tools.interview import replay_session
-from specops_tools.render_cli import main as render_cli_main
-from specops_tools.render import (
+from rupify_tools.discovery import normalize_replay_to_model
+from rupify_tools.interview import replay_session
+from rupify_tools.render_cli import main as render_cli_main
+from rupify_tools.render import (
     render_all,
     render_artifact_family,
     render_deployment_model,
@@ -25,7 +25,7 @@ from specops_tools.render import (
     render_state_mermaid,
     render_state_model,
 )
-from specops_tools.ucp import calculate_ucp, render_ucp_markdown
+from rupify_tools.ucp import calculate_ucp, render_ucp_markdown
 
 try:
     from tests.test_ucp import build_model
@@ -173,7 +173,7 @@ class RenderTests(unittest.TestCase):
 
     def test_render_prefers_layer_collections_when_present(self) -> None:
         """Rendering should remain coherent when analysis/design objects live under layer sections."""
-        from specops_tools.render import render_use_case_model
+        from rupify_tools.render import render_use_case_model
 
         model = build_model()
         model["actors"] = []
@@ -269,7 +269,7 @@ class RenderTests(unittest.TestCase):
 
     def test_use_case_render_includes_process_and_architecture_sections(self) -> None:
         """Use-case rendering should include relevant process and architecture sections when present."""
-        from specops_tools.render import render_use_case_model
+        from rupify_tools.render import render_use_case_model
 
         model = build_model()
         model["process_view"] = {
@@ -316,7 +316,7 @@ class RenderTests(unittest.TestCase):
 
     def test_use_case_render_includes_traceability_sections(self) -> None:
         """Use-case rendering should surface use-case traceability links when present."""
-        from specops_tools.render import render_use_case_model
+        from rupify_tools.render import render_use_case_model
 
         model = build_model()
         model["traceability"] = {
