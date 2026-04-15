@@ -8,9 +8,11 @@ while later work expands UML/formalization and integration support.
 
 ## Objective
 
-Deliver a reusable Codex-native skill pack for software requirements discovery. The first release
-must capture requirements through an interview, persist them in one canonical model, and generate a
-requirements spec, use-case model, and UCP estimate from that shared model.
+Deliver a reusable Codex-native, model-driven specification system. The original first release
+captured requirements through an interview, persisted them in one canonical model, and generated a
+requirements spec, use-case model, and UCP estimate from that shared model. The current system now
+extends that baseline with formal domain, interaction, deployment, and state artifacts plus Mermaid
+publication outputs generated from the same model.
 
 ## Workstreams
 
@@ -88,7 +90,12 @@ V1.6 focuses on:
 
 Reference: [V1.6 Specification Hardening](v1.6-specification-hardening.md)
 
-## Remaining Roadmap After V1.6
+## Remaining Roadmap After Initial V2 Delivery
 
-- V2 UML and formal specification translation at broader artifact breadth
+The initial V2 UML/formal translation breadth is now delivered on `main`.
+
+Remaining roadmap:
+
 - V2 integrations and productization
+- document-ingestion and hybrid document-to-spec workflows
+- broader publication and workflow polish around the delivered formal and Mermaid outputs

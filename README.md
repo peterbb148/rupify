@@ -1,13 +1,19 @@
 # SpecOps
 
-SpecOps is a Codex-native skill pack for software requirements discovery. It is designed to
-interview a stakeholder, normalize the answers into a canonical project model, and generate
-first-class artifacts from the same source of truth:
+SpecOps is a Codex-native, model-driven specification system for software and system requirements.
+It interviews a stakeholder, normalizes the answers into a canonical project model, and generates
+first-class specification artifacts and diagrams from that shared source of truth.
+
+Current first-class outputs include:
 
 - `requirements-spec.md`
 - `use-case-model.md`
+- `domain-model.md`
+- `interaction-model.md`
+- `deployment-model.md`
 - `state-model.md`
 - `ucp-estimate.md`
+- Mermaid diagram bundles for domain, interaction, deployment, and state views
 
 The interview step can be invoked directly as the `$specops-interview` skill.
 
@@ -39,6 +45,7 @@ V2 has now started and the first formal artifact breadth is delivered on top of 
 - `deployment-model.md`
 - broadened `state-model.md`
 - richer artifact lineage and cross-view traceability
+- Mermaid outputs for domain, interaction, deployment, and state publication
 
 The remaining roadmap is now follow-on V2 expansion plus integrations/productization rather than
 foundational UML readiness work.
@@ -92,6 +99,7 @@ uv sync --extra yaml
 - [V1.6 Specification Hardening](docs/v1.6-specification-hardening.md)
 - [V2 Go/No-Go Decision](docs/v2-go-no-go-decision.md)
 - [RUP Artifact Coverage Matrix](docs/rup-artifact-coverage-matrix.md)
+- [Repo Review](docs/repo-review-2026-04.md)
 - [Mermaid Publication Workflows](docs/mermaid-publication-workflows.md)
 - [Document Ingestion Future Direction](docs/document-ingestion-future.md)
 - [Dogfooding Workflow](docs/dogfooding.md)

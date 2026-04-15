@@ -24,11 +24,11 @@ to make the current gap visible between:
 | Vision / scope | problem, stakeholders, business goals, scope | `partial` | `project`, `business_goals`, `success_criteria`, rendered in `requirements-spec.md` | no standalone vision artifact yet |
 | Supplementary requirements | non-functional requirements, constraints, quality attributes | `partial` | `requirements.non_functional`, `requirements-spec.md` | stronger fit criteria and broader formal structure still needed |
 | Use-case model | actors, goals, scenarios, extensions | `full` | `use-case-model.md`, canonical actors/use cases | could deepen, but already credible |
-| Analysis model: domain / logical view | domain concepts, relationships, rules | `partial` | `analysis_view`, `logical_view`, rendered in `requirements-spec.md` | `#11` domain and class modeling |
+| Analysis model: domain / logical view | domain concepts, relationships, rules | `full` | `domain-model.md`, `analysis_view`, `logical_view`, Mermaid `classDiagram` output | deeper domain semantics and product polish, not a missing artifact family |
 | Analysis model: state / process view | states, transitions, triggers, approvals | `full` | `state-model.md`, `analysis_view`, `process_view` | broader V2 state breadth in `#15` |
-| Analysis model: interaction view | realization of use cases as messages/interactions | `missing` | trace links and use cases only | `#14` interaction diagram support |
-| Design model: component view | components, interfaces, responsibilities | `partial` | `design_view`, `architecture_view`, rendered sections in existing artifacts | `#12` component and deployment modeling |
-| Design model: deployment / physical view | nodes, runtime boundaries, deployment placement | `partial` | `runtime_boundary_objects`, architecture sections | `#12` component and deployment modeling |
+| Analysis model: interaction view | realization of use cases as messages/interactions | `full` | `interaction-model.md`, `interaction_view`, Mermaid `sequenceDiagram` output | deeper semantics and publication polish, not a missing artifact family |
+| Design model: component view | components, interfaces, responsibilities | `full` | `deployment-model.md`, `design_view`, Mermaid deployment/architecture output | stronger deployment semantics and productization remain |
+| Design model: deployment / physical view | nodes, runtime boundaries, deployment placement | `full` | `deployment-model.md`, `runtime_boundary_objects`, Mermaid deployment/architecture output | stronger physical/deployment semantics remain |
 | Cross-artifact traceability | requirement -> use case -> analysis -> design | `partial` | canonical `traceability` plus validation and rendered trace sections | `#13` broader RUP traceability layer |
 | Estimate / planning support | size and effort estimation | `full` | `ucp-estimate.md` | not a classic RUP core artifact, but implemented |
 
@@ -51,11 +51,11 @@ architecture workflow.
 
 The main gaps are:
 
-- no standalone domain/class model artifact
-- no interaction artifact family
-- no formal component/deployment artifact family
-- traceability is real, but not yet broad enough to count as a full RUP trace layer
-- no standalone vision or supplementary specification artifact set
+- no standalone vision artifact
+- no standalone supplementary specification artifact
+- traceability is real, but still narrower than a complete RUP trace suite
+- deployment output is practical and publishable, but not yet a UML-pure deployment interchange path
+- productization and publishing workflows still lag behind the underlying specification engine
 
 ## Bottom Line
 
@@ -67,11 +67,13 @@ If the question is:
 
 The repo is now best described as:
 
-> a RUP-aligned canonical model and partial artifact system, not yet a full RUP artifact suite
+> a RUP-aligned canonical model and materially broader artifact system, but not yet a full RUP
+> artifact suite
 
 ## Recommended Next Move
 
-If V2 proceeds, the strongest next artifact family is still `#11` domain and class modeling.
+The strongest next work is no longer another missing core artifact family. It is:
 
-That closes the largest visible gap after the V1.6 `state-model.md` proof and moves SpecOps closer
-to a genuinely broader RUP-style specification set.
+- productization of the existing formal and Mermaid outputs under `#7`
+- document ingestion and hybrid workflows under `#65`
+- cleanup of remaining standalone vision/supplementary specification gaps
