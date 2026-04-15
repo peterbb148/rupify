@@ -1,13 +1,19 @@
 # SpecOps
 
-SpecOps is a Codex-native skill pack for software requirements discovery. It is designed to
-interview a stakeholder, normalize the answers into a canonical project model, and generate
-first-class artifacts from the same source of truth:
+SpecOps is a Codex-native, model-driven specification system for software and system requirements.
+It interviews a stakeholder, normalizes the answers into a canonical project model, and generates
+first-class specification artifacts and diagrams from that shared source of truth.
+
+Current first-class outputs include:
 
 - `requirements-spec.md`
 - `use-case-model.md`
+- `domain-model.md`
+- `interaction-model.md`
+- `deployment-model.md`
 - `state-model.md`
 - `ucp-estimate.md`
+- Mermaid diagram bundles for domain, interaction, deployment, and state views
 
 The interview step can be invoked directly as the `$specops-interview` skill.
 
@@ -39,9 +45,20 @@ V2 has now started and the first formal artifact breadth is delivered on top of 
 - `deployment-model.md`
 - broadened `state-model.md`
 - richer artifact lineage and cross-view traceability
+- Mermaid outputs for domain, interaction, deployment, and state publication
 
 The remaining roadmap is now follow-on V2 expansion plus integrations/productization rather than
 foundational UML readiness work.
+
+## Open Source Readiness
+
+This repository is usable as an open-source, model-driven specification toolkit today, with some
+important scope boundaries:
+
+- the Python tooling and example workflows are executable locally
+- the skill pack is designed for Codex-style environments where local skills are available
+- the canonical model and generated artifacts are the supported interoperability surface
+- productization and document-ingestion work are still active roadmap items
 
 ## Repository Layout
 
@@ -62,6 +79,42 @@ foundational UML readiness work.
 ## Python Workflow
 
 Python in this repo is managed with `uv`.
+
+## Installation
+
+### Prerequisites
+
+- Python `3.12+`
+- [`uv`](https://docs.astral.sh/uv/)
+
+### Install Local Tooling
+
+```bash
+uv sync
+```
+
+If you want YAML model support:
+
+```bash
+uv sync --extra yaml
+```
+
+### Available CLI Entry Points
+
+After `uv sync`, the current supported commands are:
+
+```bash
+uv run specops-interview --help
+uv run specops-interview-replay --help
+uv run specops-ucp --help
+uv run specops-render --help
+```
+
+There is also one module-only CLI for the interview-fixture-to-formal flow:
+
+```bash
+uv run python -m specops_tools.interview_to_formal_cli --help
+```
 
 Common commands:
 
@@ -86,17 +139,20 @@ uv sync --extra yaml
 
 ## Primary Documents
 
+- [End-to-End Usage](docs/end-to-end-usage.md)
 - [Implementation Plan](docs/implementation-plan.md)
 - [Solution Architecture](docs/solution-architecture.md)
 - [V1.5 Interview Readiness](docs/v1.5-interview-readiness.md)
 - [V1.6 Specification Hardening](docs/v1.6-specification-hardening.md)
 - [V2 Go/No-Go Decision](docs/v2-go-no-go-decision.md)
 - [RUP Artifact Coverage Matrix](docs/rup-artifact-coverage-matrix.md)
+- [Repo Review](docs/repo-review-2026-04.md)
 - [Mermaid Publication Workflows](docs/mermaid-publication-workflows.md)
 - [Document Ingestion Future Direction](docs/document-ingestion-future.md)
 - [Dogfooding Workflow](docs/dogfooding.md)
 - [GitHub Issue Map](docs/github-issue-map.md)
 - [SpecKit Constitution](.specify/memory/constitution.md)
+- [Contributing](CONTRIBUTING.md)
 
 ## Dogfooding Example
 
@@ -105,3 +161,10 @@ SpecOps:
 
 - [Example Model](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-model.yaml)
 - [Example Feedback](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-feedback.md)
+
+## Current Limitations
+
+- the main end-to-end skill workflow assumes a Codex-style environment with local skill support
+- there is not yet a standalone vision artifact or supplementary specification artifact
+- Mermaid outputs are practical publication artifacts, not strict UML interchange files
+- document ingestion is planned but not yet implemented as a product workflow
