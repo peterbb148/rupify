@@ -124,13 +124,34 @@
       "round": 5,
       "responses": [
         {
-          "key": "actor_complexity",
+          "key": "domain_entities",
           "answer": [
-            "IT Business Owner: Simple",
-            "Technical Owner: Simple",
-            "Enterprise Architect: Simple",
-            "Procurement / Security / Finance / Application Owner users: Simple",
-            "Downstream API consumers / external reporting systems: Complex"
+            "System",
+            "Risk Assessment",
+            "Cost Record",
+            "Capability",
+            "Contract",
+            "Integration"
+          ]
+        },
+        {
+          "key": "relationships",
+          "answer": [
+            "A System has one Business Owner",
+            "A System has one Technical Owner",
+            "A System has many Integrations",
+            "A System has many Capabilities",
+            "A System has one Contract",
+            "A System has many Risk Assessments",
+            "A System has many Cost Records"
+          ]
+        },
+        {
+          "key": "business_rules",
+          "answer": [
+            "A System must have a business owner before it becomes Active.",
+            "A System lifecycle state change requires approval for deprecation.",
+            "A System must record vendor and contract dates."
           ]
         }
       ]
@@ -139,17 +160,104 @@
       "round": 6,
       "responses": [
         {
+          "key": "state_entities",
+          "answer": [
+            "System"
+          ]
+        },
+        {
+          "key": "states_and_transitions",
+          "answer": [
+            "System: Proposed -> Active -> Retiring -> Retired",
+            "System: Active -> Deprecated"
+          ]
+        },
+        {
+          "key": "triggers_and_approvals",
+          "answer": [
+            "Deprecation approval requires enterprise architect review",
+            "Contract expiry triggers lifecycle review"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "responses": [
+        {
+          "key": "components_and_services",
+          "answer": [
+            "System Inventory Web App",
+            "System Inventory API",
+            "Reporting Consumers"
+          ]
+        },
+        {
+          "key": "interfaces_and_integrations",
+          "answer": [
+            "System Inventory Web App calls System Inventory API",
+            "System Inventory API sends Reporting Consumers"
+          ]
+        },
+        {
+          "key": "runtime_boundaries",
+          "answer": [
+            "System Inventory API runs separately from the UI"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "responses": [
+        {
+          "key": "actor_complexity",
+          "answer": [
+            "Business owners: Complex",
+            "technical owners: Complex",
+            "enterprise architects: Complex",
+            "procurement: Average",
+            "security: Average",
+            "finance: Average",
+            "application owners: Complex",
+            "integration system owners: Average"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "responses": [
+        {
           "key": "use_case_complexity",
           "answer": [
-            "register a system: Simple",
+            "Register a system: Average",
             "edit metadata: Simple",
             "compare overlapping systems: Average",
-            "track lifecycle state: Simple",
-            "review risks and costs: Simple",
-            "approve deprecation / stage gates: Simple",
-            "report portfolio gaps: Simple",
-            "expose/export data by API: Complex"
+            "track lifecycle state: Average",
+            "review risks: Simple",
+            "see costs: Simple",
+            "approve deprecation: Average",
+            "report portfolio gaps: Average"
           ]
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "responses": [
+        {
+          "key": "technical",
+          "answer": "distributed system: 3\nresponse time: 2\nend-user efficiency: 4\ncomplex internal processing: 2\nreusability: 3\nease of installation: 2\nease of use: 4\nportability: 2\nease of change: 4\nconcurrency: 2\nsecurity: 4\nthird-party access: 4\nspecial user training: 1"
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "responses": [
+        {
+          "key": "environmental",
+          "answer": "team familiarity: 3\napplication experience: 3\narchitecture experience: 3\nanalyst capability: 4\nmotivation: 4\nrequirements stability: 3\npart-time staffing: 1\nplatform difficulty: 2"
         }
       ]
     }

@@ -588,6 +588,23 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "state-model.md").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
+    def test_render_all_supports_real_cmdb_fixture(self) -> None:
+        """The checked-in CMDB fixture should render the full current bundle, including UCP."""
+        repo_root = Path(__file__).resolve().parents[1]
+        fixture_path = repo_root / "tests" / "fixtures" / "it_systems_inventory_session.json"
+        fixture = json.loads(fixture_path.read_text())
+
+        replay = replay_session(fixture["rounds"])
+        model = normalize_replay_to_model(replay)
+        outputs = render_all(model)
+
+        self.assertIn("domain-model.md", outputs)
+        self.assertIn("interaction-model.md", outputs)
+        self.assertIn("deployment-model.md", outputs)
+        self.assertIn("state-model.md", outputs)
+        self.assertIn("ucp-estimate.md", outputs)
+        self.assertTrue(outputs["ucp-estimate.md"].startswith("# UCP Estimate"))
+
     def test_interaction_model_render_includes_realizations_and_messages(self) -> None:
         """Interaction-model rendering should surface use-case realizations and message flows."""
         model = build_model()
