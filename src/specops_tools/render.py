@@ -874,6 +874,57 @@ def render_deployment_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_deployment_mermaid(model: dict[str, Any]) -> str:
+    """Render a Mermaid deployment/architecture diagram from the canonical design model.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mermaid flowchart text.
+    """
+    design_view = model.get("design_view", {})
+    architecture_view = model.get("architecture_view", {})
+    component_objects = design_view.get(
+        "component_objects",
+        architecture_view.get("component_objects", []),
+    )
+    interface_objects = design_view.get(
+        "interface_objects",
+        architecture_view.get("interface_objects", []),
+    )
+    runtime_boundary_objects = design_view.get(
+        "runtime_boundary_objects",
+        architecture_view.get("runtime_boundary_objects", []),
+    )
+
+    lines = ["flowchart LR"]
+    component_ids: dict[str, str] = {}
+
+    for component in component_objects:
+        component_name = component.get("name", "Component")
+        component_id = _mermaid_class_name(component_name, component.get("id", "component"))
+        component_ids[component_name] = component_id
+        lines.append(f'{component_id}["{component_name}"]')
+
+    for interface in interface_objects:
+        source_name = interface.get("source_name", "") or interface.get("source_component_name", "")
+        target_name = interface.get("target_name", "") or interface.get("target_component_name", "")
+        if not source_name or not target_name:
+            continue
+        source_id = component_ids.get(source_name, _mermaid_class_name(source_name, source_name))
+        target_id = component_ids.get(target_name, _mermaid_class_name(target_name, target_name))
+        description = interface.get("description", "") or "integrates with"
+        lines.append(f'{source_id} -->|"{description}"| {target_id}')
+
+    for index, runtime_boundary in enumerate(runtime_boundary_objects, 1):
+        boundary_id = f"RuntimeBoundary_{index}"
+        description = runtime_boundary.get("description", "") or runtime_boundary.get("text", "")
+        lines.append(f'{boundary_id}["{description or "Runtime boundary"}"]')
+
+    return "\n".join(lines)
+
+
 def render_state_model(model: dict[str, Any]) -> str:
     """Render the formal state-model artifact.
 
@@ -1091,7 +1142,7 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
 
     Args:
         model: Canonical SpecOps model.
-        artifact_family: One of `all`, `formal`, `ucp`, `domain-mermaid`, `state-mermaid`, or `interaction-mermaid`.
+        artifact_family: One of `all`, `formal`, `ucp`, `domain-mermaid`, `state-mermaid`, `interaction-mermaid`, or `deployment-mermaid`.
 
     Returns:
         Mapping of filename to rendered content.
@@ -1116,5 +1167,9 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
     if artifact_family == "interaction-mermaid":
         return {
             "interaction-model.mmd": render_interaction_mermaid(model),
+        }
+    if artifact_family == "deployment-mermaid":
+        return {
+            "deployment-model.mmd": render_deployment_mermaid(model),
         }
     raise ValueError(f"Unsupported artifact family '{artifact_family}'.")

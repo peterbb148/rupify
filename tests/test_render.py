@@ -15,6 +15,7 @@ from specops_tools.render import (
     render_all,
     render_artifact_family,
     render_deployment_model,
+    render_deployment_mermaid,
     render_domain_model,
     render_domain_mermaid,
     render_formal_artifacts,
@@ -628,6 +629,38 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Customer->>Rewards_API: Customer selects reward.", rendered)
         self.assertIn("Member_App->>Rewards_API: Member App calls Rewards API", rendered)
 
+    def test_render_deployment_mermaid_outputs_flowchart(self) -> None:
+        """Deployment Mermaid rendering should emit a deterministic flowchart."""
+        model = build_model()
+        model["design_view"] = {
+            "component_objects": [
+                {"id": "component-member-app", "name": "Member App"},
+                {"id": "component-rewards-api", "name": "Rewards API"},
+            ],
+            "interface_objects": [
+                {
+                    "id": "interface-1",
+                    "source_name": "Member App",
+                    "target_name": "Rewards API",
+                    "description": "Member App calls Rewards API",
+                }
+            ],
+            "runtime_boundary_objects": [
+                {
+                    "id": "runtime-boundary-1",
+                    "description": "Rewards API runs as a separate service.",
+                }
+            ],
+        }
+
+        rendered = render_deployment_mermaid(model)
+
+        self.assertTrue(rendered.startswith("flowchart LR"))
+        self.assertIn('Member_App["Member App"]', rendered)
+        self.assertIn('Rewards_API["Rewards API"]', rendered)
+        self.assertIn('Member_App -->|"Member App calls Rewards API"| Rewards_API', rendered)
+        self.assertIn('RuntimeBoundary_1["Rewards API runs as a separate service."]', rendered)
+
     def test_render_all_includes_state_model_artifact(self) -> None:
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
@@ -823,6 +856,40 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "interaction-model.mmd").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
+    def test_render_cli_supports_deployment_mermaid_artifact_family(self) -> None:
+        """The renderer CLI should support Mermaid deployment diagram output."""
+        model = build_model()
+        model["design_view"] = {
+            "component_objects": [
+                {"id": "component-member-app", "name": "Member App"}
+            ],
+            "interface_objects": [],
+            "runtime_boundary_objects": [],
+        }
+
+        with TemporaryDirectory() as temp_dir:
+            model_path = Path(temp_dir) / "model.json"
+            output_dir = Path(temp_dir) / "out"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+
+            with patch(
+                "sys.argv",
+                [
+                    "render_cli",
+                    "--model",
+                    str(model_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--artifact-family",
+                    "deployment-mermaid",
+                ],
+            ):
+                exit_code = render_cli_main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "deployment-model.mmd").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
+
     def test_render_artifact_family_supports_domain_mermaid_selection(self) -> None:
         """Artifact-family rendering should allow explicit Mermaid domain selection."""
         model = build_model()
@@ -865,6 +932,20 @@ class RenderTests(unittest.TestCase):
 
         self.assertEqual(set(outputs), {"interaction-model.mmd"})
         self.assertTrue(outputs["interaction-model.mmd"].startswith("sequenceDiagram"))
+
+    def test_render_artifact_family_supports_deployment_mermaid_selection(self) -> None:
+        """Artifact-family rendering should allow explicit Mermaid deployment selection."""
+        model = build_model()
+        model["design_view"] = {
+            "component_objects": [],
+            "interface_objects": [],
+            "runtime_boundary_objects": [],
+        }
+
+        outputs = render_artifact_family(model, "deployment-mermaid")
+
+        self.assertEqual(set(outputs), {"deployment-model.mmd"})
+        self.assertTrue(outputs["deployment-model.mmd"].startswith("flowchart LR"))
 
     def test_render_all_supports_real_cmdb_fixture(self) -> None:
         """The checked-in CMDB fixture should render the full current bundle, including UCP."""
