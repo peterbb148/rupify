@@ -50,6 +50,16 @@ V2 has now started and the first formal artifact breadth is delivered on top of 
 The remaining roadmap is now follow-on V2 expansion plus integrations/productization rather than
 foundational UML readiness work.
 
+## Open Source Readiness
+
+This repository is usable as an open-source, model-driven specification toolkit today, with some
+important scope boundaries:
+
+- the Python tooling and example workflows are executable locally
+- the skill pack is designed for Codex-style environments where local skills are available
+- the canonical model and generated artifacts are the supported interoperability surface
+- productization and document-ingestion work are still active roadmap items
+
 ## Repository Layout
 
 - `docs/`: implementation plan, architecture, dogfooding workflow, and GitHub issue map
@@ -69,6 +79,42 @@ foundational UML readiness work.
 ## Python Workflow
 
 Python in this repo is managed with `uv`.
+
+## Installation
+
+### Prerequisites
+
+- Python `3.12+`
+- [`uv`](https://docs.astral.sh/uv/)
+
+### Install Local Tooling
+
+```bash
+uv sync
+```
+
+If you want YAML model support:
+
+```bash
+uv sync --extra yaml
+```
+
+### Available CLI Entry Points
+
+After `uv sync`, the current supported commands are:
+
+```bash
+uv run specops-interview --help
+uv run specops-interview-replay --help
+uv run specops-ucp --help
+uv run specops-render --help
+```
+
+There is also one module-only CLI for the interview-fixture-to-formal flow:
+
+```bash
+uv run python -m specops_tools.interview_to_formal_cli --help
+```
 
 Common commands:
 
@@ -93,6 +139,7 @@ uv sync --extra yaml
 
 ## Primary Documents
 
+- [End-to-End Usage](docs/end-to-end-usage.md)
 - [Implementation Plan](docs/implementation-plan.md)
 - [Solution Architecture](docs/solution-architecture.md)
 - [V1.5 Interview Readiness](docs/v1.5-interview-readiness.md)
@@ -105,6 +152,7 @@ uv sync --extra yaml
 - [Dogfooding Workflow](docs/dogfooding.md)
 - [GitHub Issue Map](docs/github-issue-map.md)
 - [SpecKit Constitution](.specify/memory/constitution.md)
+- [Contributing](CONTRIBUTING.md)
 
 ## Dogfooding Example
 
@@ -113,3 +161,10 @@ SpecOps:
 
 - [Example Model](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-model.yaml)
 - [Example Feedback](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-feedback.md)
+
+## Current Limitations
+
+- the main end-to-end skill workflow assumes a Codex-style environment with local skill support
+- there is not yet a standalone vision artifact or supplementary specification artifact
+- Mermaid outputs are practical publication artifacts, not strict UML interchange files
+- document ingestion is planned but not yet implemented as a product workflow
