@@ -73,6 +73,7 @@ uv run python -m specops_tools.render_cli --model examples/loyalty-platform/spec
 uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid --artifact-family domain-mermaid
 uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-state --artifact-family state-mermaid
 uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-interaction --artifact-family interaction-mermaid
+uv run python -m specops_tools.render_cli --model examples/it-systems-inventory/specops-model.json --output-dir /tmp/specops-mermaid-deployment --artifact-family deployment-mermaid
 uv run python -m specops_tools.interview_to_formal_cli --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/specops-from-interview --write-model /tmp/specops-from-interview/specops-model.json
 ```
 

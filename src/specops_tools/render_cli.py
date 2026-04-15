@@ -27,6 +27,7 @@ def main() -> int:
             "domain-mermaid",
             "state-mermaid",
             "interaction-mermaid",
+            "deployment-mermaid",
         ),
         default="all",
         help="Artifact family to render. Use 'formal' to skip strict UCP output.",
