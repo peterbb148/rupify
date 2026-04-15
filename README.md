@@ -70,6 +70,7 @@ uv run python -m unittest
 uv run python -m specops_tools.ucp_cli --model examples/loyalty-platform/specops-model.json
 uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-out
 uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-formal --artifact-family formal
+uv run python -m specops_tools.interview_to_formal_cli --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/specops-from-interview --write-model /tmp/specops-from-interview/specops-model.json
 ```
 
 YAML parsing is optional and intentionally not installed by default. If you want the CLI tools to

@@ -371,6 +371,45 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertIn("domain_entities", payload["readiness_details"]["logical"]["required_missing"])
         self.assertEqual(payload["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
 
+    def test_interview_to_formal_cli_renders_formal_artifacts_from_fixture(self) -> None:
+        """The direct interview-to-formal CLI should render the formal artifact family."""
+        repo_root = Path(__file__).resolve().parents[1]
+        fixture_path = repo_root / "tests" / "fixtures" / "it_systems_inventory_session.json"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output_dir = Path(temp_dir) / "formal-out"
+            model_path = Path(temp_dir) / "specops-model.json"
+
+            completed = subprocess.run(
+                [
+                    "uv",
+                    "run",
+                    "python",
+                    "-m",
+                    "specops_tools.interview_to_formal_cli",
+                    "--input",
+                    str(fixture_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--write-model",
+                    str(model_path),
+                ],
+                text=True,
+                capture_output=True,
+                check=True,
+                cwd=repo_root,
+            )
+
+            self.assertIn("domain-model.md", completed.stdout)
+            self.assertTrue((output_dir / "requirements-spec.md").exists())
+            self.assertTrue((output_dir / "use-case-model.md").exists())
+            self.assertTrue((output_dir / "domain-model.md").exists())
+            self.assertTrue((output_dir / "interaction-model.md").exists())
+            self.assertTrue((output_dir / "deployment-model.md").exists())
+            self.assertTrue((output_dir / "state-model.md").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
+            self.assertTrue(model_path.exists())
+
     def test_replay_cli_applies_updates_fixture(self) -> None:
         """The replay CLI should support targeted updates without replay restarts."""
         repo_root = Path(__file__).resolve().parents[1]
