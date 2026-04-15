@@ -1,6 +1,6 @@
-# SpecOps
+# Rupify
 
-SpecOps is a Codex-native, model-driven specification system for software and system requirements.
+Rupify is a Codex-native, model-driven specification system for software and system requirements.
 It interviews a stakeholder, normalizes the answers into a canonical project model, and generates
 first-class specification artifacts and diagrams from that shared source of truth.
 
@@ -15,40 +15,30 @@ Current first-class outputs include:
 - `ucp-estimate.md`
 - Mermaid diagram bundles for domain, interaction, deployment, and state views
 
-The interview step can be invoked directly as the `$specops-interview` skill.
+The interview step can still be invoked through the existing `$specops-interview` skill while the
+outward-facing rename to Rupify is underway.
 
-The repository is documentation-first and dogfood-oriented. The immediate goal is to use SpecOps to
-specify and improve SpecOps itself.
+The repository is documentation-first and dogfood-oriented. The current open-source goal is to make
+Rupify usable as a model-driven specification system while retaining compatibility with the
+existing internal `specops` package and skill names.
 
-## V1 Status
+## Current Status
 
-SpecOps V1 is delivered.
+Rupify currently provides:
 
-Delivered in V1:
-
-- first-class interview flow via `$specops-interview`
-- canonical `specops-model` workflow
-- generated `requirements-spec.md`, `use-case-model.md`, and `ucp-estimate.md`
-- deterministic UCP calculation and Markdown rendering utilities
-- dogfooding examples and replayable interview fixtures
-- interview UX and UCP guidance refinements from real usage
-
-V1.5 is complete and established the interview/model readiness bridge.
-
-V1.6 is also complete. It hardened the canonical model, readiness rules, cross-view traceability,
-analysis/design separation, and proved one end-to-end formal artifact pipeline via `state-model.md`.
-
-V2 has now started and the first formal artifact breadth is delivered on top of that baseline:
-
-- `domain-model.md`
-- `interaction-model.md`
-- `deployment-model.md`
-- broadened `state-model.md`
-- richer artifact lineage and cross-view traceability
+- interview-driven discovery via local skills and replayable fixtures
+- a canonical project model as the source of truth
+- formal Markdown outputs for requirements, use cases, domain, interaction, deployment, state, and
+  UCP estimation
 - Mermaid outputs for domain, interaction, deployment, and state publication
+- readiness, staleness, provenance, and cross-view traceability in the model workflow
 
-The remaining roadmap is now follow-on V2 expansion plus integrations/productization rather than
-foundational UML readiness work.
+The remaining roadmap is now productization and workflow expansion:
+
+- CLI and publishing polish
+- automation and downstream integrations
+- document ingestion and hybrid document-to-spec workflows
+- remaining standalone specification gaps such as vision and supplementary specification outputs
 
 ## Open Source Readiness
 
@@ -58,6 +48,7 @@ important scope boundaries:
 - the Python tooling and example workflows are executable locally
 - the skill pack is designed for Codex-style environments where local skills are available
 - the canonical model and generated artifacts are the supported interoperability surface
+- the current Python package, module, and CLI names still use `specops*` for compatibility
 - productization and document-ingestion work are still active roadmap items
 
 ## Repository Layout
@@ -156,8 +147,8 @@ uv sync --extra yaml
 
 ## Dogfooding Example
 
-The IT systems inventory example is both a sample workflow output and a feedback input for improving
-SpecOps:
+The IT systems inventory example is both a sample workflow output and a feedback input for
+improving Rupify:
 
 - [Example Model](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-model.yaml)
 - [Example Feedback](/Volumes/Data/GitHub/Peterbb148/specops/examples/it-systems-inventory/specops-feedback.md)

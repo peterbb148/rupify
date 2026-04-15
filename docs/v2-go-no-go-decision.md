@@ -1,15 +1,15 @@
-# SpecOps V2 Go/No-Go Decision
+# Rupify V2 Go/No-Go Decision
 
 ## Decision
 
 Proceed with V2 only if the product goal remains a real RUP/UML specification system.
 
 If the intended endpoint is a strong requirements-and-analysis system with limited formal output,
-SpecOps can stop after V1.6 without being internally inconsistent.
+Rupify can stop after V1.6 without being internally inconsistent.
 
 ## Current State After V1.6
 
-SpecOps now has:
+Rupify now has:
 
 - a stronger canonical model for analysis and design structures
 - per-view readiness gates
@@ -17,9 +17,9 @@ SpecOps now has:
 - analysis/design separation with layer-owned source-of-truth collections
 - one proven formal artifact pipeline via `state-model.md`
 
-That is enough to claim that SpecOps is specification-ready.
+That is enough to claim that Rupify is specification-ready.
 
-It is not yet enough to claim that SpecOps is specification-complete across the relevant RUP/UML
+It is not yet enough to claim that Rupify is specification-complete across the relevant RUP/UML
 views.
 
 ## Reasons To Stop After V1.6
@@ -44,7 +44,7 @@ views.
   - broader state modeling support
   - component/deployment modeling
   - broader RUP traceability
-- Without V2, SpecOps stops at “capable of formal output” rather than “systematically produces the
+- Without V2, Rupify stops at “capable of formal output” rather than “systematically produces the
   relevant formal views.”
 
 ## Decision Criteria

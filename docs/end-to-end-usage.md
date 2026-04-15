@@ -1,10 +1,10 @@
 # End-to-End Usage
 
-This document explains the supported end-to-end ways to use SpecOps today.
+This document explains the supported end-to-end ways to use Rupify today.
 
 ## Recommended Mental Model
 
-SpecOps has one central rule:
+Rupify has one central rule:
 
 - the canonical model is the source of truth
 
@@ -140,7 +140,9 @@ cat path/to/answers.txt | uv run specops-interview --round 3
 
 ## Skill Usage
 
-The repo also ships local skills intended for Codex-style environments:
+The repo also ships local skills intended for Codex-style environments.
+
+Those skill names still use the older `specops` prefix for compatibility:
 
 - `$specops`
 - `$specops-interview`
@@ -172,7 +174,7 @@ Suggested public demo order:
 
 ## Failure Expectations
 
-SpecOps does not silently invent fallback values for missing model fields.
+Rupify does not silently invent fallback values for missing model fields.
 
 In practice this means:
 

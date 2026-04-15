@@ -1,4 +1,4 @@
-# SpecOps Implementation Plan
+# Rupify Implementation Plan
 
 ## Status
 
@@ -45,7 +45,7 @@ publication outputs generated from the same model.
 
 ## 5. Dogfooding
 
-- Delivered: SpecOps used to spec and prioritize SpecOps itself
+- Delivered: Rupify used to spec and prioritize Rupify itself
 - Delivered: active dogfooding loop inside `.specify/specs/`
 - Delivered: work driven from GitHub issues rather than ad hoc notes
 - Delivered: example-feedback pattern to feed workflow friction back into the product
