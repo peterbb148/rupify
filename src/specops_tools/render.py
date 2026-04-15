@@ -881,6 +881,96 @@ def render_state_model(model: dict[str, Any]) -> str:
 """
 
 
+def render_state_mermaid(model: dict[str, Any]) -> str:
+    """Render a Mermaid state diagram from the canonical state model.
+
+    Args:
+        model: Canonical SpecOps model.
+
+    Returns:
+        Mermaid stateDiagram-v2 text.
+    """
+    analysis_view = model.get("analysis_view", {})
+    process_view = model.get("process_view", {})
+    state_entity_objects = analysis_view.get(
+        "state_entity_objects",
+        process_view.get("state_entity_objects", []),
+    )
+    state_transition_objects = analysis_view.get(
+        "state_transition_objects",
+        process_view.get("state_transition_objects", []),
+    )
+
+    lines = ["stateDiagram-v2"]
+    if not state_transition_objects and not state_entity_objects:
+        return "\n".join(lines)
+
+    if len(state_entity_objects) == 1:
+        state_entity = state_entity_objects[0]
+        entity_name = state_entity.get("name", "State Entity")
+        lines.append(f'state "{entity_name}" as lifecycle {{')
+
+        for state_name in state_entity.get("states", []):
+            safe_state = _mermaid_class_name(state_name, state_name)
+            lines.append(f'  state "{state_name}" as {safe_state}')
+
+        for transition in state_transition_objects:
+            from_state = transition.get("from_state", "")
+            to_state = transition.get("to_state", "")
+            if not from_state or not to_state:
+                continue
+
+            safe_from = _mermaid_class_name(from_state, from_state)
+            safe_to = _mermaid_class_name(to_state, to_state)
+            label_bits = []
+            if transition.get("trigger"):
+                label_bits.append(transition["trigger"])
+            if transition.get("constraint"):
+                label_bits.append(transition["constraint"])
+            if transition.get("is_exception_flow"):
+                label_bits.append("exception")
+            if transition.get("is_terminal_transition"):
+                label_bits.append("terminal")
+
+            if label_bits:
+                lines.append(f"  {safe_from} --> {safe_to} : {' | '.join(label_bits)}")
+            else:
+                lines.append(f"  {safe_from} --> {safe_to}")
+
+        lines.append("}")
+        return "\n".join(lines)
+
+    for transition in state_transition_objects:
+        from_state = transition.get("from_state", "")
+        to_state = transition.get("to_state", "")
+        if not from_state or not to_state:
+            continue
+
+        safe_from = _mermaid_class_name(from_state, from_state)
+        safe_to = _mermaid_class_name(to_state, to_state)
+        lines.append(f'state "{from_state}" as {safe_from}')
+        lines.append(f'state "{to_state}" as {safe_to}')
+
+        label_bits = []
+        if transition.get("state_entity_name"):
+            label_bits.append(transition["state_entity_name"])
+        if transition.get("trigger"):
+            label_bits.append(transition["trigger"])
+        if transition.get("constraint"):
+            label_bits.append(transition["constraint"])
+        if transition.get("is_exception_flow"):
+            label_bits.append("exception")
+        if transition.get("is_terminal_transition"):
+            label_bits.append("terminal")
+
+        if label_bits:
+            lines.append(f"{safe_from} --> {safe_to} : {' | '.join(label_bits)}")
+        else:
+            lines.append(f"{safe_from} --> {safe_to}")
+
+    return "\n".join(lines)
+
+
 def render_all(model: dict[str, Any]) -> dict[str, str]:
     """Render all primary artifacts for a model.
 
@@ -934,7 +1024,7 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
 
     Args:
         model: Canonical SpecOps model.
-        artifact_family: One of `all`, `formal`, `ucp`, or `domain-mermaid`.
+        artifact_family: One of `all`, `formal`, `ucp`, `domain-mermaid`, or `state-mermaid`.
 
     Returns:
         Mapping of filename to rendered content.
@@ -951,5 +1041,9 @@ def render_artifact_family(model: dict[str, Any], artifact_family: str) -> dict[
     if artifact_family == "domain-mermaid":
         return {
             "domain-model.mmd": render_domain_mermaid(model),
+        }
+    if artifact_family == "state-mermaid":
+        return {
+            "state-model.mmd": render_state_mermaid(model),
         }
     raise ValueError(f"Unsupported artifact family '{artifact_family}'.")
