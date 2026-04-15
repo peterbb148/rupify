@@ -85,6 +85,21 @@ If you want YAML model support:
 uv sync --extra yaml
 ```
 
+## Quick Start
+
+Choose the workflow that matches what you already have:
+
+- Have a canonical model and want Markdown or Mermaid artifacts:
+  use `rupify-render`
+- Have a canonical model and only want the UCP estimate:
+  use `rupify-ucp`
+- Have an interview fixture and want the formal bundle plus normalized model:
+  use `rupify-interview-to-formal`
+- Have an interview fixture and want replay/readiness/staleness output only:
+  use `rupify-interview-replay`
+- Want to process a single interview round manually:
+  use `rupify-interview`
+
 ### Available CLI Entry Points
 
 After `uv sync`, the current supported commands are:
@@ -92,14 +107,9 @@ After `uv sync`, the current supported commands are:
 ```bash
 uv run rupify-interview --help
 uv run rupify-interview-replay --help
+uv run rupify-interview-to-formal --help
 uv run rupify-ucp --help
 uv run rupify-render --help
-```
-
-There is also one module-only CLI for the interview-fixture-to-formal flow:
-
-```bash
-uv run python -m rupify_tools.interview_to_formal_cli --help
 ```
 
 Common commands:
@@ -113,7 +123,7 @@ uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/r
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-state --artifact-family state-mermaid
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-interaction --artifact-family interaction-mermaid
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-deployment --artifact-family deployment-mermaid
-uv run python -m rupify_tools.interview_to_formal_cli --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/rupify-from-interview --write-model /tmp/rupify-from-interview/rupify-model.json
+uv run rupify-interview-to-formal --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/rupify-from-interview --write-model /tmp/rupify-from-interview/rupify-model.json
 ```
 
 YAML parsing is optional and intentionally not installed by default. If you want the CLI tools to

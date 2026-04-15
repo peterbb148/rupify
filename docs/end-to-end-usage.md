@@ -2,6 +2,14 @@
 
 This document explains the supported end-to-end ways to use Rupify today.
 
+## Choose The Right Command
+
+- `rupify-render`: start from a canonical model and generate Markdown or Mermaid artifacts
+- `rupify-ucp`: start from a canonical model and calculate only the UCP estimate
+- `rupify-interview-to-formal`: start from an interview fixture and generate the normalized model plus the formal Markdown bundle
+- `rupify-interview-replay`: start from an interview fixture and inspect replay, readiness, staleness, and trace validation
+- `rupify-interview`: process one interview round directly
+
 ## Recommended Mental Model
 
 Rupify has one central rule:
@@ -85,7 +93,7 @@ Use this when you have a replayable interview fixture and want the normalized mo
 artifact bundle.
 
 ```bash
-uv run python -m rupify_tools.interview_to_formal_cli \
+uv run rupify-interview-to-formal \
   --input tests/fixtures/it_systems_inventory_session.json \
   --output-dir /tmp/rupify-from-interview \
   --write-model /tmp/rupify-from-interview/rupify-model.json
