@@ -2,14 +2,21 @@
 
 from __future__ import annotations
 
+import json
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from specops_tools.discovery import normalize_replay_to_model
 from specops_tools.interview import replay_session
+from specops_tools.render_cli import main as render_cli_main
 from specops_tools.render import (
     render_all,
+    render_artifact_family,
     render_deployment_model,
     render_domain_model,
+    render_formal_artifacts,
     render_interaction_model,
     render_requirements_spec,
     render_state_model,
@@ -520,6 +527,66 @@ class RenderTests(unittest.TestCase):
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
+
+    def test_render_formal_artifacts_skips_ucp_output(self) -> None:
+        """Formal rendering should not require or emit the strict UCP artifact."""
+        model = build_model()
+        model["actors"][0]["complexity"] = "unclassified"
+
+        outputs = render_formal_artifacts(model)
+
+        self.assertIn("domain-model.md", outputs)
+        self.assertIn("interaction-model.md", outputs)
+        self.assertIn("deployment-model.md", outputs)
+        self.assertIn("state-model.md", outputs)
+        self.assertNotIn("ucp-estimate.md", outputs)
+
+    def test_render_artifact_family_supports_formal_selection(self) -> None:
+        """Artifact-family rendering should allow explicit formal-only selection."""
+        model = build_model()
+        model["actors"][0]["complexity"] = "unclassified"
+
+        outputs = render_artifact_family(model, "formal")
+
+        self.assertEqual(set(outputs), {
+            "requirements-spec.md",
+            "use-case-model.md",
+            "domain-model.md",
+            "interaction-model.md",
+            "deployment-model.md",
+            "state-model.md",
+        })
+
+    def test_render_cli_supports_formal_artifact_family(self) -> None:
+        """The renderer CLI should support formal-only output without UCP rendering."""
+        model = build_model()
+        model["actors"][0]["complexity"] = "unclassified"
+
+        with TemporaryDirectory() as temp_dir:
+            model_path = Path(temp_dir) / "model.json"
+            output_dir = Path(temp_dir) / "out"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+
+            with patch(
+                "sys.argv",
+                [
+                    "render_cli",
+                    "--model",
+                    str(model_path),
+                    "--output-dir",
+                    str(output_dir),
+                    "--artifact-family",
+                    "formal",
+                ],
+            ):
+                exit_code = render_cli_main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "domain-model.md").exists())
+            self.assertTrue((output_dir / "interaction-model.md").exists())
+            self.assertTrue((output_dir / "deployment-model.md").exists())
+            self.assertTrue((output_dir / "state-model.md").exists())
+            self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
     def test_interaction_model_render_includes_realizations_and_messages(self) -> None:
         """Interaction-model rendering should surface use-case realizations and message flows."""

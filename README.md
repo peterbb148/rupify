@@ -69,6 +69,7 @@ Common commands:
 uv run python -m unittest
 uv run python -m specops_tools.ucp_cli --model examples/loyalty-platform/specops-model.json
 uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-out
+uv run python -m specops_tools.render_cli --model examples/loyalty-platform/specops-model.json --output-dir /tmp/specops-formal --artifact-family formal
 ```
 
 YAML parsing is optional and intentionally not installed by default. If you want the CLI tools to
