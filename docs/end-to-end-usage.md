@@ -44,6 +44,7 @@ This renders:
 - `system-document.md`
 - `requirements-spec.md`
 - `use-case-model.md`
+- `use-case-documents.md`
 - `domain-model.md`
 - `interaction-model.md`
 - `deployment-model.md`

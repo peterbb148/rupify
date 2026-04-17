@@ -424,6 +424,7 @@ class InterviewHarnessTests(unittest.TestCase):
             self.assertIn("domain-model.md", completed.stdout)
             self.assertTrue((output_dir / "requirements-spec.md").exists())
             self.assertTrue((output_dir / "use-case-model.md").exists())
+            self.assertTrue((output_dir / "use-case-documents.md").exists())
             self.assertTrue((output_dir / "domain-model.md").exists())
             self.assertTrue((output_dir / "interaction-model.md").exists())
             self.assertTrue((output_dir / "deployment-model.md").exists())
