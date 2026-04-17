@@ -23,6 +23,7 @@ from rupify_tools.render import (
     render_interaction_model,
     render_requirements_spec,
     render_system_document,
+    render_use_case_documents,
     render_state_mermaid,
     render_state_model,
 )
@@ -424,6 +425,183 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_render_use_case_documents_includes_template_sections(self) -> None:
+        """Compiled use-case documents should render the richer template-driven fields."""
+        model = build_model()
+        model["analysis_view"] = {
+            "actors": [
+                {
+                    "id": "customer",
+                    "name": "Customer",
+                    "type": "human",
+                    "complexity": "complex",
+                    "description": "Redeems rewards in the app.",
+                },
+                {
+                    "id": "ops-manager",
+                    "name": "Operations Manager",
+                    "type": "human",
+                    "complexity": "average",
+                    "description": "Approves reward exceptions.",
+                },
+            ],
+            "use_cases": [
+                {
+                    "id": "uc-redeem",
+                    "name": "Redeem Reward",
+                    "primary_actor": "Customer",
+                    "supporting_actor_ids": ["ops-manager"],
+                    "goal": "Redeem a reward.",
+                    "trigger": "Customer selects a reward.",
+                    "preconditions": ["Member has enough points."],
+                    "postconditions": ["Redemption is recorded."],
+                    "priority": "high",
+                    "status": "confirmed",
+                    "complexity": "complex",
+                    "main_success_scenario": ["Customer selects reward.", "System validates points."],
+                    "extensions": ["Reward is no longer available."],
+                    "extension_points": ["Manual approval"],
+                    "used_use_case_ids": ["uc-browse"],
+                    "subordinate_use_case_ids": ["uc-analytics"],
+                    "ui_notes": ["Show point balance before confirmation."],
+                    "participating_analysis_object_ids": ["entity-reward"],
+                    "other_artifact_refs": ["storyboards/redeem-reward.png"],
+                    "other_requirement_ids": ["functional-requirement-1"],
+                    "scenario_ids": ["scenario-happy-path"],
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                },
+                {
+                    "id": "uc-browse",
+                    "name": "Browse Rewards",
+                    "primary_actor": "Customer",
+                    "supporting_actor_ids": [],
+                    "goal": "View available rewards.",
+                    "trigger": "",
+                    "preconditions": [],
+                    "postconditions": [],
+                    "priority": "",
+                    "status": "",
+                    "complexity": "average",
+                    "main_success_scenario": [],
+                    "extensions": [],
+                    "extension_points": [],
+                    "used_use_case_ids": [],
+                    "subordinate_use_case_ids": [],
+                    "ui_notes": [],
+                    "participating_analysis_object_ids": [],
+                    "other_artifact_refs": [],
+                    "other_requirement_ids": [],
+                    "scenario_ids": [],
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                },
+                {
+                    "id": "uc-analytics",
+                    "name": "Review Redemption Analytics",
+                    "primary_actor": "Operations Manager",
+                    "supporting_actor_ids": [],
+                    "goal": "Inspect redemption metrics.",
+                    "trigger": "",
+                    "preconditions": [],
+                    "postconditions": [],
+                    "priority": "",
+                    "status": "",
+                    "complexity": "simple",
+                    "main_success_scenario": [],
+                    "extensions": [],
+                    "extension_points": [],
+                    "used_use_case_ids": [],
+                    "subordinate_use_case_ids": [],
+                    "ui_notes": [],
+                    "participating_analysis_object_ids": [],
+                    "other_artifact_refs": [],
+                    "other_requirement_ids": [],
+                    "scenario_ids": [],
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                },
+            ],
+            "scenario_objects": [
+                {
+                    "id": "scenario-happy-path",
+                    "name": "Happy path redemption",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "summary": "Primary redemption flow.",
+                    "priority": "high",
+                    "status": "drafted",
+                    "flow_of_events": ["Customer confirms reward.", "System reserves inventory."],
+                    "activity_notes": ["Approval step only when inventory is low."],
+                    "sequence_notes": ["Customer -> Rewards API -> Ledger"],
+                }
+            ],
+            "requirement_objects": [
+                {
+                    "id": "functional-requirement-1",
+                    "statement": "The system shall record completed redemptions.",
+                    "trace": {"source_round": 4, "source_key": "functional_requirements"},
+                }
+            ],
+            "domain_entity_objects": [
+                {
+                    "id": "entity-reward",
+                    "name": "Reward",
+                    "description": "Redeemable catalog item.",
+                    "trace": {"source_round": 5, "source_key": "domain_entities"},
+                }
+            ],
+            "relationship_objects": [],
+            "state_entity_objects": [],
+        }
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "participant_names": ["Customer", "Rewards API"],
+                    "steps": ["Customer selects reward.", "Rewards API validates points."],
+                }
+            ]
+        }
+        model["traceability"] = {
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "uc-redeem",
+                    "to_id": "entity-reward",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-use-case-documents-use-case-documents-uc-redeem",
+                    "from_id": "uc-redeem",
+                    "to_artifact": "use-case-documents.md",
+                    "artifact_section": "use-case documents",
+                    "basis": "canonical use-case documents object renders into use-case-documents.md",
+                }
+            ],
+        }
+
+        rendered = render_use_case_documents(model)
+
+        self.assertTrue(rendered.startswith("# Use-Case Documents"))
+        self.assertIn("## Redeem Reward", rendered)
+        self.assertIn("### Preconditions", rendered)
+        self.assertIn("Member has enough points.", rendered)
+        self.assertIn("### Used Use Cases", rendered)
+        self.assertIn("Browse Rewards", rendered)
+        self.assertIn("### Subordinate Use Cases", rendered)
+        self.assertIn("Review Redemption Analytics", rendered)
+        self.assertIn("### Secondary Scenarios", rendered)
+        self.assertIn("#### Happy path redemption", rendered)
+        self.assertIn("### User Interface", rendered)
+        self.assertIn("Show point balance before confirmation.", rendered)
+        self.assertIn("### Linked Requirements", rendered)
+        self.assertIn("The system shall record completed redemptions.", rendered)
+        self.assertIn("### Sequence and Interaction Notes", rendered)
+        self.assertIn("Rewards API validates points.", rendered)
+        self.assertIn("use-case-documents.md#use-case documents", rendered)
+
     def test_state_model_render_includes_process_traceability(self) -> None:
         """State-model rendering should surface process semantics and relevant trace links."""
         model = build_model()
@@ -746,11 +924,13 @@ class RenderTests(unittest.TestCase):
         self.assertIn("deployment-model.md", outputs)
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
+        self.assertIn("use-case-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertTrue(outputs["system-document.md"].startswith("# System / Subsystem Document"))
         self.assertTrue(outputs["deployment-model.md"].startswith("# Deployment Model"))
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
+        self.assertTrue(outputs["use-case-documents.md"].startswith("# Use-Case Documents"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
 
     def test_render_formal_artifacts_skips_ucp_output(self) -> None:
@@ -764,6 +944,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
+        self.assertIn("use-case-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertNotIn("ucp-estimate.md", outputs)
 
@@ -778,6 +959,7 @@ class RenderTests(unittest.TestCase):
             "system-document.md",
             "requirements-spec.md",
             "use-case-model.md",
+            "use-case-documents.md",
             "domain-model.md",
             "interaction-model.md",
             "deployment-model.md",
@@ -813,6 +995,7 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "domain-model.md").exists())
             self.assertTrue((output_dir / "interaction-model.md").exists())
             self.assertTrue((output_dir / "deployment-model.md").exists())
+            self.assertTrue((output_dir / "use-case-documents.md").exists())
             self.assertTrue((output_dir / "state-model.md").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
@@ -1043,6 +1226,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
+        self.assertIn("use-case-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertIn("ucp-estimate.md", outputs)
         self.assertTrue(outputs["ucp-estimate.md"].startswith("# UCP Estimate"))
@@ -1299,6 +1483,47 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Review system status", rendered)
         self.assertIn("Data quality gaps", rendered)
         self.assertIn("Inventory API", rendered)
+
+    def test_replay_normalization_can_render_use_case_documents_artifact(self) -> None:
+        """Replay normalization should be able to produce the compiled use-case-documents artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "actors", "answer": ["Customer"]},
+                        {"key": "use_cases", "answer": ["Approve deprecation"]},
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {
+                            "key": "use_case_details",
+                            "answer": ["Approve deprecation | priority: high | status: drafted"],
+                        },
+                        {
+                            "key": "scenarios",
+                            "answer": [
+                                "Approve deprecation | Happy path approval | Primary approval flow | priority: high | status: drafted",
+                            ],
+                        },
+                        {
+                            "key": "ui_notes",
+                            "answer": ["Approve deprecation | Show risk summary and approver comments"],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_use_case_documents(model)
+
+        self.assertIn("Approve deprecation", rendered)
+        self.assertIn("Priority: high", rendered)
+        self.assertIn("Happy path approval", rendered)
+        self.assertIn("Show risk summary and approver comments", rendered)
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal state-model artifact."""
