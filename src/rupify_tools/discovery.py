@@ -621,9 +621,19 @@ def _normalize_use_cases(items: list[str]) -> list[dict[str, Any]]:
                 "trigger": "",
                 "preconditions": [],
                 "postconditions": [],
+                "priority": "",
+                "status": "",
                 "complexity": "unclassified",
                 "main_success_scenario": [],
                 "extensions": [],
+                "extension_points": [],
+                "used_use_case_ids": [],
+                "subordinate_use_case_ids": [],
+                "ui_notes": [],
+                "participating_analysis_object_ids": [],
+                "other_artifact_refs": [],
+                "other_requirement_ids": [],
+                "scenario_ids": [],
                 "trace": {},
             }
         )
@@ -723,6 +733,37 @@ def _build_trace_links(
         "use_case_to_analysis": use_case_to_analysis,
         "analysis_to_design": analysis_to_design,
     }
+
+
+def _bind_use_case_supporting_links(
+    use_cases: list[dict[str, Any]],
+    requirement_objects: list[dict[str, Any]],
+    traceability: dict[str, list[dict[str, Any]]],
+) -> None:
+    """Populate deterministic supporting links on use cases from derived trace data."""
+    linked_requirements_by_use_case: dict[str, list[str]] = {}
+    for requirement in requirement_objects:
+        requirement_id = requirement.get("id", "")
+        if not requirement_id:
+            continue
+        for use_case_id in requirement.get("linked_use_case_ids", []):
+            linked_requirements_by_use_case.setdefault(use_case_id, []).append(requirement_id)
+
+    participating_analysis_ids_by_use_case: dict[str, list[str]] = {}
+    for link in traceability.get("use_case_to_analysis", []):
+        use_case_id = str(link.get("from_id", "")).strip()
+        analysis_id = str(link.get("to_id", "")).strip()
+        if not use_case_id or not analysis_id:
+            continue
+        participating_analysis_ids_by_use_case.setdefault(use_case_id, []).append(analysis_id)
+
+    for use_case in use_cases:
+        use_case_id = use_case.get("id", "")
+        use_case["other_requirement_ids"] = linked_requirements_by_use_case.get(use_case_id, [])
+        use_case["participating_analysis_object_ids"] = participating_analysis_ids_by_use_case.get(
+            use_case_id,
+            [],
+        )
 
 
 def _build_artifact_lineage(
@@ -1089,9 +1130,13 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
+        "scenario_ids": [],
+        "risk_ids": [],
         "requirement_ids": [item["id"] for item in all_requirement_objects],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
+        "scenario_objects": [],
+        "risk_objects": [],
         "requirement_objects": all_requirement_objects,
         "domain_entity_objects": domain_entity_objects,
         "relationship_objects": relationship_objects,
@@ -1129,6 +1174,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         state_entity_objects,
         component_objects,
     )
+    _bind_use_case_supporting_links(
+        normalized_use_cases,
+        all_requirement_objects,
+        traceability,
+    )
     traceability["artifact_lineage"] = _build_artifact_lineage(
         all_requirement_objects,
         normalized_use_cases,
@@ -1154,8 +1204,10 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "business_goals": _ensure_list(round_2.get("outcomes")),
         "success_criteria": _ensure_list(round_2.get("success_criteria")),
+        "risks": [],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
+        "scenarios": [],
         "requirements": {
             "functional": _requirement_statements_by_kind(all_requirement_objects, "functional"),
             "functional_objects": functional_requirement_objects,

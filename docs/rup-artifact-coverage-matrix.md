@@ -24,6 +24,9 @@ to make the current gap visible between:
 | Vision / scope | problem, stakeholders, business goals, scope | `partial` | `project`, `business_goals`, `success_criteria`, rendered in `requirements-spec.md` | no standalone vision artifact yet |
 | Supplementary requirements | non-functional requirements, constraints, quality attributes | `partial` | `requirements.non_functional`, `requirements-spec.md` | stronger fit criteria and broader formal structure still needed |
 | Use-case model | actors, goals, scenarios, extensions | `full` | `use-case-model.md`, canonical actors/use cases | could deepen, but already credible |
+| Template-driven system/subsystem document | overview, risks, system-level use cases, architecture, subsystem descriptions | `missing` | partial inputs across `project`, `design_view`, `architecture_view` | `#123` template-driven document suite |
+| Template-driven use-case document | per-use-case status, priorities, flows, secondary scenarios, UI, related artifacts | `partial` | canonical use cases, interaction/process/design views | `#123` template-driven document suite |
+| Template-driven scenario document | scenario-level flow, sequence/activity views, artifact references | `missing` | scenario content is implicit inside use cases rather than first-class | `#123` template-driven document suite |
 | Analysis model: domain / logical view | domain concepts, relationships, rules | `full` | `domain-model.md`, `analysis_view`, `logical_view`, Mermaid `classDiagram` output | deeper domain semantics and product polish, not a missing artifact family |
 | Analysis model: state / process view | states, transitions, triggers, approvals | `full` | `state-model.md`, `analysis_view`, `process_view` | broader V2 state breadth in `#15` |
 | Analysis model: interaction view | realization of use cases as messages/interactions | `full` | `interaction-model.md`, `interaction_view`, Mermaid `sequenceDiagram` output | deeper semantics and publication polish, not a missing artifact family |
@@ -75,5 +78,6 @@ The repo is now best described as:
 The strongest next work is no longer another missing core artifact family. It is:
 
 - productization of the existing formal and Mermaid outputs under `#7`
+- template-driven system, use-case, and scenario documents under `#123`
 - document ingestion and hybrid workflows under `#65`
 - cleanup of remaining standalone vision/supplementary specification gaps
