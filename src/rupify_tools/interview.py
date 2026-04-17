@@ -429,6 +429,78 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
             ),
         ),
     ),
+    InterviewRound(
+        number=12,
+        title="Risks",
+        prompt="Capture the major project or system risks that should appear in the document set.",
+        template="Risks:\n- Risk name | priority: high/medium/low | status: open/mitigated/accepted | mitigation: ...\n",
+        guidance=(
+            "Capture the major risks that materially affect scope, delivery, architecture, compliance, or data quality.",
+            "Keep the list short and concrete. Do not turn minor uncertainties into fake precision.",
+        ),
+        questions=(
+            InterviewQuestion(
+                "risks",
+                "Risks",
+                "What are the main risks and how should they be prioritized?",
+                guidance=(
+                    "Use one line per risk with a short name and optional priority, status, and mitigation.",
+                    "Example format: Data quality gaps | priority: high | status: open | mitigation: add onboarding validation",
+                ),
+                example="- Data quality gaps | priority: high | status: open | mitigation: add onboarding validation",
+            ),
+        ),
+    ),
+    InterviewRound(
+        number=13,
+        title="Use-Case and Scenario Details",
+        prompt=(
+            "Capture use-case priority/status plus explicit scenario and UI notes needed for the "
+            "template-driven document set."
+        ),
+        template=(
+            "Use-case details:\n"
+            "- Use Case | priority: high/medium/low | status: drafted/in progress/confirmed\n"
+            "Scenarios:\n"
+            "- Use Case | Scenario Name | summary | priority: high/medium/low | status: drafted/in progress/confirmed\n"
+            "UI notes:\n"
+            "- Use Case | note\n"
+        ),
+        guidance=(
+            "Keep these entries concise and document-oriented rather than expanding into a long narrative.",
+            "Only add UI notes for use cases where a human-facing interaction materially matters.",
+        ),
+        questions=(
+            InterviewQuestion(
+                "use_case_details",
+                "Use-case details",
+                "Which use cases need explicit priority, status, or relationships?",
+                guidance=(
+                    "Use one line per use case.",
+                    "You can also include used or subordinate use-case links: used: Validate owner; subordinate: Review risk",
+                ),
+                example="- Approve deprecation | priority: high | status: drafted | used: Validate owner | subordinate: Review risk",
+            ),
+            InterviewQuestion(
+                "scenarios",
+                "Scenarios",
+                "What named scenarios should become first-class scenario documents?",
+                guidance=(
+                    "Each line should name the parent use case, scenario, and a short summary.",
+                ),
+                example="- Approve deprecation | Happy path approval | Primary approval flow from submission to approval | priority: high | status: drafted",
+            ),
+            InterviewQuestion(
+                "ui_notes",
+                "UI notes",
+                "Where do we need explicit UI or storyboard notes?",
+                guidance=(
+                    "Use one line per use case when the human interaction materially affects the document set.",
+                ),
+                example="- Approve deprecation | Show risk summary, approver comments, and decision history",
+            ),
+        ),
+    ),
 ]
 
 

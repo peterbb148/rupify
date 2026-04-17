@@ -666,6 +666,192 @@ def _normalize_requirement_objects(
     return objects
 
 
+def _split_structured_parts(item: str) -> list[str]:
+    """Split a pipe-delimited structured answer into trimmed parts."""
+    return [part.strip() for part in item.split("|") if part.strip()]
+
+
+def _normalize_risks(items: list[str]) -> list[dict[str, Any]]:
+    """Convert structured risk strings into explicit risk objects."""
+    risk_objects = []
+    for index, item in enumerate(items, 1):
+        parts = _split_structured_parts(item)
+        if not parts:
+            continue
+        name = parts[0]
+        description = name
+        if ":" in name:
+            name_part, description_part = name.split(":", 1)
+            name = name_part.strip()
+            description = description_part.strip() or name
+
+        priority = ""
+        status = ""
+        mitigation = ""
+        for part in parts[1:]:
+            if ":" not in part:
+                continue
+            key, value = part.split(":", 1)
+            normalized_key = _slugify(key).replace("-", "_")
+            normalized_value = value.strip()
+            if normalized_key == "priority":
+                priority = normalized_value.lower()
+            elif normalized_key == "status":
+                status = normalized_value.lower()
+            elif normalized_key == "mitigation":
+                mitigation = normalized_value
+
+        risk_objects.append(
+            {
+                "id": f"risk-{_slugify(name) or index}",
+                "name": name,
+                "description": description,
+                "priority": priority,
+                "status": status,
+                "mitigation": mitigation,
+                "model_layer": "analysis",
+                "trace": {},
+            }
+        )
+
+    return risk_objects
+
+
+def _apply_use_case_details(
+    use_cases: list[dict[str, Any]],
+    items: list[str],
+) -> None:
+    """Apply structured use-case detail answers to canonical use cases in place."""
+    for item in items:
+        parts = _split_structured_parts(item)
+        if not parts:
+            continue
+
+        match = _best_name_match(parts[0], use_cases)
+        if match is None:
+            continue
+
+        for part in parts[1:]:
+            if ":" not in part:
+                continue
+            key, value = part.split(":", 1)
+            normalized_key = _slugify(key).replace("-", "_")
+            normalized_value = value.strip()
+            if normalized_key == "priority":
+                match["priority"] = normalized_value.lower()
+            elif normalized_key == "status":
+                match["status"] = normalized_value.lower()
+            elif normalized_key == "used":
+                used_ids = []
+                for name in [segment.strip() for segment in normalized_value.split(";") if segment.strip()]:
+                    linked_use_case = _best_name_match(name, use_cases)
+                    if linked_use_case is not None:
+                        used_ids.append(linked_use_case["id"])
+                match["used_use_case_ids"] = used_ids
+            elif normalized_key == "subordinate":
+                subordinate_ids = []
+                for name in [segment.strip() for segment in normalized_value.split(";") if segment.strip()]:
+                    linked_use_case = _best_name_match(name, use_cases)
+                    if linked_use_case is not None:
+                        subordinate_ids.append(linked_use_case["id"])
+                match["subordinate_use_case_ids"] = subordinate_ids
+            elif normalized_key == "extension_points":
+                match["extension_points"] = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
+
+
+def _normalize_scenarios(
+    items: list[str],
+    use_cases: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Convert structured scenario strings into explicit scenario objects."""
+    scenario_objects = []
+    for index, item in enumerate(items, 1):
+        parts = _split_structured_parts(item)
+        if len(parts) < 3:
+            continue
+
+        use_case_name = parts[0]
+        scenario_name = parts[1]
+        summary = parts[2]
+        use_case_match = _best_name_match(use_case_name, use_cases)
+        use_case_id = use_case_match["id"] if use_case_match else ""
+        resolved_use_case_name = use_case_match["name"] if use_case_match else use_case_name
+
+        priority = ""
+        status = ""
+        flow_of_events: list[str] = []
+        for part in parts[3:]:
+            if ":" not in part:
+                continue
+            key, value = part.split(":", 1)
+            normalized_key = _slugify(key).replace("-", "_")
+            normalized_value = value.strip()
+            if normalized_key == "priority":
+                priority = normalized_value.lower()
+            elif normalized_key == "status":
+                status = normalized_value.lower()
+            elif normalized_key == "flow":
+                flow_of_events = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
+
+        scenario_objects.append(
+            {
+                "id": f"scenario-{_slugify(scenario_name) or index}",
+                "name": scenario_name,
+                "use_case_id": use_case_id,
+                "use_case_name": resolved_use_case_name,
+                "model_layer": "analysis",
+                "summary": summary,
+                "priority": priority,
+                "status": status,
+                "flow_of_events": flow_of_events,
+                "activity_notes": [],
+                "sequence_notes": [],
+                "other_artifact_refs": [],
+                "participating_analysis_object_ids": [],
+                "other_requirement_ids": [],
+                "trace": {},
+            }
+        )
+
+    return scenario_objects
+
+
+def _apply_ui_notes(
+    use_cases: list[dict[str, Any]],
+    items: list[str],
+) -> None:
+    """Attach structured UI notes to the matching use cases."""
+    for item in items:
+        parts = _split_structured_parts(item)
+        if len(parts) < 2:
+            continue
+        match = _best_name_match(parts[0], use_cases)
+        if match is None:
+            continue
+        match["ui_notes"].append(" | ".join(parts[1:]))
+
+
+def _bind_scenario_links(
+    use_cases: list[dict[str, Any]],
+    scenario_objects: list[dict[str, Any]],
+) -> None:
+    """Attach scenario ids back onto their parent use cases."""
+    scenario_ids_by_use_case: dict[str, list[str]] = {}
+    for scenario in scenario_objects:
+        use_case_id = scenario.get("use_case_id", "")
+        scenario_id = scenario.get("id", "")
+        if not use_case_id or not scenario_id:
+            continue
+        scenario_ids_by_use_case.setdefault(use_case_id, []).append(scenario_id)
+
+    for use_case in use_cases:
+        use_case["scenario_ids"] = scenario_ids_by_use_case.get(use_case.get("id", ""), [])
+
+
 def _build_trace_links(
     requirement_objects: list[dict[str, Any]],
     use_cases: list[dict[str, Any]],
@@ -1018,6 +1204,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     round_9 = merged_answers.get("round_9", {})
     round_10 = merged_answers.get("round_10", {})
     round_11 = merged_answers.get("round_11", {})
+    round_12 = merged_answers.get("round_12", {})
+    round_13 = merged_answers.get("round_13", {})
     constraints = _ensure_list(round_2.get("constraints"))
     normalized_actors = _with_trace(_normalize_actors(_ensure_list(round_3.get("actors"))), 3, "actors")
     normalized_use_cases = _with_trace(
@@ -1075,6 +1263,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
                 "non_functional_requirements",
             )
         )
+    risk_objects = _with_trace(
+        _normalize_risks(_ensure_list(round_12.get("risks"))),
+        12,
+        "risks",
+    )
 
     domain_entity_objects = _with_trace(
         _normalize_domain_entities(_ensure_list(round_5.get("domain_entities"))),
@@ -1126,17 +1319,34 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         7,
         "runtime_boundaries",
     )
+    _apply_use_case_details(
+        normalized_use_cases,
+        _ensure_list(round_13.get("use_case_details")),
+    )
+    scenario_objects = _with_trace(
+        _normalize_scenarios(_ensure_list(round_13.get("scenarios")), normalized_use_cases),
+        13,
+        "scenarios",
+    )
+    _apply_ui_notes(
+        normalized_use_cases,
+        _ensure_list(round_13.get("ui_notes")),
+    )
+    _bind_scenario_links(
+        normalized_use_cases,
+        scenario_objects,
+    )
     all_requirement_objects = functional_requirement_objects + non_functional_requirement_objects
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
-        "scenario_ids": [],
-        "risk_ids": [],
+        "scenario_ids": [item["id"] for item in scenario_objects],
+        "risk_ids": [item["id"] for item in risk_objects],
         "requirement_ids": [item["id"] for item in all_requirement_objects],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
-        "scenario_objects": [],
-        "risk_objects": [],
+        "scenario_objects": scenario_objects,
+        "risk_objects": risk_objects,
         "requirement_objects": all_requirement_objects,
         "domain_entity_objects": domain_entity_objects,
         "relationship_objects": relationship_objects,
@@ -1204,10 +1414,10 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         },
         "business_goals": _ensure_list(round_2.get("outcomes")),
         "success_criteria": _ensure_list(round_2.get("success_criteria")),
-        "risks": [],
+        "risks": risk_objects,
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
-        "scenarios": [],
+        "scenarios": scenario_objects,
         "requirements": {
             "functional": _requirement_statements_by_kind(all_requirement_objects, "functional"),
             "functional_objects": functional_requirement_objects,
