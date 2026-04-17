@@ -1334,6 +1334,27 @@ class RenderTests(unittest.TestCase):
         self.assertIn("ucp-estimate.md", outputs)
         self.assertTrue(outputs["ucp-estimate.md"].startswith("# UCP Estimate"))
 
+    def test_checked_in_it_systems_inventory_example_bundle_includes_template_documents(self) -> None:
+        """The checked-in example bundle should stay aligned with the current formal output family."""
+        repo_root = Path(__file__).resolve().parents[1]
+        example_dir = repo_root / "examples" / "it-systems-inventory"
+
+        self.assertTrue((example_dir / "system-document.md").exists())
+        self.assertTrue((example_dir / "use-case-documents.md").exists())
+        self.assertTrue((example_dir / "scenario-documents.md").exists())
+        self.assertIn(
+            "# System / Subsystem Document",
+            (example_dir / "system-document.md").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "# Use-Case Documents",
+            (example_dir / "use-case-documents.md").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "# Scenario Documents",
+            (example_dir / "scenario-documents.md").read_text(encoding="utf-8"),
+        )
+
     def test_interaction_model_render_includes_realizations_and_messages(self) -> None:
         """Interaction-model rendering should surface use-case realizations and message flows."""
         model = build_model()
