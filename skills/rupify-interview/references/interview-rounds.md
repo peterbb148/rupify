@@ -235,6 +235,50 @@ analyst capability:
 ...
 ```
 
+## Round 12: Risks
+
+Ask at most 1 focused prompt.
+
+Preferred answer shape:
+
+```text
+Risks:
+- Risk name | priority: high/medium/low | status: open/mitigated/accepted | mitigation: ...
+```
+
+Collect:
+
+- the major risks that materially affect scope, delivery, architecture, compliance, or data quality
+- priority and current status where known
+- short mitigation notes when they are already clear
+
+Keep this list short and decision-relevant.
+
+## Round 13: Use-Case and Scenario Details
+
+Ask at most 3 prompts.
+
+Preferred answer shape:
+
+```text
+Use-case details:
+- Use Case | priority: high/medium/low | status: drafted/in progress/confirmed
+Scenarios:
+- Use Case | Scenario Name | summary | priority: high/medium/low | status: drafted/in progress/confirmed
+UI notes:
+- Use Case | note
+```
+
+Collect:
+
+- per-use-case priority and status
+- used/subordinate use-case relationships when they are known
+- named scenarios that deserve first-class scenario documents
+- UI or storyboard notes for human-facing use cases where they materially matter
+
+Keep this round concise and document-oriented. Do not explode it into long scenario prose unless the
+user explicitly wants to go deeper.
+
 ## Stopping Rule
 
 If the user cannot answer a round comfortably, do one of these:

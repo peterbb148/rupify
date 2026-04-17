@@ -227,6 +227,26 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(round_definition.questions[1].key, "interfaces_and_integrations")
         self.assertEqual(round_definition.questions[2].key, "runtime_boundaries")
 
+    def test_risk_round_exposes_template_driven_risk_guidance(self) -> None:
+        """Round 12 should capture explicit risks for the document suite."""
+        round_definition = get_round(12)
+
+        self.assertIn(
+            "Capture the major project or system risks that should appear in the document set.",
+            round_definition.prompt,
+        )
+        self.assertEqual(round_definition.questions[0].key, "risks")
+        self.assertIn("priority: high", round_definition.questions[0].example)
+
+    def test_use_case_detail_round_exposes_scenario_and_ui_fields(self) -> None:
+        """Round 13 should gather use-case detail, scenarios, and UI notes."""
+        round_definition = get_round(13)
+
+        self.assertEqual(round_definition.questions[0].key, "use_case_details")
+        self.assertEqual(round_definition.questions[1].key, "scenarios")
+        self.assertEqual(round_definition.questions[2].key, "ui_notes")
+        self.assertIn("Only add UI notes", round_definition.guidance[1])
+
     def test_ucp_actor_round_exposes_inversion_guidance(self) -> None:
         """Round 8 should explain the common actor complexity intuition mismatch."""
         round_definition = get_round(8)
@@ -332,7 +352,7 @@ class InterviewHarnessTests(unittest.TestCase):
 
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["last_round"], 11)
-        self.assertIsNone(payload["next_round"])
+        self.assertEqual(payload["next_round"]["number"], 12)
         self.assertEqual(
             payload["transcript"][0]["responses"][0]["label"],
             "Idea",

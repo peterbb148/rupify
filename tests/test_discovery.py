@@ -410,6 +410,76 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["ucp"]["environmental_factors"]["familiar_with_process"], 4)
         self.assertEqual(model["ucp"]["environmental_factors"]["part_time_staff"], 1)
 
+    def test_normalize_replay_to_model_maps_risks_and_document_detail_fields(self) -> None:
+        """Template-driven rounds should populate risks, use-case metadata, scenarios, and UI notes."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "use_cases", "answer": ["Approve deprecation", "Validate owner"]},
+                    ],
+                },
+                {
+                    "round": 12,
+                    "responses": [
+                        {
+                            "key": "risks",
+                            "answer": [
+                                "Data quality gaps | priority: high | status: open | mitigation: add onboarding validation",
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {
+                            "key": "use_case_details",
+                            "answer": [
+                                "Approve deprecation | priority: high | status: drafted | used: Validate owner",
+                            ],
+                        },
+                        {
+                            "key": "scenarios",
+                            "answer": [
+                                "Approve deprecation | Happy path approval | Primary approval flow | priority: high | status: drafted",
+                            ],
+                        },
+                        {
+                            "key": "ui_notes",
+                            "answer": [
+                                "Approve deprecation | Show risk summary and approver comments",
+                            ],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(model["risks"][0]["name"], "Data quality gaps")
+        self.assertEqual(model["risks"][0]["priority"], "high")
+        self.assertEqual(model["risks"][0]["status"], "open")
+        self.assertEqual(model["risks"][0]["mitigation"], "add onboarding validation")
+        self.assertEqual(model["analysis_view"]["risk_ids"], ["risk-data-quality-gaps"])
+
+        self.assertEqual(model["use_cases"][0]["priority"], "high")
+        self.assertEqual(model["use_cases"][0]["status"], "drafted")
+        self.assertEqual(model["use_cases"][0]["used_use_case_ids"], ["validate-owner"])
+        self.assertEqual(
+            model["use_cases"][0]["ui_notes"],
+            ["Show risk summary and approver comments"],
+        )
+        self.assertEqual(model["use_cases"][0]["scenario_ids"], ["scenario-happy-path-approval"])
+
+        self.assertEqual(model["scenarios"][0]["name"], "Happy path approval")
+        self.assertEqual(model["scenarios"][0]["use_case_id"], "approve-deprecation")
+        self.assertEqual(model["scenarios"][0]["priority"], "high")
+        self.assertEqual(model["scenarios"][0]["status"], "drafted")
+        self.assertEqual(model["analysis_view"]["scenario_ids"], ["scenario-happy-path-approval"])
+
     def test_normalize_replay_to_model_keeps_semantic_fields_explicit_when_unparsed(self) -> None:
         """Hardening should expose semantic fields even when deterministic parsing finds no structure."""
         replay = replay_session(

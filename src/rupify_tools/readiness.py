@@ -8,11 +8,18 @@ from typing import Any
 VIEW_GATES = {
     "discovery": {
         "required": ("idea", "problem", "in_scope", "outcomes"),
-        "supporting": ("users", "out_of_scope", "success_criteria", "required_data", "constraints"),
+        "supporting": ("users", "out_of_scope", "success_criteria", "required_data", "constraints", "risks"),
     },
     "use_case": {
         "required": ("actors", "use_cases", "workflow_scope"),
-        "supporting": ("integrations", "metadata_fields", "non_functional_requirements"),
+        "supporting": (
+            "integrations",
+            "metadata_fields",
+            "non_functional_requirements",
+            "use_case_details",
+            "scenarios",
+            "ui_notes",
+        ),
     },
     "logical": {
         "required": ("domain_entities", "relationships"),

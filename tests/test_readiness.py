@@ -123,6 +123,30 @@ class ReadinessTests(unittest.TestCase):
             ["requirements-spec.md", "ucp-estimate.md"],
         )
 
+    def test_identify_stale_artifacts_marks_documents_for_template_round_updates(self) -> None:
+        """Template-driven document updates should still mark the dependent use-case and requirements artifacts stale."""
+        stale = identify_stale_artifacts(
+            [
+                {
+                    "round": 12,
+                    "responses": [
+                        {"key": "risks", "answer": "Data quality gaps"},
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {"key": "scenarios", "answer": "Approve deprecation | Happy path"},
+                    ],
+                },
+            ]
+        )
+
+        self.assertEqual(
+            stale,
+            ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+        )
+
     def test_identify_stale_artifacts_marks_state_model_for_process_updates(self) -> None:
         """Process-view updates should mark the formal state-model artifact stale."""
         stale = identify_stale_artifacts(
