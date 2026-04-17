@@ -1,0 +1,37 @@
+{
+  "name": "rupify",
+  "version": "0.1.0",
+  "description": "Interview-driven software requirements workflow for Codex.",
+  "author": {
+    "name": "Peter Birkholm-Buch",
+    "url": "https://github.com/peterbb148"
+  },
+  "homepage": "https://github.com/peterbb148/rupify",
+  "repository": "https://github.com/peterbb148/rupify",
+  "license": "MIT",
+  "keywords": [
+    "requirements",
+    "specification",
+    "uml",
+    "interview",
+    "ucp"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rupify",
+    "shortDescription": "Interview-driven software requirements workflow",
+    "longDescription": "Bundle the Rupify interview, discovery, use-case, and UCP skills for local Codex installation.",
+    "developerName": "Peter Birkholm-Buch",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/peterbb148/rupify",
+    "defaultPrompt": [
+      "Use Rupify to interview me about a software idea and produce a canonical model.",
+      "Use Rupify to refine use cases and generate a deterministic UCP estimate."
+    ],
+    "brandColor": "#1F6FEB"
+  }
+}

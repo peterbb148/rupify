@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rupify UCP"
+  short_description: "Deterministic Use Case Point estimation"
+  default_prompt: "Use $rupify-ucp to calculate a deterministic UCP estimate from my Rupify model."
+
