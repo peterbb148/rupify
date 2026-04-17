@@ -923,6 +923,169 @@ def render_use_case_documents(model: dict[str, Any]) -> str:
 """
 
 
+def render_scenario_documents(model: dict[str, Any]) -> str:
+    """Render the compiled template-driven scenario document artifact.
+
+    Args:
+        model: Canonical Rupify model.
+
+    Returns:
+        Markdown content.
+    """
+    analysis_view = model.get("analysis_view", {})
+    logical_view = model.get("logical_view", {})
+    process_view = model.get("process_view", {})
+    interaction_view = model.get("interaction_view", {})
+    scenarios = analysis_view.get("scenario_objects", model.get("scenarios", []))
+    use_cases = analysis_view.get("use_cases", model.get("use_cases", []))
+    requirement_objects = analysis_view.get(
+        "requirement_objects",
+        model.get("requirements", {}).get("functional_objects", [])
+        + model.get("requirements", {}).get("non_functional_objects", []),
+    )
+    domain_entity_objects = analysis_view.get(
+        "domain_entity_objects",
+        logical_view.get("domain_entity_objects", []),
+    )
+    relationship_objects = analysis_view.get(
+        "relationship_objects",
+        logical_view.get("relationship_objects", []),
+    )
+    state_entity_objects = analysis_view.get(
+        "state_entity_objects",
+        process_view.get("state_entity_objects", []),
+    )
+    traceability = model.get("traceability", {})
+
+    if not scenarios:
+        return "# Scenario Documents\n\nNo scenarios documented."
+
+    use_case_lookup = _lookup_by_id(use_cases)
+    requirement_lookup = _lookup_by_id(requirement_objects)
+    participating_lookup = _lookup_by_id(
+        domain_entity_objects + relationship_objects + state_entity_objects
+    )
+    realizations_by_use_case: dict[str, list[dict[str, Any]]] = {}
+    for realization in interaction_view.get("realization_objects", []):
+        use_case_id = str(realization.get("use_case_id", "")).strip()
+        if use_case_id:
+            realizations_by_use_case.setdefault(use_case_id, []).append(realization)
+
+    sections = []
+    for scenario in scenarios:
+        parent_use_case = use_case_lookup.get(scenario.get("use_case_id", ""), {})
+        parent_use_case_name = parent_use_case.get("name") or scenario.get("use_case_name", "Unspecified")
+        participating_objects = [
+            participating_lookup[item_id]
+            for item_id in scenario.get("participating_analysis_object_ids", [])
+            if item_id in participating_lookup
+        ]
+        linked_requirements = [
+            requirement_lookup[requirement_id]
+            for requirement_id in scenario.get("other_requirement_ids", [])
+            if requirement_id in requirement_lookup
+        ]
+        participating_block = (
+            "\n".join(_component_line(item) for item in participating_objects)
+            if participating_objects
+            else "- None"
+        )
+        linked_requirement_lines = []
+        for requirement in linked_requirements:
+            line = (
+                f"- `{requirement.get('id', 'requirement')}` "
+                f"{requirement.get('statement', 'Unspecified requirement')}"
+            )
+            if trace := requirement.get("trace"):
+                line = (
+                    f"{line} [source: round {trace.get('source_round')} "
+                    f"{trace.get('source_key')}]"
+                )
+            linked_requirement_lines.append(line)
+        linked_requirements_block = "\n".join(linked_requirement_lines) or "- None"
+
+        sequence_sections = []
+        for realization in realizations_by_use_case.get(scenario.get("use_case_id", ""), []):
+            participants = ", ".join(realization.get("participant_names", [])) or "Unspecified"
+            steps = "\n".join(
+                f"{index}. {step}" for index, step in enumerate(realization.get("steps", []), 1)
+            ) or "1. No realization steps documented."
+            sequence_sections.append(
+                f"""#### {realization.get("use_case_name", parent_use_case_name)}
+
+- Participants: {participants}
+
+##### Realization Steps
+
+{steps}
+"""
+            )
+
+        relevant_trace_links = _filter_trace_links(
+            traceability.get("use_case_to_analysis", []),
+            {scenario.get("use_case_id", "")}
+            | set(scenario.get("participating_analysis_object_ids", [])),
+        )
+        flow = "\n".join(
+            f"{index}. {step}" for index, step in enumerate(scenario.get("flow_of_events", []), 1)
+        ) or "1. No scenario flow documented."
+
+        sections.append(
+            f"""## {scenario.get("name", "Unnamed Scenario")}
+
+- ID: `{scenario.get("id", "scenario")}`
+- Parent Use Case: {parent_use_case_name}
+- Priority: {scenario.get("priority", "") or "Unspecified"}
+- Status: {scenario.get("status", "") or "Unspecified"}
+- Source: round {scenario.get("trace", {}).get("source_round", "n/a")} {scenario.get("trace", {}).get("source_key", "")}
+
+### Brief Description
+
+{scenario.get("summary", "Unspecified")}
+
+### Flow of Events
+
+{flow}
+
+### Activity Notes
+
+{_bullet_list(scenario.get("activity_notes", []))}
+
+### Sequence Notes
+
+{_bullet_list(scenario.get("sequence_notes", []))}
+
+### Interaction Realizations
+
+{"\n\n".join(sequence_sections) or "No interaction realization documented."}
+
+### Participating Analysis Objects
+
+{participating_block}
+
+### Linked Requirements
+
+{linked_requirements_block}
+
+### Other Artifacts
+
+{_bullet_list(scenario.get("other_artifact_refs", []))}
+
+{_traceability_section("Scenario Supporting Traceability", relevant_trace_links)}
+"""
+        )
+
+    return f"""# Scenario Documents
+
+{"\n\n".join(sections)}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "scenario-documents.md",
+)}
+"""
+
+
 def render_domain_model(model: dict[str, Any]) -> str:
     """Render the formal domain-model artifact.
 
@@ -1512,6 +1675,7 @@ def render_formal_artifacts(model: dict[str, Any]) -> dict[str, str]:
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
         "use-case-documents.md": render_use_case_documents(model),
+        "scenario-documents.md": render_scenario_documents(model),
         "domain-model.md": render_domain_model(model),
         "interaction-model.md": render_interaction_model(model),
         "deployment-model.md": render_deployment_model(model),
