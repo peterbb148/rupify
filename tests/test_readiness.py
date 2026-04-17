@@ -147,6 +147,7 @@ class ReadinessTests(unittest.TestCase):
             [
                 "interaction-model.md",
                 "requirements-spec.md",
+                "scenario-documents.md",
                 "system-document.md",
                 "use-case-documents.md",
                 "use-case-model.md",
@@ -171,7 +172,13 @@ class ReadinessTests(unittest.TestCase):
 
         self.assertEqual(
             stale,
-            ["requirements-spec.md", "state-model.md", "use-case-documents.md", "use-case-model.md"],
+            [
+                "requirements-spec.md",
+                "scenario-documents.md",
+                "state-model.md",
+                "use-case-documents.md",
+                "use-case-model.md",
+            ],
         )
 
     def test_identify_stale_artifacts_marks_domain_model_for_logical_updates(self) -> None:
@@ -189,7 +196,7 @@ class ReadinessTests(unittest.TestCase):
 
         self.assertEqual(
             stale,
-            ["domain-model.md", "requirements-spec.md", "use-case-documents.md"],
+            ["domain-model.md", "requirements-spec.md", "scenario-documents.md", "use-case-documents.md"],
         )
 
     def test_identify_stale_artifacts_marks_interaction_model_for_use_case_and_architecture_updates(self) -> None:
@@ -217,6 +224,7 @@ class ReadinessTests(unittest.TestCase):
                 "deployment-model.md",
                 "interaction-model.md",
                 "requirements-spec.md",
+                "scenario-documents.md",
                 "system-document.md",
                 "use-case-documents.md",
                 "use-case-model.md",
@@ -242,6 +250,7 @@ class ReadinessTests(unittest.TestCase):
                 "deployment-model.md",
                 "interaction-model.md",
                 "requirements-spec.md",
+                "scenario-documents.md",
                 "system-document.md",
                 "use-case-documents.md",
                 "use-case-model.md",

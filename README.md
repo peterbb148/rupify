@@ -10,6 +10,7 @@ Current first-class outputs include:
 - `requirements-spec.md`
 - `use-case-model.md`
 - `use-case-documents.md`
+- `scenario-documents.md`
 - `domain-model.md`
 - `interaction-model.md`
 - `deployment-model.md`
@@ -27,7 +28,8 @@ Rupify currently provides:
 - interview-driven discovery via local skills and replayable fixtures
 - a canonical project model as the source of truth
 - formal Markdown outputs for system/subsystem, requirements, use cases, domain, interaction,
-  deployment, state, and UCP estimation, including compiled template-style use-case documents
+  deployment, state, and UCP estimation, including compiled template-style use-case and scenario
+  documents
 - Mermaid outputs for domain, interaction, deployment, and state publication
 - readiness, staleness, provenance, and cross-view traceability in the model workflow
 

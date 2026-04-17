@@ -22,6 +22,7 @@ from rupify_tools.render import (
     render_interaction_mermaid,
     render_interaction_model,
     render_requirements_spec,
+    render_scenario_documents,
     render_system_document,
     render_use_case_documents,
     render_state_mermaid,
@@ -602,6 +603,102 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Rewards API validates points.", rendered)
         self.assertIn("use-case-documents.md#use-case documents", rendered)
 
+    def test_render_scenario_documents_includes_template_sections(self) -> None:
+        """Compiled scenario documents should render the richer scenario fields."""
+        model = build_model()
+        model["analysis_view"] = {
+            "use_cases": [
+                {
+                    "id": "uc-redeem",
+                    "name": "Redeem Reward",
+                }
+            ],
+            "scenario_objects": [
+                {
+                    "id": "scenario-happy-path",
+                    "name": "Happy path redemption",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "summary": "Primary redemption flow.",
+                    "priority": "high",
+                    "status": "drafted",
+                    "flow_of_events": ["Customer confirms reward.", "System reserves inventory."],
+                    "activity_notes": ["Approval step only when inventory is low."],
+                    "sequence_notes": ["Customer -> Rewards API -> Ledger"],
+                    "other_artifact_refs": ["sequence/redeem-reward.mmd"],
+                    "participating_analysis_object_ids": ["entity-reward"],
+                    "other_requirement_ids": ["functional-requirement-1"],
+                    "trace": {"source_round": 13, "source_key": "scenarios"},
+                }
+            ],
+            "requirement_objects": [
+                {
+                    "id": "functional-requirement-1",
+                    "statement": "The system shall record completed redemptions.",
+                    "trace": {"source_round": 4, "source_key": "functional_requirements"},
+                }
+            ],
+            "domain_entity_objects": [
+                {
+                    "id": "entity-reward",
+                    "name": "Reward",
+                    "description": "Redeemable catalog item.",
+                    "trace": {"source_round": 5, "source_key": "domain_entities"},
+                }
+            ],
+            "relationship_objects": [],
+            "state_entity_objects": [],
+        }
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "participant_names": ["Customer", "Rewards API"],
+                    "steps": ["Customer selects reward.", "Rewards API validates points."],
+                }
+            ]
+        }
+        model["traceability"] = {
+            "use_case_to_analysis": [
+                {
+                    "id": "trace-uc-analysis-1",
+                    "from_id": "uc-redeem",
+                    "to_id": "entity-reward",
+                    "basis": "use-case text references analysis object name",
+                }
+            ],
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-scenario-documents-scenario-documents-scenario-happy-path",
+                    "from_id": "scenario-happy-path",
+                    "to_artifact": "scenario-documents.md",
+                    "artifact_section": "scenario documents",
+                    "basis": "canonical scenario documents object renders into scenario-documents.md",
+                }
+            ],
+        }
+
+        rendered = render_scenario_documents(model)
+
+        self.assertTrue(rendered.startswith("# Scenario Documents"))
+        self.assertIn("## Happy path redemption", rendered)
+        self.assertIn("Parent Use Case: Redeem Reward", rendered)
+        self.assertIn("### Flow of Events", rendered)
+        self.assertIn("Customer confirms reward.", rendered)
+        self.assertIn("### Activity Notes", rendered)
+        self.assertIn("Approval step only when inventory is low.", rendered)
+        self.assertIn("### Sequence Notes", rendered)
+        self.assertIn("Customer -> Rewards API -> Ledger", rendered)
+        self.assertIn("### Interaction Realizations", rendered)
+        self.assertIn("Rewards API validates points.", rendered)
+        self.assertIn("### Linked Requirements", rendered)
+        self.assertIn("The system shall record completed redemptions.", rendered)
+        self.assertIn("### Other Artifacts", rendered)
+        self.assertIn("sequence/redeem-reward.mmd", rendered)
+        self.assertIn("scenario-documents.md#scenario documents", rendered)
+
     def test_state_model_render_includes_process_traceability(self) -> None:
         """State-model rendering should surface process semantics and relevant trace links."""
         model = build_model()
@@ -925,12 +1022,14 @@ class RenderTests(unittest.TestCase):
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("use-case-documents.md", outputs)
+        self.assertIn("scenario-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertTrue(outputs["system-document.md"].startswith("# System / Subsystem Document"))
         self.assertTrue(outputs["deployment-model.md"].startswith("# Deployment Model"))
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
         self.assertTrue(outputs["use-case-documents.md"].startswith("# Use-Case Documents"))
+        self.assertTrue(outputs["scenario-documents.md"].startswith("# Scenario Documents"))
         self.assertTrue(outputs["state-model.md"].startswith("# State Model"))
 
     def test_render_formal_artifacts_skips_ucp_output(self) -> None:
@@ -945,6 +1044,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
         self.assertIn("use-case-documents.md", outputs)
+        self.assertIn("scenario-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertNotIn("ucp-estimate.md", outputs)
 
@@ -960,6 +1060,7 @@ class RenderTests(unittest.TestCase):
             "requirements-spec.md",
             "use-case-model.md",
             "use-case-documents.md",
+            "scenario-documents.md",
             "domain-model.md",
             "interaction-model.md",
             "deployment-model.md",
@@ -996,6 +1097,7 @@ class RenderTests(unittest.TestCase):
             self.assertTrue((output_dir / "interaction-model.md").exists())
             self.assertTrue((output_dir / "deployment-model.md").exists())
             self.assertTrue((output_dir / "use-case-documents.md").exists())
+            self.assertTrue((output_dir / "scenario-documents.md").exists())
             self.assertTrue((output_dir / "state-model.md").exists())
             self.assertFalse((output_dir / "ucp-estimate.md").exists())
 
@@ -1227,6 +1329,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
         self.assertIn("use-case-documents.md", outputs)
+        self.assertIn("scenario-documents.md", outputs)
         self.assertIn("state-model.md", outputs)
         self.assertIn("ucp-estimate.md", outputs)
         self.assertTrue(outputs["ucp-estimate.md"].startswith("# UCP Estimate"))
@@ -1524,6 +1627,38 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Priority: high", rendered)
         self.assertIn("Happy path approval", rendered)
         self.assertIn("Show risk summary and approver comments", rendered)
+
+    def test_replay_normalization_can_render_scenario_documents_artifact(self) -> None:
+        """Replay normalization should be able to produce the compiled scenario-documents artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "actors", "answer": ["Customer"]},
+                        {"key": "use_cases", "answer": ["Approve deprecation"]},
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {
+                            "key": "scenarios",
+                            "answer": [
+                                "Approve deprecation | Happy path approval | Primary approval flow | priority: high | status: drafted | flow: Review request; Approve request",
+                            ],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_scenario_documents(model)
+
+        self.assertIn("Happy path approval", rendered)
+        self.assertIn("Parent Use Case: Approve deprecation", rendered)
+        self.assertIn("Review request", rendered)
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal state-model artifact."""

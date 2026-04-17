@@ -980,6 +980,7 @@ def _build_artifact_lineage(
         ("use-case-model.md", "use cases", use_cases),
         ("use-case-documents.md", "use-case documents", use_cases),
         ("use-case-documents.md", "scenario summaries", scenario_objects),
+        ("scenario-documents.md", "scenario documents", scenario_objects),
         ("domain-model.md", "domain entities", domain_entity_objects),
         ("domain-model.md", "relationships", relationship_objects),
         ("domain-model.md", "business rules", business_rule_objects),
