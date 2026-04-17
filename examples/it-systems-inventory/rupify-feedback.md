@@ -8,8 +8,20 @@ Rupify itself.
 ## What This Example Validates
 
 - The interview flow can capture a credible enterprise software problem statement.
-- The current V1 model is strong enough for requirements, use-case, and UCP-oriented outputs.
+- The current model is strong enough for overview artifacts plus the template-driven system and
+  use-case document families.
 - The existing renderer and deterministic UCP path can turn one model into consistent artifacts.
+
+The current checked-in bundle now includes:
+
+- overview artifacts like `requirements-spec.md`, `use-case-model.md`, `domain-model.md`, and
+  `deployment-model.md`
+- template-driven artifacts like `system-document.md`, `use-case-documents.md`, and
+  `scenario-documents.md`
+
+In this specific example, `scenario-documents.md` is currently empty because the model does not yet
+carry explicit named scenario objects for the IT systems inventory case. That is an honest example
+of current coverage, not a rendering failure.
 
 ## What This Example Exposes About Rupify
 
