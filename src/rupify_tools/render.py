@@ -302,6 +302,143 @@ def _filter_trace_links(
     ]
 
 
+def _component_line(component: dict[str, Any]) -> str:
+    """Render one component or subsystem line."""
+    line = f"- `{component.get('id', 'component')}` {component.get('name', 'Unnamed')}"
+    if component.get("description"):
+        line = f"{line}: {component['description']}"
+    if trace := component.get("trace"):
+        line = (
+            f"{line} [source: round {trace.get('source_round')} "
+            f"{trace.get('source_key')}]"
+        )
+    return line
+
+
+def render_system_document(model: dict[str, Any]) -> str:
+    """Render the system/subsystem document artifact.
+
+    Args:
+        model: Canonical Rupify model.
+
+    Returns:
+        Markdown content.
+    """
+    project = model.get("project", {})
+    analysis_view = model.get("analysis_view", {})
+    design_view = model.get("design_view", {})
+    architecture_view = model.get("architecture_view", {})
+    traceability = model.get("traceability", {})
+    use_cases = analysis_view.get("use_cases", model.get("use_cases", []))
+    risks = analysis_view.get("risk_objects", model.get("risks", []))
+    component_objects = design_view.get(
+        "component_objects",
+        architecture_view.get("component_objects", []),
+    )
+    interface_objects = design_view.get(
+        "interface_objects",
+        architecture_view.get("interface_objects", []),
+    )
+    runtime_boundary_objects = design_view.get(
+        "runtime_boundary_objects",
+        architecture_view.get("runtime_boundary_objects", []),
+    )
+
+    brief_description_parts = [
+        project.get("problem_statement", "").strip(),
+        project.get("system_scope", "").strip(),
+    ]
+    brief_description = "\n\n".join(part for part in brief_description_parts if part) or "Unspecified"
+
+    risk_lines = []
+    for risk in risks:
+        line = f"- `{risk.get('id', 'risk')}` {risk.get('name', 'Unnamed risk')}"
+        details = []
+        if risk.get("priority"):
+            details.append(f"priority: {risk['priority']}")
+        if risk.get("status"):
+            details.append(f"status: {risk['status']}")
+        if details:
+            line = f"{line} ({'; '.join(details)})"
+        if risk.get("description") and risk.get("description") != risk.get("name"):
+            line = f"{line}: {risk['description']}"
+        if risk.get("mitigation"):
+            line = f"{line} Mitigation: {risk['mitigation']}."
+        if trace := risk.get("trace"):
+            line = (
+                f"{line} [source: round {trace.get('source_round')} "
+                f"{trace.get('source_key')}]"
+            )
+        risk_lines.append(line)
+    risk_block = "\n".join(risk_lines) or "- None"
+
+    use_case_lines = []
+    for use_case in use_cases:
+        line = f"- `{use_case.get('id', 'use-case')}` {use_case.get('name', 'Unnamed Use Case')}"
+        details = []
+        if use_case.get("primary_actor"):
+            details.append(f"actor: {use_case['primary_actor']}")
+        if use_case.get("priority"):
+            details.append(f"priority: {use_case['priority']}")
+        if use_case.get("status"):
+            details.append(f"status: {use_case['status']}")
+        if details:
+            line = f"{line} ({'; '.join(details)})"
+        if use_case.get("goal"):
+            line = f"{line}: {use_case['goal']}"
+        use_case_lines.append(line)
+    use_case_block = "\n".join(use_case_lines) or "- None"
+    subsystem_lines = "\n".join(_component_line(component) for component in component_objects) or "- None"
+
+    return f"""# System / Subsystem Document
+
+## System Name
+
+{project.get("name", "Unnamed Project")}
+
+## Brief Description
+
+{brief_description}
+
+## Risk Factors
+
+{risk_block}
+
+## System-Level Use Cases
+
+{use_case_block}
+
+## System-Level Diagram References
+
+- `use-case-model.md` for the detailed system-level use-case view
+- `deployment-model.md` for the detailed architecture and runtime view
+
+{_object_name_section(
+    "Architecture Overview",
+    component_objects,
+    architecture_view.get("components_and_services", []),
+)}
+{_object_text_section(
+    "Interfaces and Integrations",
+    interface_objects,
+    architecture_view.get("interfaces_and_integrations", []),
+)}
+{_object_text_section(
+    "Runtime Boundaries",
+    runtime_boundary_objects,
+    architecture_view.get("runtime_boundaries", []),
+)}
+## Subsystem Descriptions
+
+{subsystem_lines}
+{_artifact_lineage_section(
+    "Artifact Lineage",
+    traceability.get("artifact_lineage", []),
+    "system-document.md",
+)}
+"""
+
+
 def render_requirements_spec(model: dict[str, Any]) -> str:
     """Render the requirements specification artifact.
 
@@ -1113,6 +1250,7 @@ def render_formal_artifacts(model: dict[str, Any]) -> dict[str, str]:
         Mapping of filename to rendered content.
     """
     return {
+        "system-document.md": render_system_document(model),
         "requirements-spec.md": render_requirements_spec(model),
         "use-case-model.md": render_use_case_model(model),
         "domain-model.md": render_domain_model(model),

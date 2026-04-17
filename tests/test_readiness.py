@@ -120,7 +120,7 @@ class ReadinessTests(unittest.TestCase):
 
         self.assertEqual(
             stale,
-            ["requirements-spec.md", "ucp-estimate.md"],
+            ["requirements-spec.md", "system-document.md", "ucp-estimate.md"],
         )
 
     def test_identify_stale_artifacts_marks_documents_for_template_round_updates(self) -> None:
@@ -144,7 +144,12 @@ class ReadinessTests(unittest.TestCase):
 
         self.assertEqual(
             stale,
-            ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+            [
+                "interaction-model.md",
+                "requirements-spec.md",
+                "system-document.md",
+                "use-case-model.md",
+            ],
         )
 
     def test_identify_stale_artifacts_marks_state_model_for_process_updates(self) -> None:
@@ -211,6 +216,7 @@ class ReadinessTests(unittest.TestCase):
                 "deployment-model.md",
                 "interaction-model.md",
                 "requirements-spec.md",
+                "system-document.md",
                 "use-case-model.md",
             ],
         )
@@ -234,6 +240,7 @@ class ReadinessTests(unittest.TestCase):
                 "deployment-model.md",
                 "interaction-model.md",
                 "requirements-spec.md",
+                "system-document.md",
                 "use-case-model.md",
             ],
         )
