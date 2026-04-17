@@ -88,6 +88,7 @@ These themes now shape the completed bridge into V1.6 hardening work.
 ## Open Epics
 
 - `#7` `EPIC: SpecOps V2 integrations and productization`
+- `#123` `EPIC: Add template-driven system, use-case, and scenario document suite`
 - `#65` `Add document ingestion and hybrid document-to-spec workflow`
 
 See also: [V2 Go/No-Go Decision](v2-go-no-go-decision.md)
@@ -105,6 +106,8 @@ See also: [Document Ingestion Future Direction](document-ingestion-future.md)
   epics
 - the initial V2 UML/formal translation epic is complete and establishes the first broader formal
   artifact family on top of the stricter V1.6 baseline
+- the template-driven document-suite epic extends the canonical model toward concrete appendix-style
+  deliverables for system, use-case, and scenario documents
 - the remaining V2 work is now expansion and productization rather than foundational translation
 
 ## Labels To Use

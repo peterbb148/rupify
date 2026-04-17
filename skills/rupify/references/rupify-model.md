@@ -11,6 +11,15 @@ The canonical project model is `rupify-model.yaml`.
   - `system_scope`
 - `business_goals`
 - `success_criteria`
+- `risks` (compatibility mirror derived from `analysis_view.risk_objects`)
+  - `id`
+  - `name`
+  - `description`
+  - `priority`
+  - `status`
+  - `mitigation`
+  - `model_layer`: `analysis`
+  - `trace`
 - `actors` (compatibility mirror derived from `analysis_view.actors`)
   - `id`
   - `name`
@@ -31,9 +40,35 @@ The canonical project model is `rupify-model.yaml`.
   - `trigger`
   - `preconditions`
   - `postconditions`
+  - `priority`
+  - `status`
   - `complexity`: `simple`, `average`, or `complex`
   - `main_success_scenario`
   - `extensions`
+  - `extension_points`
+  - `used_use_case_ids`
+  - `subordinate_use_case_ids`
+  - `ui_notes`
+  - `participating_analysis_object_ids`
+  - `other_artifact_refs`
+  - `other_requirement_ids`
+  - `scenario_ids`
+- `scenarios` (compatibility mirror derived from `analysis_view.scenario_objects`)
+  - `id`
+  - `name`
+  - `use_case_id`
+  - `use_case_name`
+  - `model_layer`: `analysis`
+  - `summary`
+  - `priority`
+  - `status`
+  - `flow_of_events`
+  - `activity_notes`
+  - `sequence_notes`
+  - `other_artifact_refs`
+  - `participating_analysis_object_ids`
+  - `other_requirement_ids`
+  - `trace`
 - `requirements`
   - `functional`
   - `functional_objects`
@@ -58,6 +93,8 @@ The canonical project model is `rupify-model.yaml`.
 - `analysis_view` (authoritative source for analysis-layer objects)
   - `actors`
   - `use_cases`
+  - `scenario_objects`
+  - `risk_objects`
   - `requirement_objects`
   - `domain_entity_objects`
   - `relationship_objects`
@@ -67,6 +104,8 @@ The canonical project model is `rupify-model.yaml`.
   - `trigger_objects`
   - `actor_ids`
   - `use_case_ids`
+  - `scenario_ids`
+  - `risk_ids`
   - `requirement_ids`
   - `domain_entity_ids`
   - `relationship_ids`
@@ -74,6 +113,31 @@ The canonical project model is `rupify-model.yaml`.
   - `state_entity_ids`
   - `state_transition_ids`
   - `trigger_ids`
+  - `scenario_objects`
+    - `id`
+    - `name`
+    - `use_case_id`
+    - `use_case_name`
+    - `model_layer`: `analysis`
+    - `summary`
+    - `priority`
+    - `status`
+    - `flow_of_events`
+    - `activity_notes`
+    - `sequence_notes`
+    - `other_artifact_refs`
+    - `participating_analysis_object_ids`
+    - `other_requirement_ids`
+    - `trace`
+  - `risk_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `priority`
+    - `status`
+    - `mitigation`
+    - `model_layer`: `analysis`
+    - `trace`
 - `traceability`
   - `requirement_to_use_case`
     - `id`
@@ -270,6 +334,9 @@ For V1.5+ work, the same model should also have stable places to hold:
 - logical-view discovery
 - process/state-view discovery
 - architecture/deployment-view discovery
+- template-driven system/subsystem document fields
+- template-driven use-case document fields
+- template-driven scenario document fields
 
 For the V1.6 proof artifact, `state-model.md` is generated from the canonical process semantics:
 

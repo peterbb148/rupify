@@ -256,6 +256,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["process_view"]["state_entity_objects"], [])
         self.assertEqual(model["architecture_view"]["components_and_services"], [])
         self.assertEqual(model["architecture_view"]["component_objects"], [])
+        self.assertEqual(model["analysis_view"]["scenario_objects"], [])
+        self.assertEqual(model["analysis_view"]["risk_objects"], [])
+        self.assertEqual(model["scenarios"], [])
+        self.assertEqual(model["risks"], [])
         self.assertEqual(model["actors"], [])
         self.assertEqual(model["use_cases"], [])
 
@@ -298,10 +302,26 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["use_cases"][0]["trigger"], "")
         self.assertEqual(model["use_cases"][0]["preconditions"], [])
         self.assertEqual(model["use_cases"][0]["postconditions"], [])
+        self.assertEqual(model["use_cases"][0]["priority"], "")
+        self.assertEqual(model["use_cases"][0]["status"], "")
+        self.assertEqual(model["use_cases"][0]["extension_points"], [])
+        self.assertEqual(model["use_cases"][0]["used_use_case_ids"], [])
+        self.assertEqual(model["use_cases"][0]["subordinate_use_case_ids"], [])
+        self.assertEqual(model["use_cases"][0]["ui_notes"], [])
+        self.assertEqual(model["use_cases"][0]["participating_analysis_object_ids"], [])
+        self.assertEqual(model["use_cases"][0]["other_artifact_refs"], [])
+        self.assertEqual(model["use_cases"][0]["other_requirement_ids"], [])
+        self.assertEqual(model["use_cases"][0]["scenario_ids"], [])
         self.assertEqual(model["use_cases"][0]["trace"]["source_key"], "use_cases")
         self.assertEqual(model["use_cases"][1]["complexity"], "unclassified")
         self.assertEqual(model["analysis_view"]["actor_ids"][0], "operations-manager")
         self.assertEqual(model["analysis_view"]["use_case_ids"][0], "browse-rewards")
+        self.assertEqual(model["analysis_view"]["scenario_ids"], [])
+        self.assertEqual(model["analysis_view"]["risk_ids"], [])
+        self.assertEqual(model["analysis_view"]["scenario_objects"], [])
+        self.assertEqual(model["analysis_view"]["risk_objects"], [])
+        self.assertEqual(model["scenarios"], [])
+        self.assertEqual(model["risks"], [])
         self.assertEqual(model["analysis_view"]["actors"][0]["id"], "operations-manager")
         self.assertEqual(model["analysis_view"]["use_cases"][0]["id"], "browse-rewards")
         self.assertEqual(model["actors"], model["analysis_view"]["actors"])
@@ -551,8 +571,16 @@ class DiscoveryTests(unittest.TestCase):
             ["approve-system"],
         )
         self.assertEqual(
+            model["use_cases"][0]["other_requirement_ids"],
+            ["functional-requirement-1"],
+        )
+        self.assertEqual(
             model["traceability"]["use_case_to_analysis"][0]["to_id"],
             "entity-system",
+        )
+        self.assertEqual(
+            model["use_cases"][0]["participating_analysis_object_ids"],
+            ["entity-system"],
         )
         self.assertEqual(
             model["traceability"]["analysis_to_design"][0]["to_id"],
