@@ -164,7 +164,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["readiness"]["discovery"], "ready")
         self.assertEqual(replay["readiness_details"]["discovery"]["status"], "ready")
         self.assertEqual(replay["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
-        self.assertEqual(replay["stale_artifacts"], ["requirements-spec.md"])
+        self.assertEqual(replay["stale_artifacts"], ["requirements-spec.md", "system-document.md"])
 
     def test_cli_accepts_piped_round_answer(self) -> None:
         """The CLI should accept answer text from stdin."""
@@ -504,7 +504,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(payload["readiness"]["discovery"], "ready")
         self.assertEqual(payload["readiness_details"]["discovery"]["required_missing"], [])
         self.assertEqual(payload["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
-        self.assertEqual(payload["stale_artifacts"], ["requirements-spec.md"])
+        self.assertEqual(payload["stale_artifacts"], ["requirements-spec.md", "system-document.md"])
 
 
 if __name__ == "__main__":

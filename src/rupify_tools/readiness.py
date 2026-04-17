@@ -40,14 +40,15 @@ VIEW_GATES = {
 }
 
 VIEW_ARTIFACTS = {
-    "discovery": ["requirements-spec.md"],
-    "use_case": ["interaction-model.md", "requirements-spec.md", "use-case-model.md"],
+    "discovery": ["requirements-spec.md", "system-document.md"],
+    "use_case": ["interaction-model.md", "requirements-spec.md", "system-document.md", "use-case-model.md"],
     "logical": ["domain-model.md", "requirements-spec.md"],
     "process": ["requirements-spec.md", "use-case-model.md", "state-model.md"],
     "architecture": [
         "deployment-model.md",
         "interaction-model.md",
         "requirements-spec.md",
+        "system-document.md",
         "use-case-model.md",
     ],
     "ucp": ["ucp-estimate.md"],

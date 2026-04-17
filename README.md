@@ -6,6 +6,7 @@ first-class specification artifacts and diagrams from that shared source of trut
 
 Current first-class outputs include:
 
+- `system-document.md`
 - `requirements-spec.md`
 - `use-case-model.md`
 - `domain-model.md`
@@ -24,8 +25,8 @@ workflow.
 Rupify currently provides:
 - interview-driven discovery via local skills and replayable fixtures
 - a canonical project model as the source of truth
-- formal Markdown outputs for requirements, use cases, domain, interaction, deployment, state, and
-  UCP estimation
+- formal Markdown outputs for system/subsystem, requirements, use cases, domain, interaction,
+  deployment, state, and UCP estimation
 - Mermaid outputs for domain, interaction, deployment, and state publication
 - readiness, staleness, provenance, and cross-view traceability in the model workflow
 

@@ -953,6 +953,7 @@ def _bind_use_case_supporting_links(
 
 
 def _build_artifact_lineage(
+    risk_objects: list[dict[str, Any]],
     requirement_objects: list[dict[str, Any]],
     use_cases: list[dict[str, Any]],
     domain_entity_objects: list[dict[str, Any]],
@@ -969,6 +970,11 @@ def _build_artifact_lineage(
 ) -> list[dict[str, str]]:
     """Build conservative lineage links from canonical objects to generated artifacts."""
     lineage_specs = [
+        ("system-document.md", "risk factors", risk_objects),
+        ("system-document.md", "system-level use cases", use_cases),
+        ("system-document.md", "architecture overview", component_objects),
+        ("system-document.md", "interfaces and integrations", interface_objects),
+        ("system-document.md", "runtime boundaries", runtime_boundary_objects),
         ("requirements-spec.md", "functional requirements", requirement_objects),
         ("use-case-model.md", "use cases", use_cases),
         ("domain-model.md", "domain entities", domain_entity_objects),
@@ -1390,6 +1396,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         traceability,
     )
     traceability["artifact_lineage"] = _build_artifact_lineage(
+        risk_objects,
         all_requirement_objects,
         normalized_use_cases,
         domain_entity_objects,

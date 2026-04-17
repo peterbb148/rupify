@@ -41,6 +41,7 @@ uv run rupify-render \
 
 This renders:
 
+- `system-document.md`
 - `requirements-spec.md`
 - `use-case-model.md`
 - `domain-model.md`

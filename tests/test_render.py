@@ -22,6 +22,7 @@ from rupify_tools.render import (
     render_interaction_mermaid,
     render_interaction_model,
     render_requirements_spec,
+    render_system_document,
     render_state_mermaid,
     render_state_model,
 )
@@ -63,6 +64,82 @@ class RenderTests(unittest.TestCase):
         self.assertIn("last updated: 2026-04-13", rendered)
         self.assertIn("notes: Team topology still needs confirmation.", rendered)
         self.assertIn("status: unknown", rendered)
+
+    def test_render_system_document_includes_risks_use_cases_and_architecture(self) -> None:
+        """System document rendering should cover the template-driven system/subsystem sections."""
+        model = build_model()
+        model["analysis_view"] = {
+            "use_cases": [
+                {
+                    "id": "uc-redeem",
+                    "name": "Redeem Reward",
+                    "primary_actor": "Customer",
+                    "goal": "Redeem a reward.",
+                    "priority": "high",
+                    "status": "confirmed",
+                }
+            ],
+            "risk_objects": [
+                {
+                    "id": "risk-data-quality",
+                    "name": "Data quality gaps",
+                    "description": "Imported member profiles are incomplete.",
+                    "priority": "high",
+                    "status": "open",
+                    "mitigation": "Add onboarding validation",
+                    "trace": {"source_round": 12, "source_key": "risks"},
+                }
+            ],
+        }
+        model["design_view"] = {
+            "component_objects": [
+                {
+                    "id": "component-member-app",
+                    "name": "Member App",
+                    "description": "Customer-facing entry point.",
+                    "trace": {"source_round": 7, "source_key": "components_and_services"},
+                }
+            ],
+            "interface_objects": [
+                {
+                    "id": "interface-1",
+                    "text": "Member App calls Rewards API.",
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                }
+            ],
+            "runtime_boundary_objects": [
+                {
+                    "id": "runtime-boundary-1",
+                    "text": "Rewards API runs as a separate service.",
+                    "trace": {"source_round": 7, "source_key": "runtime_boundaries"},
+                }
+            ],
+        }
+        model["traceability"] = {
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-system-document-risk-factors-risk-data-quality",
+                    "from_id": "risk-data-quality",
+                    "to_artifact": "system-document.md",
+                    "artifact_section": "risk factors",
+                    "basis": "canonical risk factors object renders into system-document.md",
+                }
+            ]
+        }
+
+        rendered = render_system_document(model)
+
+        self.assertTrue(rendered.startswith("# System / Subsystem Document"))
+        self.assertIn("## Risk Factors", rendered)
+        self.assertIn("Data quality gaps", rendered)
+        self.assertIn("priority: high", rendered)
+        self.assertIn("## System-Level Use Cases", rendered)
+        self.assertIn("Redeem Reward", rendered)
+        self.assertIn("## System-Level Diagram References", rendered)
+        self.assertIn("`use-case-model.md`", rendered)
+        self.assertIn("## Subsystem Descriptions", rendered)
+        self.assertIn("`component-member-app` Member App: Customer-facing entry point.", rendered)
+        self.assertIn("system-document.md#risk factors", rendered)
 
     def test_requirements_render_includes_extended_view_sections(self) -> None:
         """Requirements rendering should include logical, process, and architecture sections when present."""
@@ -665,10 +742,12 @@ class RenderTests(unittest.TestCase):
         """Primary rendering should emit the formal state-model artifact."""
         outputs = render_all(build_model())
 
+        self.assertIn("system-document.md", outputs)
         self.assertIn("deployment-model.md", outputs)
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("state-model.md", outputs)
+        self.assertTrue(outputs["system-document.md"].startswith("# System / Subsystem Document"))
         self.assertTrue(outputs["deployment-model.md"].startswith("# Deployment Model"))
         self.assertTrue(outputs["domain-model.md"].startswith("# Domain Model"))
         self.assertTrue(outputs["interaction-model.md"].startswith("# Interaction Model"))
@@ -681,6 +760,7 @@ class RenderTests(unittest.TestCase):
 
         outputs = render_formal_artifacts(model)
 
+        self.assertIn("system-document.md", outputs)
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
@@ -695,6 +775,7 @@ class RenderTests(unittest.TestCase):
         outputs = render_artifact_family(model, "formal")
 
         self.assertEqual(set(outputs), {
+            "system-document.md",
             "requirements-spec.md",
             "use-case-model.md",
             "domain-model.md",
@@ -728,6 +809,7 @@ class RenderTests(unittest.TestCase):
                 exit_code = render_cli_main()
 
             self.assertEqual(exit_code, 0)
+            self.assertTrue((output_dir / "system-document.md").exists())
             self.assertTrue((output_dir / "domain-model.md").exists())
             self.assertTrue((output_dir / "interaction-model.md").exists())
             self.assertTrue((output_dir / "deployment-model.md").exists())
@@ -957,6 +1039,7 @@ class RenderTests(unittest.TestCase):
         model = normalize_replay_to_model(replay)
         outputs = render_all(model)
 
+        self.assertIn("system-document.md", outputs)
         self.assertIn("domain-model.md", outputs)
         self.assertIn("interaction-model.md", outputs)
         self.assertIn("deployment-model.md", outputs)
@@ -1162,6 +1245,60 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Member App", rendered)
         self.assertIn("Rewards API", rendered)
         self.assertIn("Rewards API runs separately from the UI", rendered)
+
+    def test_replay_normalization_can_render_system_document_artifact(self) -> None:
+        """Replay normalization should be able to produce the formal system-document artifact."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "System inventory"},
+                        {"key": "problem", "answer": "System ownership and risk visibility are fragmented."},
+                    ],
+                },
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "in_scope", "answer": "Platform system inventory"},
+                        {"key": "outcomes", "answer": ["Reduce onboarding risk"]},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "use_cases", "answer": ["Review system status"]},
+                    ],
+                },
+                {
+                    "round": 7,
+                    "responses": [
+                        {"key": "components_and_services", "answer": ["Inventory API"]},
+                        {"key": "interfaces_and_integrations", "answer": ["Dashboard calls Inventory API"]},
+                        {"key": "runtime_boundaries", "answer": ["Inventory API runs in a separate service"]},
+                    ],
+                },
+                {
+                    "round": 12,
+                    "responses": [
+                        {
+                            "key": "risks",
+                            "answer": [
+                                "Data quality gaps | priority: high | status: open | mitigation: add ownership validation",
+                            ],
+                        }
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        rendered = render_system_document(model)
+
+        self.assertIn("System inventory", rendered)
+        self.assertIn("Review system status", rendered)
+        self.assertIn("Data quality gaps", rendered)
+        self.assertIn("Inventory API", rendered)
 
     def test_end_to_end_state_model_pipeline_from_replay(self) -> None:
         """Replay normalization should be able to produce the formal state-model artifact."""
