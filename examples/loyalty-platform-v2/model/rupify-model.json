@@ -1,0 +1,174 @@
+{
+  "actors": [
+    {
+      "complexity": "complex",
+      "description": "A loyalty member using the digital experience to enroll, browse, and redeem rewards.",
+      "id": "customer",
+      "name": "Customer",
+      "type": "human"
+    },
+    {
+      "complexity": "average",
+      "description": "An internal operator responsible for campaigns, catalog changes, and reporting.",
+      "id": "ops-manager",
+      "name": "Operations Manager",
+      "type": "human"
+    },
+    {
+      "complexity": "simple",
+      "description": "An external system that confirms payment completion for eligible transactions.",
+      "id": "payment-gateway",
+      "name": "Payment Gateway",
+      "type": "system"
+    }
+  ],
+  "assumptions": [
+    "The first delivery increment focuses on a single market and one loyalty program configuration.",
+    "A single product team delivers the first release."
+  ],
+  "business_goals": [
+    "Increase repeat customer engagement through a unified loyalty experience.",
+    "Reduce the operational time required to launch or adjust reward campaigns.",
+    "Create a reliable source of truth for loyalty performance reporting."
+  ],
+  "future_placeholders": {
+    "formal_specification": [],
+    "uml": []
+  },
+  "open_questions": [
+    "Should partner merchants be modeled as separate actors in V1?",
+    "What reporting latency is acceptable for operational analytics?"
+  ],
+  "project": {
+    "domain": "Retail",
+    "name": "Loyalty Platform",
+    "problem_statement": "Legacy loyalty operations are fragmented across channels and teams, causing inconsistent member experience and slow campaign execution.",
+    "system_scope": "A member loyalty platform for enrollment, rewards browsing, redemption, and operational reporting."
+  },
+  "requirements": {
+    "functional": [
+      "The system must allow customers to enroll in the loyalty program digitally.",
+      "The system must show point balance and available rewards to eligible members.",
+      "The system must allow members to redeem rewards when eligibility conditions are satisfied.",
+      "The system must allow operations managers to maintain reward catalog entries and campaign rules.",
+      "The system must provide reporting on redemptions and campaign performance."
+    ],
+    "non_functional": [
+      "The system must protect member and reward transactions with appropriate security controls.",
+      "The member-facing experience must remain usable on common digital channels.",
+      "The platform must support integrations with external systems such as payment confirmation and reporting sources."
+    ]
+  },
+  "success_criteria": [
+    "Members can enroll and redeem rewards through one coherent digital journey.",
+    "Operations managers can update the reward catalog without engineering support for routine changes.",
+    "The business can review redemption and campaign performance in one reporting workflow."
+  ],
+  "ucp": {
+    "environmental_factors": {
+      "application_experience": 3,
+      "difficult_programming_language": 2,
+      "familiar_with_process": 4,
+      "lead_analyst_capability": 4,
+      "motivation": 5,
+      "object_oriented_experience": 3,
+      "part_time_staff": 1,
+      "stable_requirements": 3
+    },
+    "productivity_hours_per_ucp": 20,
+    "technical_factors": {
+      "complex_internal_processing": 3,
+      "concurrency": 2,
+      "distributed_system": 3,
+      "easy_to_change": 3,
+      "easy_to_install": 2,
+      "easy_to_use": 4,
+      "end_user_efficiency": 4,
+      "portability": 2,
+      "response_time": 3,
+      "reusable_code": 2,
+      "special_security": 5,
+      "special_user_training": 2,
+      "third_party_access": 4
+    }
+  },
+  "use_cases": [
+    {
+      "complexity": "simple",
+      "extensions": [
+        "Enrollment is blocked when required consent is missing."
+      ],
+      "goal": "Join the loyalty program and activate an account.",
+      "id": "uc-enroll",
+      "main_success_scenario": [
+        "Customer opens the loyalty enrollment flow.",
+        "Customer provides the required details and consents.",
+        "System validates the submission and creates the member account."
+      ],
+      "name": "Enroll Member",
+      "primary_actor": "Customer"
+    },
+    {
+      "complexity": "average",
+      "extensions": [
+        "Catalog view degrades if an integration is temporarily unavailable."
+      ],
+      "goal": "View eligible rewards and current point balance.",
+      "id": "uc-browse",
+      "main_success_scenario": [
+        "Customer opens the rewards catalog.",
+        "System displays available rewards and points balance.",
+        "Customer filters or sorts the catalog."
+      ],
+      "name": "Browse Rewards",
+      "primary_actor": "Customer"
+    },
+    {
+      "complexity": "complex",
+      "extensions": [
+        "Reward inventory is exhausted before completion.",
+        "Customer does not have enough points.",
+        "Payment confirmation is missing for a reward that depends on purchase completion."
+      ],
+      "goal": "Redeem a selected reward against available loyalty points.",
+      "id": "uc-redeem",
+      "main_success_scenario": [
+        "Customer selects a reward.",
+        "System validates reward eligibility and available points.",
+        "System reserves the reward and updates the member balance.",
+        "System confirms redemption to the customer."
+      ],
+      "name": "Redeem Reward",
+      "primary_actor": "Customer"
+    },
+    {
+      "complexity": "average",
+      "extensions": [
+        "A change is rejected because it would make an active reward invalid."
+      ],
+      "goal": "Create or update reward catalog entries and campaign details.",
+      "id": "uc-catalog",
+      "main_success_scenario": [
+        "Operations Manager opens catalog administration.",
+        "Operations Manager updates reward configuration.",
+        "System validates and publishes the change."
+      ],
+      "name": "Manage Reward Catalog",
+      "primary_actor": "Operations Manager"
+    },
+    {
+      "complexity": "simple",
+      "extensions": [
+        "A reporting data source is delayed."
+      ],
+      "goal": "Inspect reward redemption and campaign performance.",
+      "id": "uc-analytics",
+      "main_success_scenario": [
+        "Operations Manager opens the analytics dashboard.",
+        "System shows redemption and campaign metrics."
+      ],
+      "name": "Review Redemption Analytics",
+      "primary_actor": "Operations Manager"
+    }
+  ]
+}

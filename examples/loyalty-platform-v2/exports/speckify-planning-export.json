@@ -1,0 +1,21 @@
+{
+  "blocking_ambiguities": [],
+  "elements": [],
+  "export_metadata": {
+    "export_kind": "speckify_planning_export",
+    "schema_version": 1,
+    "source_model_change_metadata": {},
+    "source_model_semantic_id": ""
+  },
+  "ready_normative_elements": [],
+  "summary": {
+    "blocking_ambiguity_count": 0,
+    "blocking_ambiguity_ids": [],
+    "element_count": 0,
+    "partial_or_blocked_normative_ids": [],
+    "ready_normative_count": 0,
+    "ready_normative_ids": [],
+    "trace_link_count": 0
+  },
+  "trace_links": []
+}
