@@ -785,6 +785,108 @@ class DiscoveryTests(unittest.TestCase):
             },
         )
 
+    def test_normalize_replay_to_model_promotes_structured_invariants_constraints_and_ambiguities(
+        self,
+    ) -> None:
+        """Normalization should expose structured semantic objects for downstream planning."""
+        replay = replay_session(
+            [
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "constraints", "answer": ["Security: SSO required"]},
+                        {"key": "success_criteria", "answer": ["Approval completes within one day"]},
+                    ],
+                },
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": ["System"]},
+                        {
+                            "key": "business_rules",
+                            "answer": [
+                                "System must retain an owner",
+                                "System lifecycle cannot move from Approved to Draft",
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["System lifecycle"]},
+                        {
+                            "key": "states_and_transitions",
+                            "answer": ["System lifecycle: Draft -> Approved"],
+                        },
+                        {
+                            "key": "triggers_and_approvals",
+                            "answer": ["Approval requires manager approval"],
+                        },
+                    ],
+                },
+            ]
+        )
+        replay["assumptions"] = [
+            {
+                "text": "System ownership rules may change after pilot.",
+                "status": "assumed",
+                "source": "workshop",
+            }
+        ]
+        replay["open_questions"] = [
+            {
+                "text": "Should System lifecycle include Archived state?",
+                "status": "open",
+                "source": "review",
+            }
+        ]
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(
+            model["requirements"]["acceptance_constraint_objects"][0]["source_requirement_id"],
+            "non_functional-requirement-1",
+        )
+        self.assertEqual(
+            model["requirements"]["acceptance_constraint_objects"][1]["constraint_kind"],
+            "success_criterion",
+        )
+        self.assertEqual(
+            model["logical_view"]["domain_invariant_objects"][0]["scope_entity_ids"],
+            ["entity-system"],
+        )
+        self.assertEqual(
+            model["process_view"]["state_invariant_objects"][0]["state_entity_ids"],
+            ["state-entity-system-lifecycle"],
+        )
+        self.assertEqual(
+            model["process_view"]["guard_condition_objects"][0]["related_transition_ids"],
+            ["state-transition-1"],
+        )
+        self.assertEqual(
+            model["process_view"]["forbidden_transition_objects"][0]["related_transition_id"],
+            "state-transition-1",
+        )
+        self.assertEqual(model["ambiguities"][0]["ambiguity_type"], "assumption")
+        self.assertEqual(model["ambiguities"][1]["resolution_status"], "open")
+        self.assertEqual(
+            model["traceability"]["domain_invariant_to_entity"][0]["to_id"],
+            "entity-system",
+        )
+        self.assertEqual(
+            model["traceability"]["guard_to_transition"][0]["to_id"],
+            "state-transition-1",
+        )
+        self.assertEqual(
+            model["traceability"]["acceptance_constraint_to_requirement"][0]["to_id"],
+            "non_functional-requirement-1",
+        )
+        self.assertEqual(
+            model["traceability"]["ambiguity_to_element"][0]["to_id"],
+            "entity-system",
+        )
+
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
         repo_root = Path(__file__).resolve().parents[1]

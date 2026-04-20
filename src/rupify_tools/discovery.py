@@ -7,6 +7,8 @@ import json
 import re
 from typing import Any
 
+from .model_metadata import normalize_uncertainty_list
+
 TECHNICAL_FACTOR_ALIASES = {
     "distributed system": "distributed_system",
     "response time": "response_time",
@@ -909,6 +911,229 @@ def _build_use_case_step_objects(use_cases: list[dict[str, Any]]) -> list[dict[s
     return step_objects
 
 
+def _matched_object_ids(text: str, candidates: list[dict[str, Any]]) -> list[str]:
+    """Return canonical ids whose names are explicitly referenced by text."""
+    matched_ids = []
+    for candidate in candidates:
+        candidate_id = candidate.get("id", "")
+        candidate_name = candidate.get("name", "")
+        if candidate_id and candidate_name and _texts_overlap(text, candidate_name):
+            matched_ids.append(candidate_id)
+    return matched_ids
+
+
+def _build_domain_invariant_objects(
+    business_rules: list[dict[str, Any]],
+    domain_entities: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Promote explicit domain rules into first-class invariant objects."""
+    invariant_objects = []
+    for index, rule in enumerate(business_rules, 1):
+        rule_text = rule.get("rule_text", "")
+        if not rule_text:
+            continue
+        invariant_objects.append(
+            {
+                "id": f"domain-invariant-{index}",
+                "name": rule.get("name", f"Domain Invariant {index}"),
+                "description": rule_text,
+                "scope_entity_ids": _matched_object_ids(
+                    " ".join(part for part in (rule.get("scope", ""), rule_text) if part),
+                    domain_entities,
+                ),
+                "source_business_rule_id": rule.get("id", ""),
+                "model_layer": "analysis",
+                "trace": rule.get("trace", {}),
+            }
+        )
+    return invariant_objects
+
+
+def _build_state_invariant_objects(
+    business_rules: list[dict[str, Any]],
+    state_entities: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Promote explicit lifecycle-oriented rules into state invariant objects."""
+    invariant_objects = []
+    for index, rule in enumerate(business_rules, 1):
+        rule_text = rule.get("rule_text", "")
+        matched_state_ids = _matched_object_ids(
+            " ".join(part for part in (rule.get("scope", ""), rule_text) if part),
+            state_entities,
+        )
+        if not rule_text or not matched_state_ids:
+            continue
+        invariant_objects.append(
+            {
+                "id": f"state-invariant-{index}",
+                "name": rule.get("name", f"State Invariant {index}"),
+                "description": rule_text,
+                "state_entity_ids": matched_state_ids,
+                "source_business_rule_id": rule.get("id", ""),
+                "model_layer": "analysis",
+                "trace": rule.get("trace", {}),
+            }
+        )
+    return invariant_objects
+
+
+def _build_guard_condition_objects(
+    trigger_objects: list[dict[str, Any]],
+    state_entities: list[dict[str, Any]],
+    state_transitions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Promote explicit trigger and approval text into first-class guard conditions."""
+    guard_objects = []
+    for index, trigger in enumerate(trigger_objects, 1):
+        description = trigger.get("description", "")
+        if not description:
+            continue
+        related_transition_ids = [
+            transition.get("id", "")
+            for transition in state_transitions
+            if transition.get("id")
+            and (
+                _texts_overlap(description, transition.get("description", ""))
+                or _texts_overlap(trigger.get("event_name", ""), transition.get("trigger", ""))
+            )
+        ]
+        if not related_transition_ids and trigger.get("approval_required") and len(state_transitions) == 1:
+            related_transition_ids = [state_transitions[0].get("id", "")]
+        guard_objects.append(
+            {
+                "id": f"guard-condition-{index}",
+                "name": trigger.get("event_name", "") or f"Guard Condition {index}",
+                "description": description,
+                "condition_text": description,
+                "state_entity_ids": _matched_object_ids(description, state_entities),
+                "related_transition_ids": related_transition_ids,
+                "source_trigger_id": trigger.get("id", ""),
+                "model_layer": "analysis",
+                "trace": trigger.get("trace", {}),
+            }
+        )
+    return guard_objects
+
+
+def _build_forbidden_transition_objects(
+    business_rules: list[dict[str, Any]],
+    state_transitions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Promote explicit negative transition rules into first-class forbidden transitions."""
+    forbidden_objects = []
+    negative_markers = ("cannot", "must not", "may not", "forbid", "forbidden", "never")
+    for index, rule in enumerate(business_rules, 1):
+        rule_text = rule.get("rule_text", "")
+        if not rule_text or not any(marker in rule_text.lower() for marker in negative_markers):
+            continue
+        matched_transition = None
+        for transition in state_transitions:
+            transition_text = " ".join(
+                [
+                    transition.get("description", ""),
+                    transition.get("from_state", ""),
+                    transition.get("to_state", ""),
+                ]
+            ).strip()
+            if transition_text and _texts_overlap(rule_text, transition_text):
+                matched_transition = transition
+                break
+        if matched_transition is None and len(state_transitions) == 1:
+            matched_transition = state_transitions[0]
+        forbidden_objects.append(
+            {
+                "id": f"forbidden-transition-{index}",
+                "name": f"Forbidden Transition {index}",
+                "description": rule_text,
+                "related_transition_id": matched_transition.get("id", "") if matched_transition else "",
+                "from_state": matched_transition.get("from_state", "") if matched_transition else "",
+                "to_state": matched_transition.get("to_state", "") if matched_transition else "",
+                "state_entity_id": matched_transition.get("state_entity_id", "") if matched_transition else "",
+                "source_business_rule_id": rule.get("id", ""),
+                "model_layer": "analysis",
+                "trace": rule.get("trace", {}),
+            }
+        )
+    return forbidden_objects
+
+
+def _build_acceptance_constraint_objects(
+    non_functional_requirements: list[dict[str, Any]],
+    success_criteria: list[str],
+) -> list[dict[str, Any]]:
+    """Promote explicit acceptance constraints from NFRs and success criteria."""
+    constraint_objects = []
+    for index, requirement in enumerate(non_functional_requirements, 1):
+        statement = requirement.get("statement", "")
+        if not statement:
+            continue
+        constraint_objects.append(
+            {
+                "id": f"acceptance-constraint-requirement-{index}",
+                "name": requirement.get("quality_attribute", "") or f"Acceptance Constraint {index}",
+                "description": statement,
+                "constraint_kind": "non_functional_requirement",
+                "source_requirement_id": requirement.get("id", ""),
+                "linked_use_case_ids": list(requirement.get("linked_use_case_ids", [])),
+                "model_layer": "analysis",
+                "trace": requirement.get("trace", {}),
+            }
+        )
+    for index, criterion in enumerate(success_criteria, 1):
+        if not criterion:
+            continue
+        constraint_objects.append(
+            {
+                "id": f"acceptance-constraint-success-{index}",
+                "name": f"Success Criterion {index}",
+                "description": criterion,
+                "constraint_kind": "success_criterion",
+                "source_requirement_id": "",
+                "linked_use_case_ids": [],
+                "model_layer": "analysis",
+                "trace": {"source_round": 2, "source_key": "success_criteria"},
+            }
+        )
+    return constraint_objects
+
+
+def _build_ambiguity_objects(
+    assumptions: list[Any],
+    open_questions: list[Any],
+    element_candidates: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Promote uncertainty surfaces into first-class ambiguity objects."""
+    ambiguity_objects = []
+    normalized_items = [
+        ("assumption", item) for item in normalize_uncertainty_list(assumptions)
+    ] + [
+        ("open_question", item) for item in normalize_uncertainty_list(open_questions)
+    ]
+    for index, (ambiguity_type, item) in enumerate(normalized_items, 1):
+        description = item.get("text", "")
+        if not description:
+            continue
+        ambiguity_objects.append(
+            {
+                "id": f"ambiguity-{ambiguity_type}-{index}",
+                "ambiguity_type": ambiguity_type,
+                "description": description,
+                "applies_to_element_ids": _matched_object_ids(description, element_candidates),
+                "blocking_for_downstream": ambiguity_type == "open_question"
+                and item.get("status", "").strip().lower() not in {"resolved", "closed"},
+                "resolution_status": item.get("status", "").strip() or (
+                    "assumed" if ambiguity_type == "assumption" else "open"
+                ),
+                "source": item.get("source", "").strip(),
+                "notes": item.get("notes", "").strip(),
+                "last_updated": item.get("last_updated", "").strip(),
+                "model_layer": "analysis",
+                "trace": {},
+            }
+        )
+    return ambiguity_objects
+
+
 def _build_trace_links(
     requirement_objects: list[dict[str, Any]],
     use_cases: list[dict[str, Any]],
@@ -1083,6 +1308,122 @@ def _build_trace_links(
     }
 
 
+def _build_semantic_support_trace_links(
+    domain_invariants: list[dict[str, Any]],
+    state_invariants: list[dict[str, Any]],
+    guard_conditions: list[dict[str, Any]],
+    forbidden_transitions: list[dict[str, Any]],
+    acceptance_constraints: list[dict[str, Any]],
+    ambiguity_objects: list[dict[str, Any]],
+) -> dict[str, list[dict[str, Any]]]:
+    """Build explicit trace links for structured invariants, constraints, and ambiguities."""
+    domain_invariant_to_entity = []
+    state_invariant_to_state = []
+    guard_to_transition = []
+    forbidden_transition_to_transition = []
+    acceptance_constraint_to_requirement = []
+    ambiguity_to_element = []
+
+    for invariant in domain_invariants:
+        for entity_id in invariant.get("scope_entity_ids", []):
+            if not entity_id:
+                continue
+            domain_invariant_to_entity.append(
+                {
+                    "id": f"trace-domain-invariant-entity-{len(domain_invariant_to_entity) + 1}",
+                    "from_id": invariant["id"],
+                    "to_id": entity_id,
+                    "link_type": "domain_invariant_to_entity",
+                    "basis": "domain invariant scope references domain entity",
+                }
+            )
+
+    for invariant in state_invariants:
+        for state_entity_id in invariant.get("state_entity_ids", []):
+            if not state_entity_id:
+                continue
+            state_invariant_to_state.append(
+                {
+                    "id": f"trace-state-invariant-state-{len(state_invariant_to_state) + 1}",
+                    "from_id": invariant["id"],
+                    "to_id": state_entity_id,
+                    "link_type": "state_invariant_to_state",
+                    "basis": "state invariant scope references state entity",
+                }
+            )
+
+    for guard in guard_conditions:
+        for transition_id in guard.get("related_transition_ids", []):
+            if not transition_id:
+                continue
+            guard_to_transition.append(
+                {
+                    "id": f"trace-guard-transition-{len(guard_to_transition) + 1}",
+                    "from_id": guard["id"],
+                    "to_id": transition_id,
+                    "link_type": "guard_to_transition",
+                    "basis": "guard condition text references state transition",
+                }
+            )
+
+    for forbidden_transition in forbidden_transitions:
+        transition_id = forbidden_transition.get("related_transition_id", "")
+        if not transition_id:
+            continue
+        forbidden_transition_to_transition.append(
+            {
+                "id": (
+                    "trace-forbidden-transition-"
+                    f"{len(forbidden_transition_to_transition) + 1}"
+                ),
+                "from_id": forbidden_transition["id"],
+                "to_id": transition_id,
+                "link_type": "forbidden_transition_to_transition",
+                "basis": "forbidden transition references canonical state transition",
+            }
+        )
+
+    for constraint in acceptance_constraints:
+        requirement_id = constraint.get("source_requirement_id", "")
+        if not requirement_id:
+            continue
+        acceptance_constraint_to_requirement.append(
+            {
+                "id": (
+                    "trace-acceptance-constraint-requirement-"
+                    f"{len(acceptance_constraint_to_requirement) + 1}"
+                ),
+                "from_id": constraint["id"],
+                "to_id": requirement_id,
+                "link_type": "acceptance_constraint_to_requirement",
+                "basis": "acceptance constraint is derived from canonical requirement",
+            }
+        )
+
+    for ambiguity in ambiguity_objects:
+        for element_id in ambiguity.get("applies_to_element_ids", []):
+            if not element_id:
+                continue
+            ambiguity_to_element.append(
+                {
+                    "id": f"trace-ambiguity-element-{len(ambiguity_to_element) + 1}",
+                    "from_id": ambiguity["id"],
+                    "to_id": element_id,
+                    "link_type": "ambiguity_to_element",
+                    "basis": "ambiguity text explicitly references canonical element",
+                }
+            )
+
+    return {
+        "domain_invariant_to_entity": domain_invariant_to_entity,
+        "state_invariant_to_state": state_invariant_to_state,
+        "guard_to_transition": guard_to_transition,
+        "forbidden_transition_to_transition": forbidden_transition_to_transition,
+        "acceptance_constraint_to_requirement": acceptance_constraint_to_requirement,
+        "ambiguity_to_element": ambiguity_to_element,
+    }
+
+
 def _bind_use_case_supporting_links(
     use_cases: list[dict[str, Any]],
     requirement_objects: list[dict[str, Any]],
@@ -1117,14 +1458,20 @@ def _bind_use_case_supporting_links(
 def _build_artifact_lineage(
     risk_objects: list[dict[str, Any]],
     requirement_objects: list[dict[str, Any]],
+    acceptance_constraint_objects: list[dict[str, Any]],
+    ambiguity_objects: list[dict[str, Any]],
     use_cases: list[dict[str, Any]],
     scenario_objects: list[dict[str, Any]],
     domain_entity_objects: list[dict[str, Any]],
     relationship_objects: list[dict[str, Any]],
     business_rule_objects: list[dict[str, Any]],
+    domain_invariant_objects: list[dict[str, Any]],
     state_entity_objects: list[dict[str, Any]],
     state_transition_objects: list[dict[str, Any]],
     trigger_objects: list[dict[str, Any]],
+    state_invariant_objects: list[dict[str, Any]],
+    guard_condition_objects: list[dict[str, Any]],
+    forbidden_transition_objects: list[dict[str, Any]],
     component_objects: list[dict[str, Any]],
     interface_objects: list[dict[str, Any]],
     runtime_boundary_objects: list[dict[str, Any]],
@@ -1139,6 +1486,8 @@ def _build_artifact_lineage(
         ("system-document.md", "interfaces and integrations", interface_objects),
         ("system-document.md", "runtime boundaries", runtime_boundary_objects),
         ("requirements-spec.md", "functional requirements", requirement_objects),
+        ("requirements-spec.md", "acceptance constraints", acceptance_constraint_objects),
+        ("requirements-spec.md", "ambiguities", ambiguity_objects),
         ("use-case-model.md", "use cases", use_cases),
         ("use-case-documents.md", "use-case documents", use_cases),
         ("use-case-documents.md", "scenario summaries", scenario_objects),
@@ -1146,6 +1495,8 @@ def _build_artifact_lineage(
         ("domain-model.md", "domain entities", domain_entity_objects),
         ("domain-model.md", "relationships", relationship_objects),
         ("domain-model.md", "business rules", business_rule_objects),
+        ("domain-model.md", "domain invariants", domain_invariant_objects),
+        ("domain-model.md", "ambiguities", ambiguity_objects),
         ("interaction-model.md", "use-case realizations", realization_objects),
         ("interaction-model.md", "message flows", message_objects),
         ("deployment-model.md", "components", component_objects),
@@ -1154,6 +1505,10 @@ def _build_artifact_lineage(
         ("state-model.md", "state entities", state_entity_objects),
         ("state-model.md", "state transitions", state_transition_objects),
         ("state-model.md", "triggers and approvals", trigger_objects),
+        ("state-model.md", "state invariants", state_invariant_objects),
+        ("state-model.md", "guard conditions", guard_condition_objects),
+        ("state-model.md", "forbidden transitions", forbidden_transition_objects),
+        ("state-model.md", "ambiguities", ambiguity_objects),
     ]
 
     artifact_lineage = []
@@ -1283,6 +1638,7 @@ def _derive_logical_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
     domain_entity_objects = analysis_view["domain_entity_objects"]
     relationship_objects = analysis_view["relationship_objects"]
     business_rule_objects = analysis_view["business_rule_objects"]
+    domain_invariant_objects = analysis_view["domain_invariant_objects"]
     return {
         "domain_entities": [item["name"] for item in domain_entity_objects],
         "domain_entity_objects": domain_entity_objects,
@@ -1290,6 +1646,8 @@ def _derive_logical_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
         "relationship_objects": relationship_objects,
         "business_rules": [item["rule_text"] for item in business_rule_objects],
         "business_rule_objects": business_rule_objects,
+        "domain_invariants": [item["description"] for item in domain_invariant_objects],
+        "domain_invariant_objects": domain_invariant_objects,
     }
 
 
@@ -1298,6 +1656,9 @@ def _derive_process_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
     state_entity_objects = analysis_view["state_entity_objects"]
     state_transition_objects = analysis_view["state_transition_objects"]
     trigger_objects = analysis_view["trigger_objects"]
+    state_invariant_objects = analysis_view["state_invariant_objects"]
+    guard_condition_objects = analysis_view["guard_condition_objects"]
+    forbidden_transition_objects = analysis_view["forbidden_transition_objects"]
     return {
         "state_entities": [item["name"] for item in state_entity_objects],
         "state_entity_objects": state_entity_objects,
@@ -1305,6 +1666,12 @@ def _derive_process_view(analysis_view: dict[str, Any]) -> dict[str, Any]:
         "state_transition_objects": state_transition_objects,
         "triggers_and_approvals": [item["description"] for item in trigger_objects],
         "trigger_objects": trigger_objects,
+        "state_invariants": [item["description"] for item in state_invariant_objects],
+        "state_invariant_objects": state_invariant_objects,
+        "guard_conditions": [item["description"] for item in guard_condition_objects],
+        "guard_condition_objects": guard_condition_objects,
+        "forbidden_transitions": [item["description"] for item in forbidden_transition_objects],
+        "forbidden_transition_objects": forbidden_transition_objects,
     }
 
 
@@ -1605,6 +1972,36 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         scenario_objects,
     )
     use_case_step_objects = _build_use_case_step_objects(normalized_use_cases)
+    domain_invariant_objects = _build_domain_invariant_objects(
+        business_rule_objects,
+        domain_entity_objects,
+    )
+    state_invariant_objects = _build_state_invariant_objects(
+        business_rule_objects,
+        state_entity_objects,
+    )
+    guard_condition_objects = _build_guard_condition_objects(
+        trigger_objects,
+        state_entity_objects,
+        state_transition_objects,
+    )
+    forbidden_transition_objects = _build_forbidden_transition_objects(
+        business_rule_objects,
+        state_transition_objects,
+    )
+    acceptance_constraint_objects = _build_acceptance_constraint_objects(
+        non_functional_requirement_objects,
+        _ensure_list(round_2.get("success_criteria")),
+    )
+    ambiguity_objects = _build_ambiguity_objects(
+        replay.get("assumptions", []),
+        replay.get("open_questions", []),
+        normalized_actors
+        + normalized_use_cases
+        + domain_entity_objects
+        + state_entity_objects
+        + component_objects,
+    )
     _stamp_semantic_identity(normalized_actors, change_source="round_3")
     _stamp_semantic_identity(normalized_use_cases, change_source="round_3")
     _stamp_semantic_identity(use_case_step_objects, change_source="derived_use_case_steps")
@@ -1613,9 +2010,16 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(domain_entity_objects, change_source="round_5")
     _stamp_semantic_identity(relationship_objects, change_source="round_5")
     _stamp_semantic_identity(business_rule_objects, change_source="round_5")
+    _stamp_semantic_identity(domain_invariant_objects, change_source="derived_domain_invariants")
+    _stamp_semantic_identity(state_invariant_objects, change_source="derived_state_invariants")
     _stamp_semantic_identity(state_entity_objects, change_source="round_6")
     _stamp_semantic_identity(state_transition_objects, change_source="round_6")
     _stamp_semantic_identity(trigger_objects, change_source="round_6")
+    _stamp_semantic_identity(guard_condition_objects, change_source="derived_guard_conditions")
+    _stamp_semantic_identity(
+        forbidden_transition_objects,
+        change_source="derived_forbidden_transitions",
+    )
     _stamp_semantic_identity(component_objects, change_source="round_7")
     _stamp_semantic_identity(interface_objects, change_source="round_7")
     _stamp_semantic_identity(runtime_boundary_objects, change_source="round_7")
@@ -1623,6 +2027,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(functional_requirement_objects, change_source="round_4")
     _stamp_semantic_identity(non_functional_requirement_objects, change_source="round_2_or_4")
     _stamp_semantic_identity(all_requirement_objects, change_source="requirements")
+    _stamp_semantic_identity(
+        acceptance_constraint_objects,
+        change_source="derived_acceptance_constraints",
+    )
+    _stamp_semantic_identity(ambiguity_objects, change_source="derived_ambiguities")
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
@@ -1630,24 +2039,36 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "scenario_ids": [item["id"] for item in scenario_objects],
         "risk_ids": [item["id"] for item in risk_objects],
         "requirement_ids": [item["id"] for item in all_requirement_objects],
+        "acceptance_constraint_ids": [item["id"] for item in acceptance_constraint_objects],
+        "ambiguity_ids": [item["id"] for item in ambiguity_objects],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
         "use_case_step_objects": use_case_step_objects,
         "scenario_objects": scenario_objects,
         "risk_objects": risk_objects,
         "requirement_objects": all_requirement_objects,
+        "acceptance_constraint_objects": acceptance_constraint_objects,
+        "ambiguity_objects": ambiguity_objects,
         "domain_entity_objects": domain_entity_objects,
         "relationship_objects": relationship_objects,
         "business_rule_objects": business_rule_objects,
+        "domain_invariant_objects": domain_invariant_objects,
         "state_entity_objects": state_entity_objects,
         "state_transition_objects": state_transition_objects,
         "trigger_objects": trigger_objects,
+        "state_invariant_objects": state_invariant_objects,
+        "guard_condition_objects": guard_condition_objects,
+        "forbidden_transition_objects": forbidden_transition_objects,
         "domain_entity_ids": [item["id"] for item in domain_entity_objects],
         "relationship_ids": [item["id"] for item in relationship_objects],
         "business_rule_ids": [item["id"] for item in business_rule_objects],
+        "domain_invariant_ids": [item["id"] for item in domain_invariant_objects],
         "state_entity_ids": [item["id"] for item in state_entity_objects],
         "state_transition_ids": [item["id"] for item in state_transition_objects],
         "trigger_ids": [item["id"] for item in trigger_objects],
+        "state_invariant_ids": [item["id"] for item in state_invariant_objects],
+        "guard_condition_ids": [item["id"] for item in guard_condition_objects],
+        "forbidden_transition_ids": [item["id"] for item in forbidden_transition_objects],
     }
     design_view = {
         "component_objects": component_objects,
@@ -1689,6 +2110,16 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         component_objects,
         interaction_view["message_objects"],
     )
+    traceability.update(
+        _build_semantic_support_trace_links(
+            domain_invariant_objects,
+            state_invariant_objects,
+            guard_condition_objects,
+            forbidden_transition_objects,
+            acceptance_constraint_objects,
+            ambiguity_objects,
+        )
+    )
     _bind_use_case_supporting_links(
         normalized_use_cases,
         all_requirement_objects,
@@ -1697,14 +2128,20 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     traceability["artifact_lineage"] = _build_artifact_lineage(
         risk_objects,
         all_requirement_objects,
+        acceptance_constraint_objects,
+        ambiguity_objects,
         normalized_use_cases,
         scenario_objects,
         domain_entity_objects,
         relationship_objects,
         business_rule_objects,
+        domain_invariant_objects,
         state_entity_objects,
         state_transition_objects,
         trigger_objects,
+        state_invariant_objects,
+        guard_condition_objects,
+        forbidden_transition_objects,
         component_objects,
         interface_objects,
         runtime_boundary_objects,
@@ -1736,6 +2173,30 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         change_source="derived_traceability",
     )
     _stamp_semantic_identity(
+        traceability["domain_invariant_to_entity"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["state_invariant_to_state"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["guard_to_transition"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["forbidden_transition_to_transition"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["acceptance_constraint_to_requirement"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["ambiguity_to_element"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
         traceability["analysis_to_design"],
         change_source="derived_traceability",
     )
@@ -1754,6 +2215,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "business_goals": _ensure_list(round_2.get("outcomes")),
         "success_criteria": _ensure_list(round_2.get("success_criteria")),
         "risks": risk_objects,
+        "ambiguities": ambiguity_objects,
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
         "scenarios": scenario_objects,
@@ -1762,6 +2224,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "functional_objects": functional_requirement_objects,
             "non_functional": _requirement_statements_by_kind(all_requirement_objects, "non_functional"),
             "non_functional_objects": non_functional_requirement_objects,
+            "acceptance_constraints": [item["description"] for item in acceptance_constraint_objects],
+            "acceptance_constraint_objects": acceptance_constraint_objects,
         },
         "analysis_view": analysis_view,
         "traceability": traceability,
@@ -1771,8 +2235,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         "design_view": design_view,
         "interaction_view": interaction_view,
         "metadata_fields": _ensure_list(round_4.get("metadata_fields")),
-        "assumptions": [],
-        "open_questions": [],
+        "assumptions": replay.get("assumptions", []),
+        "open_questions": replay.get("open_questions", []),
         "ucp": {
             "technical_factors": technical_factors,
             "environmental_factors": environmental_factors,

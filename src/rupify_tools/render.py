@@ -119,6 +119,61 @@ def _object_text_section(
     return _named_section(title, fallback)
 
 
+def _structured_semantic_section(title: str, items: list[dict[str, Any]]) -> str:
+    """Render structured semantic objects with a compact metadata summary."""
+    if not items:
+        return ""
+
+    rendered = []
+    for item in items:
+        text = (
+            item.get("description")
+            or item.get("condition_text")
+            or item.get("rule_text")
+            or item.get("text")
+            or "Unspecified"
+        )
+        line = f"- `{item.get('id', 'item')}` {text}"
+        details = []
+        for key, label in (
+            ("constraint_kind", "kind"),
+            ("ambiguity_type", "type"),
+            ("resolution_status", "status"),
+            ("source_requirement_id", "requirement"),
+            ("source_business_rule_id", "business rule"),
+            ("source_trigger_id", "trigger"),
+            ("related_transition_id", "transition"),
+        ):
+            if item.get(key):
+                details.append(f"{label}: {item[key]}")
+        for key, label in (
+            ("scope_entity_ids", "scope"),
+            ("state_entity_ids", "states"),
+            ("related_transition_ids", "transitions"),
+            ("linked_use_case_ids", "use cases"),
+            ("applies_to_element_ids", "applies to"),
+        ):
+            values = item.get(key, [])
+            if values:
+                details.append(f"{label}: {', '.join(values)}")
+        if "blocking_for_downstream" in item:
+            details.append(
+                f"blocking: {'yes' if item.get('blocking_for_downstream') else 'no'}"
+            )
+        if trace := item.get("trace"):
+            details.append(
+                f"source: round {trace.get('source_round', 'n/a')} {trace.get('source_key', '')}".strip()
+            )
+        if details:
+            line = f"{line} ({'; '.join(details)})"
+        rendered.append(line)
+    return f"""
+## {title}
+
+{"\n".join(rendered)}
+"""
+
+
 def _traceability_section(
     title: str,
     links: list[dict[str, Any]],
@@ -528,6 +583,7 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
         process_view.get("state_transition_objects", []),
     )
     trigger_objects = analysis_view.get("trigger_objects", process_view.get("trigger_objects", []))
+    ambiguity_objects = analysis_view.get("ambiguity_objects", model.get("ambiguities", []))
     component_objects = design_view.get("component_objects", architecture_view.get("component_objects", []))
     interface_objects = design_view.get("interface_objects", architecture_view.get("interface_objects", []))
     runtime_boundary_objects = design_view.get(
@@ -561,6 +617,10 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 ## Non-Functional Requirements
 
 {_bullet_list(requirements.get("non_functional", []))}
+{_structured_semantic_section(
+    "Acceptance Constraints",
+    requirements.get("acceptance_constraint_objects", []),
+)}
 {_object_name_section(
     "Logical View",
     domain_entity_objects,
@@ -617,6 +677,10 @@ def render_requirements_spec(model: dict[str, Any]) -> str:
 {_traceability_section(
     "Analysis To Design Traceability",
     traceability.get("analysis_to_design", []),
+)}
+{_structured_semantic_section(
+    "Ambiguities",
+    ambiguity_objects,
 )}
 
 ## Assumptions
@@ -1111,6 +1175,11 @@ def render_domain_model(model: dict[str, Any]) -> str:
         "business_rule_objects",
         logical_view.get("business_rule_objects", []),
     )
+    domain_invariant_objects = analysis_view.get(
+        "domain_invariant_objects",
+        logical_view.get("domain_invariant_objects", []),
+    )
+    ambiguity_objects = analysis_view.get("ambiguity_objects", model.get("ambiguities", []))
     domain_entity_ids = {item.get("id", "") for item in domain_entity_objects if item.get("id")}
 
     return f"""# Domain Model
@@ -1138,9 +1207,21 @@ def render_domain_model(model: dict[str, Any]) -> str:
     business_rule_objects,
     logical_view.get("business_rules", []),
 )}
+{_structured_semantic_section(
+    "Domain Invariants",
+    domain_invariant_objects,
+)}
 {_traceability_section(
     "Use-Case To Domain Traceability",
     _filter_trace_links(traceability.get("use_case_to_analysis", []), domain_entity_ids),
+)}
+{_traceability_section(
+    "Domain Invariant To Entity Traceability",
+    _filter_trace_links(traceability.get("domain_invariant_to_entity", []), domain_entity_ids),
+)}
+{_structured_semantic_section(
+    "Ambiguities",
+    ambiguity_objects,
 )}
 {_artifact_lineage_section(
     "Artifact Lineage",
@@ -1509,6 +1590,19 @@ def render_state_model(model: dict[str, Any]) -> str:
         "trigger_objects",
         process_view.get("trigger_objects", []),
     )
+    state_invariant_objects = analysis_view.get(
+        "state_invariant_objects",
+        process_view.get("state_invariant_objects", []),
+    )
+    guard_condition_objects = analysis_view.get(
+        "guard_condition_objects",
+        process_view.get("guard_condition_objects", []),
+    )
+    forbidden_transition_objects = analysis_view.get(
+        "forbidden_transition_objects",
+        process_view.get("forbidden_transition_objects", []),
+    )
+    ambiguity_objects = analysis_view.get("ambiguity_objects", model.get("ambiguities", []))
     component_objects = design_view.get("component_objects", [])
     state_entity_ids = {item.get("id", "") for item in state_entity_objects if item.get("id")}
     component_ids = {item.get("id", "") for item in component_objects if item.get("id")}
@@ -1538,9 +1632,33 @@ def render_state_model(model: dict[str, Any]) -> str:
     trigger_objects,
     process_view.get("triggers_and_approvals", []),
 )}
+{_structured_semantic_section(
+    "State Invariants",
+    state_invariant_objects,
+)}
+{_structured_semantic_section(
+    "Guard Conditions",
+    guard_condition_objects,
+)}
+{_structured_semantic_section(
+    "Forbidden Transitions",
+    forbidden_transition_objects,
+)}
 {_traceability_section(
     "Use-Case To State Traceability",
     _filter_trace_links(traceability.get("use_case_to_analysis", []), state_entity_ids),
+)}
+{_traceability_section(
+    "State Invariant To State Traceability",
+    _filter_trace_links(traceability.get("state_invariant_to_state", []), state_entity_ids),
+)}
+{_traceability_section(
+    "Guard To Transition Traceability",
+    traceability.get("guard_to_transition", []),
+)}
+{_traceability_section(
+    "Forbidden Transition Traceability",
+    traceability.get("forbidden_transition_to_transition", []),
 )}
 {_traceability_section(
     "State To Design Traceability",
@@ -1548,6 +1666,10 @@ def render_state_model(model: dict[str, Any]) -> str:
         traceability.get("analysis_to_design", []),
         state_entity_ids | component_ids,
     ),
+)}
+{_structured_semantic_section(
+    "Ambiguities",
+    ambiguity_objects,
 )}
 {_artifact_lineage_section(
     "Artifact Lineage",

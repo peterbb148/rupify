@@ -112,6 +112,28 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_step_ids`
     - `fit_criterion`
     - `trace`
+  - `acceptance_constraints`
+  - `acceptance_constraint_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `constraint_kind`
+    - `source_requirement_id`
+    - `linked_use_case_ids`
+    - `model_layer`: `analysis`
+    - `trace`
+- `ambiguities` (compatibility mirror derived from `analysis_view.ambiguity_objects`)
+  - `id`
+  - `ambiguity_type`
+  - `description`
+  - `applies_to_element_ids`
+  - `blocking_for_downstream`
+  - `resolution_status`
+  - `source`
+  - `notes`
+  - `last_updated`
+  - `model_layer`: `analysis`
+  - `trace`
 - `analysis_view` (authoritative source for analysis-layer objects)
   - `actors`
   - `use_cases`
@@ -119,24 +141,36 @@ The canonical project model is `rupify-model.yaml`.
   - `scenario_objects`
   - `risk_objects`
   - `requirement_objects`
+  - `acceptance_constraint_objects`
+  - `ambiguity_objects`
   - `domain_entity_objects`
   - `relationship_objects`
   - `business_rule_objects`
+  - `domain_invariant_objects`
   - `state_entity_objects`
   - `state_transition_objects`
   - `trigger_objects`
+  - `state_invariant_objects`
+  - `guard_condition_objects`
+  - `forbidden_transition_objects`
   - `actor_ids`
   - `use_case_ids`
   - `use_case_step_ids`
   - `scenario_ids`
   - `risk_ids`
   - `requirement_ids`
+  - `acceptance_constraint_ids`
+  - `ambiguity_ids`
   - `domain_entity_ids`
   - `relationship_ids`
   - `business_rule_ids`
+  - `domain_invariant_ids`
   - `state_entity_ids`
   - `state_transition_ids`
   - `trigger_ids`
+  - `state_invariant_ids`
+  - `guard_condition_ids`
+  - `forbidden_transition_ids`
   - `scenario_objects`
     - `id`
     - `name`
@@ -160,6 +194,64 @@ The canonical project model is `rupify-model.yaml`.
     - `priority`
     - `status`
     - `mitigation`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `acceptance_constraint_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `constraint_kind`
+    - `source_requirement_id`
+    - `linked_use_case_ids`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `ambiguity_objects`
+    - `id`
+    - `ambiguity_type`
+    - `description`
+    - `applies_to_element_ids`
+    - `blocking_for_downstream`
+    - `resolution_status`
+    - `source`
+    - `notes`
+    - `last_updated`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `domain_invariant_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `scope_entity_ids`
+    - `source_business_rule_id`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `state_invariant_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `state_entity_ids`
+    - `source_business_rule_id`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `guard_condition_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `condition_text`
+    - `state_entity_ids`
+    - `related_transition_ids`
+    - `source_trigger_id`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `forbidden_transition_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `related_transition_id`
+    - `from_state`
+    - `to_state`
+    - `state_entity_id`
+    - `source_business_rule_id`
     - `model_layer`: `analysis`
     - `trace`
 - `traceability`
@@ -194,6 +286,42 @@ The canonical project model is `rupify-model.yaml`.
     - `link_type`
     - `basis`
   - `business_rule_to_transition`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `domain_invariant_to_entity`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `state_invariant_to_state`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `guard_to_transition`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `forbidden_transition_to_transition`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `acceptance_constraint_to_requirement`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `ambiguity_to_element`
     - `id`
     - `from_id`
     - `to_id`
@@ -276,6 +404,15 @@ The canonical project model is `rupify-model.yaml`.
     - `model_layer`: `analysis`
     - `scope`
     - `trace`
+  - `domain_invariants`
+  - `domain_invariant_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `scope_entity_ids`
+    - `source_business_rule_id`
+    - `model_layer`: `analysis`
+    - `trace`
 - `process_view` (derived compatibility view from `analysis_view` for V1/V1.5 renderers)
   - `state_entities`
   - `state_entity_objects`
@@ -310,6 +447,38 @@ The canonical project model is `rupify-model.yaml`.
     - `approval_required`
     - `constraint_type`
     - `exceptional_behavior`
+    - `trace`
+  - `state_invariants`
+  - `state_invariant_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `state_entity_ids`
+    - `source_business_rule_id`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `guard_conditions`
+  - `guard_condition_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `condition_text`
+    - `state_entity_ids`
+    - `related_transition_ids`
+    - `source_trigger_id`
+    - `model_layer`: `analysis`
+    - `trace`
+  - `forbidden_transitions`
+  - `forbidden_transition_objects`
+    - `id`
+    - `name`
+    - `description`
+    - `related_transition_id`
+    - `from_state`
+    - `to_state`
+    - `state_entity_id`
+    - `source_business_rule_id`
+    - `model_layer`: `analysis`
     - `trace`
 - `design_view` (authoritative source for design-layer objects)
   - `component_objects`

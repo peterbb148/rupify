@@ -264,13 +264,20 @@ class ReadinessTests(unittest.TestCase):
                 "functional_objects": [
                     {"id": "functional-requirement-1"},
                     {"id": "functional-requirement-2"},
-                ]
+                ],
+                "acceptance_constraint_objects": [
+                    {
+                        "id": "acceptance-constraint-requirement-1",
+                        "source_requirement_id": "functional-requirement-1",
+                    }
+                ],
             },
             "use_cases": [
                 {"id": "approve-system"},
                 {"id": "search-systems"},
             ],
             "analysis_view": {
+                "ambiguity_objects": [{"id": "ambiguity-open-question-1", "applies_to_element_ids": ["entity-system"]}],
                 "use_case_step_objects": [
                     {"id": "approve-system-step-1"},
                     {"id": "approve-system-step-2"},
@@ -279,10 +286,14 @@ class ReadinessTests(unittest.TestCase):
             "logical_view": {
                 "domain_entity_objects": [{"id": "entity-system"}],
                 "business_rule_objects": [{"id": "business-rule-1"}],
+                "domain_invariant_objects": [{"id": "domain-invariant-1"}],
             },
             "process_view": {
-                "state_entity_objects": [],
+                "state_entity_objects": [{"id": "state-entity-system"}],
                 "state_transition_objects": [{"id": "state-transition-1"}],
+                "state_invariant_objects": [{"id": "state-invariant-1"}],
+                "guard_condition_objects": [{"id": "guard-condition-1"}],
+                "forbidden_transition_objects": [{"id": "forbidden-transition-1"}],
             },
             "interaction_view": {"message_objects": [{"id": "interaction-message-1"}]},
             "architecture_view": {"component_objects": [{"id": "component-system-api"}]},
@@ -302,6 +313,27 @@ class ReadinessTests(unittest.TestCase):
                 ],
                 "business_rule_to_transition": [
                     {"from_id": "business-rule-1", "to_id": "state-transition-1"}
+                ],
+                "domain_invariant_to_entity": [
+                    {"from_id": "domain-invariant-1", "to_id": "entity-system"}
+                ],
+                "state_invariant_to_state": [
+                    {"from_id": "state-invariant-1", "to_id": "state-entity-system"}
+                ],
+                "guard_to_transition": [
+                    {"from_id": "guard-condition-1", "to_id": "state-transition-1"}
+                ],
+                "forbidden_transition_to_transition": [
+                    {"from_id": "forbidden-transition-1", "to_id": "state-transition-1"}
+                ],
+                "acceptance_constraint_to_requirement": [
+                    {
+                        "from_id": "acceptance-constraint-requirement-1",
+                        "to_id": "functional-requirement-1",
+                    }
+                ],
+                "ambiguity_to_element": [
+                    {"from_id": "ambiguity-open-question-1", "to_id": "entity-system"}
                 ],
                 "analysis_to_design": [],
             },
@@ -335,10 +367,16 @@ class ReadinessTests(unittest.TestCase):
             ["approve-system-step-2"],
         )
         self.assertEqual(validation["business_rule_to_transition"]["status"], "ready")
+        self.assertEqual(validation["domain_invariant_to_entity"]["status"], "ready")
+        self.assertEqual(validation["state_invariant_to_state"]["status"], "ready")
+        self.assertEqual(validation["guard_to_transition"]["status"], "ready")
+        self.assertEqual(validation["forbidden_transition_to_transition"]["status"], "ready")
+        self.assertEqual(validation["acceptance_constraint_to_requirement"]["status"], "ready")
+        self.assertEqual(validation["ambiguity_to_element"]["status"], "ready")
         self.assertEqual(validation["analysis_to_design"]["status"], "blocked")
         self.assertEqual(
             validation["analysis_to_design"]["missing_from_ids"],
-            ["entity-system"],
+            ["entity-system", "state-entity-system"],
         )
         self.assertEqual(validation["artifact_lineage"]["status"], "blocked")
         self.assertEqual(
@@ -346,11 +384,18 @@ class ReadinessTests(unittest.TestCase):
             [
                 "functional-requirement-1",
                 "functional-requirement-2",
+                "acceptance-constraint-requirement-1",
+                "ambiguity-open-question-1",
                 "approve-system",
                 "search-systems",
                 "entity-system",
                 "business-rule-1",
+                "domain-invariant-1",
+                "state-entity-system",
                 "state-transition-1",
+                "state-invariant-1",
+                "guard-condition-1",
+                "forbidden-transition-1",
                 "component-system-api",
                 "interaction-message-1",
             ],

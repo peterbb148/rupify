@@ -250,6 +250,47 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_requirements_render_includes_acceptance_constraints_and_ambiguities(self) -> None:
+        """Requirements rendering should surface structured acceptance and ambiguity objects."""
+        model = build_model()
+        model["requirements"] = {
+            "functional": [],
+            "non_functional": [],
+            "acceptance_constraint_objects": [
+                {
+                    "id": "acceptance-constraint-1",
+                    "description": "Security: SSO required",
+                    "constraint_kind": "non_functional_requirement",
+                    "source_requirement_id": "non_functional-requirement-1",
+                    "linked_use_case_ids": ["uc-redeem"],
+                    "trace": {"source_round": 2, "source_key": "constraints"},
+                }
+            ],
+        }
+        model["analysis_view"] = {
+            "ambiguity_objects": [
+                {
+                    "id": "ambiguity-open-question-1",
+                    "ambiguity_type": "open_question",
+                    "description": "Should partner merchants count as actors in V1?",
+                    "applies_to_element_ids": ["customer"],
+                    "blocking_for_downstream": True,
+                    "resolution_status": "open",
+                    "trace": {},
+                }
+            ]
+        }
+
+        rendered = render_requirements_spec(model)
+
+        self.assertIn("## Acceptance Constraints", rendered)
+        self.assertIn("Security: SSO required", rendered)
+        self.assertIn("kind: non_functional_requirement", rendered)
+        self.assertIn("use cases: uc-redeem", rendered)
+        self.assertIn("## Ambiguities", rendered)
+        self.assertIn("type: open_question", rendered)
+        self.assertIn("blocking: yes", rendered)
+
     def test_render_prefers_layer_collections_when_present(self) -> None:
         """Rendering should remain coherent when analysis/design objects live under layer sections."""
         from rupify_tools.render import render_use_case_model
@@ -801,6 +842,98 @@ class RenderTests(unittest.TestCase):
             rendered,
         )
 
+    def test_state_model_render_includes_structured_semantic_sections(self) -> None:
+        """State-model rendering should surface structured state invariants, guards, and forbidden transitions."""
+        model = build_model()
+        model["analysis_view"] = {
+            "state_entity_objects": [
+                {
+                    "id": "state-entity-redemption-request",
+                    "name": "Redemption Request",
+                    "states": ["Requested", "Approved"],
+                }
+            ],
+            "state_transition_objects": [
+                {
+                    "id": "state-transition-1",
+                    "description": "Requested -> Approved",
+                    "from_state": "Requested",
+                    "to_state": "Approved",
+                }
+            ],
+            "trigger_objects": [],
+            "state_invariant_objects": [
+                {
+                    "id": "state-invariant-1",
+                    "description": "Redemption Request must have an owner before approval.",
+                    "state_entity_ids": ["state-entity-redemption-request"],
+                }
+            ],
+            "guard_condition_objects": [
+                {
+                    "id": "guard-condition-1",
+                    "description": "Approval requires manager approval.",
+                    "related_transition_ids": ["state-transition-1"],
+                    "source_trigger_id": "trigger-1",
+                }
+            ],
+            "forbidden_transition_objects": [
+                {
+                    "id": "forbidden-transition-1",
+                    "description": "Redemption Request cannot move from Approved to Requested.",
+                    "related_transition_id": "state-transition-1",
+                }
+            ],
+            "ambiguity_objects": [
+                {
+                    "id": "ambiguity-open-question-1",
+                    "ambiguity_type": "open_question",
+                    "description": "Should Approved be terminal?",
+                    "applies_to_element_ids": ["state-transition-1"],
+                    "blocking_for_downstream": True,
+                    "resolution_status": "open",
+                }
+            ],
+        }
+        model["traceability"] = {
+            "state_invariant_to_state": [
+                {
+                    "id": "trace-state-invariant-state-1",
+                    "from_id": "state-invariant-1",
+                    "to_id": "state-entity-redemption-request",
+                }
+            ],
+            "guard_to_transition": [
+                {
+                    "id": "trace-guard-transition-1",
+                    "from_id": "guard-condition-1",
+                    "to_id": "state-transition-1",
+                }
+            ],
+            "forbidden_transition_to_transition": [
+                {
+                    "id": "trace-forbidden-transition-1",
+                    "from_id": "forbidden-transition-1",
+                    "to_id": "state-transition-1",
+                }
+            ],
+        }
+
+        rendered = render_state_model(model)
+
+        self.assertIn("## State Invariants", rendered)
+        self.assertIn("Redemption Request must have an owner before approval.", rendered)
+        self.assertIn("states: state-entity-redemption-request", rendered)
+        self.assertIn("## Guard Conditions", rendered)
+        self.assertIn("trigger: trigger-1", rendered)
+        self.assertIn("transitions: state-transition-1", rendered)
+        self.assertIn("## Forbidden Transitions", rendered)
+        self.assertIn("transition: state-transition-1", rendered)
+        self.assertIn("## State Invariant To State Traceability", rendered)
+        self.assertIn("## Guard To Transition Traceability", rendered)
+        self.assertIn("## Forbidden Transition Traceability", rendered)
+        self.assertIn("## Ambiguities", rendered)
+
     def test_domain_model_render_includes_logical_traceability(self) -> None:
         """Domain-model rendering should surface logical semantics and relevant trace links."""
         model = build_model()
@@ -870,6 +1003,56 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn("## Artifact Lineage", rendered)
         self.assertIn("entity-member -> domain-model.md#domain entities", rendered)
+
+    def test_domain_model_render_includes_domain_invariants_and_ambiguities(self) -> None:
+        """Domain-model rendering should surface structured domain invariants and ambiguity links."""
+        model = build_model()
+        model["analysis_view"] = {
+            "domain_entity_objects": [
+                {
+                    "id": "entity-member",
+                    "name": "Member",
+                }
+            ],
+            "relationship_objects": [],
+            "business_rule_objects": [],
+            "domain_invariant_objects": [
+                {
+                    "id": "domain-invariant-1",
+                    "description": "Member must have enough points.",
+                    "scope_entity_ids": ["entity-member"],
+                    "source_business_rule_id": "business-rule-1",
+                }
+            ],
+            "ambiguity_objects": [
+                {
+                    "id": "ambiguity-open-question-1",
+                    "ambiguity_type": "open_question",
+                    "description": "Should guest shoppers count as Members?",
+                    "applies_to_element_ids": ["entity-member"],
+                    "blocking_for_downstream": True,
+                    "resolution_status": "open",
+                }
+            ],
+        }
+        model["traceability"] = {
+            "domain_invariant_to_entity": [
+                {
+                    "id": "trace-domain-invariant-entity-1",
+                    "from_id": "domain-invariant-1",
+                    "to_id": "entity-member",
+                }
+            ]
+        }
+
+        rendered = render_domain_model(model)
+
+        self.assertIn("## Domain Invariants", rendered)
+        self.assertIn("scope: entity-member", rendered)
+        self.assertIn("business rule: business-rule-1", rendered)
+        self.assertIn("## Domain Invariant To Entity Traceability", rendered)
+        self.assertIn("## Ambiguities", rendered)
+        self.assertIn("blocking: yes", rendered)
 
     def test_render_domain_mermaid_outputs_class_diagram(self) -> None:
         """Domain Mermaid rendering should emit a deterministic class diagram."""
