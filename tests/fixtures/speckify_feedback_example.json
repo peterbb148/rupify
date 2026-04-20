@@ -1,0 +1,63 @@
+{
+  "feedback_metadata": {
+    "source_model_semantic_id": "rupify-model",
+    "source_model_change_hash": "modelhash123",
+    "source_planning_export_semantic_id": "rupify-model",
+    "source_planning_export_change_hash": "exporthash123",
+    "emitted_by": "speckify",
+    "emitted_at": "2026-04-20T10:15:00Z"
+  },
+  "feedback_items": [
+    {
+      "category": "clarify",
+      "title": "Clarify owner validation rule",
+      "description": "Downstream decomposition could not tell whether temporary owners satisfy the approval rule.",
+      "target_semantic_ids": ["domain-invariant-1"],
+      "target_change_hashes": ["invarhash123"],
+      "target_families": ["domain_invariants"],
+      "proposal_status": "proposed",
+      "blocking_for_downstream": true,
+      "priority": "high",
+      "encountered_in": "task-decomposition",
+      "downstream_evidence": [
+        "Ownership check split into two incompatible task trees.",
+        "Implementation planning could not choose one validation rule."
+      ],
+      "related_element_ids": ["uc-approve-system"],
+      "related_trace_link_ids": ["trace-domain-invariant-entity-1"],
+      "proposed_changes": [
+        {
+          "operation": "revise",
+          "field_path": "logical_view.domain_invariant_objects[0].description",
+          "value": "A system must have a permanent owner before approval.",
+          "rationale": "This removes the temporary-owner ambiguity discovered downstream."
+        }
+      ],
+      "requested_action": "Clarify whether temporary ownership satisfies approval.",
+      "notes": "Proposal only; do not patch the canonical model automatically."
+    },
+    {
+      "category": "add_missing_requirement",
+      "title": "Missing export audit requirement",
+      "description": "Downstream implementation planning found no explicit requirement for export audit logging.",
+      "target_semantic_ids": ["component-export-service"],
+      "target_change_hashes": ["componenthash123"],
+      "target_families": ["components"],
+      "blocking_for_downstream": false,
+      "encountered_in": "implementation-planning",
+      "downstream_evidence": [
+        "No requirement linked to the export audit tasks."
+      ],
+      "proposed_changes": [
+        {
+          "operation": "add",
+          "field_path": "requirements.functional_objects",
+          "value": "Export actions must create an immutable audit log entry.",
+          "rationale": "Implementation scope already assumes this behavior."
+        }
+      ],
+      "requested_action": "Add the missing requirement upstream.",
+      "notes": ""
+    }
+  ]
+}
