@@ -66,6 +66,14 @@ uv run rupify-render \
   --artifact-family ucp
 ```
 
+### Downstream Planning Export
+
+```bash
+uv run rupify-export-planning \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output /tmp/rupify-planning-export.json
+```
+
 ### Mermaid Outputs
 
 ```bash
