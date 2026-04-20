@@ -263,6 +263,8 @@ class RenderTests(unittest.TestCase):
                     "constraint_kind": "non_functional_requirement",
                     "source_requirement_id": "non_functional-requirement-1",
                     "linked_use_case_ids": ["uc-redeem"],
+                    "content_semantics": "normative",
+                    "readiness": {"status": "ready"},
                     "trace": {"source_round": 2, "source_key": "constraints"},
                 }
             ],
@@ -276,6 +278,8 @@ class RenderTests(unittest.TestCase):
                     "applies_to_element_ids": ["customer"],
                     "blocking_for_downstream": True,
                     "resolution_status": "open",
+                    "content_semantics": "informative",
+                    "readiness": {"status": "ready"},
                     "trace": {},
                 }
             ]
@@ -285,6 +289,7 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn("## Acceptance Constraints", rendered)
         self.assertIn("Security: SSO required", rendered)
+        self.assertIn("semantics: normative", rendered)
         self.assertIn("kind: non_functional_requirement", rendered)
         self.assertIn("use cases: uc-redeem", rendered)
         self.assertIn("## Ambiguities", rendered)
@@ -867,6 +872,7 @@ class RenderTests(unittest.TestCase):
                     "id": "state-invariant-1",
                     "description": "Redemption Request must have an owner before approval.",
                     "state_entity_ids": ["state-entity-redemption-request"],
+                    "readiness": {"status": "ready"},
                 }
             ],
             "guard_condition_objects": [
@@ -875,6 +881,7 @@ class RenderTests(unittest.TestCase):
                     "description": "Approval requires manager approval.",
                     "related_transition_ids": ["state-transition-1"],
                     "source_trigger_id": "trigger-1",
+                    "readiness": {"status": "ready"},
                 }
             ],
             "forbidden_transition_objects": [
@@ -882,6 +889,7 @@ class RenderTests(unittest.TestCase):
                     "id": "forbidden-transition-1",
                     "description": "Redemption Request cannot move from Approved to Requested.",
                     "related_transition_id": "state-transition-1",
+                    "readiness": {"status": "ready"},
                 }
             ],
             "ambiguity_objects": [
@@ -892,6 +900,7 @@ class RenderTests(unittest.TestCase):
                     "applies_to_element_ids": ["state-transition-1"],
                     "blocking_for_downstream": True,
                     "resolution_status": "open",
+                    "readiness": {"status": "ready"},
                 }
             ],
         }
@@ -933,6 +942,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("## Guard To Transition Traceability", rendered)
         self.assertIn("## Forbidden Transition Traceability", rendered)
         self.assertIn("## Ambiguities", rendered)
+        self.assertIn("readiness:", rendered)
 
     def test_domain_model_render_includes_logical_traceability(self) -> None:
         """Domain-model rendering should surface logical semantics and relevant trace links."""
@@ -1053,6 +1063,75 @@ class RenderTests(unittest.TestCase):
         self.assertIn("## Domain Invariant To Entity Traceability", rendered)
         self.assertIn("## Ambiguities", rendered)
         self.assertIn("blocking: yes", rendered)
+
+    def test_use_case_and_scenario_documents_render_element_semantics(self) -> None:
+        """Compiled document families should surface element semantics and readiness."""
+        model = build_model()
+        model["analysis_view"] = {
+            "actors": [],
+            "use_cases": [
+                {
+                    "id": "uc-redeem",
+                    "name": "Redeem Reward",
+                    "primary_actor": "Customer",
+                    "priority": "high",
+                    "status": "confirmed",
+                    "content_semantics": "normative",
+                    "readiness": {"status": "ready"},
+                    "complexity": "complex",
+                    "goal": "Redeem a reward.",
+                    "trigger": "Customer selects reward",
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                    "preconditions": [],
+                    "postconditions": [],
+                    "extension_points": [],
+                    "used_use_case_ids": [],
+                    "subordinate_use_case_ids": [],
+                    "main_success_scenario": ["Customer selects reward."],
+                    "extensions": [],
+                    "scenario_ids": ["scenario-happy-path"],
+                    "ui_notes": [],
+                    "participating_analysis_object_ids": [],
+                    "other_requirement_ids": [],
+                    "other_artifact_refs": [],
+                    "supporting_actor_ids": [],
+                }
+            ],
+            "scenario_objects": [
+                {
+                    "id": "scenario-happy-path",
+                    "name": "Happy Path",
+                    "use_case_id": "uc-redeem",
+                    "use_case_name": "Redeem Reward",
+                    "summary": "Customer redeems a reward",
+                    "priority": "high",
+                    "status": "confirmed",
+                    "content_semantics": "normative",
+                    "readiness": {"status": "ready"},
+                    "trace": {"source_round": 13, "source_key": "scenarios"},
+                    "flow_of_events": ["Customer selects reward."],
+                    "activity_notes": [],
+                    "sequence_notes": [],
+                    "participating_analysis_object_ids": [],
+                    "other_requirement_ids": [],
+                    "other_artifact_refs": [],
+                }
+            ],
+            "requirement_objects": [],
+            "domain_entity_objects": [],
+            "relationship_objects": [],
+            "state_entity_objects": [],
+        }
+        model["interaction_view"] = {"realization_objects": []}
+        model["traceability"] = {"artifact_lineage": []}
+
+        use_case_rendered = render_use_case_documents(model)
+        scenario_rendered = render_scenario_documents(model)
+
+        self.assertIn("- Content Semantics: normative", use_case_rendered)
+        self.assertIn("- Readiness: ready", use_case_rendered)
+        self.assertIn("- Content Semantics: normative", scenario_rendered)
+        self.assertIn("- Readiness: ready", scenario_rendered)
 
     def test_render_domain_mermaid_outputs_class_diagram(self) -> None:
         """Domain Mermaid rendering should emit a deterministic class diagram."""

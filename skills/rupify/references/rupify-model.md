@@ -63,6 +63,12 @@ The canonical project model is `rupify-model.yaml`.
   - `other_artifact_refs`
   - `other_requirement_ids`
   - `scenario_ids`
+  - `content_semantics`: `normative` or `informative`
+  - `readiness`
+    - `status`: `ready`, `partial`, or `blocked`
+    - `missing_fields`
+    - `blocking_ambiguity_ids`
+    - `normative_ready`
 - `analysis_view` (authoritative source for analysis-layer objects)
   - `use_case_step_objects`
     - `id`
@@ -89,6 +95,8 @@ The canonical project model is `rupify-model.yaml`.
   - `participating_analysis_object_ids`
   - `other_requirement_ids`
   - `trace`
+  - `content_semantics`: `normative` or `informative`
+  - `readiness`
 - `requirements`
   - `functional`
   - `functional_objects`
@@ -101,6 +109,8 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_step_ids`
     - `fit_criterion`
     - `trace`
+    - `content_semantics`: `normative` or `informative`
+    - `readiness`
   - `non_functional`
   - `non_functional_objects`
     - `id`
@@ -112,6 +122,8 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_step_ids`
     - `fit_criterion`
     - `trace`
+    - `content_semantics`: `normative` or `informative`
+    - `readiness`
   - `acceptance_constraints`
   - `acceptance_constraint_objects`
     - `id`
@@ -122,6 +134,8 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_use_case_ids`
     - `model_layer`: `analysis`
     - `trace`
+    - `content_semantics`: `normative` or `informative`
+    - `readiness`
 - `ambiguities` (compatibility mirror derived from `analysis_view.ambiguity_objects`)
   - `id`
   - `ambiguity_type`
@@ -134,6 +148,18 @@ The canonical project model is `rupify-model.yaml`.
   - `last_updated`
   - `model_layer`: `analysis`
   - `trace`
+  - `content_semantics`: `normative` or `informative`
+  - `readiness`
+- `element_readiness`
+  - `by_family`
+    - per-family readiness entries keyed by canonical family name
+    - each entry includes `id`, `family`, `content_semantics`, `status`, `missing_fields`,
+      `blocking_ambiguity_ids`, and `normative_ready`
+  - `summary`
+    - `ready_normative_ids`
+    - `partial_normative_ids`
+    - `blocked_normative_ids`
+    - `informative_ids`
 - `analysis_view` (authoritative source for analysis-layer objects)
   - `actors`
   - `use_cases`

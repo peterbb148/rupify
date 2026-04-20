@@ -8,6 +8,7 @@ from typing import Any
 
 from .discovery import normalize_replay_to_model
 from .readiness import (
+    evaluate_element_readiness,
     evaluate_readiness,
     evaluate_readiness_details,
     evaluate_traceability,
@@ -784,6 +785,7 @@ def replay_session(round_inputs: list[dict[str, Any]]) -> dict[str, Any]:
     }
     model = normalize_replay_to_model(replay)
     replay["traceability_validation"] = evaluate_traceability(model)
+    replay["element_readiness_validation"] = evaluate_element_readiness(model)
     return replay
 
 

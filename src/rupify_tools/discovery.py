@@ -1547,6 +1547,7 @@ def _stable_semantic_payload(value: Any) -> Any:
             "trace",
             "change_metadata",
             "semantic_id",
+            "readiness",
             "complexity_trace",
             "last_changed_at",
         }
@@ -1604,6 +1605,17 @@ def _stamp_semantic_identity(
             item,
             change_source=change_source,
         )
+    return items
+
+
+def _apply_content_semantics(
+    items: list[dict[str, Any]],
+    *,
+    semantics: str,
+) -> list[dict[str, Any]]:
+    """Attach normative-versus-informative semantics to canonical records."""
+    for item in items:
+        item["content_semantics"] = semantics
     return items
 
 
@@ -2002,6 +2014,28 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         + state_entity_objects
         + component_objects,
     )
+    _apply_content_semantics(normalized_actors, semantics="informative")
+    _apply_content_semantics(normalized_use_cases, semantics="normative")
+    _apply_content_semantics(use_case_step_objects, semantics="normative")
+    _apply_content_semantics(scenario_objects, semantics="normative")
+    _apply_content_semantics(risk_objects, semantics="informative")
+    _apply_content_semantics(functional_requirement_objects, semantics="normative")
+    _apply_content_semantics(non_functional_requirement_objects, semantics="normative")
+    _apply_content_semantics(acceptance_constraint_objects, semantics="normative")
+    _apply_content_semantics(ambiguity_objects, semantics="informative")
+    _apply_content_semantics(domain_entity_objects, semantics="normative")
+    _apply_content_semantics(relationship_objects, semantics="normative")
+    _apply_content_semantics(business_rule_objects, semantics="normative")
+    _apply_content_semantics(domain_invariant_objects, semantics="normative")
+    _apply_content_semantics(state_entity_objects, semantics="normative")
+    _apply_content_semantics(state_transition_objects, semantics="normative")
+    _apply_content_semantics(trigger_objects, semantics="normative")
+    _apply_content_semantics(state_invariant_objects, semantics="normative")
+    _apply_content_semantics(guard_condition_objects, semantics="normative")
+    _apply_content_semantics(forbidden_transition_objects, semantics="normative")
+    _apply_content_semantics(component_objects, semantics="informative")
+    _apply_content_semantics(interface_objects, semantics="informative")
+    _apply_content_semantics(runtime_boundary_objects, semantics="informative")
     _stamp_semantic_identity(normalized_actors, change_source="round_3")
     _stamp_semantic_identity(normalized_use_cases, change_source="round_3")
     _stamp_semantic_identity(use_case_step_objects, change_source="derived_use_case_steps")
@@ -2247,5 +2281,32 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "formal_specification": [],
         },
     }
+    from .readiness import evaluate_element_readiness
+
+    element_readiness = evaluate_element_readiness(model)
+    model["element_readiness"] = element_readiness
+    readiness_by_id = {
+        item["id"]: item
+        for family_items in element_readiness.get("by_family", {}).values()
+        for item in family_items
+        if item.get("id")
+    }
+    for items in (
+        functional_requirement_objects,
+        non_functional_requirement_objects,
+        acceptance_constraint_objects,
+        normalized_use_cases,
+        use_case_step_objects,
+        scenario_objects,
+        domain_invariant_objects,
+        state_transition_objects,
+        state_invariant_objects,
+        guard_condition_objects,
+        forbidden_transition_objects,
+        ambiguity_objects,
+    ):
+        for item in items:
+            if item.get("id") in readiness_by_id:
+                item["readiness"] = readiness_by_id[item["id"]]
     model["model_metadata"] = _build_model_metadata(model)
     return model
