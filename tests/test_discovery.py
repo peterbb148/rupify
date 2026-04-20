@@ -286,6 +286,10 @@ class DiscoveryTests(unittest.TestCase):
         model = normalize_replay_to_model(replay)
 
         self.assertEqual(model["actors"][0]["id"], "operations-manager")
+        self.assertEqual(model["actors"][0]["semantic_id"], "operations-manager")
+        self.assertEqual(model["actors"][0]["change_metadata"]["semantic_version"], 1)
+        self.assertEqual(model["actors"][0]["change_metadata"]["change_source"], "round_3")
+        self.assertTrue(model["actors"][0]["change_metadata"]["semantic_hash"])
         self.assertEqual(model["actors"][0]["type"], "human")
         self.assertEqual(model["actors"][0]["model_layer"], "analysis")
         self.assertEqual(model["actors"][0]["interaction_style"], "user_interface")
@@ -295,6 +299,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["actors"][1]["interaction_style"], "system_interface")
         self.assertEqual(model["actors"][2]["type"], "system")
         self.assertEqual(model["use_cases"][0]["id"], "browse-rewards")
+        self.assertEqual(model["use_cases"][0]["semantic_id"], "browse-rewards")
         self.assertEqual(model["use_cases"][0]["goal"], "Browse Rewards")
         self.assertEqual(model["use_cases"][0]["model_layer"], "analysis")
         self.assertEqual(model["use_cases"][0]["primary_actor_id"], "")
@@ -333,6 +338,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["interaction_view"]["realization_objects"][0]["steps"],
             [],
+        )
+        self.assertEqual(
+            model["interaction_view"]["realization_objects"][0]["semantic_id"],
+            "interaction-realization-1",
         )
 
     def test_normalize_replay_to_model_applies_ucp_answers_to_objects(self) -> None:
@@ -479,6 +488,30 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["scenarios"][0]["priority"], "high")
         self.assertEqual(model["scenarios"][0]["status"], "drafted")
         self.assertEqual(model["analysis_view"]["scenario_ids"], ["scenario-happy-path-approval"])
+
+    def test_normalize_replay_to_model_adds_model_metadata(self) -> None:
+        """Normalization should expose top-level model metadata for downstream diffing."""
+        replay = replay_session(
+            [
+                {
+                    "round": 1,
+                    "responses": [
+                        {"key": "idea", "answer": "Inventory system"},
+                        {"key": "problem", "answer": "Poor visibility"},
+                    ],
+                }
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(model["model_metadata"]["schema_version"], 1)
+        self.assertEqual(model["model_metadata"]["semantic_id"], "rupify-model")
+        self.assertEqual(
+            model["model_metadata"]["change_metadata"]["change_source"],
+            "normalize_replay_to_model",
+        )
+        self.assertTrue(model["model_metadata"]["change_metadata"]["semantic_hash"])
 
     def test_normalize_replay_to_model_keeps_semantic_fields_explicit_when_unparsed(self) -> None:
         """Hardening should expose semantic fields even when deterministic parsing finds no structure."""
@@ -655,6 +688,17 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["traceability"]["analysis_to_design"][0]["to_id"],
             "component-system-api",
+        )
+        self.assertEqual(
+            model["traceability"]["requirement_to_use_case"][0]["semantic_id"],
+            model["traceability"]["requirement_to_use_case"][0]["id"],
+        )
+        self.assertEqual(
+            model["traceability"]["requirement_to_use_case"][0]["change_metadata"]["change_source"],
+            "derived_traceability",
+        )
+        self.assertTrue(
+            model["traceability"]["artifact_lineage"][0]["change_metadata"]["semantic_hash"]
         )
         self.assertIn(
             "domain-model.md",

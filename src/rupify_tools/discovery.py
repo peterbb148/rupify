@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from typing import Any
 
@@ -1023,6 +1025,87 @@ def _text_or_empty(value: Any) -> str:
     return str(value).strip()
 
 
+def _stable_semantic_payload(value: Any) -> Any:
+    """Build a deterministic semantic payload for hashing."""
+    if isinstance(value, dict):
+        ignored_keys = {
+            "trace",
+            "change_metadata",
+            "semantic_id",
+            "complexity_trace",
+            "last_changed_at",
+        }
+        return {
+            key: _stable_semantic_payload(item)
+            for key, item in sorted(value.items())
+            if key not in ignored_keys
+        }
+    if isinstance(value, list):
+        return [_stable_semantic_payload(item) for item in value]
+    return value
+
+
+def _semantic_hash(semantic_id: str, payload: Any) -> str:
+    """Return a deterministic semantic hash for one element."""
+    encoded = json.dumps(
+        {
+            "semantic_id": semantic_id,
+            "payload": _stable_semantic_payload(payload),
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()[:16]
+
+
+def _default_change_metadata(
+    semantic_id: str,
+    payload: Any,
+    *,
+    change_source: str,
+) -> dict[str, Any]:
+    """Return default change metadata for a canonical element."""
+    return {
+        "semantic_version": 1,
+        "semantic_hash": _semantic_hash(semantic_id, payload),
+        "last_changed_at": "",
+        "change_source": change_source,
+        "regenerated_from_version": "",
+        "supersedes": [],
+    }
+
+
+def _stamp_semantic_identity(
+    items: list[dict[str, Any]],
+    *,
+    change_source: str,
+) -> list[dict[str, Any]]:
+    """Attach semantic identity and change metadata to canonical records."""
+    for item in items:
+        semantic_id = str(item.get("semantic_id") or item.get("id") or _slugify(str(item))).strip()
+        item["semantic_id"] = semantic_id
+        item["change_metadata"] = _default_change_metadata(
+            semantic_id,
+            item,
+            change_source=change_source,
+        )
+    return items
+
+
+def _build_model_metadata(model: dict[str, Any]) -> dict[str, Any]:
+    """Build top-level model metadata for downstream diffing and reconciliation."""
+    semantic_id = "rupify-model"
+    return {
+        "schema_version": 1,
+        "semantic_id": semantic_id,
+        "change_metadata": _default_change_metadata(
+            semantic_id,
+            model,
+            change_source="normalize_replay_to_model",
+        ),
+    }
+
+
 def _requirement_statements_by_kind(
     requirement_objects: list[dict[str, Any]],
     requirement_kind: str,
@@ -1346,7 +1429,23 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         normalized_use_cases,
         scenario_objects,
     )
+    _stamp_semantic_identity(normalized_actors, change_source="round_3")
+    _stamp_semantic_identity(normalized_use_cases, change_source="round_3")
+    _stamp_semantic_identity(scenario_objects, change_source="round_13")
+    _stamp_semantic_identity(risk_objects, change_source="round_12")
+    _stamp_semantic_identity(domain_entity_objects, change_source="round_5")
+    _stamp_semantic_identity(relationship_objects, change_source="round_5")
+    _stamp_semantic_identity(business_rule_objects, change_source="round_5")
+    _stamp_semantic_identity(state_entity_objects, change_source="round_6")
+    _stamp_semantic_identity(state_transition_objects, change_source="round_6")
+    _stamp_semantic_identity(trigger_objects, change_source="round_6")
+    _stamp_semantic_identity(component_objects, change_source="round_7")
+    _stamp_semantic_identity(interface_objects, change_source="round_7")
+    _stamp_semantic_identity(runtime_boundary_objects, change_source="round_7")
     all_requirement_objects = functional_requirement_objects + non_functional_requirement_objects
+    _stamp_semantic_identity(functional_requirement_objects, change_source="round_4")
+    _stamp_semantic_identity(non_functional_requirement_objects, change_source="round_2_or_4")
+    _stamp_semantic_identity(all_requirement_objects, change_source="requirements")
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
@@ -1387,6 +1486,14 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         normalized_actors,
         interface_objects,
     )
+    _stamp_semantic_identity(
+        interaction_view["realization_objects"],
+        change_source="derived_interaction_view",
+    )
+    _stamp_semantic_identity(
+        interaction_view["message_objects"],
+        change_source="derived_interaction_view",
+    )
     traceability = _build_trace_links(
         all_requirement_objects,
         normalized_use_cases,
@@ -1416,8 +1523,24 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         interaction_view["realization_objects"],
         interaction_view["message_objects"],
     )
+    _stamp_semantic_identity(
+        traceability["requirement_to_use_case"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["use_case_to_analysis"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["analysis_to_design"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["artifact_lineage"],
+        change_source="derived_traceability",
+    )
 
-    return {
+    model = {
         "project": {
             "name": _text_or_empty(round_1.get("idea")) or "Unnamed Project",
             "domain": "Unspecified",
@@ -1456,3 +1579,5 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
             "formal_specification": [],
         },
     }
+    model["model_metadata"] = _build_model_metadata(model)
+    return model
