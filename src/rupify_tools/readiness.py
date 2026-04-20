@@ -196,13 +196,19 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
     design_objects = model.get("architecture_view", {}).get("component_objects", [])
     artifact_source_objects = (
         requirement_objects
+        + model.get("requirements", {}).get("acceptance_constraint_objects", [])
+        + model.get("analysis_view", {}).get("ambiguity_objects", [])
         + use_cases
         + model.get("logical_view", {}).get("domain_entity_objects", [])
         + model.get("logical_view", {}).get("relationship_objects", [])
         + model.get("logical_view", {}).get("business_rule_objects", [])
+        + model.get("logical_view", {}).get("domain_invariant_objects", [])
         + model.get("process_view", {}).get("state_entity_objects", [])
         + model.get("process_view", {}).get("state_transition_objects", [])
         + model.get("process_view", {}).get("trigger_objects", [])
+        + model.get("process_view", {}).get("state_invariant_objects", [])
+        + model.get("process_view", {}).get("guard_condition_objects", [])
+        + model.get("process_view", {}).get("forbidden_transition_objects", [])
         + model.get("architecture_view", {}).get("component_objects", [])
         + model.get("architecture_view", {}).get("interface_objects", [])
         + model.get("architecture_view", {}).get("runtime_boundary_objects", [])
@@ -259,6 +265,64 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
             else [],
             traceability.get("business_rule_to_transition", []),
             "business_rule_to_transition",
+        ),
+        "domain_invariant_to_entity": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("logical_view", {}).get("domain_invariant_objects", [])
+            ]
+            if model.get("logical_view", {}).get("domain_entity_objects", [])
+            else [],
+            traceability.get("domain_invariant_to_entity", []),
+            "domain_invariant_to_entity",
+        ),
+        "state_invariant_to_state": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("process_view", {}).get("state_invariant_objects", [])
+            ]
+            if model.get("process_view", {}).get("state_entity_objects", [])
+            else [],
+            traceability.get("state_invariant_to_state", []),
+            "state_invariant_to_state",
+        ),
+        "guard_to_transition": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("process_view", {}).get("guard_condition_objects", [])
+            ]
+            if model.get("process_view", {}).get("state_transition_objects", [])
+            else [],
+            traceability.get("guard_to_transition", []),
+            "guard_to_transition",
+        ),
+        "forbidden_transition_to_transition": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("process_view", {}).get("forbidden_transition_objects", [])
+            ]
+            if model.get("process_view", {}).get("state_transition_objects", [])
+            else [],
+            traceability.get("forbidden_transition_to_transition", []),
+            "forbidden_transition_to_transition",
+        ),
+        "acceptance_constraint_to_requirement": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("requirements", {}).get("acceptance_constraint_objects", [])
+                if item.get("source_requirement_id", "")
+            ],
+            traceability.get("acceptance_constraint_to_requirement", []),
+            "acceptance_constraint_to_requirement",
+        ),
+        "ambiguity_to_element": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("analysis_view", {}).get("ambiguity_objects", [])
+                if item.get("applies_to_element_ids", [])
+            ],
+            traceability.get("ambiguity_to_element", []),
+            "ambiguity_to_element",
         ),
         "analysis_to_design": _trace_family_result(
             [item.get("id", "") for item in analysis_objects] if design_objects else [],
