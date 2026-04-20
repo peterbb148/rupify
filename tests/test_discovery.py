@@ -234,6 +234,47 @@ class DiscoveryTests(unittest.TestCase):
             model["design_view"]["component_objects"],
         )
 
+    def test_normalize_replay_to_model_reindexes_combined_requirement_batches(self) -> None:
+        """Requirement ids should remain unique when multiple rounds contribute the same family."""
+        replay = replay_session(
+            [
+                {
+                    "round": 2,
+                    "responses": [
+                        {"key": "constraints", "answer": ["Web based"]},
+                    ],
+                },
+                {
+                    "round": 3,
+                    "responses": [
+                        {"key": "integrations", "answer": "Export data to reporting systems"},
+                    ],
+                },
+                {
+                    "round": 4,
+                    "responses": [
+                        {"key": "workflow_scope", "answer": "Support approvals"},
+                        {"key": "non_functional_requirements", "answer": ["SSO", "Audit trail"]},
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        self.assertEqual(
+            [item["id"] for item in model["requirements"]["functional_objects"]],
+            ["functional-requirement-1", "functional-requirement-2"],
+        )
+        self.assertEqual(
+            [item["id"] for item in model["requirements"]["non_functional_objects"]],
+            [
+                "non_functional-requirement-1",
+                "non_functional-requirement-2",
+                "non_functional-requirement-3",
+            ],
+        )
+
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
         """Missing optional view rounds should still produce stable empty sections."""
         replay = replay_session(

@@ -675,6 +675,15 @@ def _normalize_requirement_objects(
     return objects
 
 
+def _reindex_requirement_objects(
+    items: list[dict[str, Any]],
+    requirement_kind: str,
+) -> None:
+    """Assign stable sequential requirement ids across one combined requirement family."""
+    for index, item in enumerate(items, 1):
+        item["id"] = f"{requirement_kind}-requirement-{index}"
+
+
 def _split_structured_parts(item: str) -> list[str]:
     """Split a pipe-delimited structured answer into trimmed parts."""
     return [part.strip() for part in item.split("|") if part.strip()]
@@ -1891,6 +1900,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
                 "integrations",
             )
         )
+    _reindex_requirement_objects(functional_requirement_objects, "functional")
 
     non_functional_requirement_objects = []
     if constraints:
@@ -1910,6 +1920,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
                 "non_functional_requirements",
             )
         )
+    _reindex_requirement_objects(non_functional_requirement_objects, "non_functional")
     risk_objects = _with_trace(
         _normalize_risks(_ensure_list(round_12.get("risks"))),
         12,
