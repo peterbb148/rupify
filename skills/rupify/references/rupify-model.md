@@ -63,6 +63,16 @@ The canonical project model is `rupify-model.yaml`.
   - `other_artifact_refs`
   - `other_requirement_ids`
   - `scenario_ids`
+- `analysis_view` (authoritative source for analysis-layer objects)
+  - `use_case_step_objects`
+    - `id`
+    - `use_case_id`
+    - `use_case_name`
+    - `step_index`
+    - `step_kind`
+    - `text`
+    - `model_layer`: `analysis`
+    - `trace`
 - `scenarios` (compatibility mirror derived from `analysis_view.scenario_objects`)
   - `id`
   - `name`
@@ -88,6 +98,7 @@ The canonical project model is `rupify-model.yaml`.
     - `quality_attribute`
     - `model_layer`: `analysis`
     - `linked_use_case_ids`
+    - `linked_step_ids`
     - `fit_criterion`
     - `trace`
   - `non_functional`
@@ -98,11 +109,13 @@ The canonical project model is `rupify-model.yaml`.
     - `quality_attribute`
     - `model_layer`: `analysis`
     - `linked_use_case_ids`
+    - `linked_step_ids`
     - `fit_criterion`
     - `trace`
 - `analysis_view` (authoritative source for analysis-layer objects)
   - `actors`
   - `use_cases`
+  - `use_case_step_objects`
   - `scenario_objects`
   - `risk_objects`
   - `requirement_objects`
@@ -114,6 +127,7 @@ The canonical project model is `rupify-model.yaml`.
   - `trigger_objects`
   - `actor_ids`
   - `use_case_ids`
+  - `use_case_step_ids`
   - `scenario_ids`
   - `risk_ids`
   - `requirement_ids`
@@ -155,7 +169,31 @@ The canonical project model is `rupify-model.yaml`.
     - `to_id`
     - `link_type`
     - `basis`
+  - `requirement_to_step`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
   - `use_case_to_analysis`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `step_to_interaction`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `step_to_transition`
+    - `id`
+    - `from_id`
+    - `to_id`
+    - `link_type`
+    - `basis`
+  - `business_rule_to_transition`
     - `id`
     - `from_id`
     - `to_id`
@@ -182,6 +220,14 @@ The canonical project model is `rupify-model.yaml`.
     - `participant_ids`
     - `participant_names`
     - `steps`
+    - `step_objects`
+      - `id`
+      - `use_case_id`
+      - `use_case_name`
+      - `step_index`
+      - `text`
+      - `model_layer`: `analysis`
+      - `trace`
     - `model_layer`: `analysis`
     - `trace`
   - `message_objects`

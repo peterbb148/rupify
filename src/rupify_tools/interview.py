@@ -460,7 +460,7 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
         ),
         template=(
             "Use-case details:\n"
-            "- Use Case | priority: high/medium/low | status: drafted/in progress/confirmed\n"
+            "- Use Case | priority: high/medium/low | status: drafted/in progress/confirmed | flow: step 1; step 2\n"
             "Scenarios:\n"
             "- Use Case | Scenario Name | summary | priority: high/medium/low | status: drafted/in progress/confirmed\n"
             "UI notes:\n"
@@ -477,9 +477,13 @@ ROUND_DEFINITIONS: list[InterviewRound] = [
                 "Which use cases need explicit priority, status, or relationships?",
                 guidance=(
                     "Use one line per use case.",
-                    "You can also include used or subordinate use-case links: used: Validate owner; subordinate: Review risk",
+                    "You can also include flow, used, or subordinate links: flow: capture request; validate owner; submit approval",
+                    "Use semicolons inside a field when you need multiple flow steps or linked use cases.",
                 ),
-                example="- Approve deprecation | priority: high | status: drafted | used: Validate owner | subordinate: Review risk",
+                example=(
+                    "- Approve deprecation | priority: high | status: drafted | flow: Capture request; "
+                    "Validate owner; Submit approval | used: Validate owner | subordinate: Review risk"
+                ),
             ),
             InterviewQuestion(
                 "scenarios",

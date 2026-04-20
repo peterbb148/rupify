@@ -245,6 +245,7 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(round_definition.questions[0].key, "use_case_details")
         self.assertEqual(round_definition.questions[1].key, "scenarios")
         self.assertEqual(round_definition.questions[2].key, "ui_notes")
+        self.assertIn("flow:", round_definition.questions[0].example)
         self.assertIn("Only add UI notes", round_definition.guidance[1])
 
     def test_ucp_actor_round_exposes_inversion_guidance(self) -> None:
