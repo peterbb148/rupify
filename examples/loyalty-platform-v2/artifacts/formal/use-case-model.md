@@ -2,19 +2,19 @@
 
 ## Actors
 
-- `customer` Customer (human, complex): A loyalty member using the digital experience to enroll, browse, and redeem rewards.
-- `ops-manager` Operations Manager (human, average): An internal operator responsible for campaigns, catalog changes, and reporting.
-- `payment-gateway` Payment Gateway (system, simple): An external system that confirms payment completion for eligible transactions.
+- `customer` Customer (human, complex):  [source: round 3 actors]
+- `operations-manager` Operations Manager (human, average):  [source: round 3 actors]
+- `payment-gateway` Payment Gateway (system, simple):  [source: round 3 actors]
 
 ## Use Cases
 
 ### Enroll Member
 
-- ID: `uc-enroll`
-- Primary actor: Customer
+- ID: `enroll-member`
+- Primary actor: Unspecified
 - Complexity: simple
-- Goal: Join the loyalty program and activate an account.
-- Source: round n/a 
+- Goal: Enroll Member
+- Source: round 3 use_cases
 
 #### Main Success Scenario
 
@@ -28,11 +28,11 @@
 
 ### Browse Rewards
 
-- ID: `uc-browse`
-- Primary actor: Customer
+- ID: `browse-rewards`
+- Primary actor: Unspecified
 - Complexity: average
-- Goal: View eligible rewards and current point balance.
-- Source: round n/a 
+- Goal: Browse Rewards
+- Source: round 3 use_cases
 
 #### Main Success Scenario
 
@@ -46,11 +46,11 @@
 
 ### Redeem Reward
 
-- ID: `uc-redeem`
-- Primary actor: Customer
+- ID: `redeem-reward`
+- Primary actor: Unspecified
 - Complexity: complex
-- Goal: Redeem a selected reward against available loyalty points.
-- Source: round n/a 
+- Goal: Redeem Reward
+- Source: round 3 use_cases
 
 #### Main Success Scenario
 
@@ -67,11 +67,11 @@
 
 ### Manage Reward Catalog
 
-- ID: `uc-catalog`
-- Primary actor: Operations Manager
+- ID: `manage-reward-catalog`
+- Primary actor: Unspecified
 - Complexity: average
-- Goal: Create or update reward catalog entries and campaign details.
-- Source: round n/a 
+- Goal: Manage Reward Catalog
+- Source: round 3 use_cases
 
 #### Main Success Scenario
 
@@ -85,11 +85,11 @@
 
 ### Review Redemption Analytics
 
-- ID: `uc-analytics`
-- Primary actor: Operations Manager
+- ID: `review-redemption-analytics`
+- Primary actor: Unspecified
 - Complexity: simple
-- Goal: Inspect reward redemption and campaign performance.
-- Source: round n/a 
+- Goal: Review Redemption Analytics
+- Source: round 3 use_cases
 
 #### Main Success Scenario
 
@@ -101,7 +101,44 @@
 - A reporting data source is delayed.
 
 
+## States and Transitions
+
+- `state-transition-1` Redemption: Requested -> Validated -> Fulfilled [source: round 6 states_and_transitions]
+- `state-transition-2` Redemption: Requested -> Validated -> Fulfilled [source: round 6 states_and_transitions]
+- `state-transition-3` Redemption: Requested -> Rejected [source: round 6 states_and_transitions]
+- `state-transition-4` Reward Catalog Entry: Draft -> Published -> Retired [source: round 6 states_and_transitions]
+- `state-transition-5` Reward Catalog Entry: Draft -> Published -> Retired [source: round 6 states_and_transitions]
 
 
+## Triggers and Approvals
 
+- `trigger-1` Payment confirmation triggers redemption fulfillment [source: round 6 triggers_and_approvals]
+- `trigger-2` Catalog validation approval is required before a reward becomes Published [source: round 6 triggers_and_approvals]
+
+
+## Interfaces and Integrations
+
+- `interface-1` Member App calls Loyalty API [source: round 7 interfaces_and_integrations]
+- `interface-2` Operations Console calls Loyalty API [source: round 7 interfaces_and_integrations]
+- `interface-3` Loyalty API calls Payment Gateway Adapter [source: round 7 interfaces_and_integrations]
+- `interface-4` Loyalty API sends Analytics Service [source: round 7 interfaces_and_integrations]
+
+
+## Requirement To Use-Case Traceability
+
+- `trace-req-uc-1` non_functional-requirement-6 -> redeem-reward (requirement statement references use-case name)
+
+
+## Use-Case To Analysis Traceability
+
+- `trace-uc-analysis-1` enroll-member -> entity-member (use-case text references analysis object name)
+- `trace-uc-analysis-2` browse-rewards -> entity-reward (use-case text references analysis object name)
+- `trace-uc-analysis-3` redeem-reward -> entity-member (use-case text references analysis object name)
+- `trace-uc-analysis-4` redeem-reward -> entity-reward (use-case text references analysis object name)
+- `trace-uc-analysis-5` redeem-reward -> entity-redemption (use-case text references analysis object name)
+- `trace-uc-analysis-6` redeem-reward -> state-entity-redemption (use-case text references analysis object name)
+- `trace-uc-analysis-7` manage-reward-catalog -> entity-reward (use-case text references analysis object name)
+- `trace-uc-analysis-8` review-redemption-analytics -> entity-campaign (use-case text references analysis object name)
+- `trace-uc-analysis-9` review-redemption-analytics -> entity-redemption (use-case text references analysis object name)
+- `trace-uc-analysis-10` review-redemption-analytics -> state-entity-redemption (use-case text references analysis object name)
 

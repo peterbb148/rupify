@@ -1,1 +1,16 @@
 stateDiagram-v2
+state "Requested" as Requested
+state "Validated" as Validated
+Requested --> Validated : Redemption
+state "Validated" as Validated
+state "Fulfilled" as Fulfilled
+Validated --> Fulfilled : Redemption | terminal
+state "Requested" as Requested
+state "Rejected" as Rejected
+Requested --> Rejected : Redemption | exception | terminal
+state "Draft" as Draft
+state "Published" as Published
+Draft --> Published : Reward Catalog Entry
+state "Published" as Published
+state "Retired" as Retired
+Published --> Retired : Reward Catalog Entry

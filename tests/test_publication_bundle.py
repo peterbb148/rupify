@@ -168,7 +168,7 @@ class PublicationBundleTests(unittest.TestCase):
         self.assertEqual(planning_export["summary"]["blocking_ambiguity_count"], 0)
 
     def test_checked_in_loyalty_v2_bundle_preserves_publication_layout(self) -> None:
-        """The loyalty V2 bundle should expose the current publication surface honestly."""
+        """The loyalty V2 bundle should preserve the replay-based publication surface."""
         repo_root = Path(__file__).resolve().parents[1]
         example_dir = repo_root / "examples" / "loyalty-platform-v2"
 
@@ -185,7 +185,7 @@ class PublicationBundleTests(unittest.TestCase):
         self.assertTrue(
             (example_dir / "artifacts" / "ucp" / "ucp-estimate.md").exists()
         )
-        self.assertIn("Important Limitation", readme_path.read_text(encoding="utf-8"))
+        self.assertIn("Speckify Handoff Surface", readme_path.read_text(encoding="utf-8"))
 
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         planning_export = json.loads(planning_export_path.read_text(encoding="utf-8"))
@@ -198,4 +198,5 @@ class PublicationBundleTests(unittest.TestCase):
             planning_export["export_metadata"]["export_kind"],
             "speckify_planning_export",
         )
-        self.assertEqual(planning_export["summary"]["element_count"], 0)
+        self.assertGreater(planning_export["summary"]["element_count"], 0)
+        self.assertEqual(planning_export["summary"]["blocking_ambiguity_count"], 0)

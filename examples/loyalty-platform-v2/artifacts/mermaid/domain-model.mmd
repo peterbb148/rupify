@@ -1,1 +1,18 @@
 classDiagram
+class Member {
+}
+class Reward {
+}
+class Reward_Catalog_Entry {
+}
+class Campaign {
+}
+class Redemption {
+}
+class Payment_Confirmation {
+}
+class Analytics_Report {
+}
+Member "1" --> "*" Redemption : has_many
+Campaign "1" --> "*" Reward_Catalog_Entry : has_many
+Analytics_Report "1" --> "*" Redemption : has_many

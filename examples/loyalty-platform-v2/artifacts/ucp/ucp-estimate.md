@@ -22,10 +22,8 @@ Loyalty Platform
 
 ## Assumptions
 
-- The first delivery increment focuses on a single market and one loyalty program configuration.
-- A single product team delivers the first release.
+- None
 
 ## Open Questions
 
-- Should partner merchants be modeled as separate actors in V1?
-- What reporting latency is acceptable for operational analytics?
+- None

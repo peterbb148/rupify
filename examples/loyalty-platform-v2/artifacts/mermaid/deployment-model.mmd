@@ -1,1 +1,12 @@
 flowchart LR
+Member_App["Member App"]
+Loyalty_API["Loyalty API"]
+Operations_Console["Operations Console"]
+Analytics_Service["Analytics Service"]
+Payment_Gateway_Adapter["Payment Gateway Adapter"]
+Member_App -->|"Member App calls Loyalty API"| Loyalty_API
+Operations_Console -->|"Operations Console calls Loyalty API"| Loyalty_API
+Loyalty_API -->|"Loyalty API calls Payment Gateway Adapter"| Payment_Gateway_Adapter
+Loyalty_API -->|"Loyalty API sends Analytics Service"| Analytics_Service
+RuntimeBoundary_1["Member-facing apps and operations console run separately from the core API"]
+RuntimeBoundary_2["Payment Gateway Adapter crosses an external boundary"]

@@ -1,0 +1,311 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "responses": [
+        {
+          "key": "idea",
+          "answer": "Loyalty Platform"
+        },
+        {
+          "key": "problem",
+          "answer": "Legacy loyalty operations are fragmented across channels and teams, causing inconsistent member experience and slow campaign execution."
+        },
+        {
+          "key": "users",
+          "answer": "Customers and Operations Managers."
+        },
+        {
+          "key": "in_scope",
+          "answer": "A member loyalty platform for enrollment, rewards browsing, redemption, and operational reporting."
+        },
+        {
+          "key": "out_of_scope",
+          "answer": "Partner settlement workflows and multi-country program administration."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "responses": [
+        {
+          "key": "outcomes",
+          "answer": [
+            "Increase repeat customer engagement through a unified loyalty experience.",
+            "Reduce the operational time required to launch or adjust reward campaigns.",
+            "Create a reliable source of truth for loyalty performance reporting."
+          ]
+        },
+        {
+          "key": "success_criteria",
+          "answer": [
+            "Members can enroll and redeem rewards through one coherent digital journey.",
+            "Operations managers can update the reward catalog without engineering support for routine changes.",
+            "The business can review redemption and campaign performance in one reporting workflow."
+          ]
+        },
+        {
+          "key": "required_data",
+          "answer": [
+            "Member profile and consent data",
+            "Point balances",
+            "Reward catalog configuration",
+            "Campaign rules",
+            "Redemption history"
+          ]
+        },
+        {
+          "key": "constraints",
+          "answer": [
+            "The system must protect member and reward transactions with appropriate security controls.",
+            "The member-facing experience must remain usable on common digital channels.",
+            "The platform must support integrations with external systems such as payment confirmation and reporting sources."
+          ]
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "responses": [
+        {
+          "key": "actors",
+          "answer": [
+            "Customer",
+            "Operations Manager",
+            "Payment Gateway"
+          ]
+        },
+        {
+          "key": "use_cases",
+          "answer": [
+            "Enroll Member",
+            "Browse Rewards",
+            "Redeem Reward",
+            "Manage Reward Catalog",
+            "Review Redemption Analytics"
+          ]
+        },
+        {
+          "key": "integrations",
+          "answer": "The platform must integrate with payment confirmation and downstream reporting sources."
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "responses": [
+        {
+          "key": "workflow_scope",
+          "answer": "The system must allow operations managers to maintain reward catalog entries and campaign rules."
+        },
+        {
+          "key": "metadata_fields",
+          "answer": [
+            "Member identifier",
+            "Consent status",
+            "Point balance",
+            "Reward eligibility rules",
+            "Reward inventory",
+            "Campaign dates",
+            "Payment confirmation reference"
+          ]
+        },
+        {
+          "key": "non_functional_requirements",
+          "answer": [
+            "The system must allow customers to enroll in the loyalty program digitally.",
+            "The system must show point balance and available rewards to eligible members.",
+            "The system must allow members to redeem rewards when eligibility conditions are satisfied.",
+            "The system must provide reporting on redemptions and campaign performance."
+          ]
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "responses": [
+        {
+          "key": "domain_entities",
+          "answer": [
+            "Member",
+            "Reward",
+            "Reward Catalog Entry",
+            "Campaign",
+            "Redemption",
+            "Payment Confirmation",
+            "Analytics Report"
+          ]
+        },
+        {
+          "key": "relationships",
+          "answer": [
+            "A Member has many Redemptions",
+            "A Reward Catalog Entry has one Reward",
+            "A Campaign has many Reward Catalog Entries",
+            "A Redemption has one Payment Confirmation",
+            "An Analytics Report has many Redemptions"
+          ]
+        },
+        {
+          "key": "business_rules",
+          "answer": [
+            "A Redemption must not be fulfilled unless reward eligibility and available points are confirmed.",
+            "A Reward Catalog Entry must be validated before it becomes Published.",
+            "A Member must provide the required details and consents before enrollment completes."
+          ]
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "responses": [
+        {
+          "key": "state_entities",
+          "answer": [
+            "Redemption",
+            "Reward Catalog Entry"
+          ]
+        },
+        {
+          "key": "states_and_transitions",
+          "answer": [
+            "Redemption: Requested -> Validated -> Fulfilled",
+            "Redemption: Requested -> Rejected",
+            "Reward Catalog Entry: Draft -> Published -> Retired"
+          ]
+        },
+        {
+          "key": "triggers_and_approvals",
+          "answer": [
+            "Payment confirmation triggers redemption fulfillment",
+            "Catalog validation approval is required before a reward becomes Published"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "responses": [
+        {
+          "key": "components_and_services",
+          "answer": [
+            "Member App",
+            "Loyalty API",
+            "Operations Console",
+            "Analytics Service",
+            "Payment Gateway Adapter"
+          ]
+        },
+        {
+          "key": "interfaces_and_integrations",
+          "answer": [
+            "Member App calls Loyalty API",
+            "Operations Console calls Loyalty API",
+            "Loyalty API calls Payment Gateway Adapter",
+            "Loyalty API sends Analytics Service"
+          ]
+        },
+        {
+          "key": "runtime_boundaries",
+          "answer": [
+            "Member-facing apps and operations console run separately from the core API",
+            "Payment Gateway Adapter crosses an external boundary"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "responses": [
+        {
+          "key": "actor_complexity",
+          "answer": [
+            "Customer: complex",
+            "Operations Manager: average",
+            "Payment Gateway: simple"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "responses": [
+        {
+          "key": "use_case_complexity",
+          "answer": [
+            "Enroll Member: simple",
+            "Browse Rewards: average",
+            "Redeem Reward: complex",
+            "Manage Reward Catalog: average",
+            "Review Redemption Analytics: simple"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "responses": [
+        {
+          "key": "technical",
+          "answer": "distributed system: 3\nresponse time: 3\nend-user efficiency: 4\ncomplex internal processing: 3\nreusability: 2\nease of installation: 2\nease of use: 4\nportability: 2\nease of change: 3\nconcurrency: 2\nsecurity: 5\nthird-party access: 4\nspecial user training: 2"
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "responses": [
+        {
+          "key": "environmental",
+          "answer": "team familiarity: 4\napplication experience: 3\narchitecture experience: 3\nanalyst capability: 4\nmotivation: 5\nrequirements stability: 3\npart-time staffing: 1\nplatform difficulty: 2"
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "responses": [
+        {
+          "key": "risks",
+          "answer": [
+            "Payment confirmation dependency | priority: high | status: open | mitigation: add retry and reconciliation flow",
+            "Reward configuration errors | priority: medium | status: open | mitigation: validate publish flow and guard rules",
+            "Reporting latency | priority: medium | status: open | mitigation: monitor analytics pipeline freshness"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 13,
+      "responses": [
+        {
+          "key": "use_case_details",
+          "answer": [
+            "Enroll Member | priority: high | status: confirmed | preconditions: Customer is not already enrolled | postconditions: Member account exists and is active | flow: Customer opens the loyalty enrollment flow.; Customer provides the required details and consents.; System validates the submission and creates the member account. | extensions: Enrollment is blocked when required consent is missing.",
+            "Browse Rewards | priority: high | status: confirmed | preconditions: Member is enrolled | postconditions: Eligible rewards and point balance are visible | flow: Customer opens the rewards catalog.; System displays available rewards and points balance.; Customer filters or sorts the catalog. | extensions: Catalog view degrades if an integration is temporarily unavailable.",
+            "Redeem Reward | priority: high | status: confirmed | preconditions: Member is enrolled; Reward is available | postconditions: Redemption is recorded and balance is updated | flow: Customer selects a reward.; System validates reward eligibility and available points.; System reserves the reward and updates the member balance.; System confirms redemption to the customer. | extensions: Reward inventory is exhausted before completion.; Customer does not have enough points.; Payment confirmation is missing for a reward that depends on purchase completion.",
+            "Manage Reward Catalog | priority: medium | status: confirmed | preconditions: Operations Manager is authenticated | postconditions: Reward catalog change is published | flow: Operations Manager opens catalog administration.; Operations Manager updates reward configuration.; System validates and publishes the change. | extensions: A change is rejected because it would make an active reward invalid.",
+            "Review Redemption Analytics | priority: medium | status: confirmed | preconditions: Reporting data is available | postconditions: Operations Manager can inspect campaign and redemption metrics | flow: Operations Manager opens the analytics dashboard.; System shows redemption and campaign metrics. | extensions: A reporting data source is delayed."
+          ]
+        },
+        {
+          "key": "scenarios",
+          "answer": [
+            "Redeem Reward | Reward Inventory Exhausted | Redemption fails because no reward inventory remains. | priority: high | status: open | flow: Customer selects a reward.; System checks reward availability.; System reports that inventory is exhausted.",
+            "Redeem Reward | Missing Payment Confirmation | Redemption pauses until dependent payment confirmation arrives. | priority: medium | status: open | flow: Customer selects a reward.; System requests payment confirmation.; System blocks fulfillment until confirmation arrives.",
+            "Manage Reward Catalog | Invalid Catalog Change | Publication is rejected because the new reward configuration would break an active offer. | priority: medium | status: open | flow: Operations Manager updates reward configuration.; System validates the change.; System rejects the invalid change.",
+            "Review Redemption Analytics | Reporting Delay | Analytics view is partial because a reporting source is delayed. | priority: low | status: open | flow: Operations Manager opens the analytics dashboard.; System detects delayed reporting data.; System shows a partial-data warning."
+          ]
+        },
+        {
+          "key": "ui_notes",
+          "answer": [
+            "Enroll Member | Member-facing responsive enrollment form with consent capture and validation messaging.",
+            "Browse Rewards | Reward catalog view with filters, points balance summary, and eligibility indicators.",
+            "Redeem Reward | Reward detail and redemption confirmation flow with explicit failure states.",
+            "Manage Reward Catalog | Back-office catalog editor with validation messages before publish.",
+            "Review Redemption Analytics | Operational dashboard summarizing redemptions, campaigns, and freshness warnings."
+          ]
+        }
+      ]
+    }
+  ]
+}

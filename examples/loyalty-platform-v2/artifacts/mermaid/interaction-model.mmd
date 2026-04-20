@@ -1,1 +1,10 @@
 sequenceDiagram
+participant Member_App as "Member App"
+participant Loyalty_API as "Loyalty API"
+participant Operations_Console as "Operations Console"
+participant Payment_Gateway_Adapter as "Payment Gateway Adapter"
+participant Analytics_Service as "Analytics Service"
+Member_App->>Loyalty_API: Member App calls Loyalty API
+Operations_Console->>Loyalty_API: Operations Console calls Loyalty API
+Loyalty_API->>Payment_Gateway_Adapter: Loyalty API calls Payment Gateway Adapter
+Loyalty_API->>Analytics_Service: Loyalty API sends Analytics Service

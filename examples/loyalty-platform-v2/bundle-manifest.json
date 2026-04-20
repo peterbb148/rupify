@@ -11,8 +11,15 @@
       "speckify-planning-export"
     ],
     "schema_version": 1,
-    "source_model_change_metadata": {},
-    "source_model_semantic_id": ""
+    "source_model_change_metadata": {
+      "change_source": "normalize_replay_to_model",
+      "last_changed_at": "",
+      "regenerated_from_version": "",
+      "semantic_hash": "f53b334e86e54b91",
+      "semantic_version": 1,
+      "supersedes": []
+    },
+    "source_model_semantic_id": "rupify-model"
   },
   "layout": {
     "formal_artifacts": [
