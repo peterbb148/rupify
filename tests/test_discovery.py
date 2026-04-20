@@ -446,7 +446,7 @@ class DiscoveryTests(unittest.TestCase):
                         {
                             "key": "use_case_details",
                             "answer": [
-                                "Approve deprecation | priority: high | status: drafted | used: Validate owner",
+                                "Approve deprecation | priority: high | status: drafted | flow: Capture approval request; Validate owner; Submit approval | used: Validate owner",
                             ],
                         },
                         {
@@ -477,6 +477,18 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["use_cases"][0]["priority"], "high")
         self.assertEqual(model["use_cases"][0]["status"], "drafted")
         self.assertEqual(model["use_cases"][0]["used_use_case_ids"], ["validate-owner"])
+        self.assertEqual(
+            model["use_cases"][0]["main_success_scenario"],
+            ["Capture approval request", "Validate owner", "Submit approval"],
+        )
+        self.assertEqual(
+            model["analysis_view"]["use_case_step_ids"],
+            [
+                "approve-deprecation-step-1",
+                "approve-deprecation-step-2",
+                "approve-deprecation-step-3",
+            ],
+        )
         self.assertEqual(
             model["use_cases"][0]["ui_notes"],
             ["Show risk summary and approver comments"],
@@ -637,7 +649,7 @@ class DiscoveryTests(unittest.TestCase):
                     "responses": [
                         {"key": "actors", "answer": ["Operator"]},
                         {"key": "use_cases", "answer": ["Approve System"]},
-                        {"key": "integrations", "answer": "System API"},
+                        {"key": "integrations", "answer": "Validate submitted system"},
                     ],
                 },
                 {
@@ -651,13 +663,32 @@ class DiscoveryTests(unittest.TestCase):
                     "responses": [
                         {"key": "domain_entities", "answer": ["System"]},
                         {"key": "relationships", "answer": ["System has many approvals"]},
+                        {"key": "business_rules", "answer": ["Validate submitted system"]},
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["System lifecycle"]},
+                        {"key": "states_and_transitions", "answer": ["Validate submitted system"]},
                     ],
                 },
                 {
                     "round": 7,
                     "responses": [
                         {"key": "components_and_services", "answer": ["System API"]},
-                        {"key": "interfaces_and_integrations", "answer": ["Portal calls System API"]},
+                        {"key": "interfaces_and_integrations", "answer": ["Validate submitted system"]},
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {
+                            "key": "use_case_details",
+                            "answer": [
+                                "Approve System | flow: Validate submitted system; Record approval",
+                            ],
+                        },
                     ],
                 },
             ]
@@ -688,6 +719,38 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(
             model["traceability"]["analysis_to_design"][0]["to_id"],
             "component-system-api",
+        )
+        self.assertEqual(
+            model["analysis_view"]["use_case_step_ids"],
+            ["approve-system-step-1", "approve-system-step-2"],
+        )
+        self.assertEqual(
+            model["analysis_view"]["use_case_step_objects"][0]["text"],
+            "Validate submitted system",
+        )
+        self.assertEqual(
+            model["interaction_view"]["realization_objects"][0]["step_objects"][0]["id"],
+            "approve-system-realization-step-1",
+        )
+        self.assertEqual(
+            model["traceability"]["requirement_to_step"][0]["to_id"],
+            "approve-system-step-1",
+        )
+        self.assertEqual(
+            model["traceability"]["step_to_interaction"][0]["from_id"],
+            "approve-system-step-1",
+        )
+        self.assertEqual(
+            model["traceability"]["step_to_transition"][0]["to_id"],
+            "state-transition-1",
+        )
+        self.assertEqual(
+            model["traceability"]["business_rule_to_transition"][0]["from_id"],
+            "business-rule-1",
+        )
+        self.assertEqual(
+            model["traceability"]["step_to_interaction"][0]["change_metadata"]["change_source"],
+            "derived_traceability",
         )
         self.assertEqual(
             model["traceability"]["requirement_to_use_case"][0]["semantic_id"],

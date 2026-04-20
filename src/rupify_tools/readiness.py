@@ -216,10 +216,49 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
             traceability.get("requirement_to_use_case", []),
             "requirement_to_use_case",
         ),
+        "requirement_to_step": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("analysis_view", {}).get("use_case_step_objects", [])
+            ],
+            traceability.get("requirement_to_step", []),
+            "requirement_to_step",
+            source_key="to_id",
+        ),
         "use_case_to_analysis": _trace_family_result(
             [item.get("id", "") for item in use_cases] if analysis_objects else [],
             traceability.get("use_case_to_analysis", []),
             "use_case_to_analysis",
+        ),
+        "step_to_interaction": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("analysis_view", {}).get("use_case_step_objects", [])
+            ]
+            if model.get("interaction_view", {}).get("message_objects", [])
+            else [],
+            traceability.get("step_to_interaction", []),
+            "step_to_interaction",
+        ),
+        "step_to_transition": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("analysis_view", {}).get("use_case_step_objects", [])
+            ]
+            if model.get("process_view", {}).get("state_transition_objects", [])
+            else [],
+            traceability.get("step_to_transition", []),
+            "step_to_transition",
+        ),
+        "business_rule_to_transition": _trace_family_result(
+            [
+                item.get("id", "")
+                for item in model.get("logical_view", {}).get("business_rule_objects", [])
+            ]
+            if model.get("process_view", {}).get("state_transition_objects", [])
+            else [],
+            traceability.get("business_rule_to_transition", []),
+            "business_rule_to_transition",
         ),
         "analysis_to_design": _trace_family_result(
             [item.get("id", "") for item in analysis_objects] if design_objects else [],

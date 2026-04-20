@@ -91,6 +91,11 @@ def _text_matches_name(text: str, name: str) -> bool:
     return phrase in joined
 
 
+def _texts_overlap(left: str, right: str) -> bool:
+    """Return whether two text values explicitly reference one another."""
+    return _text_matches_name(left, right) or _text_matches_name(right, left)
+
+
 def _ensure_list(value: Any) -> list[str]:
     """Normalize a scalar or list answer into a clean string list."""
     def _clean(item: Any) -> str:
@@ -761,6 +766,22 @@ def _apply_use_case_details(
                 match["extension_points"] = [
                     segment.strip() for segment in normalized_value.split(";") if segment.strip()
                 ]
+            elif normalized_key == "flow":
+                match["main_success_scenario"] = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
+            elif normalized_key == "extensions":
+                match["extensions"] = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
+            elif normalized_key == "preconditions":
+                match["preconditions"] = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
+            elif normalized_key == "postconditions":
+                match["postconditions"] = [
+                    segment.strip() for segment in normalized_value.split(";") if segment.strip()
+                ]
 
 
 def _normalize_scenarios(
@@ -854,16 +875,58 @@ def _bind_scenario_links(
         use_case["scenario_ids"] = scenario_ids_by_use_case.get(use_case.get("id", ""), [])
 
 
+def _build_use_case_step_objects(use_cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Build first-class step objects from use-case main and extension flows."""
+    step_objects = []
+    for use_case in use_cases:
+        use_case_id = use_case.get("id", "")
+        for index, step_text in enumerate(use_case.get("main_success_scenario", []), 1):
+            step_objects.append(
+                {
+                    "id": f"{use_case_id}-step-{index}",
+                    "use_case_id": use_case_id,
+                    "use_case_name": use_case.get("name", ""),
+                    "step_index": index,
+                    "step_kind": "main_success",
+                    "text": step_text,
+                    "model_layer": "analysis",
+                    "trace": use_case.get("trace", {}),
+                }
+            )
+        for index, step_text in enumerate(use_case.get("extensions", []), 1):
+            step_objects.append(
+                {
+                    "id": f"{use_case_id}-extension-{index}",
+                    "use_case_id": use_case_id,
+                    "use_case_name": use_case.get("name", ""),
+                    "step_index": index,
+                    "step_kind": "extension",
+                    "text": step_text,
+                    "model_layer": "analysis",
+                    "trace": use_case.get("trace", {}),
+                }
+            )
+    return step_objects
+
+
 def _build_trace_links(
     requirement_objects: list[dict[str, Any]],
     use_cases: list[dict[str, Any]],
+    use_case_step_objects: list[dict[str, Any]],
     domain_entities: list[dict[str, Any]],
+    business_rules: list[dict[str, Any]],
     state_entities: list[dict[str, Any]],
+    state_transitions: list[dict[str, Any]],
     components: list[dict[str, Any]],
+    interaction_messages: list[dict[str, Any]],
 ) -> dict[str, list[dict[str, Any]]]:
     """Build conservative cross-view trace links from explicit textual references."""
     requirement_to_use_case = []
+    requirement_to_step = []
     use_case_to_analysis = []
+    step_to_interaction = []
+    step_to_transition = []
+    business_rule_to_transition = []
     analysis_to_design = []
 
     for requirement in requirement_objects:
@@ -880,7 +943,21 @@ def _build_trace_links(
                     }
                 )
                 linked_use_case_ids.append(use_case["id"])
+        linked_step_ids = []
+        for step_object in use_case_step_objects:
+            if _texts_overlap(requirement["statement"], step_object["text"]):
+                requirement_to_step.append(
+                    {
+                        "id": f"trace-req-step-{len(requirement_to_step) + 1}",
+                        "from_id": requirement["id"],
+                        "to_id": step_object["id"],
+                        "link_type": "requirement_to_step",
+                        "basis": "requirement statement references use-case step text",
+                    }
+                )
+                linked_step_ids.append(step_object["id"])
         requirement["linked_use_case_ids"] = linked_use_case_ids
+        requirement["linked_step_ids"] = linked_step_ids
 
     analysis_candidates = domain_entities + state_entities
     for use_case in use_cases:
@@ -916,9 +993,92 @@ def _build_trace_links(
                     }
                 )
 
+    for step_object in use_case_step_objects:
+        step_text = step_object.get("text", "")
+        for message in interaction_messages:
+            message_text = " ".join(
+                [
+                    message.get("description", ""),
+                    message.get("interaction_verb", ""),
+                    message.get("source_name", ""),
+                    message.get("target_name", ""),
+                ]
+            ).strip()
+            if step_text and _texts_overlap(step_text, message_text):
+                step_to_interaction.append(
+                    {
+                        "id": f"trace-step-interaction-{len(step_to_interaction) + 1}",
+                        "from_id": step_object["id"],
+                        "to_id": message["id"],
+                        "link_type": "step_to_interaction",
+                        "basis": "use-case step text references interaction message text",
+                    }
+                )
+        for transition in state_transitions:
+            transition_text = " ".join(
+                [
+                    transition.get("description", ""),
+                    transition.get("from_state", ""),
+                    transition.get("to_state", ""),
+                    transition.get("trigger", ""),
+                    transition.get("constraint", ""),
+                ]
+            ).strip()
+            if step_text and _texts_overlap(step_text, transition_text):
+                step_to_transition.append(
+                    {
+                        "id": f"trace-step-transition-{len(step_to_transition) + 1}",
+                        "from_id": step_object["id"],
+                        "to_id": transition["id"],
+                        "link_type": "step_to_transition",
+                        "basis": "use-case step text references state transition text",
+                    }
+                )
+
+    for business_rule in business_rules:
+        rule_text = business_rule.get("rule_text", "")
+        rule_scope = business_rule.get("scope", "")
+        for transition in state_transitions:
+            transition_text = " ".join(
+                [
+                    transition.get("description", ""),
+                    transition.get("from_state", ""),
+                    transition.get("to_state", ""),
+                    transition.get("trigger", ""),
+                    transition.get("constraint", ""),
+                ]
+            ).strip()
+            if not transition_text:
+                continue
+            if rule_text and _texts_overlap(rule_text, transition_text):
+                business_rule_to_transition.append(
+                    {
+                        "id": f"trace-rule-transition-{len(business_rule_to_transition) + 1}",
+                        "from_id": business_rule["id"],
+                        "to_id": transition["id"],
+                        "link_type": "business_rule_to_transition",
+                        "basis": "business rule text references state transition text",
+                    }
+                )
+                continue
+            if rule_scope and _texts_overlap(rule_scope, transition_text):
+                business_rule_to_transition.append(
+                    {
+                        "id": f"trace-rule-transition-{len(business_rule_to_transition) + 1}",
+                        "from_id": business_rule["id"],
+                        "to_id": transition["id"],
+                        "link_type": "business_rule_to_transition",
+                        "basis": "business rule scope references state transition text",
+                    }
+                )
+
     return {
         "requirement_to_use_case": requirement_to_use_case,
+        "requirement_to_step": requirement_to_step,
         "use_case_to_analysis": use_case_to_analysis,
+        "step_to_interaction": step_to_interaction,
+        "step_to_transition": step_to_transition,
+        "business_rule_to_transition": business_rule_to_transition,
         "analysis_to_design": analysis_to_design,
     }
 
@@ -1190,6 +1350,20 @@ def _build_interaction_view(
             if actor_id and actor_id not in participant_ids:
                 participant_ids.append(actor_id)
 
+        step_objects = []
+        for step_index, step_text in enumerate(use_case.get("main_success_scenario", []), 1):
+            step_objects.append(
+                {
+                    "id": f"{use_case.get('id', '')}-realization-step-{step_index}",
+                    "use_case_id": use_case.get("id", ""),
+                    "use_case_name": use_case.get("name", ""),
+                    "step_index": step_index,
+                    "text": step_text,
+                    "model_layer": "analysis",
+                    "trace": use_case.get("trace", {}),
+                }
+            )
+
         realization_objects.append(
             {
                 "id": f"interaction-realization-{index}",
@@ -1198,6 +1372,7 @@ def _build_interaction_view(
                 "participant_ids": participant_ids,
                 "participant_names": participant_names,
                 "steps": list(use_case.get("main_success_scenario", [])),
+                "step_objects": step_objects,
                 "model_layer": "analysis",
                 "trace": use_case.get("trace", {}),
             }
@@ -1429,8 +1604,10 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         normalized_use_cases,
         scenario_objects,
     )
+    use_case_step_objects = _build_use_case_step_objects(normalized_use_cases)
     _stamp_semantic_identity(normalized_actors, change_source="round_3")
     _stamp_semantic_identity(normalized_use_cases, change_source="round_3")
+    _stamp_semantic_identity(use_case_step_objects, change_source="derived_use_case_steps")
     _stamp_semantic_identity(scenario_objects, change_source="round_13")
     _stamp_semantic_identity(risk_objects, change_source="round_12")
     _stamp_semantic_identity(domain_entity_objects, change_source="round_5")
@@ -1449,11 +1626,13 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     analysis_view = {
         "actor_ids": [item["id"] for item in normalized_actors],
         "use_case_ids": [item["id"] for item in normalized_use_cases],
+        "use_case_step_ids": [item["id"] for item in use_case_step_objects],
         "scenario_ids": [item["id"] for item in scenario_objects],
         "risk_ids": [item["id"] for item in risk_objects],
         "requirement_ids": [item["id"] for item in all_requirement_objects],
         "actors": normalized_actors,
         "use_cases": normalized_use_cases,
+        "use_case_step_objects": use_case_step_objects,
         "scenario_objects": scenario_objects,
         "risk_objects": risk_objects,
         "requirement_objects": all_requirement_objects,
@@ -1490,6 +1669,11 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         interaction_view["realization_objects"],
         change_source="derived_interaction_view",
     )
+    for realization in interaction_view["realization_objects"]:
+        _stamp_semantic_identity(
+            realization.get("step_objects", []),
+            change_source="derived_interaction_view",
+        )
     _stamp_semantic_identity(
         interaction_view["message_objects"],
         change_source="derived_interaction_view",
@@ -1497,9 +1681,13 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     traceability = _build_trace_links(
         all_requirement_objects,
         normalized_use_cases,
+        use_case_step_objects,
         domain_entity_objects,
+        business_rule_objects,
         state_entity_objects,
+        state_transition_objects,
         component_objects,
+        interaction_view["message_objects"],
     )
     _bind_use_case_supporting_links(
         normalized_use_cases,
@@ -1528,7 +1716,23 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
         change_source="derived_traceability",
     )
     _stamp_semantic_identity(
+        traceability["requirement_to_step"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
         traceability["use_case_to_analysis"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["step_to_interaction"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["step_to_transition"],
+        change_source="derived_traceability",
+    )
+    _stamp_semantic_identity(
+        traceability["business_rule_to_transition"],
         change_source="derived_traceability",
     )
     _stamp_semantic_identity(

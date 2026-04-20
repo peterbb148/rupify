@@ -270,14 +270,39 @@ class ReadinessTests(unittest.TestCase):
                 {"id": "approve-system"},
                 {"id": "search-systems"},
             ],
-            "logical_view": {"domain_entity_objects": [{"id": "entity-system"}]},
-            "process_view": {"state_entity_objects": []},
+            "analysis_view": {
+                "use_case_step_objects": [
+                    {"id": "approve-system-step-1"},
+                    {"id": "approve-system-step-2"},
+                ]
+            },
+            "logical_view": {
+                "domain_entity_objects": [{"id": "entity-system"}],
+                "business_rule_objects": [{"id": "business-rule-1"}],
+            },
+            "process_view": {
+                "state_entity_objects": [],
+                "state_transition_objects": [{"id": "state-transition-1"}],
+            },
+            "interaction_view": {"message_objects": [{"id": "interaction-message-1"}]},
             "architecture_view": {"component_objects": [{"id": "component-system-api"}]},
             "traceability": {
                 "requirement_to_use_case": [
                     {"from_id": "functional-requirement-1", "to_id": "approve-system"}
                 ],
+                "requirement_to_step": [
+                    {"from_id": "functional-requirement-1", "to_id": "approve-system-step-1"}
+                ],
                 "use_case_to_analysis": [],
+                "step_to_interaction": [
+                    {"from_id": "approve-system-step-1", "to_id": "interaction-message-1"}
+                ],
+                "step_to_transition": [
+                    {"from_id": "approve-system-step-1", "to_id": "state-transition-1"}
+                ],
+                "business_rule_to_transition": [
+                    {"from_id": "business-rule-1", "to_id": "state-transition-1"}
+                ],
                 "analysis_to_design": [],
             },
         }
@@ -294,6 +319,22 @@ class ReadinessTests(unittest.TestCase):
             validation["use_case_to_analysis"]["missing_from_ids"],
             ["approve-system", "search-systems"],
         )
+        self.assertEqual(validation["requirement_to_step"]["status"], "partial")
+        self.assertEqual(
+            validation["requirement_to_step"]["missing_from_ids"],
+            ["approve-system-step-2"],
+        )
+        self.assertEqual(validation["step_to_interaction"]["status"], "partial")
+        self.assertEqual(
+            validation["step_to_interaction"]["missing_from_ids"],
+            ["approve-system-step-2"],
+        )
+        self.assertEqual(validation["step_to_transition"]["status"], "partial")
+        self.assertEqual(
+            validation["step_to_transition"]["missing_from_ids"],
+            ["approve-system-step-2"],
+        )
+        self.assertEqual(validation["business_rule_to_transition"]["status"], "ready")
         self.assertEqual(validation["analysis_to_design"]["status"], "blocked")
         self.assertEqual(
             validation["analysis_to_design"]["missing_from_ids"],
@@ -308,6 +349,9 @@ class ReadinessTests(unittest.TestCase):
                 "approve-system",
                 "search-systems",
                 "entity-system",
+                "business-rule-1",
+                "state-transition-1",
                 "component-system-api",
+                "interaction-message-1",
             ],
         )
