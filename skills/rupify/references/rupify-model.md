@@ -4,6 +4,16 @@ The canonical project model is `rupify-model.yaml`.
 
 ## Required Sections
 
+- `model_metadata`
+  - `schema_version`
+  - `semantic_id`
+  - `change_metadata`
+    - `semantic_version`
+    - `semantic_hash`
+    - `last_changed_at`
+    - `change_source`
+    - `regenerated_from_version`
+    - `supersedes`
 - `project`
   - `name`
   - `domain`
@@ -316,6 +326,25 @@ The canonical project model is `rupify-model.yaml`.
 - `future_placeholders`
   - `uml`
   - `formal_specification`
+
+## Canonical Object Identity
+
+Every canonical object record with an `id` should also carry:
+
+- `semantic_id`
+- `change_metadata`
+  - `semantic_version`
+  - `semantic_hash`
+  - `last_changed_at`
+  - `change_source`
+  - `regenerated_from_version`
+  - `supersedes`
+
+For the current compatibility-preserving contract:
+
+- `id` remains the renderer-facing and fixture-facing identifier
+- `semantic_id` is the durable downstream identity surface
+- `change_metadata` is the model-native change and reconciliation surface
 
 ## Artifact Contract
 
