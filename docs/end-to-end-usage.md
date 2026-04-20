@@ -74,6 +74,14 @@ uv run rupify-export-planning \
   --output /tmp/rupify-planning-export.json
 ```
 
+### Normalize Downstream Feedback
+
+```bash
+uv run rupify-normalize-feedback \
+  --input tests/fixtures/speckify_feedback_example.json \
+  --output /tmp/rupify-feedback.json
+```
+
 ### Mermaid Outputs
 
 ```bash
