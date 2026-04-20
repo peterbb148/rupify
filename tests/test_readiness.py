@@ -5,6 +5,7 @@ from __future__ import annotations
 import unittest
 
 from rupify_tools.readiness import (
+    evaluate_element_readiness,
     evaluate_readiness,
     evaluate_readiness_details,
     evaluate_traceability,
@@ -400,3 +401,105 @@ class ReadinessTests(unittest.TestCase):
                 "interaction-message-1",
             ],
         )
+
+    def test_evaluate_element_readiness_marks_only_defensible_normative_elements_ready(self) -> None:
+        """Element readiness should distinguish normative-ready elements from blocked or informative ones."""
+        model = {
+            "requirements": {
+                "functional_objects": [
+                    {
+                        "id": "functional-requirement-1",
+                        "statement": "Approve system changes",
+                        "content_semantics": "normative",
+                    }
+                ],
+                "non_functional_objects": [],
+                "acceptance_constraint_objects": [
+                    {
+                        "id": "acceptance-constraint-1",
+                        "description": "SSO is required",
+                        "content_semantics": "normative",
+                    }
+                ],
+            },
+            "analysis_view": {
+                "use_cases": [
+                    {
+                        "id": "approve-system",
+                        "name": "Approve System",
+                        "goal": "Approve system changes.",
+                        "main_success_scenario": ["Validate request", "Approve request"],
+                        "content_semantics": "normative",
+                    }
+                ],
+                "use_case_step_objects": [
+                    {
+                        "id": "approve-system-step-1",
+                        "text": "Validate request",
+                        "content_semantics": "normative",
+                    }
+                ],
+                "scenario_objects": [
+                    {
+                        "id": "scenario-approval",
+                        "name": "Happy path",
+                        "summary": "Normal approval path",
+                        "flow_of_events": [],
+                        "content_semantics": "normative",
+                    }
+                ],
+                "ambiguity_objects": [
+                    {
+                        "id": "ambiguity-open-question-1",
+                        "description": "Should archived systems need approval?",
+                        "resolution_status": "open",
+                        "content_semantics": "informative",
+                    }
+                ],
+            },
+            "logical_view": {
+                "domain_invariant_objects": [
+                    {
+                        "id": "domain-invariant-1",
+                        "description": "System must have an owner",
+                        "scope_entity_ids": ["entity-system"],
+                        "content_semantics": "normative",
+                    }
+                ]
+            },
+            "process_view": {
+                "state_transition_objects": [
+                    {
+                        "id": "state-transition-1",
+                        "description": "Draft -> Approved",
+                        "content_semantics": "normative",
+                    }
+                ],
+                "state_invariant_objects": [],
+                "guard_condition_objects": [],
+                "forbidden_transition_objects": [],
+            },
+            "traceability": {
+                "ambiguity_to_element": [
+                    {
+                        "from_id": "ambiguity-open-question-1",
+                        "to_id": "approve-system",
+                    }
+                ]
+            },
+            "ambiguities": [],
+        }
+
+        validation = evaluate_element_readiness(model)
+
+        self.assertIn("functional-requirement-1", validation["summary"]["ready_normative_ids"])
+        self.assertIn("acceptance-constraint-1", validation["summary"]["ready_normative_ids"])
+        self.assertIn("approve-system", validation["summary"]["partial_normative_ids"])
+        self.assertIn("scenario-approval", validation["summary"]["blocked_normative_ids"])
+        self.assertIn("ambiguity-open-question-1", validation["summary"]["informative_ids"])
+        self.assertEqual(validation["by_family"]["use_cases"][0]["status"], "partial")
+        self.assertEqual(
+            validation["by_family"]["use_cases"][0]["blocking_ambiguity_ids"],
+            ["ambiguity-open-question-1"],
+        )
+        self.assertEqual(validation["by_family"]["scenarios"][0]["missing_fields"], ["flow_of_events"])

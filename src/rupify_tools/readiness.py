@@ -335,3 +335,164 @@ def evaluate_traceability(model: dict[str, Any]) -> dict[str, dict[str, Any]]:
             "artifact_lineage",
         ),
     }
+
+
+def _unresolved_ambiguity_ids_by_element(model: dict[str, Any]) -> dict[str, list[str]]:
+    """Return unresolved ambiguity ids grouped by the element ids they block."""
+    ambiguity_lookup = {
+        item.get("id", ""): item
+        for item in model.get("analysis_view", {}).get("ambiguity_objects", [])
+        if item.get("id")
+    }
+    unresolved_by_element: dict[str, list[str]] = {}
+    for link in model.get("traceability", {}).get("ambiguity_to_element", []):
+        ambiguity_id = str(link.get("from_id", "")).strip()
+        element_id = str(link.get("to_id", "")).strip()
+        ambiguity = ambiguity_lookup.get(ambiguity_id, {})
+        resolution_status = str(ambiguity.get("resolution_status", "")).strip().lower()
+        if not ambiguity_id or not element_id or resolution_status in {"resolved", "closed"}:
+            continue
+        unresolved_by_element.setdefault(element_id, []).append(ambiguity_id)
+    return unresolved_by_element
+
+
+def _base_element_result(
+    item: dict[str, Any],
+    family: str,
+    required_fields: list[tuple[str, Any]],
+    unresolved_ambiguities: dict[str, list[str]],
+) -> dict[str, Any]:
+    """Build one element-level readiness result."""
+    item_id = str(item.get("id", "")).strip()
+    missing_fields = []
+    for field_name, value in required_fields:
+        if isinstance(value, list):
+            if not value:
+                missing_fields.append(field_name)
+            continue
+        if not str(value).strip():
+            missing_fields.append(field_name)
+
+    blocking_ambiguity_ids = unresolved_ambiguities.get(item_id, [])
+    if missing_fields:
+        status = "blocked"
+    elif blocking_ambiguity_ids:
+        status = "partial"
+    else:
+        status = "ready"
+
+    return {
+        "id": item_id,
+        "family": family,
+        "content_semantics": item.get("content_semantics", ""),
+        "status": status,
+        "missing_fields": missing_fields,
+        "blocking_ambiguity_ids": blocking_ambiguity_ids,
+        "normative_ready": item.get("content_semantics") == "normative" and status == "ready",
+    }
+
+
+def evaluate_element_readiness(model: dict[str, Any]) -> dict[str, Any]:
+    """Evaluate readiness on individual canonical elements that downstream tools consume."""
+    analysis_view = model.get("analysis_view", {})
+    process_view = model.get("process_view", {})
+    unresolved_ambiguities = _unresolved_ambiguity_ids_by_element(model)
+
+    family_specs = {
+        "requirements": (
+            model.get("requirements", {}).get("functional_objects", [])
+            + model.get("requirements", {}).get("non_functional_objects", []),
+            lambda item: [("statement", item.get("statement", ""))],
+        ),
+        "acceptance_constraints": (
+            model.get("requirements", {}).get("acceptance_constraint_objects", []),
+            lambda item: [("description", item.get("description", ""))],
+        ),
+        "use_cases": (
+            analysis_view.get("use_cases", model.get("use_cases", [])),
+            lambda item: [
+                ("name", item.get("name", "")),
+                ("goal", item.get("goal", "")),
+                ("main_success_scenario", item.get("main_success_scenario", [])),
+            ],
+        ),
+        "scenarios": (
+            analysis_view.get("scenario_objects", model.get("scenarios", [])),
+            lambda item: [
+                ("name", item.get("name", "")),
+                ("summary", item.get("summary", "")),
+                ("flow_of_events", item.get("flow_of_events", [])),
+            ],
+        ),
+        "use_case_steps": (
+            analysis_view.get("use_case_step_objects", []),
+            lambda item: [("text", item.get("text", ""))],
+        ),
+        "state_transitions": (
+            process_view.get("state_transition_objects", []),
+            lambda item: [("description", item.get("description", ""))],
+        ),
+        "domain_invariants": (
+            model.get("logical_view", {}).get("domain_invariant_objects", []),
+            lambda item: [
+                ("description", item.get("description", "")),
+                ("scope_entity_ids", item.get("scope_entity_ids", [])),
+            ],
+        ),
+        "state_invariants": (
+            process_view.get("state_invariant_objects", []),
+            lambda item: [
+                ("description", item.get("description", "")),
+                ("state_entity_ids", item.get("state_entity_ids", [])),
+            ],
+        ),
+        "guard_conditions": (
+            process_view.get("guard_condition_objects", []),
+            lambda item: [
+                ("description", item.get("description", "")),
+                ("related_transition_ids", item.get("related_transition_ids", [])),
+            ],
+        ),
+        "forbidden_transitions": (
+            process_view.get("forbidden_transition_objects", []),
+            lambda item: [("description", item.get("description", ""))],
+        ),
+        "ambiguities": (
+            analysis_view.get("ambiguity_objects", model.get("ambiguities", [])),
+            lambda item: [("description", item.get("description", ""))],
+        ),
+    }
+
+    by_family: dict[str, list[dict[str, Any]]] = {}
+    all_items = []
+    for family, (items, requirement_builder) in family_specs.items():
+        family_results = [
+            _base_element_result(item, family, requirement_builder(item), unresolved_ambiguities)
+            for item in items
+        ]
+        by_family[family] = family_results
+        all_items.extend(family_results)
+
+    return {
+        "by_family": by_family,
+        "summary": {
+            "ready_normative_ids": [
+                item["id"]
+                for item in all_items
+                if item["content_semantics"] == "normative" and item["status"] == "ready"
+            ],
+            "partial_normative_ids": [
+                item["id"]
+                for item in all_items
+                if item["content_semantics"] == "normative" and item["status"] == "partial"
+            ],
+            "blocked_normative_ids": [
+                item["id"]
+                for item in all_items
+                if item["content_semantics"] == "normative" and item["status"] == "blocked"
+            ],
+            "informative_ids": [
+                item["id"] for item in all_items if item["content_semantics"] == "informative"
+            ],
+        },
+    }

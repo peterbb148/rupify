@@ -73,6 +73,14 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["readiness"]["architecture"], "blocked")
         self.assertEqual(replay["readiness_details"]["discovery"]["required_missing"], [])
         self.assertEqual(replay["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
+        self.assertEqual(
+            replay["element_readiness_validation"]["summary"]["ready_normative_ids"],
+            [
+                "non_functional-requirement-1",
+                "acceptance-constraint-requirement-1",
+                "acceptance-constraint-success-1",
+            ],
+        )
         self.assertEqual(replay["stale_artifacts"], [])
 
     def test_replay_session_accepts_individual_question_responses(self) -> None:

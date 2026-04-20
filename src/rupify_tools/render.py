@@ -136,6 +136,7 @@ def _structured_semantic_section(title: str, items: list[dict[str, Any]]) -> str
         line = f"- `{item.get('id', 'item')}` {text}"
         details = []
         for key, label in (
+            ("content_semantics", "semantics"),
             ("constraint_kind", "kind"),
             ("ambiguity_type", "type"),
             ("resolution_status", "status"),
@@ -160,6 +161,12 @@ def _structured_semantic_section(title: str, items: list[dict[str, Any]]) -> str
             details.append(
                 f"blocking: {'yes' if item.get('blocking_for_downstream') else 'no'}"
             )
+        if readiness := item.get("readiness", {}):
+            details.append(f"readiness: {readiness.get('status', 'unspecified')}")
+            if readiness.get("blocking_ambiguity_ids"):
+                details.append(
+                    f"blocking ambiguities: {', '.join(readiness['blocking_ambiguity_ids'])}"
+                )
         if trace := item.get("trace"):
             details.append(
                 f"source: round {trace.get('source_round', 'n/a')} {trace.get('source_key', '')}".strip()
@@ -911,6 +918,8 @@ def render_use_case_documents(model: dict[str, Any]) -> str:
 - Supporting Actors: {", ".join(supporting_actors) or "None"}
 - Priority: {use_case.get("priority", "") or "Unspecified"}
 - Status: {use_case.get("status", "") or "Unspecified"}
+- Content Semantics: {use_case.get("content_semantics", "") or "Unspecified"}
+- Readiness: {use_case.get("readiness", {}).get("status", "unspecified")}
 - Complexity: {use_case.get("complexity", "unclassified")}
 - Goal: {use_case.get("goal", "Unspecified")}
 - Trigger: {use_case.get("trigger", "") or "Unspecified"}
@@ -1101,6 +1110,8 @@ def render_scenario_documents(model: dict[str, Any]) -> str:
 - Parent Use Case: {parent_use_case_name}
 - Priority: {scenario.get("priority", "") or "Unspecified"}
 - Status: {scenario.get("status", "") or "Unspecified"}
+- Content Semantics: {scenario.get("content_semantics", "") or "Unspecified"}
+- Readiness: {scenario.get("readiness", {}).get("status", "unspecified")}
 - Source: round {scenario.get("trace", {}).get("source_round", "n/a")} {scenario.get("trace", {}).get("source_key", "")}
 
 ### Brief Description

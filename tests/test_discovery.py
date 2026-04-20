@@ -886,6 +886,23 @@ class DiscoveryTests(unittest.TestCase):
             model["traceability"]["ambiguity_to_element"][0]["to_id"],
             "entity-system",
         )
+        self.assertEqual(
+            model["logical_view"]["domain_invariant_objects"][0]["content_semantics"],
+            "normative",
+        )
+        self.assertEqual(
+            model["requirements"]["acceptance_constraint_objects"][0]["content_semantics"],
+            "normative",
+        )
+        self.assertEqual(model["ambiguities"][0]["content_semantics"], "informative")
+        self.assertEqual(
+            model["logical_view"]["domain_invariant_objects"][0]["readiness"]["status"],
+            "ready",
+        )
+        self.assertIn(
+            "domain-invariant-1",
+            model["element_readiness"]["summary"]["ready_normative_ids"],
+        )
 
     def test_normalize_replay_to_model_with_real_fixture(self) -> None:
         """The checked-in interview fixture should normalize into the canonical V1.5 shape."""
