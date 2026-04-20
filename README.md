@@ -17,6 +17,7 @@ Current first-class outputs include:
 - `state-model.md`
 - `ucp-estimate.md`
 - Mermaid diagram bundles for domain, interaction, deployment, and state views
+- stable publication bundles for packaging model, artifacts, and downstream exports together
 
 The repository is documentation-first and dogfood-oriented. The current open-source goal is to make
 Rupify usable as a model-driven specification system with a clear end-to-end skill and CLI
@@ -32,6 +33,7 @@ Rupify currently provides:
   documents
 - Mermaid outputs for domain, interaction, deployment, and state publication
 - readiness, staleness, provenance, and cross-view traceability in the model workflow
+- a stable publication bundle layout for intentional specification handoff and packaging
 
 The remaining roadmap is now productization and workflow expansion:
 
@@ -114,6 +116,7 @@ uv run rupify-interview-replay --help
 uv run rupify-interview-to-formal --help
 uv run rupify-ucp --help
 uv run rupify-render --help
+uv run rupify-publish-bundle --help
 ```
 
 Common commands:
@@ -127,6 +130,7 @@ uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/r
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-state --artifact-family state-mermaid
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-interaction --artifact-family interaction-mermaid
 uv run python -m rupify_tools.render_cli --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-mermaid-deployment --artifact-family deployment-mermaid
+uv run rupify-publish-bundle --model examples/it-systems-inventory/rupify-model.json --output-dir /tmp/rupify-publication-bundle --archive /tmp/rupify-publication-bundle.zip
 uv run rupify-interview-to-formal --input tests/fixtures/it_systems_inventory_session.json --output-dir /tmp/rupify-from-interview --write-model /tmp/rupify-from-interview/rupify-model.json
 ```
 

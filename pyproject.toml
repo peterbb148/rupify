@@ -17,6 +17,7 @@ rupify-interview-replay = "rupify_tools.interview_replay:main"
 rupify-interview-to-formal = "rupify_tools.interview_to_formal_cli:main"
 rupify-ucp = "rupify_tools.ucp_cli:main"
 rupify-render = "rupify_tools.render_cli:main"
+rupify-publish-bundle = "rupify_tools.publication_bundle_cli:main"
 rupify-export-planning = "rupify_tools.planning_export_cli:main"
 rupify-normalize-feedback = "rupify_tools.feedback_format_cli:main"
 

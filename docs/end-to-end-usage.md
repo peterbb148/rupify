@@ -5,6 +5,7 @@ This document explains the supported end-to-end ways to use Rupify today.
 ## Choose The Right Command
 
 - `rupify-render`: start from a canonical model and generate Markdown or Mermaid artifacts
+- `rupify-publish-bundle`: start from a canonical model and package a stable publication bundle
 - `rupify-ucp`: start from a canonical model and calculate only the UCP estimate
 - `rupify-interview-to-formal`: start from an interview fixture and generate the normalized model plus the formal Markdown bundle
 - `rupify-interview-replay`: start from an interview fixture and inspect replay, readiness, staleness, and trace validation
@@ -23,6 +24,7 @@ Everything else hangs off that:
 - formal Markdown artifacts render from the canonical model
 - Mermaid diagrams render from the canonical model
 - UCP estimation renders from the canonical model
+- publication bundles package model-backed outputs from the canonical model
 
 Do not treat raw interview text, copied Markdown, or Mermaid files as the primary editing surface.
 
@@ -73,6 +75,24 @@ uv run rupify-export-planning \
   --model examples/it-systems-inventory/rupify-model.json \
   --output /tmp/rupify-planning-export.json
 ```
+
+### Publication Bundle
+
+```bash
+uv run rupify-publish-bundle \
+  --model examples/it-systems-inventory/rupify-model.json \
+  --output-dir /tmp/rupify-publication-bundle \
+  --archive /tmp/rupify-publication-bundle.zip
+```
+
+This writes one stable handoff layout containing:
+
+- the canonical model snapshot
+- the formal Markdown bundle
+- the UCP estimate
+- Mermaid publication artifacts
+- the Speckify planning export
+- a root bundle manifest with source-model metadata and stable relative paths
 
 ### Normalize Downstream Feedback
 
@@ -206,3 +226,5 @@ In practice this means:
 - UCP rendering can fail if required estimate inputs are missing
 - YAML input support fails clearly unless the optional dependency is installed
 - incomplete views should remain partial or blocked instead of being silently fabricated
+
+See also: [Specification Publication Bundles](specification-publication-bundles.md)
