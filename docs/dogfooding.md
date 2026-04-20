@@ -48,9 +48,15 @@ Current dogfooding example:
 
 - `examples/it-systems-inventory/`
 - `examples/it-systems-inventory/rupify-feedback.md`
+- `examples/it-systems-inventory-v2/`
 
 The checked-in IT systems inventory bundle should now demonstrate both layers of the formal output:
 
 - overview artifacts such as `requirements-spec.md`, `use-case-model.md`, and `deployment-model.md`
 - compiled template-driven documents such as `system-document.md`, `use-case-documents.md`, and
   `scenario-documents.md`
+
+The V2 sibling bundle should additionally demonstrate the productization boundary:
+
+- the stable publication-bundle layout
+- the checked-in Speckify planning export generated from the same CMDB interview fixture

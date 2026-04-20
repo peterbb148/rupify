@@ -132,3 +132,37 @@ class PublicationBundleTests(unittest.TestCase):
             self.assertIn(str(archive_path), result.stdout)
             self.assertTrue((output_dir / "artifacts" / "formal" / "domain-model.md").exists())
             self.assertTrue(archive_path.exists())
+
+    def test_checked_in_cmdb_v2_bundle_includes_planning_export_and_manifest(self) -> None:
+        """The checked-in CMDB V2 bundle should preserve the Speckify handoff surface."""
+        repo_root = Path(__file__).resolve().parents[1]
+        example_dir = repo_root / "examples" / "it-systems-inventory-v2"
+
+        manifest_path = example_dir / "bundle-manifest.json"
+        planning_export_path = example_dir / "exports" / "speckify-planning-export.json"
+        readme_path = example_dir / "README.md"
+
+        self.assertTrue(manifest_path.exists())
+        self.assertTrue(planning_export_path.exists())
+        self.assertTrue((example_dir / "model" / "rupify-model.json").exists())
+        self.assertTrue(
+            (example_dir / "artifacts" / "formal" / "system-document.md").exists()
+        )
+        self.assertTrue(
+            (example_dir / "artifacts" / "mermaid" / "domain-model.mmd").exists()
+        )
+        self.assertIn("Speckify Handoff Surface", readme_path.read_text(encoding="utf-8"))
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        planning_export = json.loads(planning_export_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            manifest["bundle_metadata"]["bundle_kind"],
+            "rupify_specification_publication_bundle",
+        )
+        self.assertEqual(
+            manifest["layout"]["planning_export"],
+            "exports/speckify-planning-export.json",
+        )
+        self.assertEqual(planning_export["export_metadata"]["export_kind"], "speckify_planning_export")
+        self.assertEqual(planning_export["summary"]["blocking_ambiguity_count"], 0)
