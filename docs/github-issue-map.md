@@ -109,6 +109,8 @@ See also: [Document Ingestion Future Direction](document-ingestion-future.md)
 - the template-driven document-suite epic extends the canonical model toward concrete appendix-style
   deliverables for system, use-case, and scenario documents
 - the remaining V2 work is now expansion and productization rather than foundational translation
+- the current productization track includes stable publication bundles for packaging model-backed
+  outputs as an intentional handoff surface
 
 ## Labels To Use
 
