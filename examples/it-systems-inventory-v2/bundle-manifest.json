@@ -1,0 +1,54 @@
+{
+  "bundle_metadata": {
+    "bundle_kind": "rupify_specification_publication_bundle",
+    "generated_artifact_families": [
+      "formal",
+      "ucp",
+      "domain-mermaid",
+      "interaction-mermaid",
+      "deployment-mermaid",
+      "state-mermaid",
+      "speckify-planning-export"
+    ],
+    "schema_version": 1,
+    "source_model_change_metadata": {
+      "change_source": "normalize_replay_to_model",
+      "last_changed_at": "",
+      "regenerated_from_version": "",
+      "semantic_hash": "2f3ec68a35e9678e",
+      "semantic_version": 1,
+      "supersedes": []
+    },
+    "source_model_semantic_id": "rupify-model"
+  },
+  "layout": {
+    "formal_artifacts": [
+      "artifacts/formal/deployment-model.md",
+      "artifacts/formal/domain-model.md",
+      "artifacts/formal/interaction-model.md",
+      "artifacts/formal/requirements-spec.md",
+      "artifacts/formal/scenario-documents.md",
+      "artifacts/formal/state-model.md",
+      "artifacts/formal/system-document.md",
+      "artifacts/formal/use-case-documents.md",
+      "artifacts/formal/use-case-model.md"
+    ],
+    "mermaid_artifacts": [
+      "artifacts/mermaid/deployment-model.mmd",
+      "artifacts/mermaid/domain-model.mmd",
+      "artifacts/mermaid/interaction-model.mmd",
+      "artifacts/mermaid/state-model.mmd"
+    ],
+    "model": "model/rupify-model.json",
+    "planning_export": "exports/speckify-planning-export.json",
+    "ucp_artifacts": [
+      "artifacts/ucp/ucp-estimate.md"
+    ]
+  },
+  "summary": {
+    "file_count": 17,
+    "formal_artifact_count": 9,
+    "mermaid_artifact_count": 4,
+    "ucp_artifact_count": 1
+  }
+}

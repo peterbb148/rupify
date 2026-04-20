@@ -1,0 +1,5096 @@
+{
+  "blocking_ambiguities": [],
+  "elements": [
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "926a0e8b7f0d0604",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-1",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-1",
+      "source_key": "constraints",
+      "source_round": 2,
+      "text": "UI must be web based"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ea270a270fd5ae0a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-2",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-2",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "SSO"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-2"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "cc94e38b4882a356",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-3",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-3",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "role-based access"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-3"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e3b5c94d9e1c0566",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-4",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 4",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-4",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "audit trail"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-4"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "9c5f49ef585cd8db",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-5",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 5",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-5",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "search"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-5"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6e001e4c4833adf7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-6",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 6",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-6",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "filtering"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-6"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "714fad84b7076d46",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-7",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 7",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-7",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "performance (regular >1s for web page rendering)"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-7"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "93c0bedbff37f4c7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-8",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 8",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-8",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "availability >=99%"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "success_criterion"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f58f7d91234137ac",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-success-1",
+      "missing_fields": [],
+      "name": "Success Criterion 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-success-1",
+      "source_key": "success_criteria",
+      "source_round": 2,
+      "text": "Better planning of IT systems purchasing and life cycle"
+    },
+    {
+      "attributes": {
+        "complexity": "complex"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d12ffaeea8ac1e65",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "application-owners",
+      "missing_fields": [],
+      "name": "application owners",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "application-owners",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "application owners"
+    },
+    {
+      "attributes": {
+        "complexity": "complex"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "84d72a310d252de3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "business-owners",
+      "missing_fields": [],
+      "name": "Business owners",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "business-owners",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "Business owners"
+    },
+    {
+      "attributes": {
+        "complexity": "complex"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f02cd6d546b426cf",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "enterprise-architects",
+      "missing_fields": [],
+      "name": "enterprise architects",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "enterprise-architects",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "enterprise architects"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "382f8466b20e4667",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "finance",
+      "missing_fields": [],
+      "name": "finance",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "finance",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "finance"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "96320ed7d1c1720c",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "integration-system-owners",
+      "missing_fields": [],
+      "name": "integration system owners",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "integration-system-owners",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "integration system owners"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1e4c525208fa8f46",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "procurement",
+      "missing_fields": [],
+      "name": "procurement",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "procurement",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "procurement"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "8b2987df0c86958f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "security",
+      "missing_fields": [],
+      "name": "security",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "security",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "security"
+    },
+    {
+      "attributes": {
+        "complexity": "complex"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d36f7237d6859555",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "actors",
+      "id": "technical-owners",
+      "missing_fields": [],
+      "name": "technical owners",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "technical-owners",
+      "source_key": "actors",
+      "source_round": 3,
+      "text": "technical owners"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "39d0fe629127c7ed",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "business_rules",
+      "id": "business-rule-1",
+      "missing_fields": [],
+      "name": "Rule 1",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "business-rule-1",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must have a business owner before it becomes Active."
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "68c0c8b8aeec81ca",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "business_rules",
+      "id": "business-rule-2",
+      "missing_fields": [],
+      "name": "Rule 2",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "business-rule-2",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System lifecycle state change requires approval for deprecation."
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "79c6a2ee0ae3e1ec",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "business_rules",
+      "id": "business-rule-3",
+      "missing_fields": [],
+      "name": "Rule 3",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "business-rule-3",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must record vendor and contract dates."
+    },
+    {
+      "attributes": {
+        "component_kind": "component"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "cc52e8a061d76cd0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "components",
+      "id": "component-reporting-consumers",
+      "missing_fields": [],
+      "name": "Reporting Consumers",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "component-reporting-consumers",
+      "source_key": "components_and_services",
+      "source_round": 7,
+      "text": "Reporting Consumers"
+    },
+    {
+      "attributes": {
+        "component_kind": "api"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3a1c7a77493fbaf6",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "components",
+      "id": "component-system-inventory-api",
+      "missing_fields": [],
+      "name": "System Inventory API",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "component-system-inventory-api",
+      "source_key": "components_and_services",
+      "source_round": 7,
+      "text": "System Inventory API"
+    },
+    {
+      "attributes": {
+        "component_kind": "application"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7270b4d71f732879",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "components",
+      "id": "component-system-inventory-web-app",
+      "missing_fields": [],
+      "name": "System Inventory Web App",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "component-system-inventory-web-app",
+      "source_key": "components_and_services",
+      "source_round": 7,
+      "text": "System Inventory Web App"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "09258b7496344799",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-capability",
+      "missing_fields": [],
+      "name": "Capability",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-capability",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "Capability"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d5474b4336ad506b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-contract",
+      "missing_fields": [],
+      "name": "Contract",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-contract",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "Contract"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1c046a800433e10b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-cost-record",
+      "missing_fields": [],
+      "name": "Cost Record",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-cost-record",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "Cost Record"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "eb58d30f221513d9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-integration",
+      "missing_fields": [],
+      "name": "Integration",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-integration",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "Integration"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a57ef4a16cb94f26",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-risk-assessment",
+      "missing_fields": [],
+      "name": "Risk Assessment",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-risk-assessment",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "Risk Assessment"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1577db3f693c63c0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_entities",
+      "id": "entity-system",
+      "missing_fields": [],
+      "name": "System",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "entity-system",
+      "source_key": "domain_entities",
+      "source_round": 5,
+      "text": "System"
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system"
+        ],
+        "source_business_rule_id": "business-rule-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a0838e2d92556587",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-1",
+      "missing_fields": [],
+      "name": "Rule 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-1",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must have a business owner before it becomes Active."
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system"
+        ],
+        "source_business_rule_id": "business-rule-2"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "0faa9d909ed4effe",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-2",
+      "missing_fields": [],
+      "name": "Rule 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-2",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System lifecycle state change requires approval for deprecation."
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system",
+          "entity-contract"
+        ],
+        "source_business_rule_id": "business-rule-3"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ae58a8512d9d5819",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-3",
+      "missing_fields": [],
+      "name": "Rule 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-3",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must record vendor and contract dates."
+    },
+    {
+      "attributes": {
+        "requirement_kind": "functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "b817426cb7205235",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "functional_requirements",
+      "id": "functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "functional-requirement-1",
+      "source_key": "workflow_scope",
+      "source_round": 4,
+      "text": "Yes business processes like stage gates and approval states must be supported"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "139e2490d0d43a69",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "functional_requirements",
+      "id": "functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "functional-requirement-1",
+      "source_key": "integrations",
+      "source_round": 3,
+      "text": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting."
+    },
+    {
+      "attributes": {
+        "source_trigger_id": "trigger-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_guard_conditions",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "065fe600e6dfe1f2",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "guard_conditions",
+      "id": "guard-condition-1",
+      "missing_fields": [
+        "related_transition_ids"
+      ],
+      "name": "Deprecation approval",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "guard-condition-1",
+      "source_key": "triggers_and_approvals",
+      "source_round": 6,
+      "text": "Deprecation approval requires enterprise architect review"
+    },
+    {
+      "attributes": {
+        "source_trigger_id": "trigger-2"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_guard_conditions",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "bed0aa2ab2818dc4",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "guard_conditions",
+      "id": "guard-condition-2",
+      "missing_fields": [
+        "related_transition_ids"
+      ],
+      "name": "Contract expiry",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "guard-condition-2",
+      "source_key": "triggers_and_approvals",
+      "source_round": 6,
+      "text": "Contract expiry triggers lifecycle review"
+    },
+    {
+      "attributes": {
+        "interaction_verb": "calls",
+        "source_component_id": "component-system-inventory-web-app",
+        "target_component_id": "component-system-inventory-api"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "69a03a26d6ed27f2",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "interfaces",
+      "id": "interface-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "interface-1",
+      "source_key": "interfaces_and_integrations",
+      "source_round": 7,
+      "text": "System Inventory Web App calls System Inventory API"
+    },
+    {
+      "attributes": {
+        "interaction_verb": "sends",
+        "source_component_id": "component-system-inventory-api",
+        "target_component_id": "component-reporting-consumers"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "44e4a4a42d3319ec",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "interfaces",
+      "id": "interface-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "interface-2",
+      "source_key": "interfaces_and_integrations",
+      "source_round": 7,
+      "text": "System Inventory API sends Reporting Consumers"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "35140189626f3690",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-1",
+      "source_key": "constraints",
+      "source_round": 2,
+      "text": "UI must be web based"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a8315094eda0a9ee",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-1",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "SSO"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "653fcfd7e5d0f72d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-2",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "role-based access"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1e1efba12799e966",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-3",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-3",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "audit trail"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e4dde9ea3c5c65ff",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-4",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-4",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "search"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2da660a4b12b3c4f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-5",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-5",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "filtering"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2425258393a5de78",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-6",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-6",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "performance (regular >1s for web page rendering)"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a77d5256a7d4bfcb",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-7",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-7",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "availability >=99%"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "00b251588522b7b6",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-1",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has one Business Owner"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "360538e5dcd99cae",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-2",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has one Technical Owner"
+    },
+    {
+      "attributes": {
+        "source_entity_id": "entity-system",
+        "target_entity_id": "entity-integration"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "934f71080e23519e",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-3",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-3",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has many Integrations"
+    },
+    {
+      "attributes": {
+        "source_entity_id": "entity-system"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ab39194c2a6358f7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-4",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-4",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has many Capabilities"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "805991d9f16d4aa5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-5",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-5",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has one Contract"
+    },
+    {
+      "attributes": {
+        "source_entity_id": "entity-system",
+        "target_entity_id": "entity-risk-assessment"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fa8309800cc5f504",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-6",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-6",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has many Risk Assessments"
+    },
+    {
+      "attributes": {
+        "source_entity_id": "entity-system",
+        "target_entity_id": "entity-cost-record"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_5",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ec019fec6642681e",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "relationships",
+      "id": "relationship-7",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "relationship-7",
+      "source_key": "relationships",
+      "source_round": 5,
+      "text": "A System has many Cost Records"
+    },
+    {
+      "attributes": {
+        "boundary_type": "runtime_separation"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_7",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c7d34ba59a95bc4d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "informative",
+      "family": "runtime_boundaries",
+      "id": "runtime-boundary-1",
+      "missing_fields": [],
+      "name": "Runtime Boundary 1",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "runtime-boundary-1",
+      "source_key": "runtime_boundaries",
+      "source_round": 7,
+      "text": "System Inventory API runs separately from the UI"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "87ced495451bbf64",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_entities",
+      "id": "state-entity-system",
+      "missing_fields": [],
+      "name": "System",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "state-entity-system",
+      "source_key": "state_entities",
+      "source_round": 6,
+      "text": "System"
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-1",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e99d374908167c66",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-1",
+      "missing_fields": [],
+      "name": "Rule 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-1",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must have a business owner before it becomes Active."
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-2",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d3f0734ba4f5d238",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-2",
+      "missing_fields": [],
+      "name": "Rule 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-2",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System lifecycle state change requires approval for deprecation."
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-3",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "86c22df4bc630d1b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-3",
+      "missing_fields": [],
+      "name": "Rule 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-3",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must record vendor and contract dates."
+    },
+    {
+      "attributes": {
+        "from_state": "Proposed",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Active"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "79c9acbe984baf73",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-1",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Active",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Retiring"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "105b7f94b43109c5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-2",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Retiring",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Retired"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3f1c2199aa90c5fa",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-3",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-3",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Active",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Deprecated"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e6ebcb7b94af23fb",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-4",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-4",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Active -> Deprecated"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "abe96f51c19ab7b3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "triggers",
+      "id": "trigger-1",
+      "missing_fields": [],
+      "name": "Deprecation approval",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "trigger-1",
+      "source_key": "triggers_and_approvals",
+      "source_round": 6,
+      "text": "Deprecation approval requires enterprise architect review"
+    },
+    {
+      "attributes": {},
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "42de2ee3bbe7dfa8",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "triggers",
+      "id": "trigger-2",
+      "missing_fields": [],
+      "name": "Contract expiry",
+      "normative_ready": false,
+      "readiness_status": "",
+      "semantic_id": "trigger-2",
+      "source_key": "triggers_and_approvals",
+      "source_round": 6,
+      "text": "Contract expiry triggers lifecycle review"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1bc75c3cb13f6dc9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "approve-deprecation",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "approve deprecation",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "approve-deprecation",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "approve deprecation"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "97a5cb95cc045fb5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "compare-overlapping-systems",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "compare overlapping systems",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "compare-overlapping-systems",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "compare overlapping systems"
+    },
+    {
+      "attributes": {
+        "complexity": "simple"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "49b57b797dfb65d8",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "edit-metadata",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "edit metadata",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "edit-metadata",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "edit metadata"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d145a19075179f4d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "register-a-system",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "Register a system",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "register-a-system",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "Register a system"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "073a5935f13208c1",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "report-portfolio-gaps",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "report portfolio gaps",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "report-portfolio-gaps",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "report portfolio gaps"
+    },
+    {
+      "attributes": {
+        "complexity": "simple"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c5b1951eeada9174",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "review-risks",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "review risks",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "review-risks",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "review risks"
+    },
+    {
+      "attributes": {
+        "complexity": "simple"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6373ef70fd6e12c5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "see-costs",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "see costs",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "see-costs",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "see costs"
+    },
+    {
+      "attributes": {
+        "complexity": "average"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_3",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6077961c843c1a2e",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "use_cases",
+      "id": "track-lifecycle-state",
+      "missing_fields": [
+        "main_success_scenario"
+      ],
+      "name": "track lifecycle state",
+      "normative_ready": false,
+      "readiness_status": "blocked",
+      "semantic_id": "track-lifecycle-state",
+      "source_key": "use_cases",
+      "source_round": 3,
+      "text": "track lifecycle state"
+    }
+  ],
+  "export_metadata": {
+    "export_kind": "speckify_planning_export",
+    "schema_version": 1,
+    "source_model_change_metadata": {
+      "change_source": "normalize_replay_to_model",
+      "last_changed_at": "",
+      "regenerated_from_version": "",
+      "semantic_hash": "2f3ec68a35e9678e",
+      "semantic_version": 1,
+      "supersedes": []
+    },
+    "source_model_semantic_id": "rupify-model"
+  },
+  "ready_normative_elements": [
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "926a0e8b7f0d0604",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-1",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-1",
+      "source_key": "constraints",
+      "source_round": 2,
+      "text": "UI must be web based"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ea270a270fd5ae0a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-2",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-2",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "SSO"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-2"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "cc94e38b4882a356",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-3",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-3",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "role-based access"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-3"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e3b5c94d9e1c0566",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-4",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 4",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-4",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "audit trail"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-4"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "9c5f49ef585cd8db",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-5",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 5",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-5",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "search"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-5"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6e001e4c4833adf7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-6",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 6",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-6",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "filtering"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-6"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "714fad84b7076d46",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-7",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 7",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-7",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "performance (regular >1s for web page rendering)"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "non_functional_requirement",
+        "source_requirement_id": "non_functional-requirement-7"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "93c0bedbff37f4c7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-requirement-8",
+      "missing_fields": [],
+      "name": "Acceptance Constraint 8",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-requirement-8",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "availability >=99%"
+    },
+    {
+      "attributes": {
+        "constraint_kind": "success_criterion"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_acceptance_constraints",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f58f7d91234137ac",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "acceptance_constraints",
+      "id": "acceptance-constraint-success-1",
+      "missing_fields": [],
+      "name": "Success Criterion 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "acceptance-constraint-success-1",
+      "source_key": "success_criteria",
+      "source_round": 2,
+      "text": "Better planning of IT systems purchasing and life cycle"
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system"
+        ],
+        "source_business_rule_id": "business-rule-1"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a0838e2d92556587",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-1",
+      "missing_fields": [],
+      "name": "Rule 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-1",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must have a business owner before it becomes Active."
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system"
+        ],
+        "source_business_rule_id": "business-rule-2"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "0faa9d909ed4effe",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-2",
+      "missing_fields": [],
+      "name": "Rule 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-2",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System lifecycle state change requires approval for deprecation."
+    },
+    {
+      "attributes": {
+        "scope_entity_ids": [
+          "entity-system",
+          "entity-contract"
+        ],
+        "source_business_rule_id": "business-rule-3"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_domain_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ae58a8512d9d5819",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "domain_invariants",
+      "id": "domain-invariant-3",
+      "missing_fields": [],
+      "name": "Rule 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "domain-invariant-3",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must record vendor and contract dates."
+    },
+    {
+      "attributes": {
+        "requirement_kind": "functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "b817426cb7205235",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "functional_requirements",
+      "id": "functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "functional-requirement-1",
+      "source_key": "workflow_scope",
+      "source_round": 4,
+      "text": "Yes business processes like stage gates and approval states must be supported"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "139e2490d0d43a69",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "functional_requirements",
+      "id": "functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "functional-requirement-1",
+      "source_key": "integrations",
+      "source_round": 3,
+      "text": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting."
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "35140189626f3690",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-1",
+      "source_key": "constraints",
+      "source_round": 2,
+      "text": "UI must be web based"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a8315094eda0a9ee",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-1",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "SSO"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "653fcfd7e5d0f72d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-2",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "role-based access"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1e1efba12799e966",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-3",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-3",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "audit trail"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e4dde9ea3c5c65ff",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-4",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-4",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "search"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2da660a4b12b3c4f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-5",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-5",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "filtering"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2425258393a5de78",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-6",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-6",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "performance (regular >1s for web page rendering)"
+    },
+    {
+      "attributes": {
+        "requirement_kind": "non_functional"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "requirements",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a77d5256a7d4bfcb",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "non_functional_requirements",
+      "id": "non_functional-requirement-7",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "non_functional-requirement-7",
+      "source_key": "non_functional_requirements",
+      "source_round": 4,
+      "text": "availability >=99%"
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-1",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e99d374908167c66",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-1",
+      "missing_fields": [],
+      "name": "Rule 1",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-1",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must have a business owner before it becomes Active."
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-2",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d3f0734ba4f5d238",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-2",
+      "missing_fields": [],
+      "name": "Rule 2",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-2",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System lifecycle state change requires approval for deprecation."
+    },
+    {
+      "attributes": {
+        "source_business_rule_id": "business-rule-3",
+        "state_entity_ids": [
+          "state-entity-system"
+        ]
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "derived_state_invariants",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "86c22df4bc630d1b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_invariants",
+      "id": "state-invariant-3",
+      "missing_fields": [],
+      "name": "Rule 3",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-invariant-3",
+      "source_key": "business_rules",
+      "source_round": 5,
+      "text": "A System must record vendor and contract dates."
+    },
+    {
+      "attributes": {
+        "from_state": "Proposed",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Active"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "79c9acbe984baf73",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-1",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-1",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Active",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Retiring"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "105b7f94b43109c5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-2",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-2",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Retiring",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Retired"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3f1c2199aa90c5fa",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-3",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-3",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Proposed -> Active -> Retiring -> Retired"
+    },
+    {
+      "attributes": {
+        "from_state": "Active",
+        "state_entity_id": "state-entity-system",
+        "to_state": "Deprecated"
+      },
+      "blocking_ambiguity_ids": [],
+      "change_metadata": {
+        "change_source": "round_6",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e6ebcb7b94af23fb",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "content_semantics": "normative",
+      "family": "state_transitions",
+      "id": "state-transition-4",
+      "missing_fields": [],
+      "name": "",
+      "normative_ready": true,
+      "readiness_status": "ready",
+      "semantic_id": "state-transition-4",
+      "source_key": "states_and_transitions",
+      "source_round": 6,
+      "text": "System: Active -> Deprecated"
+    }
+  ],
+  "summary": {
+    "blocking_ambiguity_count": 0,
+    "blocking_ambiguity_ids": [],
+    "element_count": 72,
+    "partial_or_blocked_normative_ids": [
+      "business-rule-1",
+      "business-rule-2",
+      "business-rule-3",
+      "entity-capability",
+      "entity-contract",
+      "entity-cost-record",
+      "entity-integration",
+      "entity-risk-assessment",
+      "entity-system",
+      "guard-condition-1",
+      "guard-condition-2",
+      "relationship-1",
+      "relationship-2",
+      "relationship-3",
+      "relationship-4",
+      "relationship-5",
+      "relationship-6",
+      "relationship-7",
+      "state-entity-system",
+      "trigger-1",
+      "trigger-2",
+      "approve-deprecation",
+      "compare-overlapping-systems",
+      "edit-metadata",
+      "register-a-system",
+      "report-portfolio-gaps",
+      "review-risks",
+      "see-costs",
+      "track-lifecycle-state"
+    ],
+    "ready_normative_count": 29,
+    "ready_normative_ids": [
+      "acceptance-constraint-requirement-1",
+      "acceptance-constraint-requirement-2",
+      "acceptance-constraint-requirement-3",
+      "acceptance-constraint-requirement-4",
+      "acceptance-constraint-requirement-5",
+      "acceptance-constraint-requirement-6",
+      "acceptance-constraint-requirement-7",
+      "acceptance-constraint-requirement-8",
+      "acceptance-constraint-success-1",
+      "domain-invariant-1",
+      "domain-invariant-2",
+      "domain-invariant-3",
+      "functional-requirement-1",
+      "functional-requirement-1",
+      "non_functional-requirement-1",
+      "non_functional-requirement-1",
+      "non_functional-requirement-2",
+      "non_functional-requirement-3",
+      "non_functional-requirement-4",
+      "non_functional-requirement-5",
+      "non_functional-requirement-6",
+      "non_functional-requirement-7",
+      "state-invariant-1",
+      "state-invariant-2",
+      "state-invariant-3",
+      "state-transition-1",
+      "state-transition-2",
+      "state-transition-3",
+      "state-transition-4"
+    ],
+    "trace_link_count": 127
+  },
+  "trace_links": [
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f499408c812a5b1f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-1",
+      "id": "trace-acceptance-constraint-requirement-1",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-1",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-1"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7f685b8d92b945df",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-2",
+      "id": "trace-acceptance-constraint-requirement-2",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-2",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-1"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "649c3fbca5601731",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-3",
+      "id": "trace-acceptance-constraint-requirement-3",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-3",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-2"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "91ac10d7368a9a9f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-4",
+      "id": "trace-acceptance-constraint-requirement-4",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-4",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-3"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a099510c537d1d22",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-5",
+      "id": "trace-acceptance-constraint-requirement-5",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-5",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-4"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c37c99b080232b78",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-6",
+      "id": "trace-acceptance-constraint-requirement-6",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-6",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-5"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c91c61b275d7fab9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-7",
+      "id": "trace-acceptance-constraint-requirement-7",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-7",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-6"
+    },
+    {
+      "artifact_section": "",
+      "basis": "acceptance constraint is derived from canonical requirement",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f1b8057e436d3a6c",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "acceptance_constraint_to_requirement",
+      "from_id": "acceptance-constraint-requirement-8",
+      "id": "trace-acceptance-constraint-requirement-8",
+      "link_type": "acceptance_constraint_to_requirement",
+      "semantic_id": "trace-acceptance-constraint-requirement-8",
+      "to_artifact": "",
+      "to_id": "non_functional-requirement-7"
+    },
+    {
+      "artifact_section": "",
+      "basis": "design component name references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "4bb19f288d292010",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "analysis_to_design",
+      "from_id": "entity-system",
+      "id": "trace-analysis-design-1",
+      "link_type": "analysis_to_design",
+      "semantic_id": "trace-analysis-design-1",
+      "to_artifact": "",
+      "to_id": "component-system-inventory-web-app"
+    },
+    {
+      "artifact_section": "",
+      "basis": "design component name references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6cde672c8271c7eb",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "analysis_to_design",
+      "from_id": "entity-system",
+      "id": "trace-analysis-design-2",
+      "link_type": "analysis_to_design",
+      "semantic_id": "trace-analysis-design-2",
+      "to_artifact": "",
+      "to_id": "component-system-inventory-api"
+    },
+    {
+      "artifact_section": "",
+      "basis": "design component name references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ad163be4082bd704",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "analysis_to_design",
+      "from_id": "state-entity-system",
+      "id": "trace-analysis-design-3",
+      "link_type": "analysis_to_design",
+      "semantic_id": "trace-analysis-design-3",
+      "to_artifact": "",
+      "to_id": "component-system-inventory-web-app"
+    },
+    {
+      "artifact_section": "",
+      "basis": "design component name references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fbb12644b7b75844",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "analysis_to_design",
+      "from_id": "state-entity-system",
+      "id": "trace-analysis-design-4",
+      "link_type": "analysis_to_design",
+      "semantic_id": "trace-analysis-design-4",
+      "to_artifact": "",
+      "to_id": "component-system-inventory-api"
+    },
+    {
+      "artifact_section": "components",
+      "basis": "canonical components object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ae76c9098925962d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-reporting-consumers",
+      "id": "trace-artifact-deployment-model-components-component-reporting-consumers",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-components-component-reporting-consumers",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "components",
+      "basis": "canonical components object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a69efcf70a5d3768",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-system-inventory-api",
+      "id": "trace-artifact-deployment-model-components-component-system-inventory-api",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-components-component-system-inventory-api",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "components",
+      "basis": "canonical components object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ec6a144b856a508f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-system-inventory-web-app",
+      "id": "trace-artifact-deployment-model-components-component-system-inventory-web-app",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-components-component-system-inventory-web-app",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "interfaces and integrations",
+      "basis": "canonical interfaces and integrations object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "4185f4411a623540",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interface-1",
+      "id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-1",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "interfaces and integrations",
+      "basis": "canonical interfaces and integrations object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a17ccea49d467835",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interface-2",
+      "id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-interfaces-and-integrations-interface-2",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "runtime boundaries",
+      "basis": "canonical runtime boundaries object renders into deployment-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "be72109b76fcb841",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "runtime-boundary-1",
+      "id": "trace-artifact-deployment-model-runtime-boundaries-runtime-boundary-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-deployment-model-runtime-boundaries-runtime-boundary-1",
+      "to_artifact": "deployment-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "business rules",
+      "basis": "canonical business rules object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "78dc7ea16d834a20",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "business-rule-1",
+      "id": "trace-artifact-domain-model-business-rules-business-rule-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-business-rules-business-rule-1",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "business rules",
+      "basis": "canonical business rules object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e6182870d05b9f7a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "business-rule-2",
+      "id": "trace-artifact-domain-model-business-rules-business-rule-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-business-rules-business-rule-2",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "business rules",
+      "basis": "canonical business rules object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "db08e5f8695442da",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "business-rule-3",
+      "id": "trace-artifact-domain-model-business-rules-business-rule-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-business-rules-business-rule-3",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "789a2483947d840f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-capability",
+      "id": "trace-artifact-domain-model-domain-entities-entity-capability",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-capability",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "59f8ec7cc794e555",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-contract",
+      "id": "trace-artifact-domain-model-domain-entities-entity-contract",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-contract",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "dbb9b5a0b9436260",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-cost-record",
+      "id": "trace-artifact-domain-model-domain-entities-entity-cost-record",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-cost-record",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "586636070ce25971",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-integration",
+      "id": "trace-artifact-domain-model-domain-entities-entity-integration",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-integration",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "62ef26eab7f16102",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-risk-assessment",
+      "id": "trace-artifact-domain-model-domain-entities-entity-risk-assessment",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-risk-assessment",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain entities",
+      "basis": "canonical domain entities object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "887037ab9531f5ef",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "entity-system",
+      "id": "trace-artifact-domain-model-domain-entities-entity-system",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-entities-entity-system",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain invariants",
+      "basis": "canonical domain invariants object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a90aa119fd188cdf",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "domain-invariant-1",
+      "id": "trace-artifact-domain-model-domain-invariants-domain-invariant-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-invariants-domain-invariant-1",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain invariants",
+      "basis": "canonical domain invariants object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c954802ff4fd4b50",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "domain-invariant-2",
+      "id": "trace-artifact-domain-model-domain-invariants-domain-invariant-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-invariants-domain-invariant-2",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "domain invariants",
+      "basis": "canonical domain invariants object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "122fe94f2ccfd8f9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "domain-invariant-3",
+      "id": "trace-artifact-domain-model-domain-invariants-domain-invariant-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-domain-invariants-domain-invariant-3",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3f9d110e45e868b3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-1",
+      "id": "trace-artifact-domain-model-relationships-relationship-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-1",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "82d26cc72fe3d665",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-2",
+      "id": "trace-artifact-domain-model-relationships-relationship-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-2",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "aed3828f4d7ff3e1",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-3",
+      "id": "trace-artifact-domain-model-relationships-relationship-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-3",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f87566d9edb20283",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-4",
+      "id": "trace-artifact-domain-model-relationships-relationship-4",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-4",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "aa3eb4ffa7b6066e",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-5",
+      "id": "trace-artifact-domain-model-relationships-relationship-5",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-5",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7e39e463e9002a76",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-6",
+      "id": "trace-artifact-domain-model-relationships-relationship-6",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-6",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "relationships",
+      "basis": "canonical relationships object renders into domain-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "8fa95fb213bf3e7d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "relationship-7",
+      "id": "trace-artifact-domain-model-relationships-relationship-7",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-domain-model-relationships-relationship-7",
+      "to_artifact": "domain-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "message flows",
+      "basis": "canonical message flows object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "0b3a7106bfe418b7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-message-1",
+      "id": "trace-artifact-interaction-model-message-flows-interaction-message-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-message-flows-interaction-message-1",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "message flows",
+      "basis": "canonical message flows object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7b943cc11b7a8f88",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-message-2",
+      "id": "trace-artifact-interaction-model-message-flows-interaction-message-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-message-flows-interaction-message-2",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c1b6823d2aeeb87a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-1",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-1",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ff275c3ef6eda3ed",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-2",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-2",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7e4fb0b4c67991c7",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-3",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-3",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "19f77e4577165002",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-4",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-4",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-4",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c9a030230c311202",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-5",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-5",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-5",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "04f88acefe82b1c5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-6",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-6",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-6",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e54d055255df10f0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-7",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-7",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-7",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case realizations",
+      "basis": "canonical use-case realizations object renders into interaction-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "bf6e29c9d8c1ca38",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interaction-realization-8",
+      "id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-8",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-interaction-model-use-case-realizations-interaction-realization-8",
+      "to_artifact": "interaction-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "b9a087737158f727",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-1",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "b2270d7e957c58fa",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-2",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-2",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "8180562a372ad219",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-3",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-3",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "46ebf22f963fa28d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-4",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-4",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-4",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "9434a1c4a8ceb824",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-5",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-5",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-5",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d855358cded4ea44",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-6",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-6",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-6",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ea6de4221e2055e8",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-7",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-7",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-7",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6b96bb58a515b323",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-requirement-8",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-8",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-requirement-8",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "acceptance constraints",
+      "basis": "canonical acceptance constraints object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "9a069ddc773b3326",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "acceptance-constraint-success-1",
+      "id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-success-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-acceptance-constraints-acceptance-constraint-success-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fec25440bb6afe79",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "functional-requirement-1",
+      "id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fec25440bb6afe79",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "functional-requirement-1",
+      "id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-functional-requirement-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "366d3df1f215edf6",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-1",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "366d3df1f215edf6",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-1",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-1",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "553fc29268eb54af",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-2",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-2",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "45842652ab1a37ac",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-3",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-3",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "deffbd4b51a070ad",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-4",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-4",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-4",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "5d7714100200c16f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-5",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-5",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-5",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f3c17e6b06f0c694",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-6",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-6",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-6",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "functional requirements",
+      "basis": "canonical functional requirements object renders into requirements-spec.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "515decfb51f1bc20",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "non_functional-requirement-7",
+      "id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-7",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-requirements-spec-functional-requirements-non_functional-requirement-7",
+      "to_artifact": "requirements-spec.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "guard conditions",
+      "basis": "canonical guard conditions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e6c1be629fc829cf",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "guard-condition-1",
+      "id": "trace-artifact-state-model-guard-conditions-guard-condition-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-guard-conditions-guard-condition-1",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "guard conditions",
+      "basis": "canonical guard conditions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "0135f82024c2d563",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "guard-condition-2",
+      "id": "trace-artifact-state-model-guard-conditions-guard-condition-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-guard-conditions-guard-condition-2",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state entities",
+      "basis": "canonical state entities object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ec77547d2b28ffa3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-entity-system",
+      "id": "trace-artifact-state-model-state-entities-state-entity-system",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-entities-state-entity-system",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state invariants",
+      "basis": "canonical state invariants object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "0fc9afd4b2b4d208",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-invariant-1",
+      "id": "trace-artifact-state-model-state-invariants-state-invariant-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-invariants-state-invariant-1",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state invariants",
+      "basis": "canonical state invariants object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7ca8114c140d58c2",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-invariant-2",
+      "id": "trace-artifact-state-model-state-invariants-state-invariant-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-invariants-state-invariant-2",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state invariants",
+      "basis": "canonical state invariants object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "4e3750dae2e4baa3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-invariant-3",
+      "id": "trace-artifact-state-model-state-invariants-state-invariant-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-invariants-state-invariant-3",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state transitions",
+      "basis": "canonical state transitions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "5e3bb5d335f535a0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-transition-1",
+      "id": "trace-artifact-state-model-state-transitions-state-transition-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-transitions-state-transition-1",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state transitions",
+      "basis": "canonical state transitions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3c2aa5a1b7def9a0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-transition-2",
+      "id": "trace-artifact-state-model-state-transitions-state-transition-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-transitions-state-transition-2",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state transitions",
+      "basis": "canonical state transitions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1af79bac5dae50d9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-transition-3",
+      "id": "trace-artifact-state-model-state-transitions-state-transition-3",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-transitions-state-transition-3",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "state transitions",
+      "basis": "canonical state transitions object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "facb3d54f01b3e57",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "state-transition-4",
+      "id": "trace-artifact-state-model-state-transitions-state-transition-4",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-state-transitions-state-transition-4",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "triggers and approvals",
+      "basis": "canonical triggers and approvals object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c82280ef83063a38",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "trigger-1",
+      "id": "trace-artifact-state-model-triggers-and-approvals-trigger-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-triggers-and-approvals-trigger-1",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "triggers and approvals",
+      "basis": "canonical triggers and approvals object renders into state-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "826c99d687ec2f69",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "trigger-2",
+      "id": "trace-artifact-state-model-triggers-and-approvals-trigger-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-state-model-triggers-and-approvals-trigger-2",
+      "to_artifact": "state-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "architecture overview",
+      "basis": "canonical architecture overview object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7d707f3fec7a9d2f",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-reporting-consumers",
+      "id": "trace-artifact-system-document-architecture-overview-component-reporting-consumers",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-architecture-overview-component-reporting-consumers",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "architecture overview",
+      "basis": "canonical architecture overview object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "00e094380860061c",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-system-inventory-api",
+      "id": "trace-artifact-system-document-architecture-overview-component-system-inventory-api",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-architecture-overview-component-system-inventory-api",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "architecture overview",
+      "basis": "canonical architecture overview object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f69c81a8f2400595",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "component-system-inventory-web-app",
+      "id": "trace-artifact-system-document-architecture-overview-component-system-inventory-web-app",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-architecture-overview-component-system-inventory-web-app",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "interfaces and integrations",
+      "basis": "canonical interfaces and integrations object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "91eece8d26d5ed9b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interface-1",
+      "id": "trace-artifact-system-document-interfaces-and-integrations-interface-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-interfaces-and-integrations-interface-1",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "interfaces and integrations",
+      "basis": "canonical interfaces and integrations object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "3f042eff6cee48d3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "interface-2",
+      "id": "trace-artifact-system-document-interfaces-and-integrations-interface-2",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-interfaces-and-integrations-interface-2",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "runtime boundaries",
+      "basis": "canonical runtime boundaries object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fdf54dd2f5e1e22b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "runtime-boundary-1",
+      "id": "trace-artifact-system-document-runtime-boundaries-runtime-boundary-1",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-runtime-boundaries-runtime-boundary-1",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "da8c98fe1261eaea",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "approve-deprecation",
+      "id": "trace-artifact-system-document-system-level-use-cases-approve-deprecation",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-approve-deprecation",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "70377adc9535beef",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "compare-overlapping-systems",
+      "id": "trace-artifact-system-document-system-level-use-cases-compare-overlapping-systems",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-compare-overlapping-systems",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "b03a08f7eb0ce929",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "edit-metadata",
+      "id": "trace-artifact-system-document-system-level-use-cases-edit-metadata",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-edit-metadata",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "57eb8d9690d0fa91",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "register-a-system",
+      "id": "trace-artifact-system-document-system-level-use-cases-register-a-system",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-register-a-system",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "914c00a38c1a598b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "report-portfolio-gaps",
+      "id": "trace-artifact-system-document-system-level-use-cases-report-portfolio-gaps",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-report-portfolio-gaps",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "8e9c907d80fbc3d2",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "review-risks",
+      "id": "trace-artifact-system-document-system-level-use-cases-review-risks",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-review-risks",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "6ce17b1b8b27c10a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "see-costs",
+      "id": "trace-artifact-system-document-system-level-use-cases-see-costs",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-see-costs",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "system-level use cases",
+      "basis": "canonical system-level use cases object renders into system-document.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a7b2e5a77d9c1982",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "track-lifecycle-state",
+      "id": "trace-artifact-system-document-system-level-use-cases-track-lifecycle-state",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-system-document-system-level-use-cases-track-lifecycle-state",
+      "to_artifact": "system-document.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d8181a547db101b5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "approve-deprecation",
+      "id": "trace-artifact-use-case-documents-use-case-documents-approve-deprecation",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-approve-deprecation",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "91f865980aa3f429",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "compare-overlapping-systems",
+      "id": "trace-artifact-use-case-documents-use-case-documents-compare-overlapping-systems",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-compare-overlapping-systems",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d9d43f5b16d37400",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "edit-metadata",
+      "id": "trace-artifact-use-case-documents-use-case-documents-edit-metadata",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-edit-metadata",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1727802b3c9ffae2",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "register-a-system",
+      "id": "trace-artifact-use-case-documents-use-case-documents-register-a-system",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-register-a-system",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c09fec63092a31b0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "report-portfolio-gaps",
+      "id": "trace-artifact-use-case-documents-use-case-documents-report-portfolio-gaps",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-report-portfolio-gaps",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e120797b94e90a85",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "review-risks",
+      "id": "trace-artifact-use-case-documents-use-case-documents-review-risks",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-review-risks",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f0bb5d43cf2eb791",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "see-costs",
+      "id": "trace-artifact-use-case-documents-use-case-documents-see-costs",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-see-costs",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use-case documents",
+      "basis": "canonical use-case documents object renders into use-case-documents.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "97cad07ceb7a9d7a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "track-lifecycle-state",
+      "id": "trace-artifact-use-case-documents-use-case-documents-track-lifecycle-state",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-documents-use-case-documents-track-lifecycle-state",
+      "to_artifact": "use-case-documents.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "4060af26dba9ac0d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "approve-deprecation",
+      "id": "trace-artifact-use-case-model-use-cases-approve-deprecation",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-approve-deprecation",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "36db17fdd50fb1b0",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "compare-overlapping-systems",
+      "id": "trace-artifact-use-case-model-use-cases-compare-overlapping-systems",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-compare-overlapping-systems",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "04de38aac3563833",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "edit-metadata",
+      "id": "trace-artifact-use-case-model-use-cases-edit-metadata",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-edit-metadata",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f1d60233868e7209",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "register-a-system",
+      "id": "trace-artifact-use-case-model-use-cases-register-a-system",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-register-a-system",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "fe2f43ca885c899d",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "report-portfolio-gaps",
+      "id": "trace-artifact-use-case-model-use-cases-report-portfolio-gaps",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-report-portfolio-gaps",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "081f034e4463efc3",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "review-risks",
+      "id": "trace-artifact-use-case-model-use-cases-review-risks",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-review-risks",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "5add62a9f7896397",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "see-costs",
+      "id": "trace-artifact-use-case-model-use-cases-see-costs",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-see-costs",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "use cases",
+      "basis": "canonical use cases object renders into use-case-model.md",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f3f7448e4959324c",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "artifact_lineage",
+      "from_id": "track-lifecycle-state",
+      "id": "trace-artifact-use-case-model-use-cases-track-lifecycle-state",
+      "link_type": "artifact_lineage",
+      "semantic_id": "trace-artifact-use-case-model-use-cases-track-lifecycle-state",
+      "to_artifact": "use-case-model.md",
+      "to_id": ""
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "8330b21dc06c3215",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-1",
+      "id": "trace-rule-transition-1",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-1",
+      "to_artifact": "",
+      "to_id": "state-transition-1"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "38ebf4886c4cbd8a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-1",
+      "id": "trace-rule-transition-2",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-2",
+      "to_artifact": "",
+      "to_id": "state-transition-2"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2de406aa503c0e3c",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-1",
+      "id": "trace-rule-transition-3",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-3",
+      "to_artifact": "",
+      "to_id": "state-transition-3"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f37c64bb2964c748",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-1",
+      "id": "trace-rule-transition-4",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-4",
+      "to_artifact": "",
+      "to_id": "state-transition-4"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "ff930d94cc08c88b",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-3",
+      "id": "trace-rule-transition-5",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-5",
+      "to_artifact": "",
+      "to_id": "state-transition-1"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f75fceaaa7c248ca",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-3",
+      "id": "trace-rule-transition-6",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-6",
+      "to_artifact": "",
+      "to_id": "state-transition-2"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a2b8426741530711",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-3",
+      "id": "trace-rule-transition-7",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-7",
+      "to_artifact": "",
+      "to_id": "state-transition-3"
+    },
+    {
+      "artifact_section": "",
+      "basis": "business rule scope references state transition text",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "1f50adb69526d9e9",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "business_rule_to_transition",
+      "from_id": "business-rule-3",
+      "id": "trace-rule-transition-8",
+      "link_type": "business_rule_to_transition",
+      "semantic_id": "trace-rule-transition-8",
+      "to_artifact": "",
+      "to_id": "state-transition-4"
+    },
+    {
+      "artifact_section": "",
+      "basis": "domain invariant scope references domain entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "c23910b6713e30ea",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "domain_invariant_to_entity",
+      "from_id": "domain-invariant-1",
+      "id": "trace-domain-invariant-entity-1",
+      "link_type": "domain_invariant_to_entity",
+      "semantic_id": "trace-domain-invariant-entity-1",
+      "to_artifact": "",
+      "to_id": "entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "domain invariant scope references domain entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "f9b0aeac127ec23a",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "domain_invariant_to_entity",
+      "from_id": "domain-invariant-2",
+      "id": "trace-domain-invariant-entity-2",
+      "link_type": "domain_invariant_to_entity",
+      "semantic_id": "trace-domain-invariant-entity-2",
+      "to_artifact": "",
+      "to_id": "entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "domain invariant scope references domain entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a077454bbc453b48",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "domain_invariant_to_entity",
+      "from_id": "domain-invariant-3",
+      "id": "trace-domain-invariant-entity-3",
+      "link_type": "domain_invariant_to_entity",
+      "semantic_id": "trace-domain-invariant-entity-3",
+      "to_artifact": "",
+      "to_id": "entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "domain invariant scope references domain entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7d1e630599a59661",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "domain_invariant_to_entity",
+      "from_id": "domain-invariant-3",
+      "id": "trace-domain-invariant-entity-4",
+      "link_type": "domain_invariant_to_entity",
+      "semantic_id": "trace-domain-invariant-entity-4",
+      "to_artifact": "",
+      "to_id": "entity-contract"
+    },
+    {
+      "artifact_section": "",
+      "basis": "state invariant scope references state entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "a7293ec5dae6d460",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "state_invariant_to_state",
+      "from_id": "state-invariant-1",
+      "id": "trace-state-invariant-state-1",
+      "link_type": "state_invariant_to_state",
+      "semantic_id": "trace-state-invariant-state-1",
+      "to_artifact": "",
+      "to_id": "state-entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "state invariant scope references state entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "4a08ee79d9656d34",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "state_invariant_to_state",
+      "from_id": "state-invariant-2",
+      "id": "trace-state-invariant-state-2",
+      "link_type": "state_invariant_to_state",
+      "semantic_id": "trace-state-invariant-state-2",
+      "to_artifact": "",
+      "to_id": "state-entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "state invariant scope references state entity",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "79abcaa321b80e68",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "state_invariant_to_state",
+      "from_id": "state-invariant-3",
+      "id": "trace-state-invariant-state-3",
+      "link_type": "state_invariant_to_state",
+      "semantic_id": "trace-state-invariant-state-3",
+      "to_artifact": "",
+      "to_id": "state-entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "use-case text references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "e3594e9f3a257337",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "use_case_to_analysis",
+      "from_id": "register-a-system",
+      "id": "trace-uc-analysis-1",
+      "link_type": "use_case_to_analysis",
+      "semantic_id": "trace-uc-analysis-1",
+      "to_artifact": "",
+      "to_id": "entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "use-case text references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "2a59a5943a0158f5",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "use_case_to_analysis",
+      "from_id": "register-a-system",
+      "id": "trace-uc-analysis-2",
+      "link_type": "use_case_to_analysis",
+      "semantic_id": "trace-uc-analysis-2",
+      "to_artifact": "",
+      "to_id": "state-entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "use-case text references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "d33c8769568faeb1",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "use_case_to_analysis",
+      "from_id": "compare-overlapping-systems",
+      "id": "trace-uc-analysis-3",
+      "link_type": "use_case_to_analysis",
+      "semantic_id": "trace-uc-analysis-3",
+      "to_artifact": "",
+      "to_id": "entity-system"
+    },
+    {
+      "artifact_section": "",
+      "basis": "use-case text references analysis object name",
+      "change_metadata": {
+        "change_source": "derived_traceability",
+        "last_changed_at": "",
+        "regenerated_from_version": "",
+        "semantic_hash": "7ea3d3efb49a9f45",
+        "semantic_version": 1,
+        "supersedes": []
+      },
+      "family": "use_case_to_analysis",
+      "from_id": "compare-overlapping-systems",
+      "id": "trace-uc-analysis-4",
+      "link_type": "use_case_to_analysis",
+      "semantic_id": "trace-uc-analysis-4",
+      "to_artifact": "",
+      "to_id": "state-entity-system"
+    }
+  ]
+}
