@@ -149,6 +149,7 @@ improving Rupify:
 - [Example Model](examples/it-systems-inventory/rupify-model.yaml)
 - [Example Feedback](examples/it-systems-inventory/rupify-feedback.md)
 - [V2 Publication Bundle](examples/it-systems-inventory-v2/README.md)
+- [Loyalty Platform V2 Bundle](examples/loyalty-platform-v2/README.md)
 
 ## Current Limitations
 
