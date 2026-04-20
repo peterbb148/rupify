@@ -18,7 +18,8 @@ uv run rupify-publish-bundle \
 
 ## Purpose
 
-This bundle is the concrete proof for the downstream Speckify integration path under issue `#84`.
+This bundle is the concrete proof for the downstream Speckify integration path under issue `#84`,
+with the import-cleanliness blockers from issue `#151` corrected upstream in Rupify.
 
 It demonstrates that the existing CMDB interview can now be carried all the way through:
 
@@ -48,10 +49,12 @@ The canonical model snapshot used to generate the bundle is:
 This V2 export currently shows:
 
 - a complete publication bundle with 17 files
-- 72 flattened planning elements
+- 82 flattened planning elements
 - 127 trace links
 - 29 ready normative elements
 - 0 blocking ambiguities
+- 0 unresolved trace references
+- 0 duplicate exported element IDs
 
 ## Known Limits In This Example
 

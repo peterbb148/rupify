@@ -138,6 +138,42 @@ class PlanningExportTests(unittest.TestCase):
             "interface_objects": [],
             "runtime_boundary_objects": [],
         }
+        model["interaction_view"] = {
+            "realization_objects": [
+                {
+                    "id": "interaction-realization-1",
+                    "semantic_id": "interaction-realization-1",
+                    "use_case_name": "Redeem Reward",
+                    "steps": ["Customer selects reward."],
+                    "content_semantics": "informative",
+                    "readiness": {
+                        "status": "ready",
+                        "normative_ready": False,
+                        "missing_fields": [],
+                        "blocking_ambiguity_ids": [],
+                    },
+                    "change_metadata": {"semantic_hash": "realhash"},
+                    "trace": {"source_round": 3, "source_key": "use_cases"},
+                }
+            ],
+            "message_objects": [
+                {
+                    "id": "interaction-message-1",
+                    "semantic_id": "interaction-message-1",
+                    "description": "Member App calls Rewards API",
+                    "content_semantics": "informative",
+                    "readiness": {
+                        "status": "ready",
+                        "normative_ready": False,
+                        "missing_fields": [],
+                        "blocking_ambiguity_ids": [],
+                    },
+                    "change_metadata": {"semantic_hash": "messagehash"},
+                    "trace": {"source_round": 7, "source_key": "interfaces_and_integrations"},
+                    "interaction_verb": "calls",
+                }
+            ],
+        }
         model["traceability"] = {
             "requirement_to_use_case": [
                 {
@@ -161,6 +197,18 @@ class PlanningExportTests(unittest.TestCase):
                     "change_metadata": {"semantic_hash": "ambtracehash"},
                 }
             ],
+            "artifact_lineage": [
+                {
+                    "id": "trace-artifact-interaction-message-1",
+                    "semantic_id": "trace-artifact-interaction-message-1",
+                    "from_id": "interaction-message-1",
+                    "to_artifact": "interaction-model.md",
+                    "artifact_section": "message flows",
+                    "link_type": "artifact_lineage",
+                    "basis": "canonical message flow renders into interaction-model.md",
+                    "change_metadata": {"semantic_hash": "artifacthash"},
+                }
+            ],
         }
 
         export = build_planning_export(model)
@@ -180,9 +228,17 @@ class PlanningExportTests(unittest.TestCase):
         self.assertIn("acceptance-constraint-1", export["summary"]["partial_or_blocked_normative_ids"])
         self.assertTrue(any(item["family"] == "use_cases" for item in export["ready_normative_elements"]))
         self.assertTrue(any(link["family"] == "ambiguity_to_element" for link in export["trace_links"]))
+        self.assertTrue(any(item["family"] == "interaction_messages" for item in export["elements"]))
         self.assertEqual(
             next(item for item in export["elements"] if item["id"] == "acceptance-constraint-1")["attributes"]["linked_use_case_ids"],
             ["uc-redeem"],
+        )
+        self.assertTrue(
+            any(
+                link["id"] == "trace-artifact-interaction-message-1"
+                and link["from_id"] == "interaction-message-1"
+                for link in export["trace_links"]
+            )
         )
 
     def test_cli_writes_planning_export_json(self) -> None:
@@ -255,6 +311,30 @@ class PlanningExportTests(unittest.TestCase):
             self.assertEqual(payload["export_metadata"]["export_kind"], "speckify_planning_export")
             self.assertEqual(payload["summary"]["element_count"], 0)
             self.assertIn(str(output_path), completed.stdout)
+
+    def test_checked_in_cmdb_v2_export_has_unique_ids_and_resolved_trace_references(self) -> None:
+        """The checked-in CMDB V2 export should be clean for strict Speckify import."""
+        repo_root = Path(__file__).resolve().parents[1]
+        export_path = (
+            repo_root
+            / "examples"
+            / "it-systems-inventory-v2"
+            / "exports"
+            / "speckify-planning-export.json"
+        )
+        payload = json.loads(export_path.read_text(encoding="utf-8"))
+
+        element_ids = [item["id"] for item in payload["elements"]]
+        self.assertEqual(len(element_ids), len(set(element_ids)))
+
+        element_id_set = set(element_ids)
+        unresolved = []
+        for link in payload["trace_links"]:
+            if link.get("from_id") and link["from_id"] not in element_id_set:
+                unresolved.append(("from", link["id"], link["from_id"]))
+            if link.get("to_id") and link["to_id"] not in element_id_set:
+                unresolved.append(("to", link["id"], link["to_id"]))
+        self.assertEqual(unresolved, [])
 
 
 if __name__ == "__main__":

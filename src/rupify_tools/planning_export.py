@@ -28,6 +28,8 @@ ELEMENT_FAMILY_SPECS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("components", ("architecture_view", "component_objects")),
     ("interfaces", ("architecture_view", "interface_objects")),
     ("runtime_boundaries", ("architecture_view", "runtime_boundary_objects")),
+    ("interaction_realizations", ("interaction_view", "realization_objects")),
+    ("interaction_messages", ("interaction_view", "message_objects")),
 )
 
 
