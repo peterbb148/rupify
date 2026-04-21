@@ -345,9 +345,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-1",
         "source_requirement_id": "",
@@ -409,9 +411,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-3",
         "source_requirement_id": "",
@@ -4269,9 +4273,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
@@ -4287,9 +4293,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         }
       ],
       "ambiguities": [],
@@ -4793,6 +4801,8 @@
     },
     "summary": {
       "blocked_normative_ids": [
+        "acceptance-constraint-success-1",
+        "acceptance-constraint-success-3",
         "guard-condition-1"
       ],
       "informative_ids": [],
@@ -4814,9 +4824,7 @@
         "acceptance-constraint-requirement-5",
         "acceptance-constraint-requirement-6",
         "acceptance-constraint-requirement-7",
-        "acceptance-constraint-success-1",
         "acceptance-constraint-success-2",
-        "acceptance-constraint-success-3",
         "enroll-member",
         "browse-rewards",
         "redeem-reward",
@@ -5997,7 +6005,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "fa990c5b15c56d66",
+      "semantic_hash": "dc346a5a027d9c30",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -6834,9 +6842,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-1",
         "source_requirement_id": "",
@@ -6898,9 +6908,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-3",
         "source_requirement_id": "",

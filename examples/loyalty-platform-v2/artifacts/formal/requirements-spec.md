@@ -46,9 +46,9 @@ Legacy loyalty operations are fragmented across channels and teams, causing inco
 - `acceptance-constraint-requirement-5` The system must show point balance and available rewards to eligible members. (semantics: normative; kind: non_functional_requirement; requirement: non_functional-requirement-5; readiness: ready; source: round 4 non_functional_requirements)
 - `acceptance-constraint-requirement-6` The system must allow members to redeem rewards when eligibility conditions are satisfied. (semantics: normative; kind: non_functional_requirement; requirement: non_functional-requirement-6; readiness: ready; source: round 4 non_functional_requirements)
 - `acceptance-constraint-requirement-7` The system must provide reporting on redemptions and campaign performance. (semantics: normative; kind: non_functional_requirement; requirement: non_functional-requirement-7; readiness: ready; source: round 4 non_functional_requirements)
-- `acceptance-constraint-success-1` Members can enroll and redeem rewards through one coherent digital journey. (semantics: normative; kind: success_criterion; readiness: ready; source: round 2 success_criteria)
+- `acceptance-constraint-success-1` Members can enroll and redeem rewards through one coherent digital journey. (semantics: normative; kind: success_criterion; readiness: blocked; source: round 2 success_criteria)
 - `acceptance-constraint-success-2` Operations managers can update the reward catalog without engineering support for routine changes. (semantics: normative; kind: success_criterion; readiness: ready; source: round 2 success_criteria)
-- `acceptance-constraint-success-3` The business can review redemption and campaign performance in one reporting workflow. (semantics: normative; kind: success_criterion; readiness: ready; source: round 2 success_criteria)
+- `acceptance-constraint-success-3` The business can review redemption and campaign performance in one reporting workflow. (semantics: normative; kind: success_criterion; readiness: blocked; source: round 2 success_criteria)
 
 
 ## Logical View

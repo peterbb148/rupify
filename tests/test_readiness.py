@@ -411,14 +411,48 @@ class ReadinessTests(unittest.TestCase):
                         "id": "functional-requirement-1",
                         "statement": "Approve system changes",
                         "content_semantics": "normative",
+                    },
+                    {
+                        "id": "functional-requirement-2",
+                        "statement": "Support approvals such as manager approval and security approval",
+                        "content_semantics": "normative",
+                        "sub_obligations": [
+                            {"id": "functional-requirement-2-obligation-1"},
+                            {"id": "functional-requirement-2-obligation-2"},
+                        ],
                     }
                 ],
-                "non_functional_objects": [],
+                "non_functional_objects": [
+                    {
+                        "id": "non-functional-requirement-1",
+                        "statement": "SSO",
+                        "requirement_kind": "non_functional",
+                        "content_semantics": "normative",
+                    },
+                    {
+                        "id": "non-functional-requirement-2",
+                        "statement": "The system must retain an audit trail for approval changes",
+                        "requirement_kind": "non_functional",
+                        "content_semantics": "normative",
+                    },
+                ],
                 "acceptance_constraint_objects": [
                     {
                         "id": "acceptance-constraint-1",
-                        "description": "SSO is required",
+                        "description": "SSO",
                         "content_semantics": "normative",
+                        "source_requirement_id": "non-functional-requirement-1",
+                    },
+                    {
+                        "id": "acceptance-constraint-2",
+                        "description": "Audit trail retention must be enforced for approval changes",
+                        "content_semantics": "normative",
+                    },
+                    {
+                        "id": "acceptance-constraint-3",
+                        "description": "Audit trail retention",
+                        "content_semantics": "normative",
+                        "source_requirement_id": "non-functional-requirement-2",
                     }
                 ],
             },
@@ -493,7 +527,12 @@ class ReadinessTests(unittest.TestCase):
         validation = evaluate_element_readiness(model)
 
         self.assertIn("functional-requirement-1", validation["summary"]["ready_normative_ids"])
-        self.assertIn("acceptance-constraint-1", validation["summary"]["ready_normative_ids"])
+        self.assertIn("functional-requirement-2", validation["summary"]["ready_normative_ids"])
+        self.assertIn("non-functional-requirement-2", validation["summary"]["ready_normative_ids"])
+        self.assertIn("acceptance-constraint-2", validation["summary"]["ready_normative_ids"])
+        self.assertIn("acceptance-constraint-3", validation["summary"]["ready_normative_ids"])
+        self.assertIn("non-functional-requirement-1", validation["summary"]["blocked_normative_ids"])
+        self.assertIn("acceptance-constraint-1", validation["summary"]["blocked_normative_ids"])
         self.assertIn("approve-system", validation["summary"]["partial_normative_ids"])
         self.assertIn("scenario-approval", validation["summary"]["blocked_normative_ids"])
         self.assertIn("ambiguity-open-question-1", validation["summary"]["informative_ids"])
@@ -503,3 +542,21 @@ class ReadinessTests(unittest.TestCase):
             ["ambiguity-open-question-1"],
         )
         self.assertEqual(validation["by_family"]["scenarios"][0]["missing_fields"], ["flow_of_events"])
+        requirements_by_id = {
+            item["id"]: item for item in validation["by_family"]["requirements"]
+        }
+        self.assertIn(
+            "behavioral_semantics",
+            requirements_by_id["non-functional-requirement-1"]["missing_fields"],
+        )
+        acceptance_constraints_by_id = {
+            item["id"]: item for item in validation["by_family"]["acceptance_constraints"]
+        }
+        self.assertIn(
+            "behavioral_semantics",
+            acceptance_constraints_by_id["acceptance-constraint-1"]["missing_fields"],
+        )
+        self.assertNotIn(
+            "behavioral_semantics",
+            acceptance_constraints_by_id["acceptance-constraint-3"]["missing_fields"],
+        )

@@ -199,10 +199,12 @@
       "content_semantics": "normative",
       "family": "acceptance_constraints",
       "id": "acceptance-constraint-success-1",
-      "missing_fields": [],
+      "missing_fields": [
+        "behavioral_semantics"
+      ],
       "name": "Success Criterion 1",
-      "normative_ready": true,
-      "readiness_status": "ready",
+      "normative_ready": false,
+      "readiness_status": "blocked",
       "semantic_id": "acceptance-constraint-success-1",
       "source_key": "success_criteria",
       "source_round": 2,
@@ -249,10 +251,12 @@
       "content_semantics": "normative",
       "family": "acceptance_constraints",
       "id": "acceptance-constraint-success-3",
-      "missing_fields": [],
+      "missing_fields": [
+        "behavioral_semantics"
+      ],
       "name": "Success Criterion 3",
-      "normative_ready": true,
-      "readiness_status": "ready",
+      "normative_ready": false,
+      "readiness_status": "blocked",
       "semantic_id": "acceptance-constraint-success-3",
       "source_key": "success_criteria",
       "source_round": 2,
@@ -3353,7 +3357,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "fa990c5b15c56d66",
+      "semantic_hash": "dc346a5a027d9c30",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -3551,31 +3555,6 @@
         "change_source": "derived_acceptance_constraints",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "50e151c1183f5872",
-        "semantic_version": 1,
-        "supersedes": []
-      },
-      "content_semantics": "normative",
-      "family": "acceptance_constraints",
-      "id": "acceptance-constraint-success-1",
-      "missing_fields": [],
-      "name": "Success Criterion 1",
-      "normative_ready": true,
-      "readiness_status": "ready",
-      "semantic_id": "acceptance-constraint-success-1",
-      "source_key": "success_criteria",
-      "source_round": 2,
-      "text": "Members can enroll and redeem rewards through one coherent digital journey."
-    },
-    {
-      "attributes": {
-        "constraint_kind": "success_criterion"
-      },
-      "blocking_ambiguity_ids": [],
-      "change_metadata": {
-        "change_source": "derived_acceptance_constraints",
-        "last_changed_at": "",
-        "regenerated_from_version": "",
         "semantic_hash": "2abb9a2aa9983c0a",
         "semantic_version": 1,
         "supersedes": []
@@ -3591,31 +3570,6 @@
       "source_key": "success_criteria",
       "source_round": 2,
       "text": "Operations managers can update the reward catalog without engineering support for routine changes."
-    },
-    {
-      "attributes": {
-        "constraint_kind": "success_criterion"
-      },
-      "blocking_ambiguity_ids": [],
-      "change_metadata": {
-        "change_source": "derived_acceptance_constraints",
-        "last_changed_at": "",
-        "regenerated_from_version": "",
-        "semantic_hash": "489ea823b5173325",
-        "semantic_version": 1,
-        "supersedes": []
-      },
-      "content_semantics": "normative",
-      "family": "acceptance_constraints",
-      "id": "acceptance-constraint-success-3",
-      "missing_fields": [],
-      "name": "Success Criterion 3",
-      "normative_ready": true,
-      "readiness_status": "ready",
-      "semantic_id": "acceptance-constraint-success-3",
-      "source_key": "success_criteria",
-      "source_round": 2,
-      "text": "The business can review redemption and campaign performance in one reporting workflow."
     },
     {
       "attributes": {
@@ -5553,6 +5507,8 @@
     "blocking_ambiguity_ids": [],
     "element_count": 108,
     "partial_or_blocked_normative_ids": [
+      "acceptance-constraint-success-1",
+      "acceptance-constraint-success-3",
       "business-rule-1",
       "business-rule-2",
       "business-rule-3",
@@ -5574,7 +5530,7 @@
       "trigger-1",
       "trigger-2"
     ],
-    "ready_normative_count": 62,
+    "ready_normative_count": 60,
     "ready_normative_ids": [
       "acceptance-constraint-requirement-1",
       "acceptance-constraint-requirement-2",
@@ -5583,9 +5539,7 @@
       "acceptance-constraint-requirement-5",
       "acceptance-constraint-requirement-6",
       "acceptance-constraint-requirement-7",
-      "acceptance-constraint-success-1",
       "acceptance-constraint-success-2",
-      "acceptance-constraint-success-3",
       "domain-invariant-1",
       "domain-invariant-2",
       "domain-invariant-3",
