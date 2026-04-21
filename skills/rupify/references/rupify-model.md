@@ -291,6 +291,15 @@ The canonical project model is `rupify-model.yaml`.
     - `name`
     - `description`
     - `condition_text`
+    - `guard_parts`
+      - `id`
+      - `semantic_id`
+      - `part_kind`
+      - `text`
+      - `order_index`
+      - `parent_guard_id`
+      - `parent_guard_semantic_id`
+      - `derivation_basis`
     - `state_entity_ids`
     - `related_transition_ids`
     - `source_trigger_id`

@@ -913,13 +913,35 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "5af79f330a184976",
+          "semantic_hash": "1e1f82c6ae508035",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Payment confirmation triggers redemption fulfillment",
         "content_semantics": "normative",
         "description": "Payment confirmation triggers redemption fulfillment",
+        "guard_parts": [
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-1-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-1-part-context-payment-confirmation",
+            "text": "Payment confirmation"
+          },
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-1-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-1-part-allow_outcome-redemption-fulfillment",
+            "text": "redemption fulfillment"
+          }
+        ],
         "id": "guard-condition-1",
         "model_layer": "analysis",
         "name": "Payment confirmation",
@@ -950,13 +972,45 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "8c5e2e061f6f6c0b",
+          "semantic_hash": "669407c759ca3d1c",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Catalog validation approval is required before a reward becomes Published",
         "content_semantics": "normative",
         "description": "Catalog validation approval is required before a reward becomes Published",
+        "guard_parts": [
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "condition",
+            "semantic_id": "guard-condition-2-part-condition-catalog-validation-approval",
+            "text": "Catalog validation approval"
+          },
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-2-part-allow_outcome-a-reward-becomes-published",
+            "text": "a reward becomes Published"
+          },
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-3",
+            "order_index": 3,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "block_outcome",
+            "semantic_id": "guard-condition-2-part-block_outcome-block-progression-until-catalog-validation-approval-is-satisfied",
+            "text": "Block progression until Catalog validation approval is satisfied"
+          }
+        ],
         "id": "guard-condition-2",
         "model_layer": "analysis",
         "name": "Guard Condition 2",
@@ -5767,7 +5821,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "a328534e3404a044",
+      "semantic_hash": "6f1ce484202a5571",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -5821,13 +5875,35 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "5af79f330a184976",
+          "semantic_hash": "1e1f82c6ae508035",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Payment confirmation triggers redemption fulfillment",
         "content_semantics": "normative",
         "description": "Payment confirmation triggers redemption fulfillment",
+        "guard_parts": [
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-1-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-1-part-context-payment-confirmation",
+            "text": "Payment confirmation"
+          },
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-1-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-1-part-allow_outcome-redemption-fulfillment",
+            "text": "redemption fulfillment"
+          }
+        ],
         "id": "guard-condition-1",
         "model_layer": "analysis",
         "name": "Payment confirmation",
@@ -5858,13 +5934,45 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "8c5e2e061f6f6c0b",
+          "semantic_hash": "669407c759ca3d1c",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Catalog validation approval is required before a reward becomes Published",
         "content_semantics": "normative",
         "description": "Catalog validation approval is required before a reward becomes Published",
+        "guard_parts": [
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "condition",
+            "semantic_id": "guard-condition-2-part-condition-catalog-validation-approval",
+            "text": "Catalog validation approval"
+          },
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-2-part-allow_outcome-a-reward-becomes-published",
+            "text": "a reward becomes Published"
+          },
+          {
+            "derivation_basis": "required_before_clause",
+            "id": "guard-condition-2-part-3",
+            "order_index": 3,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "block_outcome",
+            "semantic_id": "guard-condition-2-part-block_outcome-block-progression-until-catalog-validation-approval-is-satisfied",
+            "text": "Block progression until Catalog validation approval is satisfied"
+          }
+        ],
         "id": "guard-condition-2",
         "model_layer": "analysis",
         "name": "Guard Condition 2",

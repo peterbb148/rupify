@@ -56,6 +56,7 @@ This V2 export currently shows:
 - 0 unresolved trace references
 - 0 duplicate exported element IDs
 - explicit requirement obligations where the upstream requirement normalization can derive them safely
+- explicit guard parts where the upstream guard normalization can derive them safely
 
 ## Known Limits In This Example
 

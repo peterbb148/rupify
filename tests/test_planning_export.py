@@ -159,7 +159,49 @@ class PlanningExportTests(unittest.TestCase):
             "state_transition_objects": [],
             "trigger_objects": [],
             "state_invariant_objects": [],
-            "guard_condition_objects": [],
+            "guard_condition_objects": [
+                {
+                    "id": "guard-condition-1",
+                    "semantic_id": "guard-condition-1",
+                    "name": "Payment confirmation",
+                    "description": "Payment confirmation triggers redemption fulfillment",
+                    "condition_text": "Payment confirmation triggers redemption fulfillment",
+                    "guard_parts": [
+                        {
+                            "id": "guard-condition-1-part-1",
+                            "semantic_id": "guard-condition-1-part-context-payment-confirmation",
+                            "part_kind": "context",
+                            "text": "Payment confirmation",
+                            "order_index": 1,
+                            "parent_guard_id": "guard-condition-1",
+                            "parent_guard_semantic_id": "guard-condition-1",
+                            "derivation_basis": "trigger_clause",
+                        },
+                        {
+                            "id": "guard-condition-1-part-2",
+                            "semantic_id": "guard-condition-1-part-allow-outcome-redemption-fulfillment",
+                            "part_kind": "allow_outcome",
+                            "text": "redemption fulfillment",
+                            "order_index": 2,
+                            "parent_guard_id": "guard-condition-1",
+                            "parent_guard_semantic_id": "guard-condition-1",
+                            "derivation_basis": "trigger_clause",
+                        },
+                    ],
+                    "content_semantics": "normative",
+                    "readiness": {
+                        "status": "ready",
+                        "normative_ready": True,
+                        "missing_fields": [],
+                        "blocking_ambiguity_ids": [],
+                    },
+                    "change_metadata": {"semantic_hash": "guardhash"},
+                    "trace": {"source_round": 6, "source_key": "triggers_and_approvals"},
+                    "state_entity_ids": [],
+                    "related_transition_ids": ["state-transition-1"],
+                    "source_trigger_id": "trigger-1",
+                }
+            ],
             "forbidden_transition_objects": [],
         }
         model["architecture_view"] = {
@@ -245,7 +287,7 @@ class PlanningExportTests(unittest.TestCase):
         self.assertEqual(export["export_metadata"]["export_kind"], "speckify_planning_export")
         self.assertEqual(
             export["summary"]["ready_normative_ids"],
-            ["functional-requirement-1", "uc-redeem-step-1", "uc-redeem"],
+            ["functional-requirement-1", "guard-condition-1", "uc-redeem-step-1", "uc-redeem"],
         )
         self.assertEqual(export["summary"]["blocking_ambiguity_ids"], ["ambiguity-open-question-1"])
         self.assertEqual(
@@ -269,6 +311,12 @@ class PlanningExportTests(unittest.TestCase):
                 item for item in export["elements"] if item["id"] == "uc-redeem-step-1"
             )["sub_actions"][0]["semantic_id"],
             "uc-redeem-step-1-action-select-reward",
+        )
+        self.assertEqual(
+            next(
+                item for item in export["elements"] if item["id"] == "guard-condition-1"
+            )["guard_parts"][0]["part_kind"],
+            "context",
         )
         self.assertEqual(
             next(item for item in export["elements"] if item["id"] == "acceptance-constraint-1")["attributes"]["linked_use_case_ids"],
@@ -421,6 +469,29 @@ class PlanningExportTests(unittest.TestCase):
         self.assertEqual(
             redeem_step["sub_actions"][0]["derivation_basis"],
             "shared_verb_objects",
+        )
+
+    def test_checked_in_loyalty_v2_export_includes_guard_parts(self) -> None:
+        """The checked-in loyalty V2 export should surface explicit guard parts."""
+        repo_root = Path(__file__).resolve().parents[1]
+        export_path = (
+            repo_root
+            / "examples"
+            / "loyalty-platform-v2"
+            / "exports"
+            / "speckify-planning-export.json"
+        )
+        payload = json.loads(export_path.read_text(encoding="utf-8"))
+        guard = next(
+            item for item in payload["elements"] if item["id"] == "guard-condition-2"
+        )
+        self.assertEqual(
+            [item["part_kind"] for item in guard["guard_parts"]],
+            ["condition", "allow_outcome", "block_outcome"],
+        )
+        self.assertEqual(
+            guard["guard_parts"][0]["derivation_basis"],
+            "required_before_clause",
         )
 
 
