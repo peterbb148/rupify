@@ -75,6 +75,10 @@ class InterviewHarnessTests(unittest.TestCase):
         self.assertEqual(replay["traceability_validation"]["requirement_to_use_case"]["status"], "blocked")
         self.assertEqual(
             replay["element_readiness_validation"]["summary"]["ready_normative_ids"],
+            [],
+        )
+        self.assertEqual(
+            replay["element_readiness_validation"]["summary"]["blocked_normative_ids"],
             [
                 "non_functional-requirement-1",
                 "acceptance-constraint-requirement-1",

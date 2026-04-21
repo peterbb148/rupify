@@ -292,9 +292,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-2",
         "source_requirement_id": "non_functional-requirement-2",
@@ -324,9 +326,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-3",
         "source_requirement_id": "non_functional-requirement-3",
@@ -356,9 +360,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-4",
         "source_requirement_id": "non_functional-requirement-4",
@@ -388,9 +394,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-5",
         "source_requirement_id": "non_functional-requirement-5",
@@ -420,9 +428,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-6",
         "source_requirement_id": "non_functional-requirement-6",
@@ -516,9 +526,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-1",
         "source_requirement_id": "",
@@ -1615,9 +1627,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
@@ -1649,9 +1663,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
@@ -1683,9 +1699,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
@@ -1717,9 +1735,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
@@ -1751,9 +1771,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",
@@ -2998,45 +3020,55 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
@@ -3061,9 +3093,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         }
       ],
       "ambiguities": [],
@@ -3154,45 +3188,55 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         {
           "blocking_ambiguity_ids": [],
@@ -3375,6 +3419,17 @@
     },
     "summary": {
       "blocked_normative_ids": [
+        "non_functional-requirement-2",
+        "non_functional-requirement-3",
+        "non_functional-requirement-4",
+        "non_functional-requirement-5",
+        "non_functional-requirement-6",
+        "acceptance-constraint-requirement-2",
+        "acceptance-constraint-requirement-3",
+        "acceptance-constraint-requirement-4",
+        "acceptance-constraint-requirement-5",
+        "acceptance-constraint-requirement-6",
+        "acceptance-constraint-success-1",
         "register-a-system",
         "edit-metadata",
         "compare-overlapping-systems",
@@ -3392,22 +3447,11 @@
         "functional-requirement-1",
         "functional-requirement-2",
         "non_functional-requirement-1",
-        "non_functional-requirement-2",
-        "non_functional-requirement-3",
-        "non_functional-requirement-4",
-        "non_functional-requirement-5",
-        "non_functional-requirement-6",
         "non_functional-requirement-7",
         "non_functional-requirement-8",
         "acceptance-constraint-requirement-1",
-        "acceptance-constraint-requirement-2",
-        "acceptance-constraint-requirement-3",
-        "acceptance-constraint-requirement-4",
-        "acceptance-constraint-requirement-5",
-        "acceptance-constraint-requirement-6",
         "acceptance-constraint-requirement-7",
         "acceptance-constraint-requirement-8",
-        "acceptance-constraint-success-1",
         "state-transition-1",
         "state-transition-2",
         "state-transition-3",
@@ -4255,7 +4299,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "51dcbc3465b3e466",
+      "semantic_hash": "a66d5f97f4bdfe16",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -4829,9 +4873,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-2",
         "source_requirement_id": "non_functional-requirement-2",
@@ -4861,9 +4907,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-3",
         "source_requirement_id": "non_functional-requirement-3",
@@ -4893,9 +4941,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-4",
         "source_requirement_id": "non_functional-requirement-4",
@@ -4925,9 +4975,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-5",
         "source_requirement_id": "non_functional-requirement-5",
@@ -4957,9 +5009,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-requirement-6",
         "source_requirement_id": "non_functional-requirement-6",
@@ -5053,9 +5107,11 @@
           "content_semantics": "normative",
           "family": "acceptance_constraints",
           "id": "acceptance-constraint-success-1",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "semantic_id": "acceptance-constraint-success-1",
         "source_requirement_id": "",
@@ -5239,9 +5295,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-2",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
@@ -5273,9 +5331,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-3",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
@@ -5307,9 +5367,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-4",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
@@ -5341,9 +5403,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-5",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
@@ -5375,9 +5439,11 @@
           "content_semantics": "normative",
           "family": "requirements",
           "id": "non_functional-requirement-6",
-          "missing_fields": [],
-          "normative_ready": true,
-          "status": "ready"
+          "missing_fields": [
+            "behavioral_semantics"
+          ],
+          "normative_ready": false,
+          "status": "blocked"
         },
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",

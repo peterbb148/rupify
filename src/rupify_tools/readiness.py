@@ -392,11 +392,93 @@ def _base_element_result(
     }
 
 
+def _has_normalized_substructure(item: dict[str, Any]) -> bool:
+    """Return whether an element already carries explicit normalized semantic detail."""
+    for key in ("sub_obligations", "sub_actions", "guard_parts", "invariant_clauses"):
+        value = item.get(key, [])
+        if isinstance(value, list) and value:
+            return True
+    return False
+
+
+def _text_is_behaviorally_explicit(text: str) -> bool:
+    """Return whether a constraint text is explicit enough for downstream implementation."""
+    cleaned = str(text).strip().lower()
+    if not cleaned:
+        return False
+    if any(operator in cleaned for operator in (">=", "<=", "==", "!=", ">", "<")):
+        return True
+    if len(cleaned.split()) < 3:
+        return False
+    return any(
+        marker in cleaned
+        for marker in (
+            " must ",
+            " shall ",
+            " should ",
+            " cannot ",
+            " may not ",
+            " remain ",
+            " remains ",
+            " ensure ",
+            " ensures ",
+            " provide ",
+            " provides ",
+            " protect ",
+            " protects ",
+            " support ",
+            " supports ",
+            " allow ",
+            " allows ",
+            " integrate ",
+            " integrates ",
+            " show ",
+            " shows ",
+            " record ",
+            " records ",
+        )
+    )
+
+
+def _constraint_like_semantics_ready(
+    item: dict[str, Any],
+    family: str,
+    requirement_lookup: dict[str, dict[str, Any]],
+) -> bool:
+    """Return whether a constraint-like normative element carries enough explicit semantics."""
+    if family == "requirements" and item.get("requirement_kind") != "non_functional":
+        return True
+    if family not in {"requirements", "acceptance_constraints"}:
+        return True
+
+    text = str(item.get("statement") or item.get("description") or "").strip()
+    if _has_normalized_substructure(item) or _text_is_behaviorally_explicit(text):
+        return True
+
+    source_requirement_id = str(item.get("source_requirement_id", "")).strip()
+    source_requirement = requirement_lookup.get(source_requirement_id, {})
+    if source_requirement and (
+        _has_normalized_substructure(source_requirement)
+        or _text_is_behaviorally_explicit(source_requirement.get("statement", ""))
+    ):
+        return True
+
+    return False
+
+
 def evaluate_element_readiness(model: dict[str, Any]) -> dict[str, Any]:
     """Evaluate readiness on individual canonical elements that downstream tools consume."""
     analysis_view = model.get("analysis_view", {})
     process_view = model.get("process_view", {})
     unresolved_ambiguities = _unresolved_ambiguity_ids_by_element(model)
+    requirement_lookup = {
+        str(item.get("id", "")).strip(): item
+        for item in (
+            model.get("requirements", {}).get("functional_objects", [])
+            + model.get("requirements", {}).get("non_functional_objects", [])
+        )
+        if str(item.get("id", "")).strip()
+    }
 
     family_specs = {
         "requirements": (
@@ -466,10 +548,18 @@ def evaluate_element_readiness(model: dict[str, Any]) -> dict[str, Any]:
     by_family: dict[str, list[dict[str, Any]]] = {}
     all_items = []
     for family, (items, requirement_builder) in family_specs.items():
-        family_results = [
-            _base_element_result(item, family, requirement_builder(item), unresolved_ambiguities)
-            for item in items
-        ]
+        family_results = []
+        for item in items:
+            result = _base_element_result(item, family, requirement_builder(item), unresolved_ambiguities)
+            if (
+                item.get("content_semantics") == "normative"
+                and result["status"] == "ready"
+                and not _constraint_like_semantics_ready(item, family, requirement_lookup)
+            ):
+                result["missing_fields"].append("behavioral_semantics")
+                result["status"] = "blocked"
+                result["normative_ready"] = False
+            family_results.append(result)
         by_family[family] = family_results
         all_items.extend(family_results)
 
