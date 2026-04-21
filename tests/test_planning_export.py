@@ -93,7 +93,26 @@ class PlanningExportTests(unittest.TestCase):
                 {
                     "id": "uc-redeem-step-1",
                     "semantic_id": "uc-redeem-step-1",
+                    "use_case_id": "uc-redeem",
+                    "step_index": 1,
+                    "step_kind": "main_success",
                     "text": "Customer selects reward.",
+                    "sub_actions": [
+                        {
+                            "id": "uc-redeem-step-1-action-1",
+                            "semantic_id": "uc-redeem-step-1-action-select-reward",
+                            "title": "Select reward",
+                            "text": "Customer selects reward.",
+                            "subject": "Customer",
+                            "verb": "select",
+                            "target": "reward",
+                            "order_index": 1,
+                            "parent_step_id": "uc-redeem-step-1",
+                            "parent_step_semantic_id": "uc-redeem-step-1",
+                            "parent_use_case_id": "uc-redeem",
+                            "derivation_basis": "single_clause",
+                        }
+                    ],
                     "content_semantics": "normative",
                     "readiness": {
                         "status": "ready",
@@ -246,6 +265,12 @@ class PlanningExportTests(unittest.TestCase):
             "approve-system-changes",
         )
         self.assertEqual(
+            next(
+                item for item in export["elements"] if item["id"] == "uc-redeem-step-1"
+            )["sub_actions"][0]["semantic_id"],
+            "uc-redeem-step-1-action-select-reward",
+        )
+        self.assertEqual(
             next(item for item in export["elements"] if item["id"] == "acceptance-constraint-1")["attributes"]["linked_use_case_ids"],
             ["uc-redeem"],
         )
@@ -366,6 +391,36 @@ class PlanningExportTests(unittest.TestCase):
                 if item["id"] == "functional-requirement-1"
             )["obligations"][1]["id"],
             "support-approval-states",
+        )
+
+    def test_checked_in_loyalty_v2_export_includes_step_sub_actions(self) -> None:
+        """The checked-in loyalty V2 export should surface explicit step sub-actions."""
+        repo_root = Path(__file__).resolve().parents[1]
+        export_path = (
+            repo_root
+            / "examples"
+            / "loyalty-platform-v2"
+            / "exports"
+            / "speckify-planning-export.json"
+        )
+        payload = json.loads(export_path.read_text(encoding="utf-8"))
+        redeem_step = next(
+            item for item in payload["elements"] if item["id"] == "redeem-reward-step-2"
+        )
+        self.assertEqual(
+            [item["id"] for item in redeem_step["sub_actions"]],
+            [
+                "redeem-reward-step-2-action-1",
+                "redeem-reward-step-2-action-2",
+            ],
+        )
+        self.assertEqual(
+            [item["title"] for item in redeem_step["sub_actions"]],
+            ["Validate reward eligibility", "Validate available points"],
+        )
+        self.assertEqual(
+            redeem_step["sub_actions"][0]["derivation_basis"],
+            "shared_verb_objects",
         )
 
 

@@ -77,6 +77,19 @@ The canonical project model is `rupify-model.yaml`.
     - `step_index`
     - `step_kind`
     - `text`
+    - `sub_actions`
+      - `id`
+      - `semantic_id`
+      - `title`
+      - `text`
+      - `subject`
+      - `verb`
+      - `target`
+      - `order_index`
+      - `parent_step_id`
+      - `parent_step_semantic_id`
+      - `parent_use_case_id`
+      - `derivation_basis`
     - `model_layer`: `analysis`
     - `trace`
 - `scenarios` (compatibility mirror derived from `analysis_view.scenario_objects`)

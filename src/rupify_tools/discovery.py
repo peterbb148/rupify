@@ -49,6 +49,28 @@ ENVIRONMENTAL_FACTOR_ALIASES = {
     "difficult programming language": "difficult_programming_language",
 }
 
+STEP_VERB_LEMMAS = {
+    "approves": "approve",
+    "confirms": "confirm",
+    "creates": "create",
+    "displays": "display",
+    "exports": "export",
+    "maintains": "maintain",
+    "provides": "provide",
+    "publishes": "publish",
+    "records": "record",
+    "rejects": "reject",
+    "reserves": "reserve",
+    "reviews": "review",
+    "selects": "select",
+    "shows": "show",
+    "submits": "submit",
+    "updates": "update",
+    "validates": "validate",
+}
+
+STEP_SHARED_OBJECT_VERBS = {"display", "show", "validate"}
+
 
 def _slugify(value: str) -> str:
     """Create a stable slug-like identifier."""
@@ -827,6 +849,146 @@ def _bind_requirement_sub_obligations(requirements: list[dict[str, Any]]) -> Non
             sub_obligation["parent_requirement_semantic_id"] = parent_semantic_id
 
 
+def _parse_step_clause(clause: str) -> tuple[str, str, str]:
+    """Return the inflected verb, lemma, and remainder for one supported step clause."""
+    cleaned = _clean_sentence(clause)
+    lowered = cleaned.lower()
+    for inflected, lemma in STEP_VERB_LEMMAS.items():
+        prefix = f"{inflected} "
+        if lowered.startswith(prefix):
+            remainder = cleaned[len(prefix) :].strip()
+            return inflected, lemma, remainder
+    return "", "", ""
+
+
+def _split_step_subject_predicate(text: str) -> tuple[str, str]:
+    """Split one step into subject and supported predicate, if possible."""
+    cleaned = _clean_sentence(text)
+    lowered = cleaned.lower()
+    matches: list[tuple[int, str]] = []
+    for inflected in STEP_VERB_LEMMAS:
+        token = f" {inflected} "
+        index = lowered.find(token)
+        if index != -1:
+            matches.append((index, inflected))
+    if not matches:
+        return "", ""
+    index, _ = min(matches, key=lambda item: item[0])
+    return cleaned[:index].strip(), cleaned[index + 1 :].strip()
+
+
+def _build_step_sub_action(
+    *,
+    subject: str,
+    verb: str,
+    target: str,
+    derivation_basis: str,
+) -> dict[str, Any]:
+    """Build one normalized step sub-action record."""
+    title = f"{verb.capitalize()} {target}"
+    return {
+        "id": "",
+        "semantic_id": "",
+        "title": title,
+        "text": f"{subject} {verb}s {target}.",
+        "subject": subject,
+        "verb": verb,
+        "target": target,
+        "order_index": 0,
+        "parent_step_id": "",
+        "parent_step_semantic_id": "",
+        "parent_use_case_id": "",
+        "derivation_basis": derivation_basis,
+    }
+
+
+def _derive_step_sub_actions(step_text: str) -> list[dict[str, Any]]:
+    """Derive conservative step sub-actions from explicit step conjunction structure."""
+    cleaned = _clean_sentence(step_text)
+    if not cleaned or " and " not in cleaned:
+        return []
+
+    subject, predicate = _split_step_subject_predicate(cleaned)
+    if not subject or not predicate:
+        return []
+
+    shared_object_match = re.match(
+        r"^(?P<verb_one>\w+) and (?P<verb_two>\w+) (?P<target>.+)$",
+        predicate,
+        flags=re.IGNORECASE,
+    )
+    if shared_object_match:
+        verb_one = STEP_VERB_LEMMAS.get(shared_object_match.group("verb_one").lower(), "")
+        verb_two = STEP_VERB_LEMMAS.get(shared_object_match.group("verb_two").lower(), "")
+        target = shared_object_match.group("target").strip()
+        if verb_one and verb_two and target:
+            return [
+                _build_step_sub_action(
+                    subject=subject,
+                    verb=verb_one,
+                    target=target,
+                    derivation_basis="parallel_verbs_shared_object",
+                ),
+                _build_step_sub_action(
+                    subject=subject,
+                    verb=verb_two,
+                    target=target,
+                    derivation_basis="parallel_verbs_shared_object",
+                ),
+            ]
+
+    left_clause, right_clause = predicate.split(" and ", 1)
+    _, left_verb, left_target = _parse_step_clause(left_clause)
+    _, right_verb, right_target = _parse_step_clause(right_clause)
+    if left_verb and left_target and right_verb and right_target:
+        return [
+            _build_step_sub_action(
+                subject=subject,
+                verb=left_verb,
+                target=left_target,
+                derivation_basis="parallel_clauses",
+            ),
+            _build_step_sub_action(
+                subject=subject,
+                verb=right_verb,
+                target=right_target,
+                derivation_basis="parallel_clauses",
+            ),
+        ]
+
+    _, shared_verb, shared_target = _parse_step_clause(predicate)
+    if shared_verb in STEP_SHARED_OBJECT_VERBS:
+        targets, suffix = _split_conjoined_objects(shared_target)
+        if len(targets) >= 2:
+            return [
+                _build_step_sub_action(
+                    subject=subject,
+                    verb=shared_verb,
+                    target=f"{target}{suffix}",
+                    derivation_basis="shared_verb_objects",
+                )
+                for target in targets
+            ]
+
+    return []
+
+
+def _bind_step_sub_actions(step_objects: list[dict[str, Any]]) -> None:
+    """Bind ids, semantic ids, lineage, and ordering onto nested step sub-actions."""
+    for step_object in step_objects:
+        parent_id = step_object.get("id", "")
+        parent_semantic_id = step_object.get("semantic_id", parent_id)
+        parent_use_case_id = step_object.get("use_case_id", "")
+        for index, sub_action in enumerate(step_object.get("sub_actions", []), 1):
+            title = sub_action.get("title", f"Sub Action {index}")
+            sub_action["id"] = f"{parent_id}-action-{index}"
+            sub_action["semantic_id"] = f"{parent_semantic_id}-action-{_slugify(title)}"
+            sub_action["order_index"] = index
+            sub_action["parent_step_id"] = parent_id
+            sub_action["parent_step_semantic_id"] = parent_semantic_id
+            sub_action["parent_use_case_id"] = parent_use_case_id
+
+
 def _split_structured_parts(item: str) -> list[str]:
     """Split a pipe-delimited structured answer into trimmed parts."""
     return [part.strip() for part in item.split("|") if part.strip()]
@@ -1043,6 +1205,7 @@ def _build_use_case_step_objects(use_cases: list[dict[str, Any]]) -> list[dict[s
                     "step_index": index,
                     "step_kind": "main_success",
                     "text": step_text,
+                    "sub_actions": _derive_step_sub_actions(step_text),
                     "model_layer": "analysis",
                     "trace": use_case.get("trace", {}),
                 }
@@ -1056,6 +1219,7 @@ def _build_use_case_step_objects(use_cases: list[dict[str, Any]]) -> list[dict[s
                     "step_index": index,
                     "step_kind": "extension",
                     "text": step_text,
+                    "sub_actions": _derive_step_sub_actions(step_text),
                     "model_layer": "analysis",
                     "trace": use_case.get("trace", {}),
                 }
@@ -2193,6 +2357,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(normalized_actors, change_source="round_3")
     _stamp_semantic_identity(normalized_use_cases, change_source="round_3")
     _stamp_semantic_identity(use_case_step_objects, change_source="derived_use_case_steps")
+    _bind_step_sub_actions(use_case_step_objects)
     _stamp_semantic_identity(scenario_objects, change_source="round_13")
     _stamp_semantic_identity(risk_objects, change_source="round_12")
     _stamp_semantic_identity(domain_entity_objects, change_source="round_5")

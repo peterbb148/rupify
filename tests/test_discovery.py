@@ -356,6 +356,65 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(model["actors"], [])
         self.assertEqual(model["use_cases"], [])
 
+    def test_normalize_replay_to_model_derives_use_case_step_sub_actions(self) -> None:
+        """Use-case step objects should expose safe explicit sub-actions with lineage and order."""
+        replay = replay_session(
+            [
+                {
+                    "round": 3,
+                    "responses": [
+                        {
+                            "key": "use_cases",
+                            "answer": ["Redeem Reward"],
+                        },
+                    ],
+                },
+                {
+                    "round": 13,
+                    "responses": [
+                        {
+                            "key": "use_case_details",
+                            "answer": [
+                                (
+                                    "Redeem Reward | flow: "
+                                    "System validates reward eligibility and available points; "
+                                    "System reserves the reward and updates the member balance; "
+                                    "System validates and publishes the change; "
+                                    "Customer provides the required details and consents"
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        step_objects = model["analysis_view"]["use_case_step_objects"]
+
+        self.assertEqual(
+            [item["title"] for item in step_objects[0]["sub_actions"]],
+            ["Validate reward eligibility", "Validate available points"],
+        )
+        self.assertEqual(
+            step_objects[0]["sub_actions"][0]["derivation_basis"],
+            "shared_verb_objects",
+        )
+        self.assertEqual(
+            step_objects[0]["sub_actions"][0]["parent_step_id"],
+            "redeem-reward-step-1",
+        )
+        self.assertEqual(step_objects[0]["sub_actions"][0]["order_index"], 1)
+        self.assertEqual(
+            [item["title"] for item in step_objects[1]["sub_actions"]],
+            ["Reserve the reward", "Update the member balance"],
+        )
+        self.assertEqual(
+            [item["title"] for item in step_objects[2]["sub_actions"]],
+            ["Validate the change", "Publish the change"],
+        )
+        self.assertEqual(step_objects[3]["sub_actions"], [])
+
     def test_normalize_replay_to_model_maps_actors_and_use_cases(self) -> None:
         """Round-3 actor and use-case discovery should produce structured canonical objects."""
         replay = replay_session(

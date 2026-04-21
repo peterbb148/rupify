@@ -1048,7 +1048,9 @@
       "text": "Loyalty API sends Analytics Service"
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1071,7 +1073,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1094,7 +1098,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1117,7 +1123,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1140,7 +1148,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1760,7 +1770,8 @@
           "System rejects the invalid change."
         ],
         "priority": "medium",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "manage-reward-catalog"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -1791,7 +1802,8 @@
           "System blocks fulfillment until confirmation arrives."
         ],
         "priority": "medium",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "redeem-reward"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -1822,7 +1834,8 @@
           "System shows a partial-data warning."
         ],
         "priority": "low",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "review-redemption-analytics"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -1853,7 +1866,8 @@
           "System reports that inventory is exhausted."
         ],
         "priority": "high",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "redeem-reward"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -2160,13 +2174,17 @@
       "text": "Catalog validation approval is required before a reward becomes Published"
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "ef38d2cd32f6264d",
+        "semantic_hash": "a64a721dfd3d9559",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2183,13 +2201,17 @@
       "text": "Catalog view degrades if an integration is temporarily unavailable."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "895b68cbcc6073f9",
+        "semantic_hash": "35506d2c88b20ad8",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2206,13 +2228,17 @@
       "text": "Customer opens the rewards catalog."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dd86222bb48004ab",
+        "semantic_hash": "fc7cc6be6c1b25d4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2226,16 +2252,50 @@
       "semantic_id": "browse-rewards-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "browse-rewards-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "browse-rewards-step-2",
+          "parent_step_semantic_id": "browse-rewards-step-2",
+          "parent_use_case_id": "browse-rewards",
+          "semantic_id": "browse-rewards-step-2-action-display-available-rewards",
+          "subject": "System",
+          "target": "available rewards",
+          "text": "System displays available rewards.",
+          "title": "Display available rewards",
+          "verb": "display"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "browse-rewards-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "browse-rewards-step-2",
+          "parent_step_semantic_id": "browse-rewards-step-2",
+          "parent_use_case_id": "browse-rewards",
+          "semantic_id": "browse-rewards-step-2-action-display-points-balance",
+          "subject": "System",
+          "target": "points balance",
+          "text": "System displays points balance.",
+          "title": "Display points balance",
+          "verb": "display"
+        }
+      ],
       "text": "System displays available rewards and points balance."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "96b05cd90d750571",
+        "semantic_hash": "33a4ecdbf1d112e1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2252,13 +2312,17 @@
       "text": "Customer filters or sorts the catalog."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "5084306fb28e98a8",
+        "semantic_hash": "40c58be845db580c",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2275,13 +2339,17 @@
       "text": "Enrollment is blocked when required consent is missing."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "e7ec46c41fe9cf12",
+        "semantic_hash": "d777d2d2eebcf3c4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2298,13 +2366,17 @@
       "text": "Customer opens the loyalty enrollment flow."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "8c937b53f0ae3e91",
+        "semantic_hash": "6948548191377934",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2321,13 +2393,17 @@
       "text": "Customer provides the required details and consents."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "13ee1230b8fb95f9",
+        "semantic_hash": "36343432b1f279ff",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2341,16 +2417,50 @@
       "semantic_id": "enroll-member-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "enroll-member-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "enroll-member-step-3",
+          "parent_step_semantic_id": "enroll-member-step-3",
+          "parent_use_case_id": "enroll-member",
+          "semantic_id": "enroll-member-step-3-action-validate-the-submission",
+          "subject": "System",
+          "target": "the submission",
+          "text": "System validates the submission.",
+          "title": "Validate the submission",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "enroll-member-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "enroll-member-step-3",
+          "parent_step_semantic_id": "enroll-member-step-3",
+          "parent_use_case_id": "enroll-member",
+          "semantic_id": "enroll-member-step-3-action-create-the-member-account",
+          "subject": "System",
+          "target": "the member account",
+          "text": "System creates the member account.",
+          "title": "Create the member account",
+          "verb": "create"
+        }
+      ],
       "text": "System validates the submission and creates the member account."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "52b5017dbd2c3ecf",
+        "semantic_hash": "6f01814c294c0412",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2367,13 +2477,17 @@
       "text": "A change is rejected because it would make an active reward invalid."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "3018683e51bb8375",
+        "semantic_hash": "0d8198473fba05c1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2390,13 +2504,17 @@
       "text": "Operations Manager opens catalog administration."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "0c9fe51d87cb9b58",
+        "semantic_hash": "75dd9fa8c72016df",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2413,13 +2531,17 @@
       "text": "Operations Manager updates reward configuration."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "7dc4a38b3ca526b1",
+        "semantic_hash": "b107e93d234a6304",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2433,16 +2555,50 @@
       "semantic_id": "manage-reward-catalog-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_verbs_shared_object",
+          "id": "manage-reward-catalog-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "manage-reward-catalog-step-3",
+          "parent_step_semantic_id": "manage-reward-catalog-step-3",
+          "parent_use_case_id": "manage-reward-catalog",
+          "semantic_id": "manage-reward-catalog-step-3-action-validate-the-change",
+          "subject": "System",
+          "target": "the change",
+          "text": "System validates the change.",
+          "title": "Validate the change",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "parallel_verbs_shared_object",
+          "id": "manage-reward-catalog-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "manage-reward-catalog-step-3",
+          "parent_step_semantic_id": "manage-reward-catalog-step-3",
+          "parent_use_case_id": "manage-reward-catalog",
+          "semantic_id": "manage-reward-catalog-step-3-action-publish-the-change",
+          "subject": "System",
+          "target": "the change",
+          "text": "System publishs the change.",
+          "title": "Publish the change",
+          "verb": "publish"
+        }
+      ],
       "text": "System validates and publishes the change."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "187482a4d085efc5",
+        "semantic_hash": "e8fcf8d9d1a03a9a",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2459,13 +2615,17 @@
       "text": "Reward inventory is exhausted before completion."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "00dfc60e4b370401",
+        "semantic_hash": "d3abee3553d806ea",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2482,13 +2642,17 @@
       "text": "Customer does not have enough points."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "f97975616da77c4d",
+        "semantic_hash": "f22e363153165e86",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2505,13 +2669,17 @@
       "text": "Payment confirmation is missing for a reward that depends on purchase completion."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dcf9844b30ea0150",
+        "semantic_hash": "2a23778723871b40",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2528,13 +2696,17 @@
       "text": "Customer selects a reward."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c92276c94c67212a",
+        "semantic_hash": "15ddca0181cab92d",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2548,16 +2720,50 @@
       "semantic_id": "redeem-reward-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "redeem-reward-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "redeem-reward-step-2",
+          "parent_step_semantic_id": "redeem-reward-step-2",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-2-action-validate-reward-eligibility",
+          "subject": "System",
+          "target": "reward eligibility",
+          "text": "System validates reward eligibility.",
+          "title": "Validate reward eligibility",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "redeem-reward-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "redeem-reward-step-2",
+          "parent_step_semantic_id": "redeem-reward-step-2",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-2-action-validate-available-points",
+          "subject": "System",
+          "target": "available points",
+          "text": "System validates available points.",
+          "title": "Validate available points",
+          "verb": "validate"
+        }
+      ],
       "text": "System validates reward eligibility and available points."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1c4797621e3c0bc5",
+        "semantic_hash": "b28d32a5bf833137",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2571,16 +2777,50 @@
       "semantic_id": "redeem-reward-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "redeem-reward-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "redeem-reward-step-3",
+          "parent_step_semantic_id": "redeem-reward-step-3",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-3-action-reserve-the-reward",
+          "subject": "System",
+          "target": "the reward",
+          "text": "System reserves the reward.",
+          "title": "Reserve the reward",
+          "verb": "reserve"
+        },
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "redeem-reward-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "redeem-reward-step-3",
+          "parent_step_semantic_id": "redeem-reward-step-3",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-3-action-update-the-member-balance",
+          "subject": "System",
+          "target": "the member balance",
+          "text": "System updates the member balance.",
+          "title": "Update the member balance",
+          "verb": "update"
+        }
+      ],
       "text": "System reserves the reward and updates the member balance."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 4,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "6b2b2b1e56451842",
+        "semantic_hash": "75fb909d9ef2c03b",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2597,13 +2837,17 @@
       "text": "System confirms redemption to the customer."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "32969fc50ee511ae",
+        "semantic_hash": "cab589e89387ed09",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2620,13 +2864,17 @@
       "text": "A reporting data source is delayed."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2ad74b487836732e",
+        "semantic_hash": "e4085e0a89ebbab5",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2643,13 +2891,17 @@
       "text": "Operations Manager opens the analytics dashboard."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c20a2d3b710b92b7",
+        "semantic_hash": "d8a64be2b9c07162",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2663,6 +2915,36 @@
       "semantic_id": "review-redemption-analytics-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "review-redemption-analytics-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "review-redemption-analytics-step-2",
+          "parent_step_semantic_id": "review-redemption-analytics-step-2",
+          "parent_use_case_id": "review-redemption-analytics",
+          "semantic_id": "review-redemption-analytics-step-2-action-show-redemption",
+          "subject": "System",
+          "target": "redemption",
+          "text": "System shows redemption.",
+          "title": "Show redemption",
+          "verb": "show"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "review-redemption-analytics-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "review-redemption-analytics-step-2",
+          "parent_step_semantic_id": "review-redemption-analytics-step-2",
+          "parent_use_case_id": "review-redemption-analytics",
+          "semantic_id": "review-redemption-analytics-step-2-action-show-campaign-metrics",
+          "subject": "System",
+          "target": "campaign metrics",
+          "text": "System shows campaign metrics.",
+          "title": "Show campaign metrics",
+          "verb": "show"
+        }
+      ],
       "text": "System shows redemption and campaign metrics."
     },
     {
@@ -2891,7 +3173,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "9e539fa7e9653a18",
+      "semantic_hash": "a328534e3404a044",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -3624,7 +3906,8 @@
           "System rejects the invalid change."
         ],
         "priority": "medium",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "manage-reward-catalog"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -3655,7 +3938,8 @@
           "System blocks fulfillment until confirmation arrives."
         ],
         "priority": "medium",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "redeem-reward"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -3686,7 +3970,8 @@
           "System shows a partial-data warning."
         ],
         "priority": "low",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "review-redemption-analytics"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -3717,7 +4002,8 @@
           "System reports that inventory is exhausted."
         ],
         "priority": "high",
-        "status": "open"
+        "status": "open",
+        "use_case_id": "redeem-reward"
       },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
@@ -3932,13 +4218,17 @@
       "text": "Reward Catalog Entry: Draft -> Published -> Retired"
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "ef38d2cd32f6264d",
+        "semantic_hash": "a64a721dfd3d9559",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3955,13 +4245,17 @@
       "text": "Catalog view degrades if an integration is temporarily unavailable."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "895b68cbcc6073f9",
+        "semantic_hash": "35506d2c88b20ad8",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3978,13 +4272,17 @@
       "text": "Customer opens the rewards catalog."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dd86222bb48004ab",
+        "semantic_hash": "fc7cc6be6c1b25d4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3998,16 +4296,50 @@
       "semantic_id": "browse-rewards-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "browse-rewards-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "browse-rewards-step-2",
+          "parent_step_semantic_id": "browse-rewards-step-2",
+          "parent_use_case_id": "browse-rewards",
+          "semantic_id": "browse-rewards-step-2-action-display-available-rewards",
+          "subject": "System",
+          "target": "available rewards",
+          "text": "System displays available rewards.",
+          "title": "Display available rewards",
+          "verb": "display"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "browse-rewards-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "browse-rewards-step-2",
+          "parent_step_semantic_id": "browse-rewards-step-2",
+          "parent_use_case_id": "browse-rewards",
+          "semantic_id": "browse-rewards-step-2-action-display-points-balance",
+          "subject": "System",
+          "target": "points balance",
+          "text": "System displays points balance.",
+          "title": "Display points balance",
+          "verb": "display"
+        }
+      ],
       "text": "System displays available rewards and points balance."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "browse-rewards"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "96b05cd90d750571",
+        "semantic_hash": "33a4ecdbf1d112e1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4024,13 +4356,17 @@
       "text": "Customer filters or sorts the catalog."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "5084306fb28e98a8",
+        "semantic_hash": "40c58be845db580c",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4047,13 +4383,17 @@
       "text": "Enrollment is blocked when required consent is missing."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "e7ec46c41fe9cf12",
+        "semantic_hash": "d777d2d2eebcf3c4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4070,13 +4410,17 @@
       "text": "Customer opens the loyalty enrollment flow."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "8c937b53f0ae3e91",
+        "semantic_hash": "6948548191377934",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4093,13 +4437,17 @@
       "text": "Customer provides the required details and consents."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "enroll-member"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "13ee1230b8fb95f9",
+        "semantic_hash": "36343432b1f279ff",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4113,16 +4461,50 @@
       "semantic_id": "enroll-member-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "enroll-member-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "enroll-member-step-3",
+          "parent_step_semantic_id": "enroll-member-step-3",
+          "parent_use_case_id": "enroll-member",
+          "semantic_id": "enroll-member-step-3-action-validate-the-submission",
+          "subject": "System",
+          "target": "the submission",
+          "text": "System validates the submission.",
+          "title": "Validate the submission",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "enroll-member-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "enroll-member-step-3",
+          "parent_step_semantic_id": "enroll-member-step-3",
+          "parent_use_case_id": "enroll-member",
+          "semantic_id": "enroll-member-step-3-action-create-the-member-account",
+          "subject": "System",
+          "target": "the member account",
+          "text": "System creates the member account.",
+          "title": "Create the member account",
+          "verb": "create"
+        }
+      ],
       "text": "System validates the submission and creates the member account."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "52b5017dbd2c3ecf",
+        "semantic_hash": "6f01814c294c0412",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4139,13 +4521,17 @@
       "text": "A change is rejected because it would make an active reward invalid."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "3018683e51bb8375",
+        "semantic_hash": "0d8198473fba05c1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4162,13 +4548,17 @@
       "text": "Operations Manager opens catalog administration."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "0c9fe51d87cb9b58",
+        "semantic_hash": "75dd9fa8c72016df",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4185,13 +4575,17 @@
       "text": "Operations Manager updates reward configuration."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "manage-reward-catalog"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "7dc4a38b3ca526b1",
+        "semantic_hash": "b107e93d234a6304",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4205,16 +4599,50 @@
       "semantic_id": "manage-reward-catalog-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_verbs_shared_object",
+          "id": "manage-reward-catalog-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "manage-reward-catalog-step-3",
+          "parent_step_semantic_id": "manage-reward-catalog-step-3",
+          "parent_use_case_id": "manage-reward-catalog",
+          "semantic_id": "manage-reward-catalog-step-3-action-validate-the-change",
+          "subject": "System",
+          "target": "the change",
+          "text": "System validates the change.",
+          "title": "Validate the change",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "parallel_verbs_shared_object",
+          "id": "manage-reward-catalog-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "manage-reward-catalog-step-3",
+          "parent_step_semantic_id": "manage-reward-catalog-step-3",
+          "parent_use_case_id": "manage-reward-catalog",
+          "semantic_id": "manage-reward-catalog-step-3-action-publish-the-change",
+          "subject": "System",
+          "target": "the change",
+          "text": "System publishs the change.",
+          "title": "Publish the change",
+          "verb": "publish"
+        }
+      ],
       "text": "System validates and publishes the change."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "187482a4d085efc5",
+        "semantic_hash": "e8fcf8d9d1a03a9a",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4231,13 +4659,17 @@
       "text": "Reward inventory is exhausted before completion."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "00dfc60e4b370401",
+        "semantic_hash": "d3abee3553d806ea",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4254,13 +4686,17 @@
       "text": "Customer does not have enough points."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "extension",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "f97975616da77c4d",
+        "semantic_hash": "f22e363153165e86",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4277,13 +4713,17 @@
       "text": "Payment confirmation is missing for a reward that depends on purchase completion."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dcf9844b30ea0150",
+        "semantic_hash": "2a23778723871b40",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4300,13 +4740,17 @@
       "text": "Customer selects a reward."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c92276c94c67212a",
+        "semantic_hash": "15ddca0181cab92d",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4320,16 +4764,50 @@
       "semantic_id": "redeem-reward-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "redeem-reward-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "redeem-reward-step-2",
+          "parent_step_semantic_id": "redeem-reward-step-2",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-2-action-validate-reward-eligibility",
+          "subject": "System",
+          "target": "reward eligibility",
+          "text": "System validates reward eligibility.",
+          "title": "Validate reward eligibility",
+          "verb": "validate"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "redeem-reward-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "redeem-reward-step-2",
+          "parent_step_semantic_id": "redeem-reward-step-2",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-2-action-validate-available-points",
+          "subject": "System",
+          "target": "available points",
+          "text": "System validates available points.",
+          "title": "Validate available points",
+          "verb": "validate"
+        }
+      ],
       "text": "System validates reward eligibility and available points."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 3,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1c4797621e3c0bc5",
+        "semantic_hash": "b28d32a5bf833137",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4343,16 +4821,50 @@
       "semantic_id": "redeem-reward-step-3",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "redeem-reward-step-3-action-1",
+          "order_index": 1,
+          "parent_step_id": "redeem-reward-step-3",
+          "parent_step_semantic_id": "redeem-reward-step-3",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-3-action-reserve-the-reward",
+          "subject": "System",
+          "target": "the reward",
+          "text": "System reserves the reward.",
+          "title": "Reserve the reward",
+          "verb": "reserve"
+        },
+        {
+          "derivation_basis": "parallel_clauses",
+          "id": "redeem-reward-step-3-action-2",
+          "order_index": 2,
+          "parent_step_id": "redeem-reward-step-3",
+          "parent_step_semantic_id": "redeem-reward-step-3",
+          "parent_use_case_id": "redeem-reward",
+          "semantic_id": "redeem-reward-step-3-action-update-the-member-balance",
+          "subject": "System",
+          "target": "the member balance",
+          "text": "System updates the member balance.",
+          "title": "Update the member balance",
+          "verb": "update"
+        }
+      ],
       "text": "System reserves the reward and updates the member balance."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 4,
+        "step_kind": "main_success",
+        "use_case_id": "redeem-reward"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "6b2b2b1e56451842",
+        "semantic_hash": "75fb909d9ef2c03b",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4369,13 +4881,17 @@
       "text": "System confirms redemption to the customer."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "extension",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "32969fc50ee511ae",
+        "semantic_hash": "cab589e89387ed09",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4392,13 +4908,17 @@
       "text": "A reporting data source is delayed."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 1,
+        "step_kind": "main_success",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2ad74b487836732e",
+        "semantic_hash": "e4085e0a89ebbab5",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4415,13 +4935,17 @@
       "text": "Operations Manager opens the analytics dashboard."
     },
     {
-      "attributes": {},
+      "attributes": {
+        "step_index": 2,
+        "step_kind": "main_success",
+        "use_case_id": "review-redemption-analytics"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_use_case_steps",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c20a2d3b710b92b7",
+        "semantic_hash": "d8a64be2b9c07162",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4435,6 +4959,36 @@
       "semantic_id": "review-redemption-analytics-step-2",
       "source_key": "use_cases",
       "source_round": 3,
+      "sub_actions": [
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "review-redemption-analytics-step-2-action-1",
+          "order_index": 1,
+          "parent_step_id": "review-redemption-analytics-step-2",
+          "parent_step_semantic_id": "review-redemption-analytics-step-2",
+          "parent_use_case_id": "review-redemption-analytics",
+          "semantic_id": "review-redemption-analytics-step-2-action-show-redemption",
+          "subject": "System",
+          "target": "redemption",
+          "text": "System shows redemption.",
+          "title": "Show redemption",
+          "verb": "show"
+        },
+        {
+          "derivation_basis": "shared_verb_objects",
+          "id": "review-redemption-analytics-step-2-action-2",
+          "order_index": 2,
+          "parent_step_id": "review-redemption-analytics-step-2",
+          "parent_step_semantic_id": "review-redemption-analytics-step-2",
+          "parent_use_case_id": "review-redemption-analytics",
+          "semantic_id": "review-redemption-analytics-step-2-action-show-campaign-metrics",
+          "subject": "System",
+          "target": "campaign metrics",
+          "text": "System shows campaign metrics.",
+          "title": "Show campaign metrics",
+          "verb": "show"
+        }
+      ],
       "text": "System shows redemption and campaign metrics."
     },
     {
