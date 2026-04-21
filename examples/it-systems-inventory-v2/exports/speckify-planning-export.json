@@ -974,7 +974,9 @@
       "text": "System Inventory API sends Reporting Consumers"
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "register-a-system"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -997,7 +999,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "edit-metadata"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1020,7 +1024,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "compare-overlapping-systems"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1043,7 +1049,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "track-lifecycle-state"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1066,7 +1074,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "review-risks"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1089,7 +1099,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "see-costs"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1112,7 +1124,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "approve-deprecation"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",
@@ -1135,7 +1149,9 @@
       "text": ""
     },
     {
-      "attributes": {},
+      "attributes": {
+        "use_case_id": "report-portfolio-gaps"
+      },
       "blocking_ambiguity_ids": [],
       "change_metadata": {
         "change_source": "derived_interaction_view",

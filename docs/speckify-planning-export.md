@@ -60,6 +60,20 @@ uv run rupify-export-planning \
       - `acceptance`
       - `parent_requirement_id`
       - `parent_requirement_semantic_id`
+    - optional `sub_actions` for use-case step elements where Rupify has explicit normalized
+      step sub-actions
+      - `id`
+      - `semantic_id`
+      - `title`
+      - `text`
+      - `subject`
+      - `verb`
+      - `target`
+      - `order_index`
+      - `parent_step_id`
+      - `parent_step_semantic_id`
+      - `parent_use_case_id`
+      - `derivation_basis`
 - `ready_normative_elements`
   - the ready subset of `elements` where `content_semantics == normative`
 - `blocking_ambiguities`
@@ -75,3 +89,5 @@ uv run rupify-export-planning \
 - `blocking_ambiguities` should be treated as explicit stop conditions, not hidden warnings.
 - `obligations` should be consumed only when present; Speckify should fail closed rather than
   inferring additional sub-obligations by splitting requirement prose downstream.
+- `sub_actions` should be consumed only when present; Speckify should fail closed rather than
+  inferring internal step decomposition from step prose downstream.

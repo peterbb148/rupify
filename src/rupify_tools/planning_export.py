@@ -80,6 +80,9 @@ def _export_attributes(item: dict[str, Any]) -> dict[str, Any]:
         "primary_actor_id",
         "supporting_actor_ids",
         "scenario_ids",
+        "use_case_id",
+        "step_index",
+        "step_kind",
         "used_use_case_ids",
         "subordinate_use_case_ids",
         "preconditions",
@@ -141,6 +144,28 @@ def _export_obligations(item: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _export_sub_actions(item: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return exported step sub-action records for one canonical element."""
+    return [
+        {
+            "id": sub_action.get("id", ""),
+            "semantic_id": sub_action.get("semantic_id", sub_action.get("id", "")),
+            "title": sub_action.get("title", ""),
+            "text": sub_action.get("text", ""),
+            "subject": sub_action.get("subject", ""),
+            "verb": sub_action.get("verb", ""),
+            "target": sub_action.get("target", ""),
+            "order_index": sub_action.get("order_index", 0),
+            "parent_step_id": sub_action.get("parent_step_id", ""),
+            "parent_step_semantic_id": sub_action.get("parent_step_semantic_id", ""),
+            "parent_use_case_id": sub_action.get("parent_use_case_id", ""),
+            "derivation_basis": sub_action.get("derivation_basis", ""),
+        }
+        for sub_action in item.get("sub_actions", [])
+        if isinstance(sub_action, dict)
+    ]
+
+
 def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     """Convert one canonical element into the planning export shape."""
     readiness = item.get("readiness", {})
@@ -164,6 +189,9 @@ def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     obligations = _export_obligations(item)
     if obligations:
         exported["obligations"] = obligations
+    sub_actions = _export_sub_actions(item)
+    if sub_actions:
+        exported["sub_actions"] = sub_actions
     return exported
 
 
