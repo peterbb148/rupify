@@ -184,6 +184,25 @@ def _export_guard_parts(item: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _export_invariant_clauses(item: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return exported invariant-clause records for one canonical element."""
+    return [
+        {
+            "id": clause.get("id", ""),
+            "semantic_id": clause.get("semantic_id", clause.get("id", "")),
+            "clause_kind": clause.get("clause_kind", ""),
+            "title": clause.get("title", ""),
+            "text": clause.get("text", ""),
+            "order_index": clause.get("order_index", 0),
+            "parent_invariant_id": clause.get("parent_invariant_id", ""),
+            "parent_invariant_semantic_id": clause.get("parent_invariant_semantic_id", ""),
+            "derivation_basis": clause.get("derivation_basis", ""),
+        }
+        for clause in item.get("invariant_clauses", [])
+        if isinstance(clause, dict)
+    ]
+
+
 def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     """Convert one canonical element into the planning export shape."""
     readiness = item.get("readiness", {})
@@ -213,6 +232,9 @@ def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     guard_parts = _export_guard_parts(item)
     if guard_parts:
         exported["guard_parts"] = guard_parts
+    invariant_clauses = _export_invariant_clauses(item)
+    if invariant_clauses:
+        exported["invariant_clauses"] = invariant_clauses
     return exported
 
 

@@ -152,13 +152,74 @@ class PlanningExportTests(unittest.TestCase):
             "domain_entity_objects": [],
             "relationship_objects": [],
             "business_rule_objects": [],
-            "domain_invariant_objects": [],
+            "domain_invariant_objects": [
+                {
+                    "id": "domain-invariant-1",
+                    "semantic_id": "domain-invariant-1",
+                    "name": "Domain Invariant 1",
+                    "description": "A System must record vendor and contract dates.",
+                    "invariant_clauses": [
+                        {
+                            "id": "domain-invariant-1-clause-1",
+                            "semantic_id": "domain-invariant-1-clause-obligation-record-vendor",
+                            "clause_kind": "obligation",
+                            "title": "Record vendor",
+                            "text": "Record vendor.",
+                            "order_index": 1,
+                            "parent_invariant_id": "domain-invariant-1",
+                            "parent_invariant_semantic_id": "domain-invariant-1",
+                            "derivation_basis": "shared_verb_objects",
+                        }
+                    ],
+                    "content_semantics": "normative",
+                    "readiness": {
+                        "status": "ready",
+                        "normative_ready": True,
+                        "missing_fields": [],
+                        "blocking_ambiguity_ids": [],
+                    },
+                    "change_metadata": {"semantic_hash": "domaininvhash"},
+                    "trace": {"source_round": 5, "source_key": "business_rules"},
+                }
+            ],
         }
         model["process_view"] = {
             "state_entity_objects": [],
             "state_transition_objects": [],
             "trigger_objects": [],
-            "state_invariant_objects": [],
+            "state_invariant_objects": [
+                {
+                    "id": "state-invariant-1",
+                    "semantic_id": "state-invariant-1",
+                    "name": "State Invariant 1",
+                    "description": (
+                        "A Redemption must not be fulfilled unless reward eligibility and "
+                        "available points are confirmed."
+                    ),
+                    "invariant_clauses": [
+                        {
+                            "id": "state-invariant-1-clause-1",
+                            "semantic_id": "state-invariant-1-clause-condition-confirm-reward-eligibility",
+                            "clause_kind": "condition",
+                            "title": "Confirm reward eligibility",
+                            "text": "Confirm reward eligibility before be fulfilled.",
+                            "order_index": 1,
+                            "parent_invariant_id": "state-invariant-1",
+                            "parent_invariant_semantic_id": "state-invariant-1",
+                            "derivation_basis": "unless_confirmed_clause",
+                        }
+                    ],
+                    "content_semantics": "normative",
+                    "readiness": {
+                        "status": "ready",
+                        "normative_ready": True,
+                        "missing_fields": [],
+                        "blocking_ambiguity_ids": [],
+                    },
+                    "change_metadata": {"semantic_hash": "stateinvhash"},
+                    "trace": {"source_round": 5, "source_key": "business_rules"},
+                }
+            ],
             "guard_condition_objects": [
                 {
                     "id": "guard-condition-1",
@@ -287,7 +348,14 @@ class PlanningExportTests(unittest.TestCase):
         self.assertEqual(export["export_metadata"]["export_kind"], "speckify_planning_export")
         self.assertEqual(
             export["summary"]["ready_normative_ids"],
-            ["functional-requirement-1", "guard-condition-1", "uc-redeem-step-1", "uc-redeem"],
+            [
+                "domain-invariant-1",
+                "functional-requirement-1",
+                "guard-condition-1",
+                "state-invariant-1",
+                "uc-redeem-step-1",
+                "uc-redeem",
+            ],
         )
         self.assertEqual(export["summary"]["blocking_ambiguity_ids"], ["ambiguity-open-question-1"])
         self.assertEqual(
@@ -317,6 +385,12 @@ class PlanningExportTests(unittest.TestCase):
                 item for item in export["elements"] if item["id"] == "guard-condition-1"
             )["guard_parts"][0]["part_kind"],
             "context",
+        )
+        self.assertEqual(
+            next(
+                item for item in export["elements"] if item["id"] == "domain-invariant-1"
+            )["invariant_clauses"][0]["title"],
+            "Record vendor",
         )
         self.assertEqual(
             next(item for item in export["elements"] if item["id"] == "acceptance-constraint-1")["attributes"]["linked_use_case_ids"],
@@ -514,6 +588,29 @@ class PlanningExportTests(unittest.TestCase):
                 "Support integration with external systems with payment confirmation",
                 "Support integration with external systems with reporting sources",
             ],
+        )
+
+    def test_checked_in_loyalty_v2_export_includes_invariant_clauses(self) -> None:
+        """The checked-in loyalty V2 export should surface explicit invariant clauses."""
+        repo_root = Path(__file__).resolve().parents[1]
+        export_path = (
+            repo_root
+            / "examples"
+            / "loyalty-platform-v2"
+            / "exports"
+            / "speckify-planning-export.json"
+        )
+        payload = json.loads(export_path.read_text(encoding="utf-8"))
+        invariant = next(
+            item for item in payload["elements"] if item["id"] == "domain-invariant-1"
+        )
+        self.assertEqual(
+            [item["title"] for item in invariant["invariant_clauses"]],
+            ["Confirm reward eligibility", "Confirm available points"],
+        )
+        self.assertEqual(
+            invariant["invariant_clauses"][0]["derivation_basis"],
+            "unless_confirmed_clause",
         )
 
 

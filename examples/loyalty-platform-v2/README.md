@@ -52,7 +52,7 @@ This V2 export currently shows:
 - 0 blocking ambiguities
 - 0 duplicate exported element IDs
 - 0 unresolved trace references
-- explicit requirement obligations, step sub-actions, and guard parts where the upstream normalization can derive them safely
+- explicit requirement obligations, step sub-actions, guard parts, and invariant clauses where the upstream normalization can derive them safely
 
 ## Notes
 

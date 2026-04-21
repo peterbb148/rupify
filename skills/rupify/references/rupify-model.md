@@ -274,6 +274,16 @@ The canonical project model is `rupify-model.yaml`.
     - `id`
     - `name`
     - `description`
+    - `invariant_clauses`
+      - `id`
+      - `semantic_id`
+      - `clause_kind`
+      - `title`
+      - `text`
+      - `order_index`
+      - `parent_invariant_id`
+      - `parent_invariant_semantic_id`
+      - `derivation_basis`
     - `scope_entity_ids`
     - `source_business_rule_id`
     - `model_layer`: `analysis`
@@ -282,6 +292,16 @@ The canonical project model is `rupify-model.yaml`.
     - `id`
     - `name`
     - `description`
+    - `invariant_clauses`
+      - `id`
+      - `semantic_id`
+      - `clause_kind`
+      - `title`
+      - `text`
+      - `order_index`
+      - `parent_invariant_id`
+      - `parent_invariant_semantic_id`
+      - `derivation_basis`
     - `state_entity_ids`
     - `source_business_rule_id`
     - `model_layer`: `analysis`

@@ -1205,3 +1205,59 @@ class DiscoveryTests(unittest.TestCase):
             [item["part_kind"] for item in guard_objects[2]["guard_parts"]],
             ["context", "condition", "block_outcome"],
         )
+
+    def test_normalize_replay_to_model_derives_invariant_clauses(self) -> None:
+        """Invariant objects should expose explicit clauses for safe conjunctive patterns."""
+        replay = replay_session(
+            [
+                {
+                    "round": 5,
+                    "responses": [
+                        {"key": "domain_entities", "answer": ["System", "Member", "Redemption"]},
+                        {
+                            "key": "business_rules",
+                            "answer": [
+                                "A System must record vendor and contract dates.",
+                                "A Member must provide the required details and consents before enrollment completes.",
+                                "A Redemption must not be fulfilled unless reward eligibility and available points are confirmed.",
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["Redemption"]},
+                        {
+                            "key": "states_and_transitions",
+                            "answer": ["Redemption: Requested -> Validated -> Fulfilled"],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        domain_invariants = model["logical_view"]["domain_invariant_objects"]
+        state_invariants = model["process_view"]["state_invariant_objects"]
+
+        self.assertEqual(
+            [item["title"] for item in domain_invariants[0]["invariant_clauses"]],
+            ["Record vendor", "Record contract dates"],
+        )
+        self.assertEqual(
+            [item["title"] for item in domain_invariants[1]["invariant_clauses"]],
+            ["Provide the required details", "Provide consents"],
+        )
+        self.assertEqual(
+            [item["title"] for item in domain_invariants[2]["invariant_clauses"]],
+            ["Confirm reward eligibility", "Confirm available points"],
+        )
+        self.assertEqual(
+            domain_invariants[2]["invariant_clauses"][0]["parent_invariant_id"],
+            "domain-invariant-3",
+        )
+        self.assertEqual(
+            [item["title"] for item in state_invariants[0]["invariant_clauses"]],
+            ["Confirm reward eligibility", "Confirm available points"],
+        )

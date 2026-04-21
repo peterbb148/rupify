@@ -701,13 +701,37 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "9bdd873c55f95c20",
+        "semantic_hash": "2afc06d3e2758687",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "domain_invariants",
       "id": "domain-invariant-1",
+      "invariant_clauses": [
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "domain-invariant-1-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "domain-invariant-1",
+          "parent_invariant_semantic_id": "domain-invariant-1",
+          "semantic_id": "domain-invariant-1-clause-condition-confirm-reward-eligibility",
+          "text": "Confirm reward eligibility before be fulfilled.",
+          "title": "Confirm reward eligibility"
+        },
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "domain-invariant-1-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "domain-invariant-1",
+          "parent_invariant_semantic_id": "domain-invariant-1",
+          "semantic_id": "domain-invariant-1-clause-condition-confirm-available-points",
+          "text": "Confirm available points before be fulfilled.",
+          "title": "Confirm available points"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 1",
       "normative_ready": true,
@@ -730,7 +754,7 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a637b3e22f50cdd4",
+        "semantic_hash": "276954ae842992f6",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -758,13 +782,37 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c2cf041e428bfa76",
+        "semantic_hash": "0e3e986abe6be808",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "domain_invariants",
       "id": "domain-invariant-3",
+      "invariant_clauses": [
+        {
+          "clause_kind": "obligation",
+          "derivation_basis": "shared_verb_objects",
+          "id": "domain-invariant-3-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "domain-invariant-3",
+          "parent_invariant_semantic_id": "domain-invariant-3",
+          "semantic_id": "domain-invariant-3-clause-obligation-provide-the-required-details",
+          "text": "Provide the required details before enrollment completes.",
+          "title": "Provide the required details"
+        },
+        {
+          "clause_kind": "obligation",
+          "derivation_basis": "shared_verb_objects",
+          "id": "domain-invariant-3-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "domain-invariant-3",
+          "parent_invariant_semantic_id": "domain-invariant-3",
+          "semantic_id": "domain-invariant-3-clause-obligation-provide-consents",
+          "text": "Provide consents before enrollment completes.",
+          "title": "Provide consents"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 3",
       "normative_ready": true,
@@ -2020,13 +2068,37 @@
         "change_source": "derived_state_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1001f94a08fd8f05",
+        "semantic_hash": "3b43928758af0059",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "state_invariants",
       "id": "state-invariant-1",
+      "invariant_clauses": [
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "state-invariant-1-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "state-invariant-1",
+          "parent_invariant_semantic_id": "state-invariant-1",
+          "semantic_id": "state-invariant-1-clause-condition-confirm-reward-eligibility",
+          "text": "Confirm reward eligibility before be fulfilled.",
+          "title": "Confirm reward eligibility"
+        },
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "state-invariant-1-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "state-invariant-1",
+          "parent_invariant_semantic_id": "state-invariant-1",
+          "semantic_id": "state-invariant-1-clause-condition-confirm-available-points",
+          "text": "Confirm available points before be fulfilled.",
+          "title": "Confirm available points"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 1",
       "normative_ready": true,
@@ -2048,7 +2120,7 @@
         "change_source": "derived_state_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "da255172f2fcc35e",
+        "semantic_hash": "df72932140694e3f",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3245,7 +3317,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "1e4a32ec4521ade8",
+      "semantic_hash": "90756bcad0c547de",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -3522,13 +3594,37 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "9bdd873c55f95c20",
+        "semantic_hash": "2afc06d3e2758687",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "domain_invariants",
       "id": "domain-invariant-1",
+      "invariant_clauses": [
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "domain-invariant-1-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "domain-invariant-1",
+          "parent_invariant_semantic_id": "domain-invariant-1",
+          "semantic_id": "domain-invariant-1-clause-condition-confirm-reward-eligibility",
+          "text": "Confirm reward eligibility before be fulfilled.",
+          "title": "Confirm reward eligibility"
+        },
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "domain-invariant-1-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "domain-invariant-1",
+          "parent_invariant_semantic_id": "domain-invariant-1",
+          "semantic_id": "domain-invariant-1-clause-condition-confirm-available-points",
+          "text": "Confirm available points before be fulfilled.",
+          "title": "Confirm available points"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 1",
       "normative_ready": true,
@@ -3551,7 +3647,7 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a637b3e22f50cdd4",
+        "semantic_hash": "276954ae842992f6",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3579,13 +3675,37 @@
         "change_source": "derived_domain_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "c2cf041e428bfa76",
+        "semantic_hash": "0e3e986abe6be808",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "domain_invariants",
       "id": "domain-invariant-3",
+      "invariant_clauses": [
+        {
+          "clause_kind": "obligation",
+          "derivation_basis": "shared_verb_objects",
+          "id": "domain-invariant-3-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "domain-invariant-3",
+          "parent_invariant_semantic_id": "domain-invariant-3",
+          "semantic_id": "domain-invariant-3-clause-obligation-provide-the-required-details",
+          "text": "Provide the required details before enrollment completes.",
+          "title": "Provide the required details"
+        },
+        {
+          "clause_kind": "obligation",
+          "derivation_basis": "shared_verb_objects",
+          "id": "domain-invariant-3-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "domain-invariant-3",
+          "parent_invariant_semantic_id": "domain-invariant-3",
+          "semantic_id": "domain-invariant-3-clause-obligation-provide-consents",
+          "text": "Provide consents before enrollment completes.",
+          "title": "Provide consents"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 3",
       "normative_ready": true,
@@ -4160,13 +4280,37 @@
         "change_source": "derived_state_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1001f94a08fd8f05",
+        "semantic_hash": "3b43928758af0059",
         "semantic_version": 1,
         "supersedes": []
       },
       "content_semantics": "normative",
       "family": "state_invariants",
       "id": "state-invariant-1",
+      "invariant_clauses": [
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "state-invariant-1-clause-1",
+          "order_index": 1,
+          "parent_invariant_id": "state-invariant-1",
+          "parent_invariant_semantic_id": "state-invariant-1",
+          "semantic_id": "state-invariant-1-clause-condition-confirm-reward-eligibility",
+          "text": "Confirm reward eligibility before be fulfilled.",
+          "title": "Confirm reward eligibility"
+        },
+        {
+          "clause_kind": "condition",
+          "derivation_basis": "unless_confirmed_clause",
+          "id": "state-invariant-1-clause-2",
+          "order_index": 2,
+          "parent_invariant_id": "state-invariant-1",
+          "parent_invariant_semantic_id": "state-invariant-1",
+          "semantic_id": "state-invariant-1-clause-condition-confirm-available-points",
+          "text": "Confirm available points before be fulfilled.",
+          "title": "Confirm available points"
+        }
+      ],
       "missing_fields": [],
       "name": "Rule 1",
       "normative_ready": true,
@@ -4188,7 +4332,7 @@
         "change_source": "derived_state_invariants",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "da255172f2fcc35e",
+        "semantic_hash": "df72932140694e3f",
         "semantic_version": 1,
         "supersedes": []
       },
