@@ -1151,7 +1151,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "50ca3d7990de2576",
+          "semantic_hash": "2e8b905f864b8055",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1174,6 +1174,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-1",
         "statement": "The system must allow operations managers to maintain reward catalog entries and campaign rules.",
+        "sub_obligations": [
+          {
+            "acceptance": "Operations managers can maintain reward catalog entries.",
+            "id": "maintain-reward-catalog-entries",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Allow operations managers to maintain reward catalog entries.",
+            "title": "Maintain reward catalog entries"
+          },
+          {
+            "acceptance": "Operations managers can maintain campaign rules.",
+            "id": "maintain-campaign-rules",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Allow operations managers to maintain campaign rules.",
+            "title": "Maintain campaign rules"
+          }
+        ],
         "trace": {
           "source_key": "workflow_scope",
           "source_round": 4
@@ -1184,7 +1202,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "137be52a3e449f36",
+          "semantic_hash": "dc3d2831f79f8c13",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1207,6 +1225,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-2",
         "statement": "The platform must integrate with payment confirmation and downstream reporting sources.",
+        "sub_obligations": [
+          {
+            "acceptance": "Payment confirmation is supported.",
+            "id": "integrate-with-payment-confirmation",
+            "parent_requirement_id": "functional-requirement-2",
+            "parent_requirement_semantic_id": "functional-requirement-2",
+            "summary": "Integrate with payment confirmation.",
+            "title": "Integrate with payment confirmation"
+          },
+          {
+            "acceptance": "Downstream reporting sources is supported.",
+            "id": "integrate-with-downstream-reporting-sources",
+            "parent_requirement_id": "functional-requirement-2",
+            "parent_requirement_semantic_id": "functional-requirement-2",
+            "summary": "Integrate with downstream reporting sources.",
+            "title": "Integrate with downstream reporting sources"
+          }
+        ],
         "trace": {
           "source_key": "integrations",
           "source_round": 3
@@ -1217,7 +1253,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "6d25cd70cc309bd6",
+          "semantic_hash": "9fce780019db01af",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1240,6 +1276,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-1",
         "statement": "The system must protect member and reward transactions with appropriate security controls.",
+        "sub_obligations": [
+          {
+            "acceptance": "Member with appropriate security controls is supported.",
+            "id": "protect-member",
+            "parent_requirement_id": "non_functional-requirement-1",
+            "parent_requirement_semantic_id": "non_functional-requirement-1",
+            "summary": "Protect member with appropriate security controls.",
+            "title": "Protect member"
+          },
+          {
+            "acceptance": "Reward transactions with appropriate security controls is supported.",
+            "id": "protect-reward-transactions",
+            "parent_requirement_id": "non_functional-requirement-1",
+            "parent_requirement_semantic_id": "non_functional-requirement-1",
+            "summary": "Protect reward transactions with appropriate security controls.",
+            "title": "Protect reward transactions"
+          }
+        ],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -1250,7 +1304,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "3c50cc9fdf143ffc",
+          "semantic_hash": "f34eab98113e6cb9",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1273,6 +1327,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
         "statement": "The member-facing experience must remain usable on common digital channels.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -1283,7 +1338,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "123d736840c12b01",
+          "semantic_hash": "1e8d913324d95244",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1306,6 +1361,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "The platform must support integrations with external systems such as payment confirmation and reporting sources.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -1316,7 +1372,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "91b01cf0f9df4489",
+          "semantic_hash": "e16e61e669d9d038",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1339,6 +1395,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
         "statement": "The system must allow customers to enroll in the loyalty program digitally.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1349,7 +1406,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "c869b78025ab245a",
+          "semantic_hash": "dd40814a68e5ea4c",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1372,6 +1429,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
         "statement": "The system must show point balance and available rewards to eligible members.",
+        "sub_obligations": [
+          {
+            "acceptance": "Point balance to eligible members is supported.",
+            "id": "show-point-balance",
+            "parent_requirement_id": "non_functional-requirement-5",
+            "parent_requirement_semantic_id": "non_functional-requirement-5",
+            "summary": "Show point balance to eligible members.",
+            "title": "Show point balance"
+          },
+          {
+            "acceptance": "Available rewards to eligible members is supported.",
+            "id": "show-available-rewards",
+            "parent_requirement_id": "non_functional-requirement-5",
+            "parent_requirement_semantic_id": "non_functional-requirement-5",
+            "summary": "Show available rewards to eligible members.",
+            "title": "Show available rewards"
+          }
+        ],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1382,7 +1457,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "5f03cdaaa89ad4e1",
+          "semantic_hash": "986075ab3840cbda",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1407,6 +1482,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",
         "statement": "The system must allow members to redeem rewards when eligibility conditions are satisfied.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1417,7 +1493,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "925c5506da0bb97a",
+          "semantic_hash": "0812eed1d3237b95",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1440,6 +1516,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-7",
         "statement": "The system must provide reporting on redemptions and campaign performance.",
+        "sub_obligations": [
+          {
+            "acceptance": "Reporting on redemptions is supported.",
+            "id": "provide-reporting-on-redemptions",
+            "parent_requirement_id": "non_functional-requirement-7",
+            "parent_requirement_semantic_id": "non_functional-requirement-7",
+            "summary": "Provide reporting on redemptions.",
+            "title": "Provide reporting on redemptions"
+          },
+          {
+            "acceptance": "Campaign performance is supported.",
+            "id": "provide-campaign-performance",
+            "parent_requirement_id": "non_functional-requirement-7",
+            "parent_requirement_semantic_id": "non_functional-requirement-7",
+            "summary": "Provide campaign performance.",
+            "title": "Provide campaign performance"
+          }
+        ],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5477,7 +5571,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "f53b334e86e54b91",
+      "semantic_hash": "9e539fa7e9653a18",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -6333,7 +6427,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "50ca3d7990de2576",
+          "semantic_hash": "2e8b905f864b8055",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6356,6 +6450,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-1",
         "statement": "The system must allow operations managers to maintain reward catalog entries and campaign rules.",
+        "sub_obligations": [
+          {
+            "acceptance": "Operations managers can maintain reward catalog entries.",
+            "id": "maintain-reward-catalog-entries",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Allow operations managers to maintain reward catalog entries.",
+            "title": "Maintain reward catalog entries"
+          },
+          {
+            "acceptance": "Operations managers can maintain campaign rules.",
+            "id": "maintain-campaign-rules",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Allow operations managers to maintain campaign rules.",
+            "title": "Maintain campaign rules"
+          }
+        ],
         "trace": {
           "source_key": "workflow_scope",
           "source_round": 4
@@ -6366,7 +6478,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "137be52a3e449f36",
+          "semantic_hash": "dc3d2831f79f8c13",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6389,6 +6501,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-2",
         "statement": "The platform must integrate with payment confirmation and downstream reporting sources.",
+        "sub_obligations": [
+          {
+            "acceptance": "Payment confirmation is supported.",
+            "id": "integrate-with-payment-confirmation",
+            "parent_requirement_id": "functional-requirement-2",
+            "parent_requirement_semantic_id": "functional-requirement-2",
+            "summary": "Integrate with payment confirmation.",
+            "title": "Integrate with payment confirmation"
+          },
+          {
+            "acceptance": "Downstream reporting sources is supported.",
+            "id": "integrate-with-downstream-reporting-sources",
+            "parent_requirement_id": "functional-requirement-2",
+            "parent_requirement_semantic_id": "functional-requirement-2",
+            "summary": "Integrate with downstream reporting sources.",
+            "title": "Integrate with downstream reporting sources"
+          }
+        ],
         "trace": {
           "source_key": "integrations",
           "source_round": 3
@@ -6410,7 +6540,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "6d25cd70cc309bd6",
+          "semantic_hash": "9fce780019db01af",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6433,6 +6563,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-1",
         "statement": "The system must protect member and reward transactions with appropriate security controls.",
+        "sub_obligations": [
+          {
+            "acceptance": "Member with appropriate security controls is supported.",
+            "id": "protect-member",
+            "parent_requirement_id": "non_functional-requirement-1",
+            "parent_requirement_semantic_id": "non_functional-requirement-1",
+            "summary": "Protect member with appropriate security controls.",
+            "title": "Protect member"
+          },
+          {
+            "acceptance": "Reward transactions with appropriate security controls is supported.",
+            "id": "protect-reward-transactions",
+            "parent_requirement_id": "non_functional-requirement-1",
+            "parent_requirement_semantic_id": "non_functional-requirement-1",
+            "summary": "Protect reward transactions with appropriate security controls.",
+            "title": "Protect reward transactions"
+          }
+        ],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -6443,7 +6591,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "3c50cc9fdf143ffc",
+          "semantic_hash": "f34eab98113e6cb9",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6466,6 +6614,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
         "statement": "The member-facing experience must remain usable on common digital channels.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -6476,7 +6625,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "123d736840c12b01",
+          "semantic_hash": "1e8d913324d95244",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6499,6 +6648,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "The platform must support integrations with external systems such as payment confirmation and reporting sources.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -6509,7 +6659,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "91b01cf0f9df4489",
+          "semantic_hash": "e16e61e669d9d038",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6532,6 +6682,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
         "statement": "The system must allow customers to enroll in the loyalty program digitally.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -6542,7 +6693,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "c869b78025ab245a",
+          "semantic_hash": "dd40814a68e5ea4c",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6565,6 +6716,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
         "statement": "The system must show point balance and available rewards to eligible members.",
+        "sub_obligations": [
+          {
+            "acceptance": "Point balance to eligible members is supported.",
+            "id": "show-point-balance",
+            "parent_requirement_id": "non_functional-requirement-5",
+            "parent_requirement_semantic_id": "non_functional-requirement-5",
+            "summary": "Show point balance to eligible members.",
+            "title": "Show point balance"
+          },
+          {
+            "acceptance": "Available rewards to eligible members is supported.",
+            "id": "show-available-rewards",
+            "parent_requirement_id": "non_functional-requirement-5",
+            "parent_requirement_semantic_id": "non_functional-requirement-5",
+            "summary": "Show available rewards to eligible members.",
+            "title": "Show available rewards"
+          }
+        ],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -6575,7 +6744,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "5f03cdaaa89ad4e1",
+          "semantic_hash": "986075ab3840cbda",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6600,6 +6769,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",
         "statement": "The system must allow members to redeem rewards when eligibility conditions are satisfied.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -6610,7 +6780,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "925c5506da0bb97a",
+          "semantic_hash": "0812eed1d3237b95",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6633,6 +6803,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-7",
         "statement": "The system must provide reporting on redemptions and campaign performance.",
+        "sub_obligations": [
+          {
+            "acceptance": "Reporting on redemptions is supported.",
+            "id": "provide-reporting-on-redemptions",
+            "parent_requirement_id": "non_functional-requirement-7",
+            "parent_requirement_semantic_id": "non_functional-requirement-7",
+            "summary": "Provide reporting on redemptions.",
+            "title": "Provide reporting on redemptions"
+          },
+          {
+            "acceptance": "Campaign performance is supported.",
+            "id": "provide-campaign-performance",
+            "parent_requirement_id": "non_functional-requirement-7",
+            "parent_requirement_semantic_id": "non_functional-requirement-7",
+            "summary": "Provide campaign performance.",
+            "title": "Provide campaign performance"
+          }
+        ],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4

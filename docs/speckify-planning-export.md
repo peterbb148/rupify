@@ -52,6 +52,14 @@ uv run rupify-export-planning \
     - `source_key`
     - `change_metadata`
     - `attributes`
+    - optional `obligations` for requirement elements where Rupify has explicit normalized
+      requirement sub-obligations
+      - `id`
+      - `title`
+      - `summary`
+      - `acceptance`
+      - `parent_requirement_id`
+      - `parent_requirement_semantic_id`
 - `ready_normative_elements`
   - the ready subset of `elements` where `content_semantics == normative`
 - `blocking_ambiguities`
@@ -65,3 +73,5 @@ uv run rupify-export-planning \
 - `elements` should still be retained for context, partial markers, and auditability.
 - `trace_links` should be treated as the canonical link surface for downstream graph traversal.
 - `blocking_ambiguities` should be treated as explicit stop conditions, not hidden warnings.
+- `obligations` should be consumed only when present; Speckify should fail closed rather than
+  inferring additional sub-obligations by splitting requirement prose downstream.

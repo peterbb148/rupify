@@ -1394,7 +1394,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "b817426cb7205235",
+          "semantic_hash": "a3ef6c1c703ff787",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1417,6 +1417,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-1",
         "statement": "Yes business processes like stage gates and approval states must be supported",
+        "sub_obligations": [
+          {
+            "acceptance": "Stage gates is supported.",
+            "id": "support-stage-gates",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Support stage gates.",
+            "title": "Support stage gates"
+          },
+          {
+            "acceptance": "Approval states is supported.",
+            "id": "support-approval-states",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Support approval states.",
+            "title": "Support approval states"
+          }
+        ],
         "trace": {
           "source_key": "workflow_scope",
           "source_round": 4
@@ -1427,7 +1445,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "82d1c204f7e647cb",
+          "semantic_hash": "9bb5aa0707f8efc1",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1450,6 +1468,7 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-2",
         "statement": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "integrations",
           "source_round": 3
@@ -1460,7 +1479,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "35140189626f3690",
+          "semantic_hash": "728a95357563e5c3",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1483,6 +1502,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-1",
         "statement": "UI must be web based",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -1493,7 +1513,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "2cfeeb6b1a5d6cf3",
+          "semantic_hash": "4777a0dcede17d97",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1516,6 +1536,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
         "statement": "SSO",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1526,7 +1547,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "fea688a24e60eb26",
+          "semantic_hash": "5ce87fea5d01eec6",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1549,6 +1570,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "role-based access",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1559,7 +1581,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "06a6d153cde6db09",
+          "semantic_hash": "1301748bdf90f823",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1582,6 +1604,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
         "statement": "audit trail",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1592,7 +1615,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "a58c2dc37a3500ae",
+          "semantic_hash": "124f23d7f07094d7",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1615,6 +1638,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
         "statement": "search",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1625,7 +1649,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "e0effb42b6bd2a5e",
+          "semantic_hash": "cefdf9f48c729e40",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1648,6 +1672,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",
         "statement": "filtering",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1658,7 +1683,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "f4298ae6bd42c9e4",
+          "semantic_hash": "425cdfebd017021e",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1681,6 +1706,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-7",
         "statement": "performance (regular >1s for web page rendering)",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -1691,7 +1717,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "7fbb857a1cf2c508",
+          "semantic_hash": "7baedc3ac0f26991",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1714,6 +1740,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-8",
         "statement": "availability >=99%",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -4090,7 +4117,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "62d266a14515319f",
+      "semantic_hash": "818aeb022ab1efc9",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -4841,7 +4868,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "b817426cb7205235",
+          "semantic_hash": "a3ef6c1c703ff787",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -4864,6 +4891,24 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-1",
         "statement": "Yes business processes like stage gates and approval states must be supported",
+        "sub_obligations": [
+          {
+            "acceptance": "Stage gates is supported.",
+            "id": "support-stage-gates",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Support stage gates.",
+            "title": "Support stage gates"
+          },
+          {
+            "acceptance": "Approval states is supported.",
+            "id": "support-approval-states",
+            "parent_requirement_id": "functional-requirement-1",
+            "parent_requirement_semantic_id": "functional-requirement-1",
+            "summary": "Support approval states.",
+            "title": "Support approval states"
+          }
+        ],
         "trace": {
           "source_key": "workflow_scope",
           "source_round": 4
@@ -4874,7 +4919,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "82d1c204f7e647cb",
+          "semantic_hash": "9bb5aa0707f8efc1",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -4897,6 +4942,7 @@
         "requirement_kind": "functional",
         "semantic_id": "functional-requirement-2",
         "statement": "I think this will be the CMDB for IT Applications/systems - we need to be able to export data to various system for reporting.",
+        "sub_obligations": [],
         "trace": {
           "source_key": "integrations",
           "source_round": 3
@@ -4919,7 +4965,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "35140189626f3690",
+          "semantic_hash": "728a95357563e5c3",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -4942,6 +4988,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-1",
         "statement": "UI must be web based",
+        "sub_obligations": [],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -4952,7 +4999,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "2cfeeb6b1a5d6cf3",
+          "semantic_hash": "4777a0dcede17d97",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -4975,6 +5022,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-2",
         "statement": "SSO",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -4985,7 +5033,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "fea688a24e60eb26",
+          "semantic_hash": "5ce87fea5d01eec6",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5008,6 +5056,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "role-based access",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5018,7 +5067,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "06a6d153cde6db09",
+          "semantic_hash": "1301748bdf90f823",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5041,6 +5090,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-4",
         "statement": "audit trail",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5051,7 +5101,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "a58c2dc37a3500ae",
+          "semantic_hash": "124f23d7f07094d7",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5074,6 +5124,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-5",
         "statement": "search",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5084,7 +5135,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "e0effb42b6bd2a5e",
+          "semantic_hash": "cefdf9f48c729e40",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5107,6 +5158,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-6",
         "statement": "filtering",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5117,7 +5169,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "f4298ae6bd42c9e4",
+          "semantic_hash": "425cdfebd017021e",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5140,6 +5192,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-7",
         "statement": "performance (regular >1s for web page rendering)",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4
@@ -5150,7 +5203,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "7fbb857a1cf2c508",
+          "semantic_hash": "7baedc3ac0f26991",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -5173,6 +5226,7 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-8",
         "statement": "availability >=99%",
+        "sub_obligations": [],
         "trace": {
           "source_key": "non_functional_requirements",
           "source_round": 4

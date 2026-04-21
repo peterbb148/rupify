@@ -275,6 +275,58 @@ class DiscoveryTests(unittest.TestCase):
             ],
         )
 
+    def test_normalize_replay_to_model_derives_requirement_sub_obligations(self) -> None:
+        """Requirement objects should carry explicit sub-obligations for safe shared-prefix splits."""
+        replay = replay_session(
+            [
+                {
+                    "round": 4,
+                    "responses": [
+                        {
+                            "key": "workflow_scope",
+                            "answer": (
+                                "The system must allow operations managers to maintain reward catalog "
+                                "entries and campaign rules."
+                            ),
+                        },
+                        {
+                            "key": "non_functional_requirements",
+                            "answer": [
+                                "The platform must integrate with payment confirmation and downstream reporting sources."
+                            ],
+                        },
+                    ],
+                }
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+
+        functional_sub_obligations = model["requirements"]["functional_objects"][0]["sub_obligations"]
+        self.assertEqual(
+            [item["title"] for item in functional_sub_obligations],
+            ["Maintain reward catalog entries", "Maintain campaign rules"],
+        )
+        self.assertEqual(
+            functional_sub_obligations[0]["parent_requirement_id"],
+            "functional-requirement-1",
+        )
+        self.assertIn(
+            "Operations managers can maintain reward catalog entries.",
+            functional_sub_obligations[0]["acceptance"],
+        )
+
+        non_functional_sub_obligations = model["requirements"]["non_functional_objects"][0][
+            "sub_obligations"
+        ]
+        self.assertEqual(
+            [item["title"] for item in non_functional_sub_obligations],
+            [
+                "Integrate with payment confirmation",
+                "Integrate with downstream reporting sources",
+            ],
+        )
+
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
         """Missing optional view rounds should still produce stable empty sections."""
         replay = replay_session(

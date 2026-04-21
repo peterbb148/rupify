@@ -108,6 +108,13 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_use_case_ids`
     - `linked_step_ids`
     - `fit_criterion`
+    - `sub_obligations`
+      - `id`
+      - `title`
+      - `summary`
+      - `acceptance`
+      - `parent_requirement_id`
+      - `parent_requirement_semantic_id`
     - `trace`
     - `content_semantics`: `normative` or `informative`
     - `readiness`
@@ -121,6 +128,13 @@ The canonical project model is `rupify-model.yaml`.
     - `linked_use_case_ids`
     - `linked_step_ids`
     - `fit_criterion`
+    - `sub_obligations`
+      - `id`
+      - `title`
+      - `summary`
+      - `acceptance`
+      - `parent_requirement_id`
+      - `parent_requirement_semantic_id`
     - `trace`
     - `content_semantics`: `normative` or `informative`
     - `readiness`

@@ -28,6 +28,16 @@ class PlanningExportTests(unittest.TestCase):
                     "id": "functional-requirement-1",
                     "semantic_id": "functional-requirement-1",
                     "statement": "Approve system changes",
+                    "sub_obligations": [
+                        {
+                            "id": "approve-system-changes",
+                            "title": "Approve system changes",
+                            "summary": "Approve system changes.",
+                            "acceptance": "System changes can be approved.",
+                            "parent_requirement_id": "functional-requirement-1",
+                            "parent_requirement_semantic_id": "functional-requirement-1",
+                        }
+                    ],
                     "content_semantics": "normative",
                     "readiness": {
                         "status": "ready",
@@ -230,6 +240,12 @@ class PlanningExportTests(unittest.TestCase):
         self.assertTrue(any(link["family"] == "ambiguity_to_element" for link in export["trace_links"]))
         self.assertTrue(any(item["family"] == "interaction_messages" for item in export["elements"]))
         self.assertEqual(
+            next(
+                item for item in export["elements"] if item["id"] == "functional-requirement-1"
+            )["obligations"][0]["id"],
+            "approve-system-changes",
+        )
+        self.assertEqual(
             next(item for item in export["elements"] if item["id"] == "acceptance-constraint-1")["attributes"]["linked_use_case_ids"],
             ["uc-redeem"],
         )
@@ -335,6 +351,22 @@ class PlanningExportTests(unittest.TestCase):
             if link.get("to_id") and link["to_id"] not in element_id_set:
                 unresolved.append(("to", link["id"], link["to_id"]))
         self.assertEqual(unresolved, [])
+        self.assertEqual(
+            next(
+                item
+                for item in payload["elements"]
+                if item["id"] == "functional-requirement-1"
+            )["obligations"][0]["id"],
+            "support-stage-gates",
+        )
+        self.assertEqual(
+            next(
+                item
+                for item in payload["elements"]
+                if item["id"] == "functional-requirement-1"
+            )["obligations"][1]["id"],
+            "support-approval-states",
+        )
 
 
 if __name__ == "__main__":
