@@ -308,8 +308,17 @@ class DiscoveryTests(unittest.TestCase):
             ["Maintain reward catalog entries", "Maintain campaign rules"],
         )
         self.assertEqual(
+            functional_sub_obligations[0]["semantic_id"],
+            "functional-requirement-1-obligation-maintain-reward-catalog-entries",
+        )
+        self.assertEqual(
             functional_sub_obligations[0]["parent_requirement_id"],
             "functional-requirement-1",
+        )
+        self.assertEqual(functional_sub_obligations[0]["order_index"], 1)
+        self.assertEqual(
+            functional_sub_obligations[0]["derivation_basis"],
+            "allow_shared_verb_objects",
         )
         self.assertIn(
             "Operations managers can maintain reward catalog entries.",
@@ -364,6 +373,18 @@ class DiscoveryTests(unittest.TestCase):
                 "support-integration-with-external-systems-with-payment-confirmation",
                 "support-integration-with-external-systems-with-reporting-sources",
             ],
+        )
+        self.assertEqual(
+            sub_obligations[0]["semantic_id"],
+            (
+                "non_functional-requirement-1-obligation-"
+                "support-integration-with-external-systems-with-payment-confirmation"
+            ),
+        )
+        self.assertEqual(sub_obligations[1]["order_index"], 2)
+        self.assertEqual(
+            sub_obligations[0]["derivation_basis"],
+            "support_such_as_objects",
         )
 
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:

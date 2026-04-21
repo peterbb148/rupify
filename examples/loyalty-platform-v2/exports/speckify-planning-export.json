@@ -856,7 +856,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2e8b905f864b8055",
+        "semantic_hash": "5198864ebbe8f9c4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -869,17 +869,23 @@
       "obligations": [
         {
           "acceptance": "Operations managers can maintain reward catalog entries.",
+          "derivation_basis": "allow_shared_verb_objects",
           "id": "maintain-reward-catalog-entries",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-maintain-reward-catalog-entries",
           "summary": "Allow operations managers to maintain reward catalog entries.",
           "title": "Maintain reward catalog entries"
         },
         {
           "acceptance": "Operations managers can maintain campaign rules.",
+          "derivation_basis": "allow_shared_verb_objects",
           "id": "maintain-campaign-rules",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-maintain-campaign-rules",
           "summary": "Allow operations managers to maintain campaign rules.",
           "title": "Maintain campaign rules"
         }
@@ -899,7 +905,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dc3d2831f79f8c13",
+        "semantic_hash": "0921c4dc0a39584e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -912,17 +918,23 @@
       "obligations": [
         {
           "acceptance": "Payment confirmation is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "integrate-with-payment-confirmation",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-2",
           "parent_requirement_semantic_id": "functional-requirement-2",
+          "semantic_id": "functional-requirement-2-obligation-integrate-with-payment-confirmation",
           "summary": "Integrate with payment confirmation.",
           "title": "Integrate with payment confirmation"
         },
         {
           "acceptance": "Downstream reporting sources is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "integrate-with-downstream-reporting-sources",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-2",
           "parent_requirement_semantic_id": "functional-requirement-2",
+          "semantic_id": "functional-requirement-2-obligation-integrate-with-downstream-reporting-sources",
           "summary": "Integrate with downstream reporting sources.",
           "title": "Integrate with downstream reporting sources"
         }
@@ -1391,7 +1403,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "9fce780019db01af",
+        "semantic_hash": "353a9e38972ecd9e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1404,17 +1416,23 @@
       "obligations": [
         {
           "acceptance": "Member with appropriate security controls is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "protect-member",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-1",
           "parent_requirement_semantic_id": "non_functional-requirement-1",
+          "semantic_id": "non_functional-requirement-1-obligation-protect-member",
           "summary": "Protect member with appropriate security controls.",
           "title": "Protect member"
         },
         {
           "acceptance": "Reward transactions with appropriate security controls is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "protect-reward-transactions",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-1",
           "parent_requirement_semantic_id": "non_functional-requirement-1",
+          "semantic_id": "non_functional-requirement-1-obligation-protect-reward-transactions",
           "summary": "Protect reward transactions with appropriate security controls.",
           "title": "Protect reward transactions"
         }
@@ -1459,7 +1477,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "6343566b4bf3c59c",
+        "semantic_hash": "6f01186e3c266a34",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1472,17 +1490,23 @@
       "obligations": [
         {
           "acceptance": "Integration with external systems with payment confirmation is supported.",
+          "derivation_basis": "support_such_as_objects",
           "id": "support-integration-with-external-systems-with-payment-confirmation",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-3",
           "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "semantic_id": "non_functional-requirement-3-obligation-support-integration-with-external-systems-with-payment-confirmation",
           "summary": "Support integration with external systems with payment confirmation.",
           "title": "Support integration with external systems with payment confirmation"
         },
         {
           "acceptance": "Integration with external systems with reporting sources is supported.",
+          "derivation_basis": "support_such_as_objects",
           "id": "support-integration-with-external-systems-with-reporting-sources",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-3",
           "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "semantic_id": "non_functional-requirement-3-obligation-support-integration-with-external-systems-with-reporting-sources",
           "summary": "Support integration with external systems with reporting sources.",
           "title": "Support integration with external systems with reporting sources"
         }
@@ -1527,7 +1551,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dd40814a68e5ea4c",
+        "semantic_hash": "99aaa1b6ee3250ee",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1540,17 +1564,23 @@
       "obligations": [
         {
           "acceptance": "Point balance to eligible members is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "show-point-balance",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-5",
           "parent_requirement_semantic_id": "non_functional-requirement-5",
+          "semantic_id": "non_functional-requirement-5-obligation-show-point-balance",
           "summary": "Show point balance to eligible members.",
           "title": "Show point balance"
         },
         {
           "acceptance": "Available rewards to eligible members is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "show-available-rewards",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-5",
           "parent_requirement_semantic_id": "non_functional-requirement-5",
+          "semantic_id": "non_functional-requirement-5-obligation-show-available-rewards",
           "summary": "Show available rewards to eligible members.",
           "title": "Show available rewards"
         }
@@ -1598,7 +1628,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "0812eed1d3237b95",
+        "semantic_hash": "1aeb704af808832a",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1611,17 +1641,23 @@
       "obligations": [
         {
           "acceptance": "Reporting on redemptions is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "provide-reporting-on-redemptions",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-7",
           "parent_requirement_semantic_id": "non_functional-requirement-7",
+          "semantic_id": "non_functional-requirement-7-obligation-provide-reporting-on-redemptions",
           "summary": "Provide reporting on redemptions.",
           "title": "Provide reporting on redemptions"
         },
         {
           "acceptance": "Campaign performance is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "provide-campaign-performance",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-7",
           "parent_requirement_semantic_id": "non_functional-requirement-7",
+          "semantic_id": "non_functional-requirement-7-obligation-provide-campaign-performance",
           "summary": "Provide campaign performance.",
           "title": "Provide campaign performance"
         }
@@ -3317,7 +3353,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "90756bcad0c547de",
+      "semantic_hash": "fa990c5b15c56d66",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -3749,7 +3785,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2e8b905f864b8055",
+        "semantic_hash": "5198864ebbe8f9c4",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3762,17 +3798,23 @@
       "obligations": [
         {
           "acceptance": "Operations managers can maintain reward catalog entries.",
+          "derivation_basis": "allow_shared_verb_objects",
           "id": "maintain-reward-catalog-entries",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-maintain-reward-catalog-entries",
           "summary": "Allow operations managers to maintain reward catalog entries.",
           "title": "Maintain reward catalog entries"
         },
         {
           "acceptance": "Operations managers can maintain campaign rules.",
+          "derivation_basis": "allow_shared_verb_objects",
           "id": "maintain-campaign-rules",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-maintain-campaign-rules",
           "summary": "Allow operations managers to maintain campaign rules.",
           "title": "Maintain campaign rules"
         }
@@ -3792,7 +3834,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dc3d2831f79f8c13",
+        "semantic_hash": "0921c4dc0a39584e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3805,17 +3847,23 @@
       "obligations": [
         {
           "acceptance": "Payment confirmation is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "integrate-with-payment-confirmation",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-2",
           "parent_requirement_semantic_id": "functional-requirement-2",
+          "semantic_id": "functional-requirement-2-obligation-integrate-with-payment-confirmation",
           "summary": "Integrate with payment confirmation.",
           "title": "Integrate with payment confirmation"
         },
         {
           "acceptance": "Downstream reporting sources is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "integrate-with-downstream-reporting-sources",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-2",
           "parent_requirement_semantic_id": "functional-requirement-2",
+          "semantic_id": "functional-requirement-2-obligation-integrate-with-downstream-reporting-sources",
           "summary": "Integrate with downstream reporting sources.",
           "title": "Integrate with downstream reporting sources"
         }
@@ -3899,7 +3947,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "9fce780019db01af",
+        "semantic_hash": "353a9e38972ecd9e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3912,17 +3960,23 @@
       "obligations": [
         {
           "acceptance": "Member with appropriate security controls is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "protect-member",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-1",
           "parent_requirement_semantic_id": "non_functional-requirement-1",
+          "semantic_id": "non_functional-requirement-1-obligation-protect-member",
           "summary": "Protect member with appropriate security controls.",
           "title": "Protect member"
         },
         {
           "acceptance": "Reward transactions with appropriate security controls is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "protect-reward-transactions",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-1",
           "parent_requirement_semantic_id": "non_functional-requirement-1",
+          "semantic_id": "non_functional-requirement-1-obligation-protect-reward-transactions",
           "summary": "Protect reward transactions with appropriate security controls.",
           "title": "Protect reward transactions"
         }
@@ -3967,7 +4021,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "6343566b4bf3c59c",
+        "semantic_hash": "6f01186e3c266a34",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3980,17 +4034,23 @@
       "obligations": [
         {
           "acceptance": "Integration with external systems with payment confirmation is supported.",
+          "derivation_basis": "support_such_as_objects",
           "id": "support-integration-with-external-systems-with-payment-confirmation",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-3",
           "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "semantic_id": "non_functional-requirement-3-obligation-support-integration-with-external-systems-with-payment-confirmation",
           "summary": "Support integration with external systems with payment confirmation.",
           "title": "Support integration with external systems with payment confirmation"
         },
         {
           "acceptance": "Integration with external systems with reporting sources is supported.",
+          "derivation_basis": "support_such_as_objects",
           "id": "support-integration-with-external-systems-with-reporting-sources",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-3",
           "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "semantic_id": "non_functional-requirement-3-obligation-support-integration-with-external-systems-with-reporting-sources",
           "summary": "Support integration with external systems with reporting sources.",
           "title": "Support integration with external systems with reporting sources"
         }
@@ -4035,7 +4095,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "dd40814a68e5ea4c",
+        "semantic_hash": "99aaa1b6ee3250ee",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4048,17 +4108,23 @@
       "obligations": [
         {
           "acceptance": "Point balance to eligible members is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "show-point-balance",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-5",
           "parent_requirement_semantic_id": "non_functional-requirement-5",
+          "semantic_id": "non_functional-requirement-5-obligation-show-point-balance",
           "summary": "Show point balance to eligible members.",
           "title": "Show point balance"
         },
         {
           "acceptance": "Available rewards to eligible members is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "show-available-rewards",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-5",
           "parent_requirement_semantic_id": "non_functional-requirement-5",
+          "semantic_id": "non_functional-requirement-5-obligation-show-available-rewards",
           "summary": "Show available rewards to eligible members.",
           "title": "Show available rewards"
         }
@@ -4106,7 +4172,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "0812eed1d3237b95",
+        "semantic_hash": "1aeb704af808832a",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -4119,17 +4185,23 @@
       "obligations": [
         {
           "acceptance": "Reporting on redemptions is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "provide-reporting-on-redemptions",
+          "order_index": 1,
           "parent_requirement_id": "non_functional-requirement-7",
           "parent_requirement_semantic_id": "non_functional-requirement-7",
+          "semantic_id": "non_functional-requirement-7-obligation-provide-reporting-on-redemptions",
           "summary": "Provide reporting on redemptions.",
           "title": "Provide reporting on redemptions"
         },
         {
           "acceptance": "Campaign performance is supported.",
+          "derivation_basis": "direct_shared_verb_objects",
           "id": "provide-campaign-performance",
+          "order_index": 2,
           "parent_requirement_id": "non_functional-requirement-7",
           "parent_requirement_semantic_id": "non_functional-requirement-7",
+          "semantic_id": "non_functional-requirement-7-obligation-provide-campaign-performance",
           "summary": "Provide campaign performance.",
           "title": "Provide campaign performance"
         }
