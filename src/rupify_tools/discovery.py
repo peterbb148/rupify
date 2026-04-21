@@ -720,6 +720,16 @@ def _capitalize_phrase(text: str) -> str:
     return cleaned[0].upper() + cleaned[1:]
 
 
+def _singularize_leading_token(text: str) -> str:
+    """Singularize only the leading token in a phrase when it is a simple plural noun."""
+    tokens = text.strip().split()
+    if not tokens:
+        return ""
+    if len(tokens[0]) > 3 and tokens[0].endswith("s"):
+        tokens[0] = tokens[0][:-1]
+    return " ".join(tokens)
+
+
 def _split_conjoined_objects(text: str) -> tuple[list[str], str]:
     """Split a simple conjunction into object parts plus a shared suffix."""
     cleaned = _clean_sentence(text)
@@ -832,6 +842,33 @@ def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
                     title=title,
                     summary=f"Support {item}.",
                     acceptance=f"{_capitalize_phrase(item)} is supported.",
+                )
+            )
+        return obligations
+
+    such_as_match = re.match(
+        (
+            r"^(?P<subject>.+?) must support (?P<context>.+?) such as "
+            r"(?P<objects>.+)$"
+        ),
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if such_as_match:
+        context = such_as_match.group("context").strip()
+        objects, suffix = _split_conjoined_objects(such_as_match.group("objects"))
+        if len(objects) < 2:
+            return []
+        obligations = []
+        singular_context = _singularize_leading_token(context)
+        for item in objects:
+            title = f"Support {singular_context} with {item}"
+            obligations.append(
+                _build_sub_obligation(
+                    obligation_id=_slugify(title),
+                    title=title,
+                    summary=f"Support {singular_context} with {item}{suffix}.",
+                    acceptance=f"{_capitalize_phrase(singular_context)} with {item}{suffix} is supported.",
                 )
             )
         return obligations

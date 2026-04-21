@@ -327,6 +327,45 @@ class DiscoveryTests(unittest.TestCase):
             ],
         )
 
+    def test_normalize_replay_to_model_derives_requirement_sub_obligations_for_such_as_support(self) -> None:
+        """Enumerated `support ... such as` requirements should promote explicit clause structure."""
+        replay = replay_session(
+            [
+                {
+                    "round": 2,
+                    "responses": [
+                        {
+                            "key": "constraints",
+                            "answer": [
+                                (
+                                    "The platform must support integrations with external systems "
+                                    "such as payment confirmation and reporting sources."
+                                )
+                            ],
+                        },
+                    ],
+                }
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        sub_obligations = model["requirements"]["non_functional_objects"][0]["sub_obligations"]
+
+        self.assertEqual(
+            [item["title"] for item in sub_obligations],
+            [
+                "Support integration with external systems with payment confirmation",
+                "Support integration with external systems with reporting sources",
+            ],
+        )
+        self.assertEqual(
+            [item["id"] for item in sub_obligations],
+            [
+                "support-integration-with-external-systems-with-payment-confirmation",
+                "support-integration-with-external-systems-with-reporting-sources",
+            ],
+        )
+
     def test_normalize_replay_to_model_keeps_empty_sections_explicit(self) -> None:
         """Missing optional view rounds should still produce stable empty sections."""
         replay = replay_session(
