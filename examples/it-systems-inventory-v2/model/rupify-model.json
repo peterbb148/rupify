@@ -1103,13 +1103,45 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "065fe600e6dfe1f2",
+          "semantic_hash": "7874f5c348e97b09",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Deprecation approval requires enterprise architect review",
         "content_semantics": "normative",
         "description": "Deprecation approval requires enterprise architect review",
+        "guard_parts": [
+          {
+            "derivation_basis": "requires_clause",
+            "id": "guard-condition-1-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-1-part-context-deprecation-approval",
+            "text": "Deprecation approval"
+          },
+          {
+            "derivation_basis": "requires_clause",
+            "id": "guard-condition-1-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "condition",
+            "semantic_id": "guard-condition-1-part-condition-enterprise-architect-review",
+            "text": "enterprise architect review"
+          },
+          {
+            "derivation_basis": "approval_requirement",
+            "id": "guard-condition-1-part-3",
+            "order_index": 3,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "block_outcome",
+            "semantic_id": "guard-condition-1-part-block_outcome-block-progression-until-enterprise-architect-review-is-satisfied",
+            "text": "Block progression until enterprise architect review is satisfied"
+          }
+        ],
         "id": "guard-condition-1",
         "model_layer": "analysis",
         "name": "Deprecation approval",
@@ -1138,13 +1170,35 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "bed0aa2ab2818dc4",
+          "semantic_hash": "72cee81d943695d1",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Contract expiry triggers lifecycle review",
         "content_semantics": "normative",
         "description": "Contract expiry triggers lifecycle review",
+        "guard_parts": [
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-2-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-2-part-context-contract-expiry",
+            "text": "Contract expiry"
+          },
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-2-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-2-part-allow_outcome-lifecycle-review",
+            "text": "lifecycle review"
+          }
+        ],
         "id": "guard-condition-2",
         "model_layer": "analysis",
         "name": "Contract expiry",
@@ -4117,7 +4171,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "818aeb022ab1efc9",
+      "semantic_hash": "e436559f48487608",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -4134,13 +4188,45 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "065fe600e6dfe1f2",
+          "semantic_hash": "7874f5c348e97b09",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Deprecation approval requires enterprise architect review",
         "content_semantics": "normative",
         "description": "Deprecation approval requires enterprise architect review",
+        "guard_parts": [
+          {
+            "derivation_basis": "requires_clause",
+            "id": "guard-condition-1-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-1-part-context-deprecation-approval",
+            "text": "Deprecation approval"
+          },
+          {
+            "derivation_basis": "requires_clause",
+            "id": "guard-condition-1-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "condition",
+            "semantic_id": "guard-condition-1-part-condition-enterprise-architect-review",
+            "text": "enterprise architect review"
+          },
+          {
+            "derivation_basis": "approval_requirement",
+            "id": "guard-condition-1-part-3",
+            "order_index": 3,
+            "parent_guard_id": "guard-condition-1",
+            "parent_guard_semantic_id": "guard-condition-1",
+            "part_kind": "block_outcome",
+            "semantic_id": "guard-condition-1-part-block_outcome-block-progression-until-enterprise-architect-review-is-satisfied",
+            "text": "Block progression until enterprise architect review is satisfied"
+          }
+        ],
         "id": "guard-condition-1",
         "model_layer": "analysis",
         "name": "Deprecation approval",
@@ -4169,13 +4255,35 @@
           "change_source": "derived_guard_conditions",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "bed0aa2ab2818dc4",
+          "semantic_hash": "72cee81d943695d1",
           "semantic_version": 1,
           "supersedes": []
         },
         "condition_text": "Contract expiry triggers lifecycle review",
         "content_semantics": "normative",
         "description": "Contract expiry triggers lifecycle review",
+        "guard_parts": [
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-2-part-1",
+            "order_index": 1,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "context",
+            "semantic_id": "guard-condition-2-part-context-contract-expiry",
+            "text": "Contract expiry"
+          },
+          {
+            "derivation_basis": "trigger_clause",
+            "id": "guard-condition-2-part-2",
+            "order_index": 2,
+            "parent_guard_id": "guard-condition-2",
+            "parent_guard_semantic_id": "guard-condition-2",
+            "part_kind": "allow_outcome",
+            "semantic_id": "guard-condition-2-part-allow_outcome-lifecycle-review",
+            "text": "lifecycle review"
+          }
+        ],
         "id": "guard-condition-2",
         "model_layer": "analysis",
         "name": "Contract expiry",

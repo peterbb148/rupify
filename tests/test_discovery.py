@@ -1117,3 +1117,52 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(triggers[0]["constraint_type"], "approval")
         self.assertEqual(triggers[1]["exceptional_behavior"], True)
         self.assertEqual(model["architecture_view"]["runtime_boundary_objects"], [])
+
+    def test_normalize_replay_to_model_derives_guard_parts(self) -> None:
+        """Guard-condition objects should expose explicit ordered guard parts for safe patterns."""
+        replay = replay_session(
+            [
+                {
+                    "round": 6,
+                    "responses": [
+                        {"key": "state_entities", "answer": ["Reward Catalog Entry"]},
+                        {
+                            "key": "states_and_transitions",
+                            "answer": [
+                                "Reward Catalog Entry: Draft -> Published -> Retired",
+                            ],
+                        },
+                        {
+                            "key": "triggers_and_approvals",
+                            "answer": [
+                                "Payment confirmation triggers redemption fulfillment",
+                                "Catalog validation approval is required before a reward becomes Published",
+                                "Deprecation approval requires enterprise architect review",
+                            ],
+                        },
+                    ],
+                },
+            ]
+        )
+
+        model = normalize_replay_to_model(replay)
+        guard_objects = model["process_view"]["guard_condition_objects"]
+
+        self.assertEqual(
+            [item["part_kind"] for item in guard_objects[0]["guard_parts"]],
+            ["context", "allow_outcome"],
+        )
+        self.assertEqual(guard_objects[0]["guard_parts"][0]["text"], "Payment confirmation")
+        self.assertEqual(
+            [item["part_kind"] for item in guard_objects[1]["guard_parts"]],
+            ["condition", "allow_outcome", "block_outcome"],
+        )
+        self.assertEqual(
+            guard_objects[1]["guard_parts"][0]["parent_guard_id"],
+            "guard-condition-2",
+        )
+        self.assertEqual(guard_objects[1]["guard_parts"][0]["order_index"], 1)
+        self.assertEqual(
+            [item["part_kind"] for item in guard_objects[2]["guard_parts"]],
+            ["context", "condition", "block_outcome"],
+        )

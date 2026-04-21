@@ -74,6 +74,16 @@ uv run rupify-export-planning \
       - `parent_step_semantic_id`
       - `parent_use_case_id`
       - `derivation_basis`
+    - optional `guard_parts` for guard-condition elements where Rupify has explicit normalized
+      guard structure
+      - `id`
+      - `semantic_id`
+      - `part_kind`
+      - `text`
+      - `order_index`
+      - `parent_guard_id`
+      - `parent_guard_semantic_id`
+      - `derivation_basis`
 - `ready_normative_elements`
   - the ready subset of `elements` where `content_semantics == normative`
 - `blocking_ambiguities`
@@ -91,3 +101,5 @@ uv run rupify-export-planning \
   inferring additional sub-obligations by splitting requirement prose downstream.
 - `sub_actions` should be consumed only when present; Speckify should fail closed rather than
   inferring internal step decomposition from step prose downstream.
+- `guard_parts` should be consumed only when present; Speckify should fail closed rather than
+  inferring guard structure from free-text guard descriptions downstream.

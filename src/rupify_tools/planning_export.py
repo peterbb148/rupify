@@ -166,6 +166,24 @@ def _export_sub_actions(item: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _export_guard_parts(item: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return exported guard-part records for one canonical element."""
+    return [
+        {
+            "id": guard_part.get("id", ""),
+            "semantic_id": guard_part.get("semantic_id", guard_part.get("id", "")),
+            "part_kind": guard_part.get("part_kind", ""),
+            "text": guard_part.get("text", ""),
+            "order_index": guard_part.get("order_index", 0),
+            "parent_guard_id": guard_part.get("parent_guard_id", ""),
+            "parent_guard_semantic_id": guard_part.get("parent_guard_semantic_id", ""),
+            "derivation_basis": guard_part.get("derivation_basis", ""),
+        }
+        for guard_part in item.get("guard_parts", [])
+        if isinstance(guard_part, dict)
+    ]
+
+
 def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     """Convert one canonical element into the planning export shape."""
     readiness = item.get("readiness", {})
@@ -192,6 +210,9 @@ def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     sub_actions = _export_sub_actions(item)
     if sub_actions:
         exported["sub_actions"] = sub_actions
+    guard_parts = _export_guard_parts(item)
+    if guard_parts:
+        exported["guard_parts"] = guard_parts
     return exported
 
 

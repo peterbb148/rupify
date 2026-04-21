@@ -989,6 +989,118 @@ def _bind_step_sub_actions(step_objects: list[dict[str, Any]]) -> None:
             sub_action["parent_use_case_id"] = parent_use_case_id
 
 
+def _build_guard_part(
+    *,
+    part_kind: str,
+    text: str,
+    derivation_basis: str,
+) -> dict[str, Any]:
+    """Build one normalized guard part record."""
+    return {
+        "id": "",
+        "semantic_id": "",
+        "part_kind": part_kind,
+        "text": text.strip(),
+        "order_index": 0,
+        "parent_guard_id": "",
+        "parent_guard_semantic_id": "",
+        "derivation_basis": derivation_basis,
+    }
+
+
+def _derive_guard_parts(trigger: dict[str, Any]) -> list[dict[str, Any]]:
+    """Derive conservative structured guard parts from explicit trigger semantics and text."""
+    description = _clean_sentence(trigger.get("description", ""))
+    event_name = trigger.get("event_name", "").strip()
+    outcome = trigger.get("outcome", "").strip()
+    lowered = description.lower()
+
+    if not description:
+        return []
+
+    if " triggers " in lowered and event_name and outcome:
+        return [
+            _build_guard_part(
+                part_kind="context",
+                text=event_name,
+                derivation_basis="trigger_clause",
+            ),
+            _build_guard_part(
+                part_kind="allow_outcome",
+                text=outcome,
+                derivation_basis="trigger_clause",
+            ),
+        ]
+
+    if " requires " in lowered and event_name and outcome:
+        parts = [
+            _build_guard_part(
+                part_kind="context",
+                text=event_name,
+                derivation_basis="requires_clause",
+            ),
+            _build_guard_part(
+                part_kind="condition",
+                text=outcome,
+                derivation_basis="requires_clause",
+            ),
+        ]
+        if trigger.get("approval_required"):
+            parts.append(
+                _build_guard_part(
+                    part_kind="block_outcome",
+                    text=f"Block progression until {outcome} is satisfied",
+                    derivation_basis="approval_requirement",
+                )
+            )
+        return parts
+
+    required_before_match = re.match(
+        r"^(?P<condition>.+?) is required before (?P<outcome>.+)$",
+        description,
+        flags=re.IGNORECASE,
+    )
+    if required_before_match:
+        condition = required_before_match.group("condition").strip()
+        outcome_text = required_before_match.group("outcome").strip()
+        return [
+            _build_guard_part(
+                part_kind="condition",
+                text=condition,
+                derivation_basis="required_before_clause",
+            ),
+            _build_guard_part(
+                part_kind="allow_outcome",
+                text=outcome_text,
+                derivation_basis="required_before_clause",
+            ),
+            _build_guard_part(
+                part_kind="block_outcome",
+                text=f"Block progression until {condition} is satisfied",
+                derivation_basis="required_before_clause",
+            ),
+        ]
+
+    return []
+
+
+def _bind_guard_parts(guard_objects: list[dict[str, Any]]) -> None:
+    """Bind ids, semantic ids, lineage, and ordering onto nested guard parts."""
+    for guard_object in guard_objects:
+        parent_id = guard_object.get("id", "")
+        parent_semantic_id = guard_object.get("semantic_id", parent_id)
+        for index, guard_part in enumerate(guard_object.get("guard_parts", []), 1):
+            part_kind = guard_part.get("part_kind", f"part-{index}")
+            text = guard_part.get("text", "")
+            guard_part["id"] = f"{parent_id}-part-{index}"
+            guard_part["semantic_id"] = (
+                f"{parent_semantic_id}-part-{part_kind}-{_slugify(text)}"
+            )
+            guard_part["order_index"] = index
+            guard_part["parent_guard_id"] = parent_id
+            guard_part["parent_guard_semantic_id"] = parent_semantic_id
+
+
 def _split_structured_parts(item: str) -> list[str]:
     """Split a pipe-delimited structured answer into trimmed parts."""
     return [part.strip() for part in item.split("|") if part.strip()]
@@ -1321,6 +1433,7 @@ def _build_guard_condition_objects(
                 "name": trigger.get("event_name", "") or f"Guard Condition {index}",
                 "description": description,
                 "condition_text": description,
+                "guard_parts": _derive_guard_parts(trigger),
                 "state_entity_ids": _matched_object_ids(description, state_entities),
                 "related_transition_ids": related_transition_ids,
                 "source_trigger_id": trigger.get("id", ""),
@@ -2369,6 +2482,7 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(state_transition_objects, change_source="round_6")
     _stamp_semantic_identity(trigger_objects, change_source="round_6")
     _stamp_semantic_identity(guard_condition_objects, change_source="derived_guard_conditions")
+    _bind_guard_parts(guard_condition_objects)
     _stamp_semantic_identity(
         forbidden_transition_objects,
         change_source="derived_forbidden_transitions",
