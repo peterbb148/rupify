@@ -1392,7 +1392,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "1e8d913324d95244",
+          "semantic_hash": "6343566b4bf3c59c",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -1415,7 +1415,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "The platform must support integrations with external systems such as payment confirmation and reporting sources.",
-        "sub_obligations": [],
+        "sub_obligations": [
+          {
+            "acceptance": "Integration with external systems with payment confirmation is supported.",
+            "id": "support-integration-with-external-systems-with-payment-confirmation",
+            "parent_requirement_id": "non_functional-requirement-3",
+            "parent_requirement_semantic_id": "non_functional-requirement-3",
+            "summary": "Support integration with external systems with payment confirmation.",
+            "title": "Support integration with external systems with payment confirmation"
+          },
+          {
+            "acceptance": "Integration with external systems with reporting sources is supported.",
+            "id": "support-integration-with-external-systems-with-reporting-sources",
+            "parent_requirement_id": "non_functional-requirement-3",
+            "parent_requirement_semantic_id": "non_functional-requirement-3",
+            "summary": "Support integration with external systems with reporting sources.",
+            "title": "Support integration with external systems with reporting sources"
+          }
+        ],
         "trace": {
           "source_key": "constraints",
           "source_round": 2
@@ -5821,7 +5838,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "6f1ce484202a5571",
+      "semantic_hash": "1e4a32ec4521ade8",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -6929,7 +6946,7 @@
           "change_source": "requirements",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "1e8d913324d95244",
+          "semantic_hash": "6343566b4bf3c59c",
           "semantic_version": 1,
           "supersedes": []
         },
@@ -6952,7 +6969,24 @@
         "requirement_kind": "non_functional",
         "semantic_id": "non_functional-requirement-3",
         "statement": "The platform must support integrations with external systems such as payment confirmation and reporting sources.",
-        "sub_obligations": [],
+        "sub_obligations": [
+          {
+            "acceptance": "Integration with external systems with payment confirmation is supported.",
+            "id": "support-integration-with-external-systems-with-payment-confirmation",
+            "parent_requirement_id": "non_functional-requirement-3",
+            "parent_requirement_semantic_id": "non_functional-requirement-3",
+            "summary": "Support integration with external systems with payment confirmation.",
+            "title": "Support integration with external systems with payment confirmation"
+          },
+          {
+            "acceptance": "Integration with external systems with reporting sources is supported.",
+            "id": "support-integration-with-external-systems-with-reporting-sources",
+            "parent_requirement_id": "non_functional-requirement-3",
+            "parent_requirement_semantic_id": "non_functional-requirement-3",
+            "summary": "Support integration with external systems with reporting sources.",
+            "title": "Support integration with external systems with reporting sources"
+          }
+        ],
         "trace": {
           "source_key": "constraints",
           "source_round": 2

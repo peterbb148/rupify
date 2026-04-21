@@ -1411,7 +1411,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1e8d913324d95244",
+        "semantic_hash": "6343566b4bf3c59c",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1421,6 +1421,24 @@
       "missing_fields": [],
       "name": "",
       "normative_ready": true,
+      "obligations": [
+        {
+          "acceptance": "Integration with external systems with payment confirmation is supported.",
+          "id": "support-integration-with-external-systems-with-payment-confirmation",
+          "parent_requirement_id": "non_functional-requirement-3",
+          "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "summary": "Support integration with external systems with payment confirmation.",
+          "title": "Support integration with external systems with payment confirmation"
+        },
+        {
+          "acceptance": "Integration with external systems with reporting sources is supported.",
+          "id": "support-integration-with-external-systems-with-reporting-sources",
+          "parent_requirement_id": "non_functional-requirement-3",
+          "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "summary": "Support integration with external systems with reporting sources.",
+          "title": "Support integration with external systems with reporting sources"
+        }
+      ],
       "readiness_status": "ready",
       "semantic_id": "non_functional-requirement-3",
       "source_key": "constraints",
@@ -3227,7 +3245,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "6f1ce484202a5571",
+      "semantic_hash": "1e4a32ec4521ade8",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -3829,7 +3847,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "1e8d913324d95244",
+        "semantic_hash": "6343566b4bf3c59c",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -3839,6 +3857,24 @@
       "missing_fields": [],
       "name": "",
       "normative_ready": true,
+      "obligations": [
+        {
+          "acceptance": "Integration with external systems with payment confirmation is supported.",
+          "id": "support-integration-with-external-systems-with-payment-confirmation",
+          "parent_requirement_id": "non_functional-requirement-3",
+          "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "summary": "Support integration with external systems with payment confirmation.",
+          "title": "Support integration with external systems with payment confirmation"
+        },
+        {
+          "acceptance": "Integration with external systems with reporting sources is supported.",
+          "id": "support-integration-with-external-systems-with-reporting-sources",
+          "parent_requirement_id": "non_functional-requirement-3",
+          "parent_requirement_semantic_id": "non_functional-requirement-3",
+          "summary": "Support integration with external systems with reporting sources.",
+          "title": "Support integration with external systems with reporting sources"
+        }
+      ],
       "readiness_status": "ready",
       "semantic_id": "non_functional-requirement-3",
       "source_key": "constraints",

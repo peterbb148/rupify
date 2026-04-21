@@ -494,6 +494,28 @@ class PlanningExportTests(unittest.TestCase):
             "required_before_clause",
         )
 
+    def test_checked_in_loyalty_v2_export_includes_expanded_requirement_obligations(self) -> None:
+        """The checked-in loyalty V2 export should include broader requirement clause structure."""
+        repo_root = Path(__file__).resolve().parents[1]
+        export_path = (
+            repo_root
+            / "examples"
+            / "loyalty-platform-v2"
+            / "exports"
+            / "speckify-planning-export.json"
+        )
+        payload = json.loads(export_path.read_text(encoding="utf-8"))
+        requirement = next(
+            item for item in payload["elements"] if item["id"] == "non_functional-requirement-3"
+        )
+        self.assertEqual(
+            [item["title"] for item in requirement["obligations"]],
+            [
+                "Support integration with external systems with payment confirmation",
+                "Support integration with external systems with reporting sources",
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
