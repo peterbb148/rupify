@@ -130,14 +130,17 @@ def _export_obligations(item: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         {
             "id": obligation.get("id", ""),
+            "semantic_id": obligation.get("semantic_id", obligation.get("id", "")),
             "title": obligation.get("title", ""),
             "summary": obligation.get("summary", ""),
             "acceptance": obligation.get("acceptance", ""),
+            "order_index": obligation.get("order_index", 0),
             "parent_requirement_id": obligation.get("parent_requirement_id", ""),
             "parent_requirement_semantic_id": obligation.get(
                 "parent_requirement_semantic_id",
                 "",
             ),
+            "derivation_basis": obligation.get("derivation_basis", ""),
         }
         for obligation in item.get("sub_obligations", [])
         if isinstance(obligation, dict)

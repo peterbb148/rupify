@@ -834,7 +834,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a3ef6c1c703ff787",
+        "semantic_hash": "2eb4641a951863cc",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -847,17 +847,23 @@
       "obligations": [
         {
           "acceptance": "Stage gates is supported.",
+          "derivation_basis": "supported_like_objects",
           "id": "support-stage-gates",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-support-stage-gates",
           "summary": "Support stage gates.",
           "title": "Support stage gates"
         },
         {
           "acceptance": "Approval states is supported.",
+          "derivation_basis": "supported_like_objects",
           "id": "support-approval-states",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-support-approval-states",
           "summary": "Support approval states.",
           "title": "Support approval states"
         }
@@ -2211,7 +2217,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "50298153f054adc9",
+      "semantic_hash": "51dcbc3465b3e466",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -2569,7 +2575,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a3ef6c1c703ff787",
+        "semantic_hash": "2eb4641a951863cc",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2582,17 +2588,23 @@
       "obligations": [
         {
           "acceptance": "Stage gates is supported.",
+          "derivation_basis": "supported_like_objects",
           "id": "support-stage-gates",
+          "order_index": 1,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-support-stage-gates",
           "summary": "Support stage gates.",
           "title": "Support stage gates"
         },
         {
           "acceptance": "Approval states is supported.",
+          "derivation_basis": "supported_like_objects",
           "id": "support-approval-states",
+          "order_index": 2,
           "parent_requirement_id": "functional-requirement-1",
           "parent_requirement_semantic_id": "functional-requirement-1",
+          "semantic_id": "functional-requirement-1-obligation-support-approval-states",
           "summary": "Support approval states.",
           "title": "Support approval states"
         }

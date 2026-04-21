@@ -52,14 +52,23 @@ uv run rupify-export-planning \
     - `source_key`
     - `change_metadata`
     - `attributes`
+    - shared nested sub-part contract when present
+      - `id`
+      - `semantic_id`
+      - `order_index`
+      - parent lineage fields ending in `_id` and `_semantic_id`
+      - `derivation_basis`
     - optional `obligations` for requirement elements where Rupify has explicit normalized
       requirement sub-obligations
       - `id`
+      - `semantic_id`
       - `title`
       - `summary`
       - `acceptance`
+      - `order_index`
       - `parent_requirement_id`
       - `parent_requirement_semantic_id`
+      - `derivation_basis`
     - optional `sub_actions` for use-case step elements where Rupify has explicit normalized
       step sub-actions
       - `id`

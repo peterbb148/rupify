@@ -31,11 +31,14 @@ class PlanningExportTests(unittest.TestCase):
                     "sub_obligations": [
                         {
                             "id": "approve-system-changes",
+                            "semantic_id": "functional-requirement-1-obligation-approve-system-changes",
                             "title": "Approve system changes",
                             "summary": "Approve system changes.",
                             "acceptance": "System changes can be approved.",
+                            "order_index": 1,
                             "parent_requirement_id": "functional-requirement-1",
                             "parent_requirement_semantic_id": "functional-requirement-1",
+                            "derivation_basis": "test_fixture",
                         }
                     ],
                     "content_semantics": "normative",
@@ -376,6 +379,12 @@ class PlanningExportTests(unittest.TestCase):
         )
         self.assertEqual(
             next(
+                item for item in export["elements"] if item["id"] == "functional-requirement-1"
+            )["obligations"][0]["semantic_id"],
+            "functional-requirement-1-obligation-approve-system-changes",
+        )
+        self.assertEqual(
+            next(
                 item for item in export["elements"] if item["id"] == "uc-redeem-step-1"
             )["sub_actions"][0]["semantic_id"],
             "uc-redeem-step-1-action-select-reward",
@@ -514,6 +523,22 @@ class PlanningExportTests(unittest.TestCase):
             )["obligations"][1]["id"],
             "support-approval-states",
         )
+        self.assertEqual(
+            next(
+                item
+                for item in payload["elements"]
+                if item["id"] == "functional-requirement-1"
+            )["obligations"][0]["order_index"],
+            1,
+        )
+        self.assertEqual(
+            next(
+                item
+                for item in payload["elements"]
+                if item["id"] == "functional-requirement-1"
+            )["obligations"][0]["derivation_basis"],
+            "supported_like_objects",
+        )
 
     def test_checked_in_loyalty_v2_export_includes_step_sub_actions(self) -> None:
         """The checked-in loyalty V2 export should surface explicit step sub-actions."""
@@ -589,6 +614,14 @@ class PlanningExportTests(unittest.TestCase):
                 "Support integration with external systems with reporting sources",
             ],
         )
+        self.assertEqual(
+            requirement["obligations"][0]["semantic_id"],
+            (
+                "non_functional-requirement-3-obligation-"
+                "support-integration-with-external-systems-with-payment-confirmation"
+            ),
+        )
+        self.assertEqual(requirement["obligations"][1]["order_index"], 2)
 
     def test_checked_in_loyalty_v2_export_includes_invariant_clauses(self) -> None:
         """The checked-in loyalty V2 export should surface explicit invariant clauses."""

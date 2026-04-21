@@ -751,15 +751,19 @@ def _build_sub_obligation(
     title: str,
     summary: str,
     acceptance: str,
-) -> dict[str, str]:
+    derivation_basis: str,
+) -> dict[str, Any]:
     """Build one normalized sub-obligation record."""
     return {
         "id": obligation_id,
+        "semantic_id": "",
         "title": title,
         "summary": summary,
         "acceptance": acceptance,
+        "order_index": 0,
         "parent_requirement_id": "",
         "parent_requirement_semantic_id": "",
+        "derivation_basis": derivation_basis,
     }
 
 
@@ -793,6 +797,7 @@ def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
                         title=title,
                         summary=f"Allow {actor} to {prefix} {item}{suffix}.",
                         acceptance=f"{_capitalize_phrase(actor)} can {prefix} {item}{suffix}.",
+                        derivation_basis="allow_shared_verb_objects",
                     )
                 )
             return obligations
@@ -820,6 +825,7 @@ def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
                         title=title,
                         summary=f"{prefix.capitalize()} {item}{suffix}.",
                         acceptance=f"{_capitalize_phrase(item)}{suffix} is supported.",
+                        derivation_basis="direct_shared_verb_objects",
                     )
                 )
             return obligations
@@ -842,6 +848,7 @@ def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
                     title=title,
                     summary=f"Support {item}.",
                     acceptance=f"{_capitalize_phrase(item)} is supported.",
+                    derivation_basis="supported_like_objects",
                 )
             )
         return obligations
@@ -869,6 +876,7 @@ def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
                     title=title,
                     summary=f"Support {singular_context} with {item}{suffix}.",
                     acceptance=f"{_capitalize_phrase(singular_context)} with {item}{suffix} is supported.",
+                    derivation_basis="support_such_as_objects",
                 )
             )
         return obligations
@@ -881,9 +889,14 @@ def _bind_requirement_sub_obligations(requirements: list[dict[str, Any]]) -> Non
     for requirement in requirements:
         parent_id = requirement.get("id", "")
         parent_semantic_id = requirement.get("semantic_id", parent_id)
-        for sub_obligation in requirement.get("sub_obligations", []):
+        for index, sub_obligation in enumerate(requirement.get("sub_obligations", []), 1):
+            obligation_id = sub_obligation.get("id", f"obligation-{index}")
             sub_obligation["parent_requirement_id"] = parent_id
             sub_obligation["parent_requirement_semantic_id"] = parent_semantic_id
+            sub_obligation["semantic_id"] = (
+                f"{parent_semantic_id}-obligation-{obligation_id}"
+            )
+            sub_obligation["order_index"] = index
 
 
 def _parse_step_clause(clause: str) -> tuple[str, str, str]:

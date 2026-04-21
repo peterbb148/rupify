@@ -14,6 +14,12 @@ The canonical project model is `rupify-model.yaml`.
     - `change_source`
     - `regenerated_from_version`
     - `supersedes`
+- shared sub-part contract for nested decomposition records
+  - `id`: stable local id within the parent element
+  - `semantic_id`: durable downstream identity derived from the parent semantic id plus the part slug
+  - `order_index`: explicit sequence position when multiple parts exist
+  - parent lineage fields ending in `_id` and `_semantic_id`
+  - `derivation_basis`: the deterministic normalization rule that created the part
 - `project`
   - `name`
   - `domain`
@@ -123,11 +129,14 @@ The canonical project model is `rupify-model.yaml`.
     - `fit_criterion`
     - `sub_obligations`
       - `id`
+      - `semantic_id`
       - `title`
       - `summary`
       - `acceptance`
+      - `order_index`
       - `parent_requirement_id`
       - `parent_requirement_semantic_id`
+      - `derivation_basis`
     - `trace`
     - `content_semantics`: `normative` or `informative`
     - `readiness`
@@ -143,11 +152,14 @@ The canonical project model is `rupify-model.yaml`.
     - `fit_criterion`
     - `sub_obligations`
       - `id`
+      - `semantic_id`
       - `title`
       - `summary`
       - `acceptance`
+      - `order_index`
       - `parent_requirement_id`
       - `parent_requirement_semantic_id`
+      - `derivation_basis`
     - `trace`
     - `content_semantics`: `normative` or `informative`
     - `readiness`
