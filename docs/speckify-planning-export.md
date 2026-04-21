@@ -84,6 +84,17 @@ uv run rupify-export-planning \
       - `parent_guard_id`
       - `parent_guard_semantic_id`
       - `derivation_basis`
+    - optional `invariant_clauses` for invariant elements where Rupify has explicit normalized
+      invariant clause structure
+      - `id`
+      - `semantic_id`
+      - `clause_kind`
+      - `title`
+      - `text`
+      - `order_index`
+      - `parent_invariant_id`
+      - `parent_invariant_semantic_id`
+      - `derivation_basis`
 - `ready_normative_elements`
   - the ready subset of `elements` where `content_semantics == normative`
 - `blocking_ambiguities`
@@ -103,3 +114,5 @@ uv run rupify-export-planning \
   inferring internal step decomposition from step prose downstream.
 - `guard_parts` should be consumed only when present; Speckify should fail closed rather than
   inferring guard structure from free-text guard descriptions downstream.
+- `invariant_clauses` should be consumed only when present; Speckify should fail closed rather than
+  inferring invariant structure from broad rule prose downstream.

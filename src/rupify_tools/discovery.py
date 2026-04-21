@@ -1138,6 +1138,99 @@ def _bind_guard_parts(guard_objects: list[dict[str, Any]]) -> None:
             guard_part["parent_guard_semantic_id"] = parent_semantic_id
 
 
+def _build_invariant_clause(
+    *,
+    clause_kind: str,
+    title: str,
+    text: str,
+    derivation_basis: str,
+) -> dict[str, Any]:
+    """Build one normalized invariant clause record."""
+    return {
+        "id": "",
+        "semantic_id": "",
+        "clause_kind": clause_kind,
+        "title": title,
+        "text": text.strip(),
+        "order_index": 0,
+        "parent_invariant_id": "",
+        "parent_invariant_semantic_id": "",
+        "derivation_basis": derivation_basis,
+    }
+
+
+def _derive_invariant_clauses(description: str) -> list[dict[str, Any]]:
+    """Derive conservative structured invariant clauses from explicit invariant patterns."""
+    cleaned = _clean_sentence(description)
+    if not cleaned or " and " not in cleaned:
+        return []
+
+    unless_match = re.match(
+        r"^(?P<subject>.+?) must not (?P<outcome>.+?) unless (?P<objects>.+?) are confirmed$",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if unless_match:
+        outcome = unless_match.group("outcome").strip()
+        objects, _ = _split_conjoined_objects(unless_match.group("objects"))
+        if len(objects) < 2:
+            return []
+        return [
+            _build_invariant_clause(
+                clause_kind="condition",
+                title=f"Confirm {item}",
+                text=f"Confirm {item} before {outcome}.",
+                derivation_basis="unless_confirmed_clause",
+            )
+            for item in objects
+        ]
+
+    direct_match = re.match(
+        r"^(?P<subject>.+?) must (?P<action>.+)$",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if not direct_match:
+        return []
+
+    action = direct_match.group("action").strip()
+    for prefix in ("record", "provide"):
+        prefix_with_space = f"{prefix} "
+        if not action.lower().startswith(prefix_with_space):
+            continue
+        objects, suffix = _split_conjoined_objects(action[len(prefix_with_space) :])
+        if len(objects) < 2:
+            continue
+        return [
+            _build_invariant_clause(
+                clause_kind="obligation",
+                title=f"{prefix.capitalize()} {item}",
+                text=f"{prefix.capitalize()} {item}{suffix}.",
+                derivation_basis="shared_verb_objects",
+            )
+            for item in objects
+        ]
+
+    return []
+
+
+def _bind_invariant_clauses(invariant_objects: list[dict[str, Any]]) -> None:
+    """Bind ids, semantic ids, lineage, and ordering onto nested invariant clauses."""
+    for invariant in invariant_objects:
+        parent_id = invariant.get("id", "")
+        parent_semantic_id = invariant.get("semantic_id", parent_id)
+        for index, clause in enumerate(invariant.get("invariant_clauses", []), 1):
+            clause_kind = clause.get("clause_kind", f"clause-{index}")
+            title = clause.get("title", f"Clause {index}")
+            clause["id"] = f"{parent_id}-clause-{index}"
+            clause["semantic_id"] = (
+                f"{parent_semantic_id}-clause-{clause_kind}-{_slugify(title)}"
+            )
+            clause["order_index"] = index
+            clause["parent_invariant_id"] = parent_id
+            clause["parent_invariant_semantic_id"] = parent_semantic_id
+
+
 def _split_structured_parts(item: str) -> list[str]:
     """Split a pipe-delimited structured answer into trimmed parts."""
     return [part.strip() for part in item.split("|") if part.strip()]
@@ -1402,6 +1495,7 @@ def _build_domain_invariant_objects(
                 "id": f"domain-invariant-{index}",
                 "name": rule.get("name", f"Domain Invariant {index}"),
                 "description": rule_text,
+                "invariant_clauses": _derive_invariant_clauses(rule_text),
                 "scope_entity_ids": _matched_object_ids(
                     " ".join(part for part in (rule.get("scope", ""), rule_text) if part),
                     domain_entities,
@@ -1433,6 +1527,7 @@ def _build_state_invariant_objects(
                 "id": f"state-invariant-{index}",
                 "name": rule.get("name", f"State Invariant {index}"),
                 "description": rule_text,
+                "invariant_clauses": _derive_invariant_clauses(rule_text),
                 "state_entity_ids": matched_state_ids,
                 "source_business_rule_id": rule.get("id", ""),
                 "model_layer": "analysis",
@@ -2515,6 +2610,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(business_rule_objects, change_source="round_5")
     _stamp_semantic_identity(domain_invariant_objects, change_source="derived_domain_invariants")
     _stamp_semantic_identity(state_invariant_objects, change_source="derived_state_invariants")
+    _bind_invariant_clauses(domain_invariant_objects)
+    _bind_invariant_clauses(state_invariant_objects)
     _stamp_semantic_identity(state_entity_objects, change_source="round_6")
     _stamp_semantic_identity(state_transition_objects, change_source="round_6")
     _stamp_semantic_identity(trigger_objects, change_source="round_6")

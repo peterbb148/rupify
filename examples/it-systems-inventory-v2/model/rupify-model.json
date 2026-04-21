@@ -995,13 +995,14 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "a0838e2d92556587",
+          "semantic_hash": "f86b8e56c059947a",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must have a business owner before it becomes Active.",
         "id": "domain-invariant-1",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 1",
         "readiness": {
@@ -1028,13 +1029,14 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "0faa9d909ed4effe",
+          "semantic_hash": "10237eaa6ca821d7",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System lifecycle state change requires approval for deprecation.",
         "id": "domain-invariant-2",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 2",
         "readiness": {
@@ -1061,13 +1063,37 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "ae58a8512d9d5819",
+          "semantic_hash": "9595d29dc493d82e",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must record vendor and contract dates.",
         "id": "domain-invariant-3",
+        "invariant_clauses": [
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "domain-invariant-3-clause-1",
+            "order_index": 1,
+            "parent_invariant_id": "domain-invariant-3",
+            "parent_invariant_semantic_id": "domain-invariant-3",
+            "semantic_id": "domain-invariant-3-clause-obligation-record-vendor",
+            "text": "Record vendor.",
+            "title": "Record vendor"
+          },
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "domain-invariant-3-clause-2",
+            "order_index": 2,
+            "parent_invariant_id": "domain-invariant-3",
+            "parent_invariant_semantic_id": "domain-invariant-3",
+            "semantic_id": "domain-invariant-3-clause-obligation-record-contract-dates",
+            "text": "Record contract dates.",
+            "title": "Record contract dates"
+          }
+        ],
         "model_layer": "analysis",
         "name": "Rule 3",
         "readiness": {
@@ -1849,13 +1875,14 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "e99d374908167c66",
+          "semantic_hash": "6cd13106207f8897",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must have a business owner before it becomes Active.",
         "id": "state-invariant-1",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 1",
         "readiness": {
@@ -1882,13 +1909,14 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "d3f0734ba4f5d238",
+          "semantic_hash": "04bf083cf9ba66fd",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System lifecycle state change requires approval for deprecation.",
         "id": "state-invariant-2",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 2",
         "readiness": {
@@ -1915,13 +1943,37 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "86c22df4bc630d1b",
+          "semantic_hash": "3fac42f8e26890a5",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must record vendor and contract dates.",
         "id": "state-invariant-3",
+        "invariant_clauses": [
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "state-invariant-3-clause-1",
+            "order_index": 1,
+            "parent_invariant_id": "state-invariant-3",
+            "parent_invariant_semantic_id": "state-invariant-3",
+            "semantic_id": "state-invariant-3-clause-obligation-record-vendor",
+            "text": "Record vendor.",
+            "title": "Record vendor"
+          },
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "state-invariant-3-clause-2",
+            "order_index": 2,
+            "parent_invariant_id": "state-invariant-3",
+            "parent_invariant_semantic_id": "state-invariant-3",
+            "semantic_id": "state-invariant-3-clause-obligation-record-contract-dates",
+            "text": "Record contract dates.",
+            "title": "Record contract dates"
+          }
+        ],
         "model_layer": "analysis",
         "name": "Rule 3",
         "readiness": {
@@ -3842,13 +3894,14 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "a0838e2d92556587",
+          "semantic_hash": "f86b8e56c059947a",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must have a business owner before it becomes Active.",
         "id": "domain-invariant-1",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 1",
         "readiness": {
@@ -3875,13 +3928,14 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "0faa9d909ed4effe",
+          "semantic_hash": "10237eaa6ca821d7",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System lifecycle state change requires approval for deprecation.",
         "id": "domain-invariant-2",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 2",
         "readiness": {
@@ -3908,13 +3962,37 @@
           "change_source": "derived_domain_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "ae58a8512d9d5819",
+          "semantic_hash": "9595d29dc493d82e",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must record vendor and contract dates.",
         "id": "domain-invariant-3",
+        "invariant_clauses": [
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "domain-invariant-3-clause-1",
+            "order_index": 1,
+            "parent_invariant_id": "domain-invariant-3",
+            "parent_invariant_semantic_id": "domain-invariant-3",
+            "semantic_id": "domain-invariant-3-clause-obligation-record-vendor",
+            "text": "Record vendor.",
+            "title": "Record vendor"
+          },
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "domain-invariant-3-clause-2",
+            "order_index": 2,
+            "parent_invariant_id": "domain-invariant-3",
+            "parent_invariant_semantic_id": "domain-invariant-3",
+            "semantic_id": "domain-invariant-3-clause-obligation-record-contract-dates",
+            "text": "Record contract dates.",
+            "title": "Record contract dates"
+          }
+        ],
         "model_layer": "analysis",
         "name": "Rule 3",
         "readiness": {
@@ -4171,7 +4249,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "e436559f48487608",
+      "semantic_hash": "50298153f054adc9",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -4351,13 +4429,14 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "e99d374908167c66",
+          "semantic_hash": "6cd13106207f8897",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must have a business owner before it becomes Active.",
         "id": "state-invariant-1",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 1",
         "readiness": {
@@ -4384,13 +4463,14 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "d3f0734ba4f5d238",
+          "semantic_hash": "04bf083cf9ba66fd",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System lifecycle state change requires approval for deprecation.",
         "id": "state-invariant-2",
+        "invariant_clauses": [],
         "model_layer": "analysis",
         "name": "Rule 2",
         "readiness": {
@@ -4417,13 +4497,37 @@
           "change_source": "derived_state_invariants",
           "last_changed_at": "",
           "regenerated_from_version": "",
-          "semantic_hash": "86c22df4bc630d1b",
+          "semantic_hash": "3fac42f8e26890a5",
           "semantic_version": 1,
           "supersedes": []
         },
         "content_semantics": "normative",
         "description": "A System must record vendor and contract dates.",
         "id": "state-invariant-3",
+        "invariant_clauses": [
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "state-invariant-3-clause-1",
+            "order_index": 1,
+            "parent_invariant_id": "state-invariant-3",
+            "parent_invariant_semantic_id": "state-invariant-3",
+            "semantic_id": "state-invariant-3-clause-obligation-record-vendor",
+            "text": "Record vendor.",
+            "title": "Record vendor"
+          },
+          {
+            "clause_kind": "obligation",
+            "derivation_basis": "shared_verb_objects",
+            "id": "state-invariant-3-clause-2",
+            "order_index": 2,
+            "parent_invariant_id": "state-invariant-3",
+            "parent_invariant_semantic_id": "state-invariant-3",
+            "semantic_id": "state-invariant-3-clause-obligation-record-contract-dates",
+            "text": "Record contract dates.",
+            "title": "Record contract dates"
+          }
+        ],
         "model_layer": "analysis",
         "name": "Rule 3",
         "readiness": {
