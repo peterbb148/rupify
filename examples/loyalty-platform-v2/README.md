@@ -52,6 +52,7 @@ This V2 export currently shows:
 - 0 blocking ambiguities
 - 0 duplicate exported element IDs
 - 0 unresolved trace references
+- explicit requirement obligations where the upstream requirement normalization can derive them safely
 
 ## Notes
 

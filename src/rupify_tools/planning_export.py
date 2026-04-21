@@ -122,11 +122,30 @@ def _export_attributes(item: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _export_obligations(item: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return exported sub-obligation records for one canonical element."""
+    return [
+        {
+            "id": obligation.get("id", ""),
+            "title": obligation.get("title", ""),
+            "summary": obligation.get("summary", ""),
+            "acceptance": obligation.get("acceptance", ""),
+            "parent_requirement_id": obligation.get("parent_requirement_id", ""),
+            "parent_requirement_semantic_id": obligation.get(
+                "parent_requirement_semantic_id",
+                "",
+            ),
+        }
+        for obligation in item.get("sub_obligations", [])
+        if isinstance(obligation, dict)
+    ]
+
+
 def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
     """Convert one canonical element into the planning export shape."""
     readiness = item.get("readiness", {})
     trace = item.get("trace", {})
-    return {
+    exported = {
         "id": item.get("id", ""),
         "semantic_id": item.get("semantic_id", item.get("id", "")),
         "family": family,
@@ -142,6 +161,10 @@ def _export_element(item: dict[str, Any], family: str) -> dict[str, Any]:
         "change_metadata": item.get("change_metadata", {}),
         "attributes": _export_attributes(item),
     }
+    obligations = _export_obligations(item)
+    if obligations:
+        exported["obligations"] = obligations
+    return exported
 
 
 def _export_trace_link(link: dict[str, Any], family: str) -> dict[str, Any]:

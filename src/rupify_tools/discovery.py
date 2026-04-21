@@ -669,6 +669,7 @@ def _normalize_requirement_objects(
                 "model_layer": "analysis",
                 "linked_use_case_ids": [],
                 "fit_criterion": "",
+                "sub_obligations": _derive_requirement_sub_obligations(text),
                 "trace": {},
             }
         )
@@ -682,6 +683,148 @@ def _reindex_requirement_objects(
     """Assign stable sequential requirement ids across one combined requirement family."""
     for index, item in enumerate(items, 1):
         item["id"] = f"{requirement_kind}-requirement-{index}"
+
+
+def _clean_sentence(text: str) -> str:
+    """Return one normalized sentence without trailing punctuation."""
+    return text.strip().rstrip(".")
+
+
+def _capitalize_phrase(text: str) -> str:
+    """Capitalize the first character of a phrase without changing the rest."""
+    cleaned = text.strip()
+    if not cleaned:
+        return ""
+    return cleaned[0].upper() + cleaned[1:]
+
+
+def _split_conjoined_objects(text: str) -> tuple[list[str], str]:
+    """Split a simple conjunction into object parts plus a shared suffix."""
+    cleaned = _clean_sentence(text)
+    suffix = ""
+    for marker in (" to ", " for ", " when ", " with ", " against ", " before ", " after "):
+        marker_index = cleaned.find(marker)
+        if marker_index != -1:
+            suffix = cleaned[marker_index:]
+            cleaned = cleaned[:marker_index]
+            break
+    parts = [part.strip() for part in cleaned.split(" and ") if part.strip()]
+    if len(parts) < 2:
+        return [], ""
+    return parts, suffix
+
+
+def _build_sub_obligation(
+    obligation_id: str,
+    title: str,
+    summary: str,
+    acceptance: str,
+) -> dict[str, str]:
+    """Build one normalized sub-obligation record."""
+    return {
+        "id": obligation_id,
+        "title": title,
+        "summary": summary,
+        "acceptance": acceptance,
+        "parent_requirement_id": "",
+        "parent_requirement_semantic_id": "",
+    }
+
+
+def _derive_requirement_sub_obligations(statement: str) -> list[dict[str, str]]:
+    """Derive conservative requirement sub-obligations from explicit shared-prefix conjunctions."""
+    cleaned = _clean_sentence(statement)
+    if not cleaned or " and " not in cleaned:
+        return []
+
+    allow_match = re.match(
+        r"^(?P<subject>.+?) must allow (?P<actor>.+?) to (?P<action>.+)$",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if allow_match:
+        actor = allow_match.group("actor").strip()
+        action = allow_match.group("action").strip()
+        for prefix in ("maintain", "show", "support", "record", "protect", "provide"):
+            prefix_with_space = f"{prefix} "
+            if not action.lower().startswith(prefix_with_space):
+                continue
+            objects, suffix = _split_conjoined_objects(action[len(prefix_with_space) :])
+            if len(objects) < 2:
+                continue
+            obligations = []
+            for item in objects:
+                title = f"{prefix.capitalize()} {item}"
+                obligations.append(
+                    _build_sub_obligation(
+                        obligation_id=_slugify(title),
+                        title=title,
+                        summary=f"Allow {actor} to {prefix} {item}{suffix}.",
+                        acceptance=f"{_capitalize_phrase(actor)} can {prefix} {item}{suffix}.",
+                    )
+                )
+            return obligations
+
+    direct_match = re.match(
+        r"^(?P<subject>.+?) must (?P<action>.+)$",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if direct_match:
+        action = direct_match.group("action").strip()
+        for prefix in ("integrate with", "record", "show", "support", "protect", "provide"):
+            prefix_with_space = f"{prefix} "
+            if not action.lower().startswith(prefix_with_space):
+                continue
+            objects, suffix = _split_conjoined_objects(action[len(prefix_with_space) :])
+            if len(objects) < 2:
+                continue
+            obligations = []
+            for item in objects:
+                title = f"{prefix.capitalize()} {item}"
+                obligations.append(
+                    _build_sub_obligation(
+                        obligation_id=_slugify(title),
+                        title=title,
+                        summary=f"{prefix.capitalize()} {item}{suffix}.",
+                        acceptance=f"{_capitalize_phrase(item)}{suffix} is supported.",
+                    )
+                )
+            return obligations
+
+    support_match = re.match(
+        r"^(?P<prefix>.+? like )(?P<objects>.+?) must be supported$",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if support_match:
+        objects, _ = _split_conjoined_objects(support_match.group("objects"))
+        if len(objects) < 2:
+            return []
+        obligations = []
+        for item in objects:
+            title = f"Support {item}"
+            obligations.append(
+                _build_sub_obligation(
+                    obligation_id=_slugify(title),
+                    title=title,
+                    summary=f"Support {item}.",
+                    acceptance=f"{_capitalize_phrase(item)} is supported.",
+                )
+            )
+        return obligations
+
+    return []
+
+
+def _bind_requirement_sub_obligations(requirements: list[dict[str, Any]]) -> None:
+    """Bind parent requirement ids and semantic ids onto nested sub-obligations."""
+    for requirement in requirements:
+        parent_id = requirement.get("id", "")
+        parent_semantic_id = requirement.get("semantic_id", parent_id)
+        for sub_obligation in requirement.get("sub_obligations", []):
+            sub_obligation["parent_requirement_id"] = parent_id
+            sub_obligation["parent_requirement_semantic_id"] = parent_semantic_id
 
 
 def _split_structured_parts(item: str) -> list[str]:
@@ -2072,6 +2215,8 @@ def normalize_replay_to_model(replay: dict[str, Any]) -> dict[str, Any]:
     _stamp_semantic_identity(functional_requirement_objects, change_source="round_4")
     _stamp_semantic_identity(non_functional_requirement_objects, change_source="round_2_or_4")
     _stamp_semantic_identity(all_requirement_objects, change_source="requirements")
+    _bind_requirement_sub_obligations(functional_requirement_objects)
+    _bind_requirement_sub_obligations(non_functional_requirement_objects)
     _stamp_semantic_identity(
         acceptance_constraint_objects,
         change_source="derived_acceptance_constraints",

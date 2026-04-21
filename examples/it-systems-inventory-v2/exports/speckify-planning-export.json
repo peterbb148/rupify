@@ -810,7 +810,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "b817426cb7205235",
+        "semantic_hash": "a3ef6c1c703ff787",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -820,6 +820,24 @@
       "missing_fields": [],
       "name": "",
       "normative_ready": true,
+      "obligations": [
+        {
+          "acceptance": "Stage gates is supported.",
+          "id": "support-stage-gates",
+          "parent_requirement_id": "functional-requirement-1",
+          "parent_requirement_semantic_id": "functional-requirement-1",
+          "summary": "Support stage gates.",
+          "title": "Support stage gates"
+        },
+        {
+          "acceptance": "Approval states is supported.",
+          "id": "support-approval-states",
+          "parent_requirement_id": "functional-requirement-1",
+          "parent_requirement_semantic_id": "functional-requirement-1",
+          "summary": "Support approval states.",
+          "title": "Support approval states"
+        }
+      ],
       "readiness_status": "ready",
       "semantic_id": "functional-requirement-1",
       "source_key": "workflow_scope",
@@ -835,7 +853,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "82d1c204f7e647cb",
+        "semantic_hash": "9bb5aa0707f8efc1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1202,7 +1220,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "35140189626f3690",
+        "semantic_hash": "728a95357563e5c3",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1227,7 +1245,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2cfeeb6b1a5d6cf3",
+        "semantic_hash": "4777a0dcede17d97",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1252,7 +1270,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "fea688a24e60eb26",
+        "semantic_hash": "5ce87fea5d01eec6",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1277,7 +1295,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "06a6d153cde6db09",
+        "semantic_hash": "1301748bdf90f823",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1302,7 +1320,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a58c2dc37a3500ae",
+        "semantic_hash": "124f23d7f07094d7",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1327,7 +1345,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "e0effb42b6bd2a5e",
+        "semantic_hash": "cefdf9f48c729e40",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1352,7 +1370,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "f4298ae6bd42c9e4",
+        "semantic_hash": "425cdfebd017021e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -1377,7 +1395,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "7fbb857a1cf2c508",
+        "semantic_hash": "7baedc3ac0f26991",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2075,7 +2093,7 @@
       "change_source": "normalize_replay_to_model",
       "last_changed_at": "",
       "regenerated_from_version": "",
-      "semantic_hash": "62d266a14515319f",
+      "semantic_hash": "818aeb022ab1efc9",
       "semantic_version": 1,
       "supersedes": []
     },
@@ -2409,7 +2427,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "b817426cb7205235",
+        "semantic_hash": "a3ef6c1c703ff787",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2419,6 +2437,24 @@
       "missing_fields": [],
       "name": "",
       "normative_ready": true,
+      "obligations": [
+        {
+          "acceptance": "Stage gates is supported.",
+          "id": "support-stage-gates",
+          "parent_requirement_id": "functional-requirement-1",
+          "parent_requirement_semantic_id": "functional-requirement-1",
+          "summary": "Support stage gates.",
+          "title": "Support stage gates"
+        },
+        {
+          "acceptance": "Approval states is supported.",
+          "id": "support-approval-states",
+          "parent_requirement_id": "functional-requirement-1",
+          "parent_requirement_semantic_id": "functional-requirement-1",
+          "summary": "Support approval states.",
+          "title": "Support approval states"
+        }
+      ],
       "readiness_status": "ready",
       "semantic_id": "functional-requirement-1",
       "source_key": "workflow_scope",
@@ -2434,7 +2470,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "82d1c204f7e647cb",
+        "semantic_hash": "9bb5aa0707f8efc1",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2459,7 +2495,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "35140189626f3690",
+        "semantic_hash": "728a95357563e5c3",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2484,7 +2520,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "2cfeeb6b1a5d6cf3",
+        "semantic_hash": "4777a0dcede17d97",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2509,7 +2545,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "fea688a24e60eb26",
+        "semantic_hash": "5ce87fea5d01eec6",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2534,7 +2570,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "06a6d153cde6db09",
+        "semantic_hash": "1301748bdf90f823",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2559,7 +2595,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "a58c2dc37a3500ae",
+        "semantic_hash": "124f23d7f07094d7",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2584,7 +2620,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "e0effb42b6bd2a5e",
+        "semantic_hash": "cefdf9f48c729e40",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2609,7 +2645,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "f4298ae6bd42c9e4",
+        "semantic_hash": "425cdfebd017021e",
         "semantic_version": 1,
         "supersedes": []
       },
@@ -2634,7 +2670,7 @@
         "change_source": "requirements",
         "last_changed_at": "",
         "regenerated_from_version": "",
-        "semantic_hash": "7fbb857a1cf2c508",
+        "semantic_hash": "7baedc3ac0f26991",
         "semantic_version": 1,
         "supersedes": []
       },
