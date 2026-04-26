@@ -23,6 +23,17 @@ The repository is documentation-first and dogfood-oriented. The current open-sou
 Rupify usable as a model-driven specification system with a clear end-to-end skill and CLI
 workflow.
 
+## How Rupify Fits With Speckify
+
+Rupify is the upstream specification system in the current toolchain. It interviews stakeholders,
+normalizes the results into a canonical model, and publishes formal artifacts, publication bundles,
+and machine-oriented planning exports from that shared source of truth.
+
+[Speckify](https://github.com/peterbb148/speckify) sits downstream of Rupify. It consumes Rupify's
+published bundles and planning exports, then decomposes that specification into implementation-ready
+work, validation structure, and round-trip feedback proposals. Rupify defines and packages the
+specification; Speckify refines that packaged specification into delivery planning.
+
 ## Current Status
 
 Rupify currently provides:
